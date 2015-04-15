@@ -16,8 +16,6 @@
 		CCA1A26C1ADEA3D900CC98B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCA1A26B1ADEA3D900CC98B5 /* Images.xcassets */; };
 		CCA1A26F1ADEA3D900CC98B5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCA1A26D1ADEA3D900CC98B5 /* LaunchScreen.xib */; };
 		CCA1A27B1ADEA3D900CC98B5 /* KanbanTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A27A1ADEA3D900CC98B5 /* KanbanTests.m */; };
-		CCA1A2861ADEA59E00CC98B5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2841ADEA59E00CC98B5 /* Bolts.framework */; };
-		CCA1A2871ADEA59E00CC98B5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2851ADEA59E00CC98B5 /* Parse.framework */; };
 		CCA1A2891ADEA5B300CC98B5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2881ADEA5B300CC98B5 /* AudioToolbox.framework */; };
 		CCA1A28B1ADEA5BB00CC98B5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A28A1ADEA5BB00CC98B5 /* CFNetwork.framework */; };
 		CCA1A28D1ADEA5C100CC98B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A28C1ADEA5C100CC98B5 /* CoreGraphics.framework */; };
@@ -31,6 +29,8 @@
 		CCA1A29D1ADEA62F00CC98B5 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A29C1ADEA62F00CC98B5 /* libsqlite3.dylib */; };
 		CCA1A2A71ADEA75C00CC98B5 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2A61ADEA75C00CC98B5 /* Social.framework */; };
 		CCA1A2A91ADEA79400CC98B5 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2A81ADEA79400CC98B5 /* Accounts.framework */; };
+		CCA1A2B01ADEAE8D00CC98B5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */; };
+		CCA1A2B11ADEAE8D00CC98B5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,8 +60,6 @@
 		CCA1A2741ADEA3D900CC98B5 /* KanbanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KanbanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCA1A2791ADEA3D900CC98B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CCA1A27A1ADEA3D900CC98B5 /* KanbanTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KanbanTests.m; sourceTree = "<group>"; };
-		CCA1A2841ADEA59E00CC98B5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		CCA1A2851ADEA59E00CC98B5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		CCA1A2881ADEA5B300CC98B5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CCA1A28A1ADEA5BB00CC98B5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CCA1A28C1ADEA5C100CC98B5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -76,6 +74,8 @@
 		CCA1A2A61ADEA75C00CC98B5 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CCA1A2A81ADEA79400CC98B5 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		CCA1A2AA1ADEAAB900CC98B5 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Utils/Constants.h; sourceTree = "<group>"; };
+		CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
+		CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		E1248F82C2AA466919F32613 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -84,11 +84,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCA1A2B01ADEAE8D00CC98B5 /* Bolts.framework in Frameworks */,
 				CCA1A2A91ADEA79400CC98B5 /* Accounts.framework in Frameworks */,
 				CCA1A2A71ADEA75C00CC98B5 /* Social.framework in Frameworks */,
 				CCA1A29D1ADEA62F00CC98B5 /* libsqlite3.dylib in Frameworks */,
 				CCA1A29B1ADEA62500CC98B5 /* libz.dylib in Frameworks */,
 				CCA1A2991ADEA61900CC98B5 /* SystemConfiguration.framework in Frameworks */,
+				CCA1A2B11ADEAE8D00CC98B5 /* Parse.framework in Frameworks */,
 				CCA1A2971ADEA61000CC98B5 /* StoreKit.framework in Frameworks */,
 				CCA1A2951ADEA60900CC98B5 /* Security.framework in Frameworks */,
 				CCA1A2931ADEA5F700CC98B5 /* QuartzCore.framework in Frameworks */,
@@ -98,8 +100,6 @@
 				CCA1A28B1ADEA5BB00CC98B5 /* CFNetwork.framework in Frameworks */,
 				CCA1A2891ADEA5B300CC98B5 /* AudioToolbox.framework in Frameworks */,
 				26081C403E469312BC4A463C /* libPods.a in Frameworks */,
-				CCA1A2871ADEA59E00CC98B5 /* Parse.framework in Frameworks */,
-				CCA1A2861ADEA59E00CC98B5 /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +196,8 @@
 		E51FFDCAA40A41BC37189642 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */,
+				CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */,
 				CCA1A2A81ADEA79400CC98B5 /* Accounts.framework */,
 				CCA1A2A61ADEA75C00CC98B5 /* Social.framework */,
 				CCA1A29C1ADEA62F00CC98B5 /* libsqlite3.dylib */,
@@ -209,8 +211,6 @@
 				CCA1A28C1ADEA5C100CC98B5 /* CoreGraphics.framework */,
 				CCA1A28A1ADEA5BB00CC98B5 /* CFNetwork.framework */,
 				CCA1A2881ADEA5B300CC98B5 /* AudioToolbox.framework */,
-				CCA1A2841ADEA59E00CC98B5 /* Bolts.framework */,
-				CCA1A2851ADEA59E00CC98B5 /* Parse.framework */,
 				E1248F82C2AA466919F32613 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -482,6 +482,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Kanban/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -497,6 +498,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Kanban/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

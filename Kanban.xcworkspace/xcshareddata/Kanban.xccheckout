@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>58D1BCCC-9DE2-43B8-8C71-2F16CCE5DE58</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Kanban</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DCC5D532DF29BE2DBEE9DCAD4ACFD020A1BCD08D</key>
+		<string>https://github.com/nporpigliaglobant/Kanban.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Kanban.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DCC5D532DF29BE2DBEE9DCAD4ACFD020A1BCD08D</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/nporpigliaglobant/Kanban.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DCC5D532DF29BE2DBEE9DCAD4ACFD020A1BCD08D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DCC5D532DF29BE2DBEE9DCAD4ACFD020A1BCD08D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Kanban</string>
+		</dict>
+	</array>
+</dict>
+</plist>
