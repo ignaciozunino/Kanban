@@ -8,10 +8,13 @@
 
 #import "KBNProxy.h"
 
-
 @implementation KBNProxy
+
+//This method is because KBNProxy is a Sigleton
 +(KBNProxy *) sharedInstance{
+    
     static  KBNProxy *inst = nil;
+    
     @synchronized(self){
         if (!inst) {
             inst = [[self alloc] init];
@@ -22,6 +25,6 @@
 
 -(void)createUser:(KBNUser*)user{
     [KBNParseAPIManager createUser:user];
-
 }
+
 @end

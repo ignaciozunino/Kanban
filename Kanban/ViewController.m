@@ -7,26 +7,14 @@
 //
 
 #import "ViewController.h"
-#import <Parse/Parse.h>
-#import "Constants.h"
-#import "SignInViewController.h"
-#import "PruebaViewController.h"
 
 @interface ViewController ()
+
 @property  NSString * username;
+
 @end
 
 @implementation ViewController
-
-- (BOOL)isUserLogged {
-    //verifying if we allready signed in before
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-   self.username = [defaults stringForKey:USERDEFAULTS_USERNAME_KEY];
-    if (self.username) {
-        return YES;
-    }
-    return NO;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,6 +30,16 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)isUserLogged {
+    //verifying if we allready signed in before
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.username = [defaults stringForKey:USERDEFAULTS_USERNAME_KEY];
+    if (self.username) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

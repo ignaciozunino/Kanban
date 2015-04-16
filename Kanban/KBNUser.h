@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface KBNUser : NSObject
+
 @property NSString * username;
 @property NSString * password;
+
 @end

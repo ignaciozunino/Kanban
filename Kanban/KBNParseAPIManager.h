@@ -12,5 +12,7 @@
 #import "Constants.h"
 
 @interface KBNParseAPIManager : NSObject
+
 +(void) createUser: (KBNUser *) user;
+
 @end

@@ -11,7 +11,9 @@
 #import "KBNUser.h"
 
 @interface KBNProxy : NSObject
+
 +(KBNProxy *) sharedInstance;
+
 -(void)createUser:(KBNUser*)user ;
 
 @end

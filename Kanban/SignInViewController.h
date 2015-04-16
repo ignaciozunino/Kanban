@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PruebaViewController.h"
+#import "KBNUser.h"
+#import "KBNProxy.h"
+#import "Constants.h"
 
 @interface SignInViewController : UIViewController
 
