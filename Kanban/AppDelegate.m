@@ -23,10 +23,9 @@
     // Initialize Parse.
     
     //Note: this is just for testing. We are going to use the REST API for communicating with Parse
-    [Parse setApplicationId:PARSE_APP_ID
-                  clientKey:PARSE_CLIENT_ID];
-
+  //  [Parse setApplicationId:PARSE_APP_ID clientKey:PARSE_CLIENT_ID];
     
+  
     return YES;
 }
 
