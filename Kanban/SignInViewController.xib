@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignInViewController">
+            <connections>
+                <outlet property="passwordTextField" destination="aks-aU-40s" id="vta-Rq-fza"/>
+                <outlet property="usernameTextField" destination="zXa-RW-oFR" id="cx2-a9-s4P"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signin-bg" translatesAutoresizingMaskIntoConstraints="NO" id="49F-Nl-ZFd">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <gestureRecognizers/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signin-username" translatesAutoresizingMaskIntoConstraints="NO" id="DcO-M9-Eap">
+                    <rect key="frame" x="150" y="226" width="300" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="300" id="M8F-1S-eUO"/>
+                        <constraint firstAttribute="height" constant="45" id="s3I-tv-Xet"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signin-password" translatesAutoresizingMaskIntoConstraints="NO" id="QZP-5Q-efV">
+                    <rect key="frame" x="150" y="288" width="300" height="45"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zps-iu-EOx">
+                    <rect key="frame" x="150" y="348" width="300" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="ddr-aQ-EqU"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                    <state key="normal" title="Sign in" backgroundImage="signin-btn">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zXa-RW-oFR">
+                    <rect key="frame" x="205" y="234" width="232" height="30"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="232" id="DxR-rM-xpc"/>
+                    </constraints>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aks-aU-40s">
+                    <rect key="frame" x="205" y="296" width="232" height="30"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="CAR-wC-U0h"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="QZP-5Q-efV" firstAttribute="leading" secondItem="Zps-iu-EOx" secondAttribute="leading" id="0vE-hj-69O"/>
+                <constraint firstAttribute="bottom" secondItem="49F-Nl-ZFd" secondAttribute="bottom" id="3EP-FB-Hce"/>
+                <constraint firstItem="DcO-M9-Eap" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="226" id="4Qi-Cr-1H2"/>
+                <constraint firstItem="zXa-RW-oFR" firstAttribute="trailing" secondItem="aks-aU-40s" secondAttribute="trailing" id="5kU-HI-fqU"/>
+                <constraint firstItem="Zps-iu-EOx" firstAttribute="top" secondItem="aks-aU-40s" secondAttribute="bottom" constant="22" id="ED2-Gs-1oj"/>
+                <constraint firstItem="zXa-RW-oFR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="205" id="Gmf-iX-WXH"/>
+                <constraint firstItem="DcO-M9-Eap" firstAttribute="height" secondItem="Zps-iu-EOx" secondAttribute="height" id="KPO-gs-SdH"/>
+                <constraint firstItem="aks-aU-40s" firstAttribute="leading" secondItem="zXa-RW-oFR" secondAttribute="leading" id="KgI-5e-PFZ"/>
+                <constraint firstItem="QZP-5Q-efV" firstAttribute="top" secondItem="DcO-M9-Eap" secondAttribute="bottom" constant="17" id="MbD-dA-1AC"/>
+                <constraint firstAttribute="trailing" secondItem="49F-Nl-ZFd" secondAttribute="trailing" id="Mxu-9g-F31"/>
+                <constraint firstItem="DcO-M9-Eap" firstAttribute="width" secondItem="Zps-iu-EOx" secondAttribute="width" id="OH8-o4-Cgm"/>
+                <constraint firstItem="Zps-iu-EOx" firstAttribute="top" secondItem="QZP-5Q-efV" secondAttribute="bottom" constant="15" id="P4p-BI-zsY"/>
+                <constraint firstItem="aks-aU-40s" firstAttribute="top" secondItem="DcO-M9-Eap" secondAttribute="bottom" constant="25" id="PsG-3R-BDq"/>
+                <constraint firstItem="QZP-5Q-efV" firstAttribute="trailing" secondItem="Zps-iu-EOx" secondAttribute="trailing" id="QVH-vu-l4i"/>
+                <constraint firstItem="49F-Nl-ZFd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="c5D-Ot-8YF"/>
+                <constraint firstItem="49F-Nl-ZFd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="gJ6-hh-Fcn"/>
+                <constraint firstItem="QZP-5Q-efV" firstAttribute="top" secondItem="zXa-RW-oFR" secondAttribute="bottom" constant="24" id="kg0-5Q-V5E"/>
+                <constraint firstItem="DcO-M9-Eap" firstAttribute="trailing" secondItem="QZP-5Q-efV" secondAttribute="trailing" id="knh-NT-3GB"/>
+                <constraint firstItem="DcO-M9-Eap" firstAttribute="height" secondItem="QZP-5Q-efV" secondAttribute="height" id="sDd-Uk-e47"/>
+                <constraint firstItem="DcO-M9-Eap" firstAttribute="centerX" secondItem="49F-Nl-ZFd" secondAttribute="centerX" id="uwf-mm-nvw"/>
+                <constraint firstItem="QZP-5Q-efV" firstAttribute="leading" secondItem="DcO-M9-Eap" secondAttribute="leading" id="vtR-yr-dt7"/>
+                <constraint firstItem="DcO-M9-Eap" firstAttribute="width" secondItem="QZP-5Q-efV" secondAttribute="width" id="yyU-jW-bIc"/>
+            </constraints>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="85Q-mB-9Tt" appends="YES" id="BBJ-Wm-u8f"/>
+            </connections>
+        </view>
+        <tapGestureRecognizer id="85Q-mB-9Tt">
+            <connections>
+                <action selector="onTapGesture:" destination="-1" id="wiG-kH-61g"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="signin-bg" width="2355" height="1404"/>
+        <image name="signin-btn" width="427" height="62"/>
+        <image name="signin-password" width="427" height="61"/>
+        <image name="signin-username" width="427" height="61"/>
+    </resources>
+</document>
