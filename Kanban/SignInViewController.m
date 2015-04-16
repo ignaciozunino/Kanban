@@ -8,6 +8,8 @@
 #import "Constants.h"
 #import "SignInViewController.h"
 #import "PruebaViewController.h"
+#import "KBNUser.h"
+#import "KBNProxy.h"
 
 @interface SignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -22,11 +24,27 @@
     [self setupPlaceholders];
 }
 - (IBAction)onSignInPressed:(UIButton *)sender {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:self.usernameTextField.text forKey:USERDEFAULTS_USERNAME_KEY];
-    [defaults synchronize];
-    PruebaViewController * vc= [[PruebaViewController alloc]init];
-    [self presentViewController:vc animated:YES completion:nil];
+    if ([self isValidUsername] && [self isValidPassword]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:self.usernameTextField.text forKey:USERDEFAULTS_USERNAME_KEY];
+        [defaults synchronize];
+        PruebaViewController * vc= [[PruebaViewController alloc]init];
+        [self presentViewController:vc animated:YES completion:nil];
+        KBNUser *user = [KBNUser new];
+        user.username = self.usernameTextField.text;
+        user.password = self.passwordTextField.text;
+        [[KBNProxy sharedInstance] createUser:user];
+    }else{
+        NSLog(@"Wrong data");
+    }
+}
+
+-(BOOL) isValidUsername{
+    return YES;
+}
+
+-(BOOL) isValidPassword{
+    return YES;
 }
 
 //This method is to add placeholders to username and password text fields
