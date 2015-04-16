@@ -25,7 +25,7 @@
 }
 
 //This method is to create the AFHTTP Manager and setup Parse App ID and Parse REST API Keys
-- (AFHTTPRequestOperationManager *)setupAFHTTPManager {
++ (AFHTTPRequestOperationManager *)setupAFHTTPManager {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
