@@ -10,7 +10,7 @@
 
 @implementation KBNParseAPIManager
 
-+(void) createUser: (KBNUser *) user{
++(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
     
     AFHTTPRequestOperationManager *manager = [self setupAFHTTPManager];
     NSDictionary *data = @{@"username": user.username, @"password": user.password};

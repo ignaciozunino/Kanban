@@ -32,15 +32,22 @@
       
         [UserUtils saveUsernameInUserDefaults:self.usernameTextField.text];
         
-        //bloque de succes
-        PruebaViewController * vc= [[PruebaViewController alloc]init];
-        [self presentViewController:vc animated:YES completion:nil];
-        //end of succes bloq
-        
         KBNUser *user = [KBNUser new];
         user.username = self.usernameTextField.text;
         user.password = self.passwordTextField.text;
-        [[KBNDataService sharedInstance] createUser:user]; //llamada con user y 2 bloques
+        [[KBNDataService sharedInstance] createUser:user completionBlock:^{
+            PruebaViewController * vc= [[PruebaViewController alloc]init];
+            [self presentViewController:vc animated:YES completion:nil];
+            
+        } errorBlock:^(NSError *error) {
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"CONNECTION ERROR!"
+                                                              message:[error localizedDescription]
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+            
+            [message show];
+        }];
     }else{
         NSLog(@"Wrong data");
     }

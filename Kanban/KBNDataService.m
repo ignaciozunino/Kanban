@@ -23,8 +23,9 @@
     return inst;
 }
 
--(void)createUser:(KBNUser*)user{
-    [KBNParseAPIManager createUser:user];
+-(void)createUser:(KBNUser*)user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError {
+    [KBNParseAPIManager createUser:user completionBlock:onCompletion errorBlock:onError ] ;
+
 }
 
 @end

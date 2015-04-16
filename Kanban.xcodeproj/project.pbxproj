@@ -135,6 +135,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		181FA97C1AE0487A001DD816 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				181FA9761AE0286E001DD816 /* KBNUser.h */,
+				181FA9771AE0286E001DD816 /* KBNUser.m */,
+			);
+			name = Domain;
+			sourceTree = "<group>";
+		};
+		181FA97D1AE04888001DD816 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				181FA9731AE02846001DD816 /* KBNDataService.h */,
+				181FA9741AE02846001DD816 /* KBNDataService.m */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		181FA97E1AE048B4001DD816 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				181FA9791AE028BA001DD816 /* KBNParseAPIManager.h */,
+				181FA97A1AE028BA001DD816 /* KBNParseAPIManager.m */,
+			);
+			name = Parse;
+			sourceTree = "<group>";
+		};
 		1BE6CA4071F67A3700BAEC05 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,22 +196,19 @@
 			children = (
 				CCA1A25F1ADEA3D900CC98B5 /* AppDelegate.h */,
 				CCA1A2601ADEA3D900CC98B5 /* AppDelegate.m */,
+				181FA97C1AE0487A001DD816 /* Domain */,
 				CCA1A26B1ADEA3D900CC98B5 /* Images.xcassets */,
 				CCA1A2621ADEA3D900CC98B5 /* Kanban.xcdatamodeld */,
-				181FA9791AE028BA001DD816 /* KBNParseAPIManager.h */,
-				181FA97A1AE028BA001DD816 /* KBNParseAPIManager.m */,
-				181FA9731AE02846001DD816 /* KBNDataService.h */,
-				181FA9741AE02846001DD816 /* KBNDataService.m */,
-				181FA9761AE0286E001DD816 /* KBNUser.h */,
-				181FA9771AE0286E001DD816 /* KBNUser.m */,
 				CCA1A26D1ADEA3D900CC98B5 /* LaunchScreen.xib */,
 				CCA1A2681ADEA3D900CC98B5 /* Main.storyboard */,
+				181FA97E1AE048B4001DD816 /* Parse */,
 				181FA96E1AE0254E001DD816 /* PruebaViewController.h */,
 				181FA96F1AE0254E001DD816 /* PruebaViewController.m */,
 				181FA9701AE0254E001DD816 /* PruebaViewController.xib */,
+				181FA97D1AE04888001DD816 /* Services */,
+				E2DD60B31AE0458000A5B4FD /* Signin.storyboard */,
 				E2003B731ADFE76B00230072 /* SignInViewController.h */,
 				E2003B741ADFE76B00230072 /* SignInViewController.m */,
-				E2DD60B31AE0458000A5B4FD /* Signin.storyboard */,
 				CCA1A25B1ADEA3D900CC98B5 /* Supporting Files */,
 				CCA1A2AD1ADEAABF00CC98B5 /* Utils */,
 				CCA1A2651ADEA3D900CC98B5 /* ViewController.h */,

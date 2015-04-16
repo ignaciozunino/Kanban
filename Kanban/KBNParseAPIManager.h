@@ -11,8 +11,12 @@
 #import <AFNetworking.h>
 #import "Constants.h"
 
+typedef void (^KBNParseErrorBlock) (NSError *error);
+typedef void(^KBNParseSuccesBlock)() ;
+
+
 @interface KBNParseAPIManager : NSObject
 
-+(void) createUser: (KBNUser *) user;
++(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
 
 @end

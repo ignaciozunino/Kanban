@@ -14,6 +14,6 @@
 
 +(KBNDataService *) sharedInstance;
 
--(void)createUser:(KBNUser*)user ;
+-(void)createUser:(KBNUser*)user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
 
 @end
