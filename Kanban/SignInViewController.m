@@ -29,15 +29,18 @@
 #pragma mark - IBActions
 - (IBAction)onSignInPressed:(UIButton *)sender {
     if ([self isValidUsername] && [self isValidPassword]) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:self.usernameTextField.text forKey:USERDEFAULTS_USERNAME_KEY];
-        [defaults synchronize];
+      
+        [UserUtils saveUsernameInUserDefaults:self.usernameTextField.text];
+        
+        //bloque de succes
         PruebaViewController * vc= [[PruebaViewController alloc]init];
         [self presentViewController:vc animated:YES completion:nil];
+        //end of succes bloq
+        
         KBNUser *user = [KBNUser new];
         user.username = self.usernameTextField.text;
         user.password = self.passwordTextField.text;
-        [[KBNProxy sharedInstance] createUser:user];
+        [[KBNDataService sharedInstance] createUser:user]; //llamada con user y 2 bloques
     }else{
         NSLog(@"Wrong data");
     }

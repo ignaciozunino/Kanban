@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "PruebaViewController.h"
 #import "KBNUser.h"
-#import "KBNProxy.h"
+#import "KBNDataService.h"
 #import "Constants.h"
+#import "UserUtils.h"
 
 @interface SignInViewController : UIViewController
 

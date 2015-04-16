@@ -10,9 +10,9 @@
 #import "KBNParseAPIManager.h"
 #import "KBNUser.h"
 
-@interface KBNProxy : NSObject
+@interface KBNDataService : NSObject
 
-+(KBNProxy *) sharedInstance;
++(KBNDataService *) sharedInstance;
 
 -(void)createUser:(KBNUser*)user ;
 

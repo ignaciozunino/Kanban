@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if( ![self isUserLogged]){
+    if( ![UserUtils hasUserLogged]){
         SignInViewController * vc= [[SignInViewController alloc]init];
         [self presentViewController:vc animated:YES completion:nil];
     }else{
@@ -32,14 +32,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)isUserLogged {
-    //verifying if we allready signed in before
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.username = [defaults stringForKey:USERDEFAULTS_USERNAME_KEY];
-    if (self.username) {
-        return YES;
-    }
-    return NO;
-}
 
 @end

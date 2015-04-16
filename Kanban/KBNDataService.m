@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "KBNProxy.h"
+#import "KBNDataService.h"
 
-@implementation KBNProxy
+@implementation KBNDataService
 
 //This method is because KBNProxy is a Sigleton
-+(KBNProxy *) sharedInstance{
++(KBNDataService *) sharedInstance{
     
-    static  KBNProxy *inst = nil;
+    static  KBNDataService *inst = nil;
     
     @synchronized(self){
         if (!inst) {

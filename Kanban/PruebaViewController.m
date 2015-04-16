@@ -24,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.usernameLabel.text = [defaults stringForKey:USERDEFAULTS_USERNAME_KEY];}
+    self.usernameLabel.text = [defaults stringForKey:USERNAME_KEY];}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
