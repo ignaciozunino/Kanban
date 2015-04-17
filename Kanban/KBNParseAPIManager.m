@@ -17,8 +17,10 @@
     [manager POST:@"https://api.parse.com/1/users" parameters: data
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"POST data JSON returned: %@", responseObject);
+              onCompletion();
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              onError(error);
               NSLog(@"Error: %@", error);
           }
      ];
