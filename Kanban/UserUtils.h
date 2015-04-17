@@ -13,5 +13,6 @@
 
 +(void) saveUsernameInUserDefaults:(NSString *) username;
 + (BOOL)hasUserLogged;
-
++(BOOL) isValidUsername:(NSString*) username;
++(BOOL) isValidPassword:(NSString*) password;
 @end

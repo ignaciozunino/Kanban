@@ -7,7 +7,7 @@
 //
 #import "SignInViewController.h"
 
-@interface SignInViewController ()
+@interface SignInViewController () <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
@@ -28,13 +28,15 @@
 
 #pragma mark - IBActions
 - (IBAction)onSignInPressed:(UIButton *)sender {
-    if ([self isValidUsername] && [self isValidPassword]) {
-      
-        [UserUtils saveUsernameInUserDefaults:self.usernameTextField.text];
+    NSString *username = self.usernameTextField.text;
+    NSString *password = self.passwordTextField.text;
+    if ([self isValidUsername:username] && [self isValidPassword:password]) {
+        
+        [UserUtils saveUsernameInUserDefaults:username];
         
         KBNUser *user = [KBNUser new];
-        user.username = self.usernameTextField.text;
-        user.password = self.passwordTextField.text;
+        user.username = username;
+        user.password = password;
         [[KBNDataService sharedInstance] createUser:user completionBlock:^{
             PruebaViewController * vc= [[PruebaViewController alloc]init];
             [self presentViewController:vc animated:YES completion:nil];
@@ -45,11 +47,10 @@
                                                              delegate:nil
                                                     cancelButtonTitle:@"OK"
                                                     otherButtonTitles:nil];
-            
             [message show];
         }];
     }else{
-        NSLog(@"Wrong data");
+        [self showAlertView:@"Please verify the username is a valid email and the password has at least 6 characters, one letter and one number."];
     }
 }
 
@@ -61,13 +62,22 @@
 #pragma mark - Validators methods
 
 //This method is to verify that the email has valid format
--(BOOL) isValidUsername{
-    return YES;
+-(BOOL) isValidUsername:(NSString*) username{
+    return [UserUtils isValidUsername:username];
 }
 
 //This method is to verify that the password has valid format
--(BOOL) isValidPassword{
-    return YES;
+-(BOOL) isValidPassword:(NSString*) password{
+    return [UserUtils isValidPassword:password];
+}
+
+-(void) showAlertView:(NSString*) message{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                    message:message
+                                                   delegate:self
+                                          cancelButtonTitle:@"Ok"
+                                          otherButtonTitles:nil];
+    [alert show];
 }
 
 #pragma mark - initializer methods
