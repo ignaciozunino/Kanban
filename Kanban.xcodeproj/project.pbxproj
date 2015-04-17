@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		181FA9711AE0254E001DD816 /* PruebaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA96F1AE0254E001DD816 /* PruebaViewController.m */; };
-		181FA9721AE0254E001DD816 /* PruebaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 181FA9701AE0254E001DD816 /* PruebaViewController.xib */; };
 		181FA9751AE02846001DD816 /* KBNDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA9741AE02846001DD816 /* KBNDataService.m */; };
 		181FA9781AE0286E001DD816 /* KBNUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA9771AE0286E001DD816 /* KBNUser.m */; };
 		181FA97B1AE028BA001DD816 /* KBNParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA97A1AE028BA001DD816 /* KBNParseAPIManager.m */; };
@@ -52,9 +50,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		181FA96E1AE0254E001DD816 /* PruebaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PruebaViewController.h; sourceTree = "<group>"; };
-		181FA96F1AE0254E001DD816 /* PruebaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PruebaViewController.m; sourceTree = "<group>"; };
-		181FA9701AE0254E001DD816 /* PruebaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PruebaViewController.xib; sourceTree = "<group>"; };
 		181FA9731AE02846001DD816 /* KBNDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNDataService.h; sourceTree = "<group>"; };
 		181FA9741AE02846001DD816 /* KBNDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNDataService.m; sourceTree = "<group>"; };
 		181FA9761AE0286E001DD816 /* KBNUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNUser.h; sourceTree = "<group>"; };
@@ -202,9 +197,6 @@
 				CCA1A26D1ADEA3D900CC98B5 /* LaunchScreen.xib */,
 				CCA1A2681ADEA3D900CC98B5 /* Main.storyboard */,
 				181FA97E1AE048B4001DD816 /* Parse */,
-				181FA96E1AE0254E001DD816 /* PruebaViewController.h */,
-				181FA96F1AE0254E001DD816 /* PruebaViewController.m */,
-				181FA9701AE0254E001DD816 /* PruebaViewController.xib */,
 				181FA97D1AE04888001DD816 /* Services */,
 				E2DD60B31AE0458000A5B4FD /* Signin.storyboard */,
 				E2003B731ADFE76B00230072 /* SignInViewController.h */,
@@ -362,7 +354,6 @@
 				CCA1A26A1ADEA3D900CC98B5 /* Main.storyboard in Resources */,
 				CCA1A26F1ADEA3D900CC98B5 /* LaunchScreen.xib in Resources */,
 				CCA1A26C1ADEA3D900CC98B5 /* Images.xcassets in Resources */,
-				181FA9721AE0254E001DD816 /* PruebaViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +410,6 @@
 				181FA97B1AE028BA001DD816 /* KBNParseAPIManager.m in Sources */,
 				CCA1A2611ADEA3D900CC98B5 /* AppDelegate.m in Sources */,
 				CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */,
-				181FA9711AE0254E001DD816 /* PruebaViewController.m in Sources */,
 				CCA1A2671ADEA3D900CC98B5 /* ViewController.m in Sources */,
 				181FA9781AE0286E001DD816 /* KBNUser.m in Sources */,
 				CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */,

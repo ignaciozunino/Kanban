@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PruebaViewController.h"
 #import "KBNUser.h"
 #import "KBNDataService.h"
 #import "Constants.h"
