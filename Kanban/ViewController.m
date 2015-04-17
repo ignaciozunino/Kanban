@@ -18,13 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if( ![UserUtils hasUserLogged]){
-        SignInViewController * vc= [[SignInViewController alloc]init];
-        [self presentViewController:vc animated:YES completion:nil];
-    }else{
-        PruebaViewController * vc= [[PruebaViewController alloc]init];
-        [self presentViewController:vc animated:YES completion:nil];
-    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
