@@ -14,7 +14,7 @@
     
     AFHTTPRequestOperationManager *manager = [self setupAFHTTPManager];
     NSDictionary *data = @{@"username": user.username, @"password": user.password};
-    [manager POST:@"https://api.parse.com/1/users" parameters: data
+    [manager POST:PARSE_USERS parameters: data
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"POST data JSON returned: %@", responseObject);
               onCompletion();

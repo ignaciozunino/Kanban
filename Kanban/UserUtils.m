@@ -10,13 +10,13 @@
 
 @implementation UserUtils
 
-+(void) saveUsernameInUserDefaults:(NSString *)username{
++(void) saveUsername:(NSString *)username{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:username forKey:USERNAME_KEY];
     [defaults synchronize];
 }
 
-+ (BOOL)hasUserLogged {
++ (BOOL)hasUserBeenCreated {
     //verifying if we allready signed in before
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *username = [defaults stringForKey:USERNAME_KEY];

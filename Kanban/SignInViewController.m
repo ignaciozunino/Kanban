@@ -30,19 +30,19 @@
 - (IBAction)onSignInPressed:(UIButton *)sender {
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;
-    if ([self isValidUsername:username] && [self isValidPassword:password]) {
+    if ([UserUtils isValidUsername:username] && [UserUtils isValidPassword:password]) {
         
-        [UserUtils saveUsernameInUserDefaults:username];
+        [UserUtils saveUsername:username];
         
         KBNUser *user = [KBNUser new];
         user.username = username;
         user.password = password;
         [[KBNDataService sharedInstance] createUser:user completionBlock:^{
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
             UIViewController *vc = [storyboard instantiateInitialViewController];            [self presentViewController:vc animated:YES completion:nil];
             
         } errorBlock:^(NSError *error) {
-            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"CONNECTION ERROR!"
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Error"
                                                               message:[error localizedDescription]
                                                              delegate:nil
                                                     cancelButtonTitle:@"OK"
@@ -50,7 +50,7 @@
             [message show];
         }];
     }else{
-        [self showAlertView:@"Please verify the username is a valid email and the password has at least 6 characters, one letter and one number."];
+        [AlertUtils showAlertView:SIGNIN_ERROR];
     }
 }
 
@@ -59,26 +59,6 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - Validators methods
-
-//This method is to verify that the email has valid format
--(BOOL) isValidUsername:(NSString*) username{
-    return [UserUtils isValidUsername:username];
-}
-
-//This method is to verify that the password has valid format
--(BOOL) isValidPassword:(NSString*) password{
-    return [UserUtils isValidPassword:password];
-}
-
--(void) showAlertView:(NSString*) message{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                    message:message
-                                                   delegate:self
-                                          cancelButtonTitle:@"Ok"
-                                          otherButtonTitles:nil];
-    [alert show];
-}
 
 #pragma mark - initializer methods
 //This method is to add placeholders to username and password text fields

@@ -11,8 +11,8 @@
 
 @interface UserUtils : NSObject
 
-+(void) saveUsernameInUserDefaults:(NSString *) username;
-+ (BOOL)hasUserLogged;
++(void) saveUsername:(NSString *) username;
++ (BOOL)hasUserBeenCreated;
 +(BOOL) isValidUsername:(NSString*) username;
 +(BOOL) isValidPassword:(NSString*) password;
 @end

@@ -20,9 +20,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
  
-    BOOL isLoggedIn = [UserUtils hasUserLogged];
+    BOOL isLoggedIn = [UserUtils hasUserBeenCreated];
     
-    NSString *storyboardId = isLoggedIn ? @"Main" : @"Signin";
+    NSString *storyboardId = isLoggedIn ? MAIN_STORYBOARD : SIGNIN_STORYBOARD;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardId bundle:nil];
     UIViewController *initViewController = [storyboard instantiateInitialViewController];
     
