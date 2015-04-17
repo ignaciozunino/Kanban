@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "Constants.h"
+#import "UserUtils.h"
 
 @interface AppDelegate ()
 
@@ -24,7 +25,17 @@
     
     //Note: this is just for testing. We are going to use the REST API for communicating with Parse
   //  [Parse setApplicationId:PARSE_APP_ID clientKey:PARSE_CLIENT_ID];
+    BOOL isLoggedIn = [UserUtils hasUserLogged];
     
+    NSString *storyboardId = isLoggedIn ? @"Main" : @"Signin";
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardId bundle:nil];
+    UIViewController *initViewController = [storyboard instantiateInitialViewController];
+    
+    if (isLoggedIn) {
+        [self.window setRootViewController:initViewController];
+    } else {
+        [(UINavigationController *)self.window.rootViewController pushViewController:initViewController animated:NO];
+    }
   
     return YES;
 }
