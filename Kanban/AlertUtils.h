@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "constants.h"
 
 @interface AlertUtils : NSObject
 
-+ (void)showAlertView:(NSString*) message;
++ (void)showAlertView:(NSString*) message andType: (NSString*) alerType;
 
 @end

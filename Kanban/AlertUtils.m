@@ -10,9 +10,9 @@
 
 @implementation AlertUtils
 
-+ (void) showAlertView:(NSString*) message{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                    message:message
++ (void) showAlertView:(NSString*) message  andType:(NSString*) alertType{
+   
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertType message:message
                                                    delegate:self
                                           cancelButtonTitle:@"Ok"
                                           otherButtonTitles:nil];

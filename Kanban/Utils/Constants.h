@@ -25,6 +25,10 @@
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
 
+//alert titles
+#define ERROR_ALERT @"ERROR"
+#define WARNING_ALERT @"WARNING"
+#define SUCCES_ALERT @"SUCCES"
 
 @interface Constants : NSObject
 
