@@ -22,7 +22,7 @@
     // Override point for customization after application launch.
     
     // Initialize Parse.
-    
+   
     //Note: this is just for testing. We are going to use the REST API for communicating with Parse
   //  [Parse setApplicationId:PARSE_APP_ID clientKey:PARSE_CLIENT_ID];
     BOOL isLoggedIn = [UserUtils hasUserLogged];
@@ -31,12 +31,8 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardId bundle:nil];
     UIViewController *initViewController = [storyboard instantiateInitialViewController];
     
-    if (isLoggedIn) {
-        [self.window setRootViewController:initViewController];
-    } else {
-        [(UINavigationController *)self.window.rootViewController pushViewController:initViewController animated:NO];
-    }
-  
+    [self.window setRootViewController:initViewController];
+
     return YES;
 }
 
