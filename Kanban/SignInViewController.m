@@ -30,28 +30,14 @@
 - (IBAction)onSignInPressed:(UIButton *)sender {
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;
-    if ([UserUtils isValidUsername:username] && [UserUtils isValidPassword:password]) {
-        
-        [UserUtils saveUsername:username];
-        
-        KBNUser *user = [KBNUser new];
-        user.username = username;
-        user.password = password;
-        [[KBNDataService sharedInstance] createUser:user completionBlock:^{
+    [[KBNDataService sharedInstance] createUser:username withPasword:password  completionBlock:^{
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
             UIViewController *vc = [storyboard instantiateInitialViewController];            [self presentViewController:vc animated:YES completion:nil];
             
         } errorBlock:^(NSError *error) {
-            UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                              message:[error localizedDescription]
-                                                             delegate:nil
-                                                    cancelButtonTitle:@"OK"
-                                                    otherButtonTitles:nil];
-            [message show];
-        }];
-    }else{
-        [AlertUtils showAlertView:SIGNIN_ERROR];
-    }
+            [AlertUtils showAlertView:[error localizedDescription]];
+                    }];
+
 }
 
 //This method is to dismiss keyboard

@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "KBNParseAPIManager.h"
 #import "KBNUser.h"
+#import "UserUtils.h"
+#import "AlertUtils.h"
+#import "constants.h"
 
 @interface KBNDataService : NSObject
 
 +(KBNDataService *) sharedInstance;
 
--(void)createUser:(KBNUser*)user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
-
+-(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
 @end

@@ -23,8 +23,27 @@
     return inst;
 }
 
--(void)createUser:(KBNUser*)user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError {
-    [KBNParseAPIManager createUser:user completionBlock:onCompletion errorBlock:onError ] ;
+-(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError {
+    
+    if ([UserUtils isValidUsername:username] && [UserUtils isValidPassword:password]) {
+        
+        [UserUtils saveUsername:username];
+        
+        KBNUser *user = [KBNUser new];
+        user.username = username;
+        user.password = password;
+        [KBNParseAPIManager createUser:user completionBlock:onCompletion errorBlock:onError ] ;
+    
+    }else{
+        NSString *domain = ERROR_DOMAIN;
+       
+        NSDictionary * info = @{@"NSLocalizedDescriptionKey": SIGNIN_ERROR};
+                                  
+        NSError *errorPtr = [NSError errorWithDomain:domain code:-101
+                                    userInfo:info];
+        onError(errorPtr);
+    }
+    
 
 }
 

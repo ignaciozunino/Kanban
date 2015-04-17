@@ -19,10 +19,12 @@
 #define SIGNIN_STORYBOARD @"Signin"
 
 //Error messages
+#define ERROR_DOMAIN @"globant.kanban.Kanban.ErrorDomain";
 #define SIGNIN_ERROR @"Please verify the username is a valid email and the password has at least 6 characters, one letter and one number."
 
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
+
 
 @interface Constants : NSObject
 
