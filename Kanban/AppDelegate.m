@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "Constants.h"
+#import "UserUtils.h"
 
 @interface AppDelegate ()
 
@@ -18,15 +19,15 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+ 
+    BOOL isLoggedIn = [UserUtils hasUserBeenCreated];
     
-    // Initialize Parse.
+    NSString *storyboardId = isLoggedIn ? MAIN_STORYBOARD : SIGNIN_STORYBOARD;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardId bundle:nil];
+    UIViewController *initViewController = [storyboard instantiateInitialViewController];
     
-    //Note: this is just for testing. We are going to use the REST API for communicating with Parse
-    [Parse setApplicationId:PARSE_APP_ID
-                  clientKey:PARSE_CLIENT_ID];
+    [self.window setRootViewController:initViewController];
 
-    
     return YES;
 }
 
