@@ -35,13 +35,17 @@
 #define PROJECT_DETAIL_VC @"ProjectDetailViewController"
 #define PAGE_VC @"PageViewController"
 
+
+//Succes messages
+#define PROJECT_CREATION_SUCCES @"Project created succesfully!"
+
 //Error messages
 #define ERROR_DOMAIN @"globant.kanban.Kanban.ErrorDomain";
 #define SIGNIN_ERROR @"Please verify the username is a valid email and the password has at least 6 characters, one letter and one number."
 
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
-#define PARSE_PROJECTS @"https://api.parse.com/1/classes/Projects"
+#define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"
 
 //alert titles
 #define ERROR_ALERT @"ERROR"

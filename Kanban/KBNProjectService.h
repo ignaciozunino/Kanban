@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KBNProjectParseAPIManager.h"
 #import "KBNProjectUtils.h"
+#import "AppDelegate.h"
 
 @interface KBNProjectService : NSObject
 +(KBNProjectService *) sharedInstance;

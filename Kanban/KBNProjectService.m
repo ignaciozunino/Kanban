@@ -22,11 +22,15 @@
     }
     return inst;
 }
+- (NSManagedObjectContext*) managedObjectContext {
+    return [(AppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+}
+
 
 -(void)createProject:(NSString *)name withDescription:(NSString *)projectDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError {
     
    
-        KBNProject *project = [KBNProject new];
+        KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
         project.name = name;
         project.projectDescription = projectDescription;
         

@@ -9,6 +9,8 @@
 #import "AddProjectViewController.h"
 
 @interface AddProjectViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
 
 @end
 
@@ -27,6 +29,14 @@
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
+    
+        [[KBNProjectService sharedInstance]createProject:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
+            [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCES andType:SUCCES_ALERT];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } errorBlock:^(NSError *error) {
+            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        }];
+    
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KBNProjectService.h"
+#import "KBNAlertUtils.h"
 
 @interface AddProjectViewController : UIViewController
 
