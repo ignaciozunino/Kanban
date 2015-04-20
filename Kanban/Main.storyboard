@@ -43,11 +43,6 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b80-EJ-qFU" id="tQT-RA-KH3">
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="projectIcon" translatesAutoresizingMaskIntoConstraints="NO" id="4JU-u7-uQC">
-                                                    <rect key="frame" x="24" y="9" width="61" height="71"/>
-                                                </imageView>
-                                            </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="25S-QU-ubf" kind="show" identifier="projectDetail" id="JDd-Jo-dph"/>
@@ -70,7 +65,8 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="My Projects" id="fDN-zB-ecP">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="a4x-5T-Tkv">
+                        <barButtonItem key="rightBarButtonItem" image="addIcon" id="a4x-5T-Tkv">
+                            <color key="tintColor" red="0.0055736275570000002" green="0.05858226481" blue="0.94117647059999998" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="3SO-qJ-o3k" kind="presentation" identifier="addProject" id="ryz-bt-r1c"/>
                             </connections>
@@ -179,7 +175,11 @@
                             <constraint firstItem="sTc-GV-xcg" firstAttribute="top" secondItem="z9Z-24-ylE" secondAttribute="bottom" constant="8" id="yoo-IE-xHa"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Project Detail" id="Asi-r5-KaZ"/>
+                    <navigationItem key="navigationItem" title="Project Detail" id="Asi-r5-KaZ">
+                        <barButtonItem key="rightBarButtonItem" image="editIcon" id="c8x-qs-GFz">
+                            <color key="tintColor" red="0.0055736275570000002" green="0.05858226481" blue="0.94117647059999998" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="labelState" destination="VGD-ko-F2l" id="aAs-fM-OTN"/>
@@ -363,9 +363,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cancelIcon" width="40" height="40"/>
-        <image name="projectIcon" width="60" height="68"/>
-        <image name="saveIcon" width="40" height="40"/>
+        <image name="addIcon" width="35" height="35"/>
+        <image name="cancelIcon" width="35" height="35"/>
+        <image name="editIcon" width="35" height="35"/>
+        <image name="saveIcon" width="35" height="35"/>
         <image name="textField" width="260" height="44"/>
     </resources>
 </document>
