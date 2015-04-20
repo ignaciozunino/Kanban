@@ -12,7 +12,7 @@
 #pragma mark - project methods
 +(void) createProject: (KBNProject *) project completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
     AFHTTPRequestOperationManager *manager = [self setupAFHTTPManager];
-    NSDictionary *data = @{@"name": project.name, @"project_description": project.description};
+    NSDictionary *data = @{@"name": project.name, @"project_description": project.projectDescription};
     [manager POST:PARSE_PROJECTS parameters: data
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"POST data JSON returned: %@", responseObject);
