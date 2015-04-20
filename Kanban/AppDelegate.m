@@ -27,6 +27,12 @@
     UIViewController *initViewController = [storyboard instantiateInitialViewController];
     
     [self.window setRootViewController:initViewController];
+    
+    // Configure appearance for page control indicator
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    pageControl.backgroundColor = [UIColor whiteColor];
 
     return YES;
 }
