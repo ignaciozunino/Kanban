@@ -30,6 +30,9 @@
 #define WARNING_ALERT @"WARNING"
 #define SUCCES_ALERT @"SUCCES"
 
+#define taskStates          @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
+
+
 @interface Constants : NSObject
 
 @end
