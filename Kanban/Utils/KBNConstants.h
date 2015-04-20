@@ -41,6 +41,7 @@
 
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
+#define PARSE_PROJECTS @"https://api.parse.com/1/classes/Projects"
 
 //alert titles
 #define ERROR_ALERT @"ERROR"

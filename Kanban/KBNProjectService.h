@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KBNParseAPIManager.h"
+#import "KBNProjectParseAPIManager.h"
 #import "KBNProjectUtils.h"
 
 @interface KBNProjectService : NSObject

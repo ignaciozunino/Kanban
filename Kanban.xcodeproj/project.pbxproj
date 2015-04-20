@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		181FA9751AE02846001DD816 /* KBNDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA9741AE02846001DD816 /* KBNDataService.m */; };
+		181FA9751AE02846001DD816 /* KBNUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA9741AE02846001DD816 /* KBNUserService.m */; };
 		181FA9781AE0286E001DD816 /* KBNUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA9771AE0286E001DD816 /* KBNUser.m */; };
 		181FA97B1AE028BA001DD816 /* KBNParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA97A1AE028BA001DD816 /* KBNParseAPIManager.m */; };
+		18513D951AE5829300D090A9 /* KBNProjectParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18513D941AE5829300D090A9 /* KBNProjectParseAPIManager.m */; };
+		18513D981AE5831A00D090A9 /* KBNUserParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18513D971AE5831A00D090A9 /* KBNUserParseAPIManager.m */; };
 		26081C403E469312BC4A463C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1248F82C2AA466919F32613 /* libPods.a */; };
 		3A48403A1AE544CF00C70739 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4840391AE544CF00C70739 /* Main.storyboard */; };
 		3A48403D1AE544FD00C70739 /* projects.json in Resources */ = {isa = PBXBuildFile; fileRef = 3A48403B1AE544FD00C70739 /* projects.json */; };
@@ -63,12 +65,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		181FA9731AE02846001DD816 /* KBNDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNDataService.h; sourceTree = "<group>"; };
-		181FA9741AE02846001DD816 /* KBNDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNDataService.m; sourceTree = "<group>"; };
+		181FA9731AE02846001DD816 /* KBNUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNUserService.h; sourceTree = "<group>"; };
+		181FA9741AE02846001DD816 /* KBNUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUserService.m; sourceTree = "<group>"; };
 		181FA9761AE0286E001DD816 /* KBNUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNUser.h; sourceTree = "<group>"; };
 		181FA9771AE0286E001DD816 /* KBNUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUser.m; sourceTree = "<group>"; };
 		181FA9791AE028BA001DD816 /* KBNParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNParseAPIManager.h; sourceTree = "<group>"; };
 		181FA97A1AE028BA001DD816 /* KBNParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNParseAPIManager.m; sourceTree = "<group>"; };
+		18513D931AE5829300D090A9 /* KBNProjectParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNProjectParseAPIManager.h; sourceTree = "<group>"; };
+		18513D941AE5829300D090A9 /* KBNProjectParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNProjectParseAPIManager.m; sourceTree = "<group>"; };
+		18513D961AE5831A00D090A9 /* KBNUserParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNUserParseAPIManager.h; sourceTree = "<group>"; };
+		18513D971AE5831A00D090A9 /* KBNUserParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUserParseAPIManager.m; sourceTree = "<group>"; };
 		26271C345D16C540A1C1CE66 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		3A4840391AE544CF00C70739 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		3A48403B1AE544FD00C70739 /* projects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = projects.json; sourceTree = "<group>"; };
@@ -185,8 +191,8 @@
 			children = (
 				E28AF4FD1AE56A0300BF3765 /* KBNProjectService.h */,
 				E28AF4FE1AE56A0300BF3765 /* KBNProjectService.m */,
-				181FA9731AE02846001DD816 /* KBNDataService.h */,
-				181FA9741AE02846001DD816 /* KBNDataService.m */,
+				181FA9731AE02846001DD816 /* KBNUserService.h */,
+				181FA9741AE02846001DD816 /* KBNUserService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -196,6 +202,10 @@
 			children = (
 				181FA9791AE028BA001DD816 /* KBNParseAPIManager.h */,
 				181FA97A1AE028BA001DD816 /* KBNParseAPIManager.m */,
+				18513D931AE5829300D090A9 /* KBNProjectParseAPIManager.h */,
+				18513D941AE5829300D090A9 /* KBNProjectParseAPIManager.m */,
+				18513D961AE5831A00D090A9 /* KBNUserParseAPIManager.h */,
+				18513D971AE5831A00D090A9 /* KBNUserParseAPIManager.m */,
 			);
 			name = Parse;
 			sourceTree = "<group>";
@@ -475,16 +485,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18513D951AE5829300D090A9 /* KBNProjectParseAPIManager.m in Sources */,
 				3A4840511AE545CA00C70739 /* AddProjectViewController.m in Sources */,
 				E28AF4FC1AE569AB00BF3765 /* KBNProjectUtils.m in Sources */,
 				3A4840541AE545CA00C70739 /* ProjectDetailViewController.m in Sources */,
 				E2DD60B21AE043FB00A5B4FD /* KBNUserUtils.m in Sources */,
-				181FA9751AE02846001DD816 /* KBNDataService.m in Sources */,
+				181FA9751AE02846001DD816 /* KBNUserService.m in Sources */,
 				54A75E441AE185C100F8196A /* KBNAlertUtils.m in Sources */,
 				E2003B761ADFE76B00230072 /* SignInViewController.m in Sources */,
 				3A4840441AE545B100C70739 /* Task.m in Sources */,
 				3A4840431AE545B100C70739 /* KBNProject.m in Sources */,
 				3A4840521AE545CA00C70739 /* AddTaskViewController.m in Sources */,
+				18513D981AE5831A00D090A9 /* KBNUserParseAPIManager.m in Sources */,
 				181FA97B1AE028BA001DD816 /* KBNParseAPIManager.m in Sources */,
 				CCA1A2611ADEA3D900CC98B5 /* AppDelegate.m in Sources */,
 				CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */,

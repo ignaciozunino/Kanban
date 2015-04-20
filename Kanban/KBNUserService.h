@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KBNParseAPIManager.h"
+#import "KBNUserParseAPIManager.h"
 #import "KBNUser.h"
 #import "KBNUserUtils.h"
 #import "KBNAlertUtils.h"
-#import "constants.h"
+#import "KBNConstants.h"
 
-@interface KBNDataService : NSObject
+@interface KBNUserService : NSObject
 
-+(KBNDataService *) sharedInstance;
++(KBNUserService *) sharedInstance;
 
 -(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
 @end

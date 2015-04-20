@@ -22,42 +22,8 @@
     return manager;
 }
 
-#pragma mark - user methods
-+(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
-    
-    AFHTTPRequestOperationManager *manager = [self setupAFHTTPManager];
-    NSDictionary *data = @{@"username": user.username, @"password": user.password};
-    [manager POST:PARSE_USERS parameters: data
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSLog(@"POST data JSON returned: %@", responseObject);
-              onCompletion();
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              onError(error);
-              NSLog(@"Error: %@", error);
-          }
-     ];
-}
 
-#pragma mark - project methods
-+(void) createProject: (KBNProject *) project completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
 
-}
 
-+(void) editProject: (NSString *)name newDescription:newDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
-
-}
-
-+(void) removeProject: (NSString *)name completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
-
-}
-
-+(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNParseErrorBlock)onError{
-    return nil;
-}
-
-+(NSArray*) getProjects:(KBNParseErrorBlock)onError{
-    return nil;
-}
 
 @end

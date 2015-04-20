@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "KBNDataService.h"
+#import "KBNUserService.h"
 
-@implementation KBNDataService
+@implementation KBNUserService
 
 //This method is because KBNProxy is a Sigleton
-+(KBNDataService *) sharedInstance{
++(KBNUserService *) sharedInstance{
     
-    static  KBNDataService *inst = nil;
+    static  KBNUserService *inst = nil;
     
     @synchronized(self){
         if (!inst) {
@@ -32,7 +32,7 @@
         KBNUser *user = [KBNUser new];
         user.username = username;
         user.password = password;
-        [KBNParseAPIManager createUser:user completionBlock:onCompletion errorBlock:onError ] ;
+        [KBNUserParseAPIManager createUser:user completionBlock:onCompletion errorBlock:onError ] ;
     
     }else{
         NSString *domain = ERROR_DOMAIN;
