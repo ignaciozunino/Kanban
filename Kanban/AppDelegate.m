@@ -18,8 +18,19 @@
 @implementation AppDelegate
 
 
+- (void)setUpNavigationBarTitle {
+    NSShadow* shadow = [NSShadow new];
+    shadow.shadowOffset = CGSizeMake(0.0f, 1.0f);
+    shadow.shadowColor = [UIColor darkGrayColor];
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            NSForegroundColorAttributeName: [UIColor darkGrayColor],
+                                                            NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Light" size:20.0f],
+                                                            NSShadowAttributeName: shadow
+                                                            }];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
- 
+    
     BOOL isLoggedIn = [KBNUserUtils hasUserBeenCreated];
     
     NSString *storyboardId = isLoggedIn ? MAIN_STORYBOARD : SIGNIN_STORYBOARD;
@@ -33,7 +44,8 @@
     pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     pageControl.backgroundColor = [UIColor whiteColor];
-
+    
+    [self setUpNavigationBarTitle];
     return YES;
 }
 
