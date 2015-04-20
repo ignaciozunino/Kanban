@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "constants.h"
 
-@interface AlertUtils : NSObject
+@interface KBNAlertUtils : NSObject
 
 + (void)showAlertView:(NSString*) message andType: (NSString*) alerType;
 

@@ -35,7 +35,7 @@
             UIViewController *vc = [storyboard instantiateInitialViewController];            [self presentViewController:vc animated:YES completion:nil];
             
         } errorBlock:^(NSError *error) {
-            [AlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
                     }];
 
 }

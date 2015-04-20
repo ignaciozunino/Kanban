@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "UserUtils.h"
+#import "KBNUserUtils.h"
 
-@implementation UserUtils
+@implementation KBNUserUtils
 
 +(void) saveUsername:(NSString *)username{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

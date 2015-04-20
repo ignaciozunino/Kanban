@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Constants.h"
+#import "KBNConstants.h"
 #import "SignInViewController.h"
-#import "UserUtils.h"
+#import "KBNUserUtils.h"
 
 @interface ViewController : UIViewController
 

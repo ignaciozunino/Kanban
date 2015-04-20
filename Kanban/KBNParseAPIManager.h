@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KBNUser.h"
 #import <AFNetworking.h>
-#import "Constants.h"
+#import "KBNConstants.h"
 #import "KBNProject.h"
 
 typedef void (^KBNParseErrorBlock) (NSError *error);

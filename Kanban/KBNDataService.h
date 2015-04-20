@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "KBNParseAPIManager.h"
 #import "KBNUser.h"
-#import "UserUtils.h"
-#import "AlertUtils.h"
+#import "KBNUserUtils.h"
+#import "KBNAlertUtils.h"
 #import "constants.h"
 
 @interface KBNDataService : NSObject

@@ -25,7 +25,7 @@
 
 -(void)createProject:(NSString *)name withDescription:(NSString *)projectDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError {
     
-    if (![ProjectUtils existProject:name]) {
+    if (![KBNProjectUtils existProject:name]) {
         KBNProject *project = [KBNProject new];
         project.name = name;
         project.projectDescription = projectDescription;
@@ -42,7 +42,7 @@
 
 -(void)editProject:(NSString*)name withDescription:(NSString*)newDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
     
-    if (![ProjectUtils existProject:name]) {
+    if (![KBNProjectUtils existProject:name]) {
         [KBNParseAPIManager editProject:name newDescription:newDescription completionBlock:onCompletion errorBlock:onError ] ;
     }else{
         NSString *domain = ERROR_DOMAIN;
@@ -55,7 +55,7 @@
 
 -(void)removeProject:(NSString*)name completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
     
-    if (![ProjectUtils existProject:name]) {
+    if (![KBNProjectUtils existProject:name]) {
         [KBNParseAPIManager removeProject:name completionBlock:onCompletion errorBlock:onError ] ;
     }else{
         NSString *domain = ERROR_DOMAIN;

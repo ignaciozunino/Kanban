@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Constants.h"
+#import "KBNConstants.h"
 
-@interface UserUtils : NSObject
+@interface KBNUserUtils : NSObject
 
 +(void) saveUsername:(NSString *) username;
 + (BOOL)hasUserBeenCreated;

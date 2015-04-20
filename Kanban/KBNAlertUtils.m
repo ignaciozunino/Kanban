@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "AlertUtils.h"
+#import "KBNAlertUtils.h"
 
-@implementation AlertUtils
+@implementation KBNAlertUtils
 
 + (void) showAlertView:(NSString*) message  andType:(NSString*) alertType{
    

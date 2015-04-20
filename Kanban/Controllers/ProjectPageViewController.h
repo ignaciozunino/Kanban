@@ -10,7 +10,7 @@
 #import "Task.h"
 #import "KBNProject.h"
 #import "ProjectDetailViewController.h"
-#import "Constants.h"
+#import "KBNConstants.h"
 
 @interface ProjectPageViewController : UIViewController<UIPageViewControllerDataSource>
 

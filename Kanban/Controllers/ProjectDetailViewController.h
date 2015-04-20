@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "KBNProject.h"
 #import "Task.h"
-#import "Constants.h"
+#import "KBNConstants.h"
 
 
 @interface ProjectDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>

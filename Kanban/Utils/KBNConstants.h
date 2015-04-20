@@ -52,6 +52,6 @@
 
 
 
-@interface Constants : NSObject
+@interface KBNConstants : NSObject
 
 @end

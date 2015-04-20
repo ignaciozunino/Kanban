@@ -8,8 +8,8 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
-#import "Constants.h"
-#import "UserUtils.h"
+#import "KBNConstants.h"
+#import "KBNUserUtils.h"
 
 @interface AppDelegate ()
 
@@ -20,7 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
  
-    BOOL isLoggedIn = [UserUtils hasUserBeenCreated];
+    BOOL isLoggedIn = [KBNUserUtils hasUserBeenCreated];
     
     NSString *storyboardId = isLoggedIn ? MAIN_STORYBOARD : SIGNIN_STORYBOARD;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardId bundle:nil];

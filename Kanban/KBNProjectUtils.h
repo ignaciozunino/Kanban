@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ProjectUtils : NSObject
+@interface KBNProjectUtils : NSObject
 
 + (BOOL)existProject: (NSString*)name;
 

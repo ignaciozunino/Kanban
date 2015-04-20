@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "ProjectUtils.h"
+#import "KBNProjectUtils.h"
 
-@implementation ProjectUtils
+@implementation KBNProjectUtils
 
 + (BOOL)existProject {
     return NO;

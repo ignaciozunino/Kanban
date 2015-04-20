@@ -22,7 +22,7 @@
 		3A4840541AE545CA00C70739 /* ProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404C1AE545CA00C70739 /* ProjectDetailViewController.m */; };
 		3A4840551AE545CA00C70739 /* ProjectPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404E1AE545CA00C70739 /* ProjectPageViewController.m */; };
 		3A4840561AE545CA00C70739 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840501AE545CA00C70739 /* TaskDetailViewController.m */; };
-		54A75E441AE185C100F8196A /* AlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A75E431AE185C100F8196A /* AlertUtils.m */; };
+		54A75E441AE185C100F8196A /* KBNAlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A75E431AE185C100F8196A /* KBNAlertUtils.m */; };
 		CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A25D1ADEA3D900CC98B5 /* main.m */; };
 		CCA1A2611ADEA3D900CC98B5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2601ADEA3D900CC98B5 /* AppDelegate.m */; };
 		CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2621ADEA3D900CC98B5 /* Kanban.xcdatamodeld */; };
@@ -46,9 +46,9 @@
 		CCA1A2B01ADEAE8D00CC98B5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */; };
 		CCA1A2B11ADEAE8D00CC98B5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */; };
 		E2003B761ADFE76B00230072 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2003B741ADFE76B00230072 /* SignInViewController.m */; };
-		E28AF4FC1AE569AB00BF3765 /* ProjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E28AF4FB1AE569AB00BF3765 /* ProjectUtils.m */; };
+		E28AF4FC1AE569AB00BF3765 /* KBNProjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E28AF4FB1AE569AB00BF3765 /* KBNProjectUtils.m */; };
 		E28AF4FF1AE56A0300BF3765 /* KBNProjectService.m in Sources */ = {isa = PBXBuildFile; fileRef = E28AF4FE1AE56A0300BF3765 /* KBNProjectService.m */; };
-		E2DD60B21AE043FB00A5B4FD /* UserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DD60B11AE043FB00A5B4FD /* UserUtils.m */; };
+		E2DD60B21AE043FB00A5B4FD /* KBNUserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DD60B11AE043FB00A5B4FD /* KBNUserUtils.m */; };
 		E2DD60B41AE0458000A5B4FD /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2DD60B31AE0458000A5B4FD /* Signin.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -89,8 +89,8 @@
 		3A48404E1AE545CA00C70739 /* ProjectPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectPageViewController.m; path = Controllers/ProjectPageViewController.m; sourceTree = "<group>"; };
 		3A48404F1AE545CA00C70739 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = Controllers/TaskDetailViewController.h; sourceTree = "<group>"; };
 		3A4840501AE545CA00C70739 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = Controllers/TaskDetailViewController.m; sourceTree = "<group>"; };
-		54A75E421AE185C100F8196A /* AlertUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertUtils.h; sourceTree = "<group>"; };
-		54A75E431AE185C100F8196A /* AlertUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertUtils.m; sourceTree = "<group>"; };
+		54A75E421AE185C100F8196A /* KBNAlertUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNAlertUtils.h; sourceTree = "<group>"; };
+		54A75E431AE185C100F8196A /* KBNAlertUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNAlertUtils.m; sourceTree = "<group>"; };
 		C8E27ED1C549693279A34999 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CCA1A2581ADEA3D900CC98B5 /* Kanban.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kanban.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCA1A25C1ADEA3D900CC98B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,18 +118,18 @@
 		CCA1A29C1ADEA62F00CC98B5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CCA1A2A61ADEA75C00CC98B5 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CCA1A2A81ADEA79400CC98B5 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
-		CCA1A2AA1ADEAAB900CC98B5 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Utils/Constants.h; sourceTree = "<group>"; };
+		CCA1A2AA1ADEAAB900CC98B5 /* KBNConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNConstants.h; path = Utils/KBNConstants.h; sourceTree = "<group>"; };
 		CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		E1248F82C2AA466919F32613 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2003B731ADFE76B00230072 /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		E2003B741ADFE76B00230072 /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
-		E28AF4FA1AE569AB00BF3765 /* ProjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectUtils.h; sourceTree = "<group>"; };
-		E28AF4FB1AE569AB00BF3765 /* ProjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectUtils.m; sourceTree = "<group>"; };
+		E28AF4FA1AE569AB00BF3765 /* KBNProjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNProjectUtils.h; sourceTree = "<group>"; };
+		E28AF4FB1AE569AB00BF3765 /* KBNProjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNProjectUtils.m; sourceTree = "<group>"; };
 		E28AF4FD1AE56A0300BF3765 /* KBNProjectService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNProjectService.h; sourceTree = "<group>"; };
 		E28AF4FE1AE56A0300BF3765 /* KBNProjectService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNProjectService.m; sourceTree = "<group>"; };
-		E2DD60B01AE043FB00A5B4FD /* UserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtils.h; sourceTree = "<group>"; };
-		E2DD60B11AE043FB00A5B4FD /* UserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtils.m; sourceTree = "<group>"; };
+		E2DD60B01AE043FB00A5B4FD /* KBNUserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNUserUtils.h; sourceTree = "<group>"; };
+		E2DD60B11AE043FB00A5B4FD /* KBNUserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUserUtils.m; sourceTree = "<group>"; };
 		E2DD60B31AE0458000A5B4FD /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Signin.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -303,13 +303,13 @@
 		CCA1A2AD1ADEAABF00CC98B5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				E28AF4FA1AE569AB00BF3765 /* ProjectUtils.h */,
-				E28AF4FB1AE569AB00BF3765 /* ProjectUtils.m */,
-				CCA1A2AA1ADEAAB900CC98B5 /* Constants.h */,
-				E2DD60B01AE043FB00A5B4FD /* UserUtils.h */,
-				E2DD60B11AE043FB00A5B4FD /* UserUtils.m */,
-				54A75E421AE185C100F8196A /* AlertUtils.h */,
-				54A75E431AE185C100F8196A /* AlertUtils.m */,
+				E28AF4FA1AE569AB00BF3765 /* KBNProjectUtils.h */,
+				E28AF4FB1AE569AB00BF3765 /* KBNProjectUtils.m */,
+				CCA1A2AA1ADEAAB900CC98B5 /* KBNConstants.h */,
+				E2DD60B01AE043FB00A5B4FD /* KBNUserUtils.h */,
+				E2DD60B11AE043FB00A5B4FD /* KBNUserUtils.m */,
+				54A75E421AE185C100F8196A /* KBNAlertUtils.h */,
+				54A75E431AE185C100F8196A /* KBNAlertUtils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -476,11 +476,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A4840511AE545CA00C70739 /* AddProjectViewController.m in Sources */,
-				E28AF4FC1AE569AB00BF3765 /* ProjectUtils.m in Sources */,
+				E28AF4FC1AE569AB00BF3765 /* KBNProjectUtils.m in Sources */,
 				3A4840541AE545CA00C70739 /* ProjectDetailViewController.m in Sources */,
-				E2DD60B21AE043FB00A5B4FD /* UserUtils.m in Sources */,
+				E2DD60B21AE043FB00A5B4FD /* KBNUserUtils.m in Sources */,
 				181FA9751AE02846001DD816 /* KBNDataService.m in Sources */,
-				54A75E441AE185C100F8196A /* AlertUtils.m in Sources */,
+				54A75E441AE185C100F8196A /* KBNAlertUtils.m in Sources */,
 				E2003B761ADFE76B00230072 /* SignInViewController.m in Sources */,
 				3A4840441AE545B100C70739 /* Task.m in Sources */,
 				3A4840431AE545B100C70739 /* KBNProject.m in Sources */,
