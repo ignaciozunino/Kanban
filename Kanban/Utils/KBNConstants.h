@@ -29,7 +29,7 @@
 
 //Entities
 #define ENTITY_TASK @"Task"
-#define ENTITY_PROJECT @"Project"
+#define ENTITY_PROJECT @"KBNProject"
 
 //View controllers identifiers
 #define PROJECT_DETAIL_VC @"ProjectDetailViewController"
