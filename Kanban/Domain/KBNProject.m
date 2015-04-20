@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "Project.h"
+#import "KBNProject.h"
 #import "Task.h"
 
 
-@implementation Project
+@implementation KBNProject
 
 @dynamic name;
 @dynamic projectDescription;

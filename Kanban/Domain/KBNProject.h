@@ -11,14 +11,14 @@
 
 @class Task;
 
-@interface Project : NSManagedObject
+@interface KBNProject : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * projectDescription;
 @property (nonatomic, retain) NSSet *tasks;
 @end
 
-@interface Project (CoreDataGeneratedAccessors)
+@interface KBNProject (CoreDataGeneratedAccessors)
 
 - (void)addTasksObject:(Task *)value;
 - (void)removeTasksObject:(Task *)value;

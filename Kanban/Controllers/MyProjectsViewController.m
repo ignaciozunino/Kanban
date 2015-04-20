@@ -49,7 +49,7 @@
     NSArray *projectList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     for (NSDictionary* item in projectList) {
-        Project *newProject = [[Project alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
+        KBNProject *newProject = [[KBNProject alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
                                                                           inManagedObjectContext:self.managedObjectContext]
                                insertIntoManagedObjectContext:self.managedObjectContext];
         
@@ -72,7 +72,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_PROJECT_CELL forIndexPath:indexPath];
-    Project *project = [self.projects objectAtIndex:indexPath.row];
+    KBNProject *project = [self.projects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = project.name;
     

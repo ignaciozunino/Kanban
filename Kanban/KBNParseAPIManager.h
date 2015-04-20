@@ -10,6 +10,7 @@
 #import "KBNUser.h"
 #import <AFNetworking.h>
 #import "Constants.h"
+#import "KBNProject.h"
 
 typedef void (^KBNParseErrorBlock) (NSError *error);
 typedef void(^KBNParseSuccesBlock)() ;
@@ -17,6 +18,14 @@ typedef void(^KBNParseSuccesBlock)() ;
 
 @interface KBNParseAPIManager : NSObject
 
+//User functions
 +(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
+
+//Projects Functions
++(void) createProject: (KBNProject *) project completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
++(void) editProject: (NSString *)name newDescription:newDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
++(void) removeProject: (NSString *)name completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
++(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNParseErrorBlock)onError;
++(NSArray*) getProjects:(KBNParseErrorBlock)onError;
 
 @end

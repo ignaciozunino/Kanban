@@ -72,7 +72,7 @@
         newTask.taskDescription = [item objectForKey:@"description"];
         newTask.state = [item objectForKey:@"state"];
         
-        Project *project = [[Project alloc]initWithEntity:[NSEntityDescription entityForName:@"Project" inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
+        KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:@"Project" inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
         
         project.name = [item objectForKey:@"project"];
         

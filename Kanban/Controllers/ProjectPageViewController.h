@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
-#import "Project.h"
+#import "KBNProject.h"
 #import "ProjectDetailViewController.h"
 #import "Constants.h"
 
 @interface ProjectPageViewController : UIViewController<UIPageViewControllerDataSource>
 
-@property (strong, nonatomic) Project *project;
+@property (strong, nonatomic) KBNProject *project;
 
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 @property (strong, nonatomic) NSArray* tasks;
