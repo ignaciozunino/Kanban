@@ -10,6 +10,9 @@
 #import "ProjectPageViewController.h"
 #import "AppDelegate.h"
 
+#define TABLEVIEW_PROJECT_CELL @"ProjectCell"
+#define SEGUE_PROJECT_DETAIL @"projectDetail"
+
 @interface MyProjectsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
