@@ -44,12 +44,12 @@
     
     NSMutableArray *projectsArray = [[NSMutableArray alloc] init];
     
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"projects" withExtension:@"json"];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:RESOURCE_NAME_PROJECTS withExtension:@"json"];
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
     NSArray *projectList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     for (NSDictionary* item in projectList) {
-        Project *newProject = [[Project alloc] initWithEntity:[NSEntityDescription entityForName:@"Project"
+        Project *newProject = [[Project alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
                                                                           inManagedObjectContext:self.managedObjectContext]
                                insertIntoManagedObjectContext:self.managedObjectContext];
         
@@ -71,7 +71,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_PROJECT_CELL forIndexPath:indexPath];
     Project *project = [self.projects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = project.name;
@@ -93,7 +93,7 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier isEqualToString:@"projectDetail"]) {
+    if ([segue.identifier isEqualToString:SEGUE_PROJECT_DETAIL]) {
         ProjectPageViewController *controller = [segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.project = [self.projects objectAtIndex:indexPath.row];

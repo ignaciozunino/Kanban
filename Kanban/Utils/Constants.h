@@ -17,6 +17,23 @@
 #define USERNAME_KEY @"username"
 #define MAIN_STORYBOARD @"Main"
 #define SIGNIN_STORYBOARD @"Signin"
+#define RESOURCE_NAME_PROJECTS @"projects"
+
+//Cell identifiers
+#define TABLEVIEW_TASK_CELL @"TaskCell"
+#define TABLEVIEW_PROJECT_CELL @"ProjectCell"
+
+//Segues identifiers
+#define SEGUE_TASK_DETAIL @"taskDetail"
+#define SEGUE_PROJECT_DETAIL @"projectDetail"
+
+//Entities
+#define ENTITY_TASK @"Task"
+#define ENTITY_PROJECT @"Project"
+
+//View controllers identifiers
+#define PROJECT_DETAIL_VC @"ProjectDetailViewController"
+#define PAGE_VC @"PageViewController"
 
 //Error messages
 #define ERROR_DOMAIN @"globant.kanban.Kanban.ErrorDomain";
@@ -31,6 +48,8 @@
 #define SUCCES_ALERT @"SUCCES"
 
 #define taskStates          @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
+
+
 
 
 @interface Constants : NSObject

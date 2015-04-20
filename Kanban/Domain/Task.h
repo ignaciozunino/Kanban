@@ -9,14 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 typedef enum {
-    TaskStateBacklog,TaskStateRequirements,TaskStateImplemented,TaskStateTested,TaskStateProduction
-} TaskState;
+                TaskStateBacklog,
+                TaskStateRequirements,
+                TaskStateImplemented,
+                TaskStateTested,
+                TaskStateProduction
+            } TaskState;
 
 @interface Task : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * taskDescription;
-@property (nonatomic, retain) NSManagedObject * project;
-@property (nonatomic, retain) NSNumber * state;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSString * taskDescription;
+@property (nonatomic, strong) NSManagedObject * project;
+@property (nonatomic, strong) NSNumber * state;
 
 @end

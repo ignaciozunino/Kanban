@@ -27,7 +27,7 @@
     [self getTasks];
     
     // Create page view controller
-    self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
+    self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:PAGE_VC];
     self.pageViewController.dataSource = self;
     ProjectDetailViewController* startingViewController = [self viewControllerAtIndex:0];
     NSArray *viewControllers = @[startingViewController];
@@ -64,7 +64,7 @@
     NSArray *projectList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     for (NSDictionary* item in projectList) {
-        Task *newTask = [[Task alloc] initWithEntity:[NSEntityDescription entityForName:@"Task"
+        Task *newTask = [[Task alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_TASK
                                                                           inManagedObjectContext:self.managedObjectContext]
                                insertIntoManagedObjectContext:self.managedObjectContext];
         
@@ -123,7 +123,7 @@
     }
     
     // Create a new view controller and pass suitable data.
-    ProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ProjectDetailViewController"];
+    ProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
 
     projectDetailViewController.pageIndex = index;
     projectDetailViewController.tasks = [self tasksForState:(int)index];

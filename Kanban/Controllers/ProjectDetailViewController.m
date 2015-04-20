@@ -40,7 +40,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_TASK_CELL forIndexPath:indexPath];
     
     Task* task = [self.tasks objectAtIndex:indexPath.row];
     cell.textLabel.text = task.name;
@@ -61,7 +61,7 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([[segue identifier] isEqualToString:@"taskDetail"]) {
+    if ([[segue identifier] isEqualToString:SEGUE_TASK_DETAIL]) {
         TaskDetailViewController *controller = [segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.task = [self.tasks objectAtIndex:indexPath.row];
