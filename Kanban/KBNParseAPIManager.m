@@ -44,7 +44,7 @@
 
 }
 
-+(void) editProject: (NSString *)name withDescriptio:newDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
++(void) editProject: (NSString *)name newDescription:newDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
 
 }
 
