@@ -34,15 +34,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Nsk-4K-lr7">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Nsk-4K-lr7">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ProjectCell" id="b80-EJ-qFU">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ProjectCell" rowHeight="90" id="b80-EJ-qFU">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b80-EJ-qFU" id="tQT-RA-KH3">
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="projectIcon" translatesAutoresizingMaskIntoConstraints="NO" id="4JU-u7-uQC">
+                                                    <rect key="frame" x="24" y="9" width="61" height="71"/>
+                                                </imageView>
+                                            </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="25S-QU-ubf" kind="show" identifier="projectDetail" id="JDd-Jo-dph"/>
@@ -78,7 +83,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvQ-wq-fgJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="402" y="349"/>
+            <point key="canvasLocation" x="402" y="347"/>
         </scene>
         <!--Project Page View Controller-->
         <scene sceneID="7Ny-MA-6DD">
@@ -355,6 +360,7 @@
     </scenes>
     <resources>
         <image name="cancelIcon" width="40" height="40"/>
+        <image name="projectIcon" width="60" height="68"/>
         <image name="saveIcon" width="40" height="40"/>
         <image name="textField" width="260" height="44"/>
     </resources>
