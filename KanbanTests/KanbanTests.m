@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "KBNProjectService.h"
 
 @interface KanbanTests : XCTestCase
 
@@ -36,5 +37,20 @@
         // Put the code you want to measure the time of here.
     }];
 }
-
+- (void)testCreateProject {
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MMM dd, yyyy HH:mm"];
+    
+    NSDate *now = [[NSDate alloc] init];
+   
+    NSString *dateString = [format stringFromDate:now];
+    
+    NSString * projectName = [NSString stringWithFormat:@"test created %@",dateString];
+    [[KBNProjectService sharedInstance]createProject:projectName withDescription:@"project createdby automatic tests" completionBlock:^{
+        XCTAssert(YES, @"Pass");
+    } errorBlock:^(NSError *error) {
+        NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
+        XCTFail(@"%@",message);
+    }];
+}
 @end
