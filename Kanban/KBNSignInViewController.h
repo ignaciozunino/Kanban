@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "KBNUser.h"
 #import "KBNDataService.h"
-#import "Constants.h"
-#import "UserUtils.h"
-#import "AlertUtils.h"
+#import "KBNConstants.h"
+#import "KBNUserUtils.h"
+#import "KBNAlertUtils.h"
 
-@interface SignInViewController : UIViewController
+@interface KBNSignInViewController : UIViewController
 
 @end

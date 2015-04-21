@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -31,16 +32,16 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="V3K-mH-XNQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="2Os-Rc-XiG"/>
-                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="5Xz-w5-5mt"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="trailing" secondItem="8ie-xW-0ye" secondAttribute="trailing" id="6dh-uE-j7n"/>
-                <constraint firstItem="V3K-mH-XNQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="LVZ-wE-rYi"/>
-                <constraint firstAttribute="bottom" secondItem="V3K-mH-XNQ" secondAttribute="bottom" id="LcF-dE-pOS"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="8ie-xW-0ye" secondAttribute="leading" id="LkA-JH-2yI"/>
-                <constraint firstAttribute="trailing" secondItem="V3K-mH-XNQ" secondAttribute="trailing" id="fz0-C1-Dl7"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="nLr-qw-Klu"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="centerX" secondItem="V3K-mH-XNQ" secondAttribute="centerX" id="utM-3K-kqU"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="101" id="vU8-Qu-YYX"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="5C9-Nt-9GG"/>
+                <constraint firstItem="V3K-mH-XNQ" firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="KEP-vJ-M5a"/>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="kId-c2-rCX" secondAttribute="leading" id="Peq-1H-Jz9"/>
+                <constraint firstItem="V3K-mH-XNQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Rgg-0x-ZIU"/>
+                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="VXU-yK-ZlC"/>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="trailing" secondItem="kId-c2-rCX" secondAttribute="trailing" id="Zuo-U9-pLh"/>
+                <constraint firstAttribute="bottom" secondItem="V3K-mH-XNQ" secondAttribute="bottom" id="aBm-bT-uob"/>
+                <constraint firstAttribute="trailing" secondItem="V3K-mH-XNQ" secondAttribute="trailing" id="pHu-Ed-xyX"/>
+                <constraint firstItem="V3K-mH-XNQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tk6-7v-Z8s"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="101" id="vXI-KD-ynK"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

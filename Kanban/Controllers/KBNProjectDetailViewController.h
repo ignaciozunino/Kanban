@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Project.h"
-#import "Task.h"
-#import "Constants.h"
+#import "KBNProject.h"
+#import "KBNTask.h"
+#import "KBNConstants.h"
 
 
-@interface ProjectDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface KBNProjectDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) Project *project;
+@property (strong, nonatomic) KBNProject *project;
 @property NSUInteger pageIndex;
 @property NSArray* tasks;
 @property (strong, nonatomic) IBOutlet UILabel *labelState;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyProjectsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface KBNMyProjectsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 

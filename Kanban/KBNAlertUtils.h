@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "constants.h"
+#import "KBNConstants.h"
 
-@interface AlertUtils : NSObject
+@interface KBNAlertUtils : NSObject
 
 + (void)showAlertView:(NSString*) message andType: (NSString*) alerType;
 

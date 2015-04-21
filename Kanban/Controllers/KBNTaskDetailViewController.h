@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Task.h"
+#import "KBNTask.h"
 
-@interface TaskDetailViewController : UIViewController
+@interface KBNTaskDetailViewController : UIViewController
 
-@property (strong, nonatomic) Task *task;
+@property (strong, nonatomic) KBNTask *task;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionText;
 
 @end

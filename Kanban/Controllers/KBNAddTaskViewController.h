@@ -1,5 +1,5 @@
 //
-//  AddProjectViewController.h
+//  AddTaskViewController.h
 //  Kanban
 //
 //  Created by Marcelo Dessal on 4/16/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddProjectViewController : UIViewController
+@interface KBNAddTaskViewController : UIViewController
 
 @end

@@ -6,21 +6,21 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "MyProjectsViewController.h"
-#import "ProjectPageViewController.h"
-#import "AppDelegate.h"
+#import "KBNMyProjectsViewController.h"
+#import "KBNProjectPageViewController.h"
+#import "KBNAppDelegate.h"
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
 #define SEGUE_PROJECT_DETAIL @"projectDetail"
 
-@interface MyProjectsViewController ()
+@interface KBNMyProjectsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *projects;
 
 @end
 
-@implementation MyProjectsViewController
+@implementation KBNMyProjectsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,7 +30,7 @@
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
-    return [(AppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,7 +52,7 @@
     NSArray *projectList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     for (NSDictionary* item in projectList) {
-        Project *newProject = [[Project alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
+        KBNProject *newProject = [[KBNProject alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
                                                                           inManagedObjectContext:self.managedObjectContext]
                                insertIntoManagedObjectContext:self.managedObjectContext];
         
@@ -75,7 +75,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_PROJECT_CELL forIndexPath:indexPath];
-    Project *project = [self.projects objectAtIndex:indexPath.row];
+    KBNProject *project = [self.projects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = project.name;
     
@@ -97,7 +97,7 @@
     // Pass the selected object to the new view controller.
     
     if ([segue.identifier isEqualToString:SEGUE_PROJECT_DETAIL]) {
-        ProjectPageViewController *controller = [segue destinationViewController];
+        KBNProjectPageViewController *controller = [segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.project = [self.projects objectAtIndex:indexPath.row];
     }

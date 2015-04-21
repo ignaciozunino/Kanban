@@ -6,21 +6,21 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "ProjectDetailViewController.h"
-#import "AppDelegate.h"
-#import "TaskDetailViewController.h"
+#import "KBNProjectDetailViewController.h"
+#import "KBNAppDelegate.h"
+#import "KBNTaskDetailViewController.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
 
 
-@interface ProjectDetailViewController ()
+@interface KBNProjectDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
-@implementation ProjectDetailViewController
+@implementation KBNProjectDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,7 +46,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_TASK_CELL forIndexPath:indexPath];
     
-    Task* task = [self.tasks objectAtIndex:indexPath.row];
+    KBNTask* task = [self.tasks objectAtIndex:indexPath.row];
     cell.textLabel.text = task.name;
     
     return cell;
@@ -66,7 +66,7 @@
     // Pass the selected object to the new view controller.
     
     if ([[segue identifier] isEqualToString:SEGUE_TASK_DETAIL]) {
-        TaskDetailViewController *controller = [segue destinationViewController];
+        KBNTaskDetailViewController *controller = [segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.task = [self.tasks objectAtIndex:indexPath.row];
         

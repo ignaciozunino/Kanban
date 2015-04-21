@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "ProjectPageViewController.h"
-#import "AppDelegate.h"
+#import "KBNProjectPageViewController.h"
+#import "KBNAppDelegate.h"
 
-@interface ProjectPageViewController ()
+@interface KBNProjectPageViewController ()
 
 @end
 
-@implementation ProjectPageViewController
+@implementation KBNProjectPageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,7 +29,7 @@
     // Create page view controller
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:PAGE_VC];
     self.pageViewController.dataSource = self;
-    ProjectDetailViewController* startingViewController = [self viewControllerAtIndex:0];
+    KBNProjectDetailViewController* startingViewController = [self viewControllerAtIndex:0];
     NSArray *viewControllers = @[startingViewController];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
@@ -48,7 +48,7 @@
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
-    return [(AppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
 #pragma mark - Private methods
@@ -64,7 +64,7 @@
     NSArray *projectList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     for (NSDictionary* item in projectList) {
-        Task *newTask = [[Task alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_TASK
+        KBNTask *newTask = [[KBNTask alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_TASK
                                                                           inManagedObjectContext:self.managedObjectContext]
                                insertIntoManagedObjectContext:self.managedObjectContext];
         
@@ -72,7 +72,7 @@
         newTask.taskDescription = [item objectForKey:@"description"];
         newTask.state = [item objectForKey:@"state"];
         
-        Project *project = [[Project alloc]initWithEntity:[NSEntityDescription entityForName:@"Project" inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
+        KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:@"Project" inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
         
         project.name = [item objectForKey:@"project"];
         
@@ -91,7 +91,7 @@
 
 -(UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    NSUInteger index = ((ProjectDetailViewController*) viewController).pageIndex;
+    NSUInteger index = ((KBNProjectDetailViewController*) viewController).pageIndex;
     if ((index == 0) || (index == NSNotFound))
     {
         return nil;
@@ -102,7 +102,7 @@
 
 -(UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
-    NSUInteger index = ((ProjectDetailViewController*) viewController).pageIndex;
+    NSUInteger index = ((KBNProjectDetailViewController*) viewController).pageIndex;
     if (index == NSNotFound)
     {
         return nil;
@@ -115,7 +115,7 @@
     return [self viewControllerAtIndex:index];
 }
 
--(ProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index
+-(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index
 {
     if (([self.states count] == 0) || (index >= [self.states count]))
     {
@@ -123,7 +123,7 @@
     }
     
     // Create a new view controller and pass suitable data.
-    ProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
+    KBNProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
 
     projectDetailViewController.pageIndex = index;
     projectDetailViewController.tasks = [self tasksForState:(int)index];
@@ -135,7 +135,7 @@
 {
     NSMutableArray *result = [[NSMutableArray alloc] init];
     
-    for (Task* task in self.tasks) {
+    for (KBNTask* task in self.tasks) {
         if ([task.state intValue] == state){
             [result addObject:task];
         }

@@ -9,19 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Task;
+@class KBNTask;
 
-@interface Project : NSManagedObject
+@interface KBNProject : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * projectDescription;
 @property (nonatomic, retain) NSSet *tasks;
 @end
 
-@interface Project (CoreDataGeneratedAccessors)
+@interface KBNProject (CoreDataGeneratedAccessors)
 
-- (void)addTasksObject:(Task *)value;
-- (void)removeTasksObject:(Task *)value;
+- (void)addTasksObject:(KBNTask *)value;
+- (void)removeTasksObject:(KBNTask *)value;
 - (void)addTasks:(NSSet *)values;
 - (void)removeTasks:(NSSet *)values;
 

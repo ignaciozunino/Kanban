@@ -1,38 +1,31 @@
 //
-//  AddTaskViewController.m
+//  TaskDetailViewController.m
 //  Kanban
 //
 //  Created by Marcelo Dessal on 4/16/15.
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "AddTaskViewController.h"
+#import "KBNTaskDetailViewController.h"
 
-@interface AddTaskViewController ()
+@interface KBNTaskDetailViewController ()
 
 @end
 
-@implementation AddTaskViewController
+@implementation KBNTaskDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.title = self.task.name;
+    
+    self.descriptionText.text = self.task.taskDescription;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - IBActions
-
-- (IBAction)save:(UIBarButtonItem *)sender {
-}
-
-- (IBAction)cancel:(UIBarButtonItem *)sender {
-
-    [self dismissViewControllerAnimated:YES completion:nil];
-
 }
 
 /*

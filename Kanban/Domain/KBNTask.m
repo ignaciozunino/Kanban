@@ -1,19 +1,19 @@
 //
-//  Project.m
+//  Task.m
 //  Kanban
 //
 //  Created by Marcelo Dessal on 4/17/15.
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "Project.h"
-#import "Task.h"
+#import "KBNTask.h"
 
 
-@implementation Project
+@implementation KBNTask
 
 @dynamic name;
-@dynamic projectDescription;
-@dynamic tasks;
+@dynamic taskDescription;
+@dynamic project;
+@dynamic state;
 
 @end

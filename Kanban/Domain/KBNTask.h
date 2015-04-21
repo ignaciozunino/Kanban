@@ -16,7 +16,7 @@ typedef enum {
                 TaskStateProduction
             } TaskState;
 
-@interface Task : NSManagedObject
+@interface KBNTask : NSManagedObject
 
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) NSString * taskDescription;

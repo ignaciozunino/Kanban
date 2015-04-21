@@ -1,18 +1,18 @@
 //
-//  AddProjectViewController.m
+//  AddTaskViewController.m
 //  Kanban
 //
 //  Created by Marcelo Dessal on 4/16/15.
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "AddProjectViewController.h"
+#import "KBNAddTaskViewController.h"
 
-@interface AddProjectViewController ()
+@interface KBNAddTaskViewController ()
 
 @end
 
-@implementation AddProjectViewController
+@implementation KBNAddTaskViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,9 +30,9 @@
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
-    
+
     [self dismissViewControllerAnimated:YES completion:nil];
-    
+
 }
 
 /*

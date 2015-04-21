@@ -5,16 +5,16 @@
 //  Created by Maximiliano Casal on 4/16/15.
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
-#import "SignInViewController.h"
+#import "KBNSignInViewController.h"
 
-@interface SignInViewController () <UIAlertViewDelegate>
+@interface KBNSignInViewController () <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 
 @end
 
-@implementation SignInViewController
+@implementation KBNSignInViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,7 +35,7 @@
             UIViewController *vc = [storyboard instantiateInitialViewController];            [self presentViewController:vc animated:YES completion:nil];
             
         } errorBlock:^(NSError *error) {
-            [AlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
                     }];
 
 }
