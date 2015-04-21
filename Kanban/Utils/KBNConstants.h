@@ -25,7 +25,7 @@
 
 //View controllers identifiers
 #define PROJECT_DETAIL_VC @"KBNProjectDetailViewController"
-#define PAGE_VC @"KBNPageViewController"
+#define PAGE_VC @"KBNProjectPageViewController"
 
 
 //Succes messages
