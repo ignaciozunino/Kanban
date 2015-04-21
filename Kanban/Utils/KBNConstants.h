@@ -38,6 +38,14 @@
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
 #define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"
+#define PARSE_TASKLISTS @"https://api.parse.com/1/classes/TaskList"
+
+//PARSE TABLE COLUMNS
+#define PARSE_TASKLIST_NAME_COLUMN @"name"
+#define PARSE_TASKLIST_PROJECT_COLUMN @"project"
+#define PARSE_PROJECT_NAME_COLUMN @"name"
+#define PARSE_PROJECT_DESCRIPTION_COLUMN @"project_description"
+#define PARSE_OBJECTID @"objectId"
 
 //alert titles
 #define ERROR_ALERT @"ERROR"
