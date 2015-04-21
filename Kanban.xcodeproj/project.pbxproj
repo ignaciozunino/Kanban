@@ -14,17 +14,17 @@
 		3A48403A1AE544CF00C70739 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4840391AE544CF00C70739 /* Main.storyboard */; };
 		3A48403D1AE544FD00C70739 /* projects.json in Resources */ = {isa = PBXBuildFile; fileRef = 3A48403B1AE544FD00C70739 /* projects.json */; };
 		3A48403E1AE544FD00C70739 /* tasks.json in Resources */ = {isa = PBXBuildFile; fileRef = 3A48403C1AE544FD00C70739 /* tasks.json */; };
-		3A4840431AE545B100C70739 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840401AE545B100C70739 /* Project.m */; };
-		3A4840441AE545B100C70739 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840421AE545B100C70739 /* Task.m */; };
-		3A4840511AE545CA00C70739 /* AddProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840461AE545CA00C70739 /* AddProjectViewController.m */; };
-		3A4840521AE545CA00C70739 /* AddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840481AE545CA00C70739 /* AddTaskViewController.m */; };
-		3A4840531AE545CA00C70739 /* MyProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404A1AE545CA00C70739 /* MyProjectsViewController.m */; };
-		3A4840541AE545CA00C70739 /* ProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404C1AE545CA00C70739 /* ProjectDetailViewController.m */; };
-		3A4840551AE545CA00C70739 /* ProjectPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404E1AE545CA00C70739 /* ProjectPageViewController.m */; };
-		3A4840561AE545CA00C70739 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840501AE545CA00C70739 /* TaskDetailViewController.m */; };
-		54A75E441AE185C100F8196A /* AlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A75E431AE185C100F8196A /* AlertUtils.m */; };
+		3A4840431AE545B100C70739 /* KBNProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840401AE545B100C70739 /* KBNProject.m */; };
+		3A4840441AE545B100C70739 /* KBNTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840421AE545B100C70739 /* KBNTask.m */; };
+		3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */; };
+		3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */; };
+		3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */; };
+		3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */; };
+		3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */; };
+		3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */; };
+		54A75E441AE185C100F8196A /* KBNAlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A75E431AE185C100F8196A /* KBNAlertUtils.m */; };
 		CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A25D1ADEA3D900CC98B5 /* main.m */; };
-		CCA1A2611ADEA3D900CC98B5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2601ADEA3D900CC98B5 /* AppDelegate.m */; };
+		CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2601ADEA3D900CC98B5 /* KBNAppDelegate.m */; };
 		CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2621ADEA3D900CC98B5 /* Kanban.xcdatamodeld */; };
 		CCA1A2671ADEA3D900CC98B5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2661ADEA3D900CC98B5 /* ViewController.m */; };
 		CCA1A26C1ADEA3D900CC98B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCA1A26B1ADEA3D900CC98B5 /* Images.xcassets */; };
@@ -45,8 +45,8 @@
 		CCA1A2A91ADEA79400CC98B5 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2A81ADEA79400CC98B5 /* Accounts.framework */; };
 		CCA1A2B01ADEAE8D00CC98B5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */; };
 		CCA1A2B11ADEAE8D00CC98B5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */; };
-		E2003B761ADFE76B00230072 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2003B741ADFE76B00230072 /* SignInViewController.m */; };
-		E2DD60B21AE043FB00A5B4FD /* UserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DD60B11AE043FB00A5B4FD /* UserUtils.m */; };
+		E2003B761ADFE76B00230072 /* KBNSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2003B741ADFE76B00230072 /* KBNSignInViewController.m */; };
+		E2DD60B21AE043FB00A5B4FD /* KBNUserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DD60B11AE043FB00A5B4FD /* KBNUserUtils.m */; };
 		E2DD60B41AE0458000A5B4FD /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2DD60B31AE0458000A5B4FD /* Signin.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -71,30 +71,30 @@
 		3A4840391AE544CF00C70739 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		3A48403B1AE544FD00C70739 /* projects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = projects.json; sourceTree = "<group>"; };
 		3A48403C1AE544FD00C70739 /* tasks.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tasks.json; sourceTree = "<group>"; };
-		3A48403F1AE545B100C70739 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Project.h; path = Domain/Project.h; sourceTree = "<group>"; };
-		3A4840401AE545B100C70739 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Project.m; path = Domain/Project.m; sourceTree = "<group>"; };
-		3A4840411AE545B100C70739 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Task.h; path = Domain/Task.h; sourceTree = "<group>"; };
-		3A4840421AE545B100C70739 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Task.m; path = Domain/Task.m; sourceTree = "<group>"; };
-		3A4840451AE545CA00C70739 /* AddProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddProjectViewController.h; path = Controllers/AddProjectViewController.h; sourceTree = "<group>"; };
-		3A4840461AE545CA00C70739 /* AddProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddProjectViewController.m; path = Controllers/AddProjectViewController.m; sourceTree = "<group>"; };
-		3A4840471AE545CA00C70739 /* AddTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddTaskViewController.h; path = Controllers/AddTaskViewController.h; sourceTree = "<group>"; };
-		3A4840481AE545CA00C70739 /* AddTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddTaskViewController.m; path = Controllers/AddTaskViewController.m; sourceTree = "<group>"; };
-		3A4840491AE545CA00C70739 /* MyProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyProjectsViewController.h; path = Controllers/MyProjectsViewController.h; sourceTree = "<group>"; };
-		3A48404A1AE545CA00C70739 /* MyProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyProjectsViewController.m; path = Controllers/MyProjectsViewController.m; sourceTree = "<group>"; };
-		3A48404B1AE545CA00C70739 /* ProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectDetailViewController.h; path = Controllers/ProjectDetailViewController.h; sourceTree = "<group>"; };
-		3A48404C1AE545CA00C70739 /* ProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectDetailViewController.m; path = Controllers/ProjectDetailViewController.m; sourceTree = "<group>"; };
-		3A48404D1AE545CA00C70739 /* ProjectPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectPageViewController.h; path = Controllers/ProjectPageViewController.h; sourceTree = "<group>"; };
-		3A48404E1AE545CA00C70739 /* ProjectPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectPageViewController.m; path = Controllers/ProjectPageViewController.m; sourceTree = "<group>"; };
-		3A48404F1AE545CA00C70739 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = Controllers/TaskDetailViewController.h; sourceTree = "<group>"; };
-		3A4840501AE545CA00C70739 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = Controllers/TaskDetailViewController.m; sourceTree = "<group>"; };
-		54A75E421AE185C100F8196A /* AlertUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertUtils.h; sourceTree = "<group>"; };
-		54A75E431AE185C100F8196A /* AlertUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertUtils.m; sourceTree = "<group>"; };
+		3A48403F1AE545B100C70739 /* KBNProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProject.h; path = Domain/KBNProject.h; sourceTree = "<group>"; };
+		3A4840401AE545B100C70739 /* KBNProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProject.m; path = Domain/KBNProject.m; sourceTree = "<group>"; };
+		3A4840411AE545B100C70739 /* KBNTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTask.h; path = Domain/KBNTask.h; sourceTree = "<group>"; };
+		3A4840421AE545B100C70739 /* KBNTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTask.m; path = Domain/KBNTask.m; sourceTree = "<group>"; };
+		3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddProjectViewController.h; path = Controllers/KBNAddProjectViewController.h; sourceTree = "<group>"; };
+		3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAddProjectViewController.m; path = Controllers/KBNAddProjectViewController.m; sourceTree = "<group>"; };
+		3A4840471AE545CA00C70739 /* KBNAddTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddTaskViewController.h; path = Controllers/KBNAddTaskViewController.h; sourceTree = "<group>"; };
+		3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAddTaskViewController.m; path = Controllers/KBNAddTaskViewController.m; sourceTree = "<group>"; };
+		3A4840491AE545CA00C70739 /* KBNMyProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNMyProjectsViewController.h; path = Controllers/KBNMyProjectsViewController.h; sourceTree = "<group>"; };
+		3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNMyProjectsViewController.m; path = Controllers/KBNMyProjectsViewController.m; sourceTree = "<group>"; };
+		3A48404B1AE545CA00C70739 /* KBNProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectDetailViewController.h; path = Controllers/KBNProjectDetailViewController.h; sourceTree = "<group>"; };
+		3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectDetailViewController.m; path = Controllers/KBNProjectDetailViewController.m; sourceTree = "<group>"; };
+		3A48404D1AE545CA00C70739 /* KBNProjectPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectPageViewController.h; path = Controllers/KBNProjectPageViewController.h; sourceTree = "<group>"; };
+		3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectPageViewController.m; path = Controllers/KBNProjectPageViewController.m; sourceTree = "<group>"; };
+		3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskDetailViewController.h; path = Controllers/KBNTaskDetailViewController.h; sourceTree = "<group>"; };
+		3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskDetailViewController.m; path = Controllers/KBNTaskDetailViewController.m; sourceTree = "<group>"; };
+		54A75E421AE185C100F8196A /* KBNAlertUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNAlertUtils.h; sourceTree = "<group>"; };
+		54A75E431AE185C100F8196A /* KBNAlertUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNAlertUtils.m; sourceTree = "<group>"; };
 		C8E27ED1C549693279A34999 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CCA1A2581ADEA3D900CC98B5 /* Kanban.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kanban.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCA1A25C1ADEA3D900CC98B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CCA1A25D1ADEA3D900CC98B5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		CCA1A25F1ADEA3D900CC98B5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		CCA1A2601ADEA3D900CC98B5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CCA1A25F1ADEA3D900CC98B5 /* KBNAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBNAppDelegate.h; sourceTree = "<group>"; };
+		CCA1A2601ADEA3D900CC98B5 /* KBNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBNAppDelegate.m; sourceTree = "<group>"; };
 		CCA1A2631ADEA3D900CC98B5 /* Kanban.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Kanban.xcdatamodel; sourceTree = "<group>"; };
 		CCA1A2651ADEA3D900CC98B5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		CCA1A2661ADEA3D900CC98B5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -116,14 +116,14 @@
 		CCA1A29C1ADEA62F00CC98B5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CCA1A2A61ADEA75C00CC98B5 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CCA1A2A81ADEA79400CC98B5 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
-		CCA1A2AA1ADEAAB900CC98B5 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Utils/Constants.h; sourceTree = "<group>"; };
+		CCA1A2AA1ADEAAB900CC98B5 /* KBNConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNConstants.h; path = Utils/KBNConstants.h; sourceTree = "<group>"; };
 		CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		E1248F82C2AA466919F32613 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2003B731ADFE76B00230072 /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
-		E2003B741ADFE76B00230072 /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
-		E2DD60B01AE043FB00A5B4FD /* UserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserUtils.h; sourceTree = "<group>"; };
-		E2DD60B11AE043FB00A5B4FD /* UserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserUtils.m; sourceTree = "<group>"; };
+		E2003B731ADFE76B00230072 /* KBNSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNSignInViewController.h; sourceTree = "<group>"; };
+		E2003B741ADFE76B00230072 /* KBNSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNSignInViewController.m; sourceTree = "<group>"; };
+		E2DD60B01AE043FB00A5B4FD /* KBNUserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNUserUtils.h; sourceTree = "<group>"; };
+		E2DD60B11AE043FB00A5B4FD /* KBNUserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUserUtils.m; sourceTree = "<group>"; };
 		E2DD60B31AE0458000A5B4FD /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Signin.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,13 +161,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		181E67D21AE67E9C004ACB62 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				3A4840391AE544CF00C70739 /* Main.storyboard */,
+				E2DD60B31AE0458000A5B4FD /* Signin.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		181FA97C1AE0487A001DD816 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				3A48403F1AE545B100C70739 /* Project.h */,
-				3A4840401AE545B100C70739 /* Project.m */,
-				3A4840411AE545B100C70739 /* Task.h */,
-				3A4840421AE545B100C70739 /* Task.m */,
+				3A48403F1AE545B100C70739 /* KBNProject.h */,
+				3A4840401AE545B100C70739 /* KBNProject.m */,
+				3A4840411AE545B100C70739 /* KBNTask.h */,
+				3A4840421AE545B100C70739 /* KBNTask.m */,
 				181FA9761AE0286E001DD816 /* KBNUser.h */,
 				181FA9771AE0286E001DD816 /* KBNUser.m */,
 			);
@@ -204,18 +213,20 @@
 		3A4840261AE5435E00C70739 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3A4840451AE545CA00C70739 /* AddProjectViewController.h */,
-				3A4840461AE545CA00C70739 /* AddProjectViewController.m */,
-				3A4840471AE545CA00C70739 /* AddTaskViewController.h */,
-				3A4840481AE545CA00C70739 /* AddTaskViewController.m */,
-				3A4840491AE545CA00C70739 /* MyProjectsViewController.h */,
-				3A48404A1AE545CA00C70739 /* MyProjectsViewController.m */,
-				3A48404B1AE545CA00C70739 /* ProjectDetailViewController.h */,
-				3A48404C1AE545CA00C70739 /* ProjectDetailViewController.m */,
-				3A48404D1AE545CA00C70739 /* ProjectPageViewController.h */,
-				3A48404E1AE545CA00C70739 /* ProjectPageViewController.m */,
-				3A48404F1AE545CA00C70739 /* TaskDetailViewController.h */,
-				3A4840501AE545CA00C70739 /* TaskDetailViewController.m */,
+				3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */,
+				3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */,
+				3A4840471AE545CA00C70739 /* KBNAddTaskViewController.h */,
+				3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */,
+				3A4840491AE545CA00C70739 /* KBNMyProjectsViewController.h */,
+				3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */,
+				3A48404B1AE545CA00C70739 /* KBNProjectDetailViewController.h */,
+				3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */,
+				3A48404D1AE545CA00C70739 /* KBNProjectPageViewController.h */,
+				3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */,
+				3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */,
+				3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */,
+				E2003B731ADFE76B00230072 /* KBNSignInViewController.h */,
+				E2003B741ADFE76B00230072 /* KBNSignInViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -243,9 +254,9 @@
 		CCA1A25A1ADEA3D900CC98B5 /* Kanban */ = {
 			isa = PBXGroup;
 			children = (
-				3A4840391AE544CF00C70739 /* Main.storyboard */,
-				CCA1A25F1ADEA3D900CC98B5 /* AppDelegate.h */,
-				CCA1A2601ADEA3D900CC98B5 /* AppDelegate.m */,
+				181E67D21AE67E9C004ACB62 /* Storyboards */,
+				CCA1A25F1ADEA3D900CC98B5 /* KBNAppDelegate.h */,
+				CCA1A2601ADEA3D900CC98B5 /* KBNAppDelegate.m */,
 				3A4840261AE5435E00C70739 /* Controllers */,
 				181FA97C1AE0487A001DD816 /* Domain */,
 				CCA1A26B1ADEA3D900CC98B5 /* Images.xcassets */,
@@ -253,9 +264,6 @@
 				CCA1A26D1ADEA3D900CC98B5 /* LaunchScreen.xib */,
 				181FA97E1AE048B4001DD816 /* Parse */,
 				181FA97D1AE04888001DD816 /* Services */,
-				E2DD60B31AE0458000A5B4FD /* Signin.storyboard */,
-				E2003B731ADFE76B00230072 /* SignInViewController.h */,
-				E2003B741ADFE76B00230072 /* SignInViewController.m */,
 				CCA1A25B1ADEA3D900CC98B5 /* Supporting Files */,
 				CCA1A2AD1ADEAABF00CC98B5 /* Utils */,
 				CCA1A2651ADEA3D900CC98B5 /* ViewController.h */,
@@ -295,11 +303,11 @@
 		CCA1A2AD1ADEAABF00CC98B5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				CCA1A2AA1ADEAAB900CC98B5 /* Constants.h */,
-				E2DD60B01AE043FB00A5B4FD /* UserUtils.h */,
-				E2DD60B11AE043FB00A5B4FD /* UserUtils.m */,
-				54A75E421AE185C100F8196A /* AlertUtils.h */,
-				54A75E431AE185C100F8196A /* AlertUtils.m */,
+				CCA1A2AA1ADEAAB900CC98B5 /* KBNConstants.h */,
+				E2DD60B01AE043FB00A5B4FD /* KBNUserUtils.h */,
+				E2DD60B11AE043FB00A5B4FD /* KBNUserUtils.m */,
+				54A75E421AE185C100F8196A /* KBNAlertUtils.h */,
+				54A75E431AE185C100F8196A /* KBNAlertUtils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -465,23 +473,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A4840511AE545CA00C70739 /* AddProjectViewController.m in Sources */,
-				3A4840541AE545CA00C70739 /* ProjectDetailViewController.m in Sources */,
-				E2DD60B21AE043FB00A5B4FD /* UserUtils.m in Sources */,
+				3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */,
+				3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */,
+				E2DD60B21AE043FB00A5B4FD /* KBNUserUtils.m in Sources */,
 				181FA9751AE02846001DD816 /* KBNDataService.m in Sources */,
-				54A75E441AE185C100F8196A /* AlertUtils.m in Sources */,
-				E2003B761ADFE76B00230072 /* SignInViewController.m in Sources */,
-				3A4840441AE545B100C70739 /* Task.m in Sources */,
-				3A4840431AE545B100C70739 /* Project.m in Sources */,
-				3A4840521AE545CA00C70739 /* AddTaskViewController.m in Sources */,
+				54A75E441AE185C100F8196A /* KBNAlertUtils.m in Sources */,
+				E2003B761ADFE76B00230072 /* KBNSignInViewController.m in Sources */,
+				3A4840441AE545B100C70739 /* KBNTask.m in Sources */,
+				3A4840431AE545B100C70739 /* KBNProject.m in Sources */,
+				3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */,
 				181FA97B1AE028BA001DD816 /* KBNParseAPIManager.m in Sources */,
-				CCA1A2611ADEA3D900CC98B5 /* AppDelegate.m in Sources */,
+				CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */,
 				CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */,
 				CCA1A2671ADEA3D900CC98B5 /* ViewController.m in Sources */,
-				3A4840551AE545CA00C70739 /* ProjectPageViewController.m in Sources */,
+				3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */,
 				181FA9781AE0286E001DD816 /* KBNUser.m in Sources */,
-				3A4840531AE545CA00C70739 /* MyProjectsViewController.m in Sources */,
-				3A4840561AE545CA00C70739 /* TaskDetailViewController.m in Sources */,
+				3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */,
+				3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */,
 				CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

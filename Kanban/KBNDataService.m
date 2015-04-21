@@ -25,9 +25,9 @@
 
 -(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError {
     
-    if ([UserUtils isValidUsername:username] && [UserUtils isValidPassword:password]) {
+    if ([KBNUserUtils isValidUsername:username] && [KBNUserUtils isValidPassword:password]) {
         
-        [UserUtils saveUsername:username];
+        [KBNUserUtils saveUsername:username];
         
         KBNUser *user = [KBNUser new];
         user.username = username;
