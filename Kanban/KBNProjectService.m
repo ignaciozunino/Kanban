@@ -23,7 +23,7 @@
     return inst;
 }
 - (NSManagedObjectContext*) managedObjectContext {
-    return [(AppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
 

@@ -3,16 +3,16 @@
     <entity name="KBNProject" representedClassName="KBNProject" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="projectDescription" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" inverseName="project" inverseEntity="Task" syncable="YES"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KBNTask" inverseName="project" inverseEntity="KBNTask" syncable="YES"/>
     </entity>
-    <entity name="Task" representedClassName="Task" syncable="YES">
+    <entity name="KBNTask" representedClassName="KBNTask" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="taskDescription" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KBNProject" inverseName="tasks" inverseEntity="KBNProject" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KBNProject" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Task" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="KBNProject" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="KBNTask" positionX="0" positionY="0" width="128" height="105"/>
     </elements>
 </model>

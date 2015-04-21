@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Task;
+@class KBNTask;
 
 @interface KBNProject : NSManagedObject
 
@@ -20,8 +20,8 @@
 
 @interface KBNProject (CoreDataGeneratedAccessors)
 
-- (void)addTasksObject:(Task *)value;
-- (void)removeTasksObject:(Task *)value;
+- (void)addTasksObject:(KBNTask *)value;
+- (void)removeTasksObject:(KBNTask *)value;
 - (void)addTasks:(NSSet *)values;
 - (void)removeTasks:(NSSet *)values;
 

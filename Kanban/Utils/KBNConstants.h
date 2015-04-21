@@ -20,12 +20,12 @@
 #define RESOURCE_NAME_PROJECTS @"projects"
 
 //Entities
-#define ENTITY_TASK @"Task"
+#define ENTITY_TASK @"KBNTask"
 #define ENTITY_PROJECT @"KBNProject"
 
 //View controllers identifiers
-#define PROJECT_DETAIL_VC @"ProjectDetailViewController"
-#define PAGE_VC @"PageViewController"
+#define PROJECT_DETAIL_VC @"KBNProjectDetailViewController"
+#define PAGE_VC @"KBNPageViewController"
 
 
 //Succes messages
