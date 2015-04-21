@@ -10,6 +10,10 @@
 #import "AppDelegate.h"
 #import "TaskDetailViewController.h"
 
+#define TABLEVIEW_TASK_CELL @"TaskCell"
+#define SEGUE_TASK_DETAIL @"taskDetail"
+
+
 @interface ProjectDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

@@ -19,14 +19,6 @@
 #define SIGNIN_STORYBOARD @"Signin"
 #define RESOURCE_NAME_PROJECTS @"projects"
 
-//Cell identifiers
-#define TABLEVIEW_TASK_CELL @"TaskCell"
-#define TABLEVIEW_PROJECT_CELL @"ProjectCell"
-
-//Segues identifiers
-#define SEGUE_TASK_DETAIL @"taskDetail"
-#define SEGUE_PROJECT_DETAIL @"projectDetail"
-
 //Entities
 #define ENTITY_TASK @"Task"
 #define ENTITY_PROJECT @"KBNProject"
