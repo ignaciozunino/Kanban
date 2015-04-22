@@ -41,11 +41,13 @@
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
-    
+    [KBNAppDelegate activateActivityIndicator:YES];
     [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
+        [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCES andType:SUCCES_ALERT];
         [self dismissViewControllerAnimated:YES completion:nil];
     } errorBlock:^(NSError *error) {
+        [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
     }];
 }
@@ -59,6 +61,7 @@
 - (void) setKBNService:(KBNProjectService *) projectService{
     self.projectService = projectService;
 }
+
 
 /*
  #pragma mark - Navigation

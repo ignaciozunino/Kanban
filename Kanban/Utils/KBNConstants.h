@@ -43,6 +43,8 @@
 //PARSE TABLE COLUMNS
 #define PARSE_TASKLIST_NAME_COLUMN @"name"
 #define PARSE_TASKLIST_PROJECT_COLUMN @"project"
+#define PARSE_TASKLIST_ORDER_COLUMN @"order"
+
 #define PARSE_PROJECT_NAME_COLUMN @"name"
 #define PARSE_PROJECT_DESCRIPTION_COLUMN @"project_description"
 #define PARSE_OBJECTID @"objectId"

@@ -14,7 +14,7 @@
 #pragma mark - project methods
 + (void)createTaskListWithIndex:(NSInteger)index projectID:(NSString *)projectID tasks:(NSArray *)tasks onError:(KBNParseErrorBlock)onError onCompletion:(KBNParseSuccesBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
     NSInteger nextIndex= index + 1;
-    NSDictionary *taskdata = @{PARSE_TASKLIST_NAME_COLUMN: tasks[index], PARSE_TASKLIST_PROJECT_COLUMN: projectID};
+    NSDictionary *taskdata = @{PARSE_TASKLIST_NAME_COLUMN: tasks[index], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:index]};
     [manager POST:PARSE_TASKLISTS parameters:taskdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (nextIndex == tasks.count) {//if we are in the last task
             onCompletion();
@@ -34,7 +34,7 @@
     NSDictionary * item = responseObject;
     NSString *projectID=[item objectForKey:PARSE_OBJECTID];
     NSInteger initialIndex = 0;
-    NSDictionary *taskdata = @{PARSE_TASKLIST_NAME_COLUMN: tasks[initialIndex], PARSE_TASKLIST_PROJECT_COLUMN: projectID};
+    NSDictionary *taskdata = @{PARSE_TASKLIST_NAME_COLUMN: tasks[initialIndex], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:initialIndex]};
     
     
     [manager POST:PARSE_TASKLISTS parameters:taskdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {

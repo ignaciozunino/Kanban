@@ -19,7 +19,7 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-
++(void)activateActivityIndicator:(BOOL)activate;
 
 @end
 

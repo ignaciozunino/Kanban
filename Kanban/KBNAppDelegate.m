@@ -17,6 +17,11 @@
 
 @implementation KBNAppDelegate
 
++(void)activateActivityIndicator:(BOOL)activate{
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:activate];
+
+}
 
 - (void)setUpNavigationBarTitle {
     NSShadow* shadow = [NSShadow new];
