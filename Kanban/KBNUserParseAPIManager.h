@@ -10,6 +10,8 @@
 
 @interface KBNUserParseAPIManager : KBNParseAPIManager
 //User functions
-+(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
+-(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
+
+@property AFHTTPRequestOperationManager* afManager;
 
 @end

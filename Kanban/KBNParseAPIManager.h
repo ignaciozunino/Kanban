@@ -18,6 +18,6 @@ typedef void(^KBNParseSuccesBlock)() ;
 
 @interface KBNParseAPIManager : NSObject
 
-+ (AFHTTPRequestOperationManager *)setupAFHTTPManager;
++ (AFHTTPRequestOperationManager *)setupManager;
 
 @end

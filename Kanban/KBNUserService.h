@@ -18,4 +18,7 @@
 +(KBNUserService *) sharedInstance;
 
 -(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
+
+@property KBNUserParseAPIManager* dataService;
+
 @end

@@ -9,12 +9,22 @@
 #import "KBNUserParseAPIManager.h"
 
 @implementation KBNUserParseAPIManager
-#pragma mark - user methods
-+(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
+
+-(instancetype) init{
     
-    AFHTTPRequestOperationManager *manager = [self setupAFHTTPManager];
+    self = [super init];
+    
+    if (self) {
+        _afManager = [KBNParseAPIManager setupManager];
+    }
+    return self;
+}
+
+#pragma mark - user methods
+-(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
+    
     NSDictionary *data = @{@"username": user.username, @"password": user.password};
-    [manager POST:PARSE_USERS parameters: data
+    [self.afManager POST:PARSE_USERS parameters: data
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"POST data JSON returned: %@", responseObject);
               onCompletion();

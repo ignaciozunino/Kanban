@@ -24,4 +24,6 @@
 
 -(NSArray*) getProjects:(KBNParseErrorBlock)onError;
 
+@property KBNProjectParseAPIManager* dataService;
+
 @end

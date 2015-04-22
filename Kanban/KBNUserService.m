@@ -32,7 +32,7 @@
         KBNUser *user = [KBNUser new];
         user.username = username;
         user.password = password;
-        [KBNUserParseAPIManager createUser:user completionBlock:onCompletion errorBlock:onError ] ;
+        [self.dataService createUser:user completionBlock:onCompletion errorBlock:onError ] ;
     
     }else{
         NSString *domain = ERROR_DOMAIN;

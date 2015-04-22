@@ -66,17 +66,17 @@
     
     NSString * projectName = @"";
     
-//    XCTestExpectation *expectation = [self expectationWithDescription:@"Project not created"];
-//    [[KBNProjectService sharedInstance]createProject:projectName withDescription:@"project createdby automatic tests" completionBlock:^{
-//        [expectation fulfill];
-//    } errorBlock:^(NSError *error) {
-//        NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
-//        XCTFail(@"%@",message);
-//    }];
-//    
-//    [self waitForExpectationsWithTimeout:30.0 handler:^(NSError *error) {
-//        NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
-//        XCTFail(@"%@",message);
-//    }];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Project not created"];
+    [[KBNProjectService sharedInstance]createProject:projectName withDescription:@"project createdby automatic tests" completionBlock:^{
+        [expectation fulfill];
+    } errorBlock:^(NSError *error) {
+        NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
+        XCTFail(@"%@",message);
+    }];
+    
+    [self waitForExpectationsWithTimeout:30.0 handler:^(NSError *error) {
+        NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
+        XCTFail(@"%@",message);
+    }];
 }
 @end

@@ -12,7 +12,7 @@
 
 #pragma mark - configuration methods
 //This method is to create the AFHTTP Manager and setup Parse App ID and Parse REST API Keys
-+ (AFHTTPRequestOperationManager *)setupAFHTTPManager {
++ (AFHTTPRequestOperationManager *)setupManager {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -21,9 +21,5 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     return manager;
 }
-
-
-
-
 
 @end
