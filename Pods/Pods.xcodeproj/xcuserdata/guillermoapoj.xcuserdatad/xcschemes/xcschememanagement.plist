@@ -6,23 +6,23 @@
 	<dict>
 		<key>Pods-AFNetworking.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>0</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6149237E51BB3294588C9C08</key>
+		<key>261AF49956D050A9202A9B0B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E264A83E3B7DFA3F00628152</key>
+		<key>C546168F20E4CEF380955472</key>
 		<dict>
 			<key>primary</key>
 			<true/>

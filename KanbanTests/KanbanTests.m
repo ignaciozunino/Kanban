@@ -46,9 +46,16 @@
     NSString *dateString = [format stringFromDate:now];
     
     NSString * projectName = [NSString stringWithFormat:@"test created %@",dateString];
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Project created"];
     [[KBNProjectService sharedInstance]createProject:projectName withDescription:@"project createdby automatic tests" completionBlock:^{
-        XCTAssert(YES, @"Pass");
+       [expectation fulfill];
     } errorBlock:^(NSError *error) {
+        NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
+        XCTFail(@"%@",message);
+    }];
+    
+    [self waitForExpectationsWithTimeout:30.0 handler:^(NSError *error) {
         NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
         XCTFail(@"%@",message);
     }];
