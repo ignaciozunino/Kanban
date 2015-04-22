@@ -12,6 +12,7 @@
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
 #define SEGUE_PROJECT_DETAIL @"projectDetail"
+#define SEGUE_ADD_PROJECT @"addProject"
 
 @interface KBNMyProjectsViewController ()
 
@@ -100,6 +101,11 @@
         KBNProjectPageViewController *controller = [segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.project = [self.projects objectAtIndex:indexPath.row];
+    }
+    if ([segue.identifier isEqualToString:SEGUE_ADD_PROJECT]) {
+        UINavigationController *navController = [segue destinationViewController];
+        KBNAddProjectViewController *controller   = (KBNAddProjectViewController*) navController.topViewController;
+        [controller setKBNService:[KBNProjectService sharedInstance]];
     }
     
 }

@@ -35,7 +35,7 @@
 		CCA1A2671ADEA3D900CC98B5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2661ADEA3D900CC98B5 /* ViewController.m */; };
 		CCA1A26C1ADEA3D900CC98B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCA1A26B1ADEA3D900CC98B5 /* Images.xcassets */; };
 		CCA1A26F1ADEA3D900CC98B5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCA1A26D1ADEA3D900CC98B5 /* LaunchScreen.xib */; };
-		CCA1A27B1ADEA3D900CC98B5 /* KanbanTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A27A1ADEA3D900CC98B5 /* KanbanTests.m */; };
+		CCA1A27B1ADEA3D900CC98B5 /* KBNCreateProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A27A1ADEA3D900CC98B5 /* KBNCreateProjectTests.m */; };
 		CCA1A2891ADEA5B300CC98B5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2881ADEA5B300CC98B5 /* AudioToolbox.framework */; };
 		CCA1A28B1ADEA5BB00CC98B5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A28A1ADEA5BB00CC98B5 /* CFNetwork.framework */; };
 		CCA1A28D1ADEA5C100CC98B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A28C1ADEA5C100CC98B5 /* CoreGraphics.framework */; };
@@ -117,7 +117,7 @@
 		CCA1A26E1ADEA3D900CC98B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		CCA1A2741ADEA3D900CC98B5 /* KanbanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KanbanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCA1A2791ADEA3D900CC98B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CCA1A27A1ADEA3D900CC98B5 /* KanbanTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KanbanTests.m; sourceTree = "<group>"; };
+		CCA1A27A1ADEA3D900CC98B5 /* KBNCreateProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBNCreateProjectTests.m; sourceTree = "<group>"; };
 		CCA1A2881ADEA5B300CC98B5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CCA1A28A1ADEA5BB00CC98B5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CCA1A28C1ADEA5C100CC98B5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -311,7 +311,7 @@
 		CCA1A2771ADEA3D900CC98B5 /* KanbanTests */ = {
 			isa = PBXGroup;
 			children = (
-				CCA1A27A1ADEA3D900CC98B5 /* KanbanTests.m */,
+				CCA1A27A1ADEA3D900CC98B5 /* KBNCreateProjectTests.m */,
 				CCA1A2781ADEA3D900CC98B5 /* Supporting Files */,
 			);
 			path = KanbanTests;
@@ -566,7 +566,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCA1A27B1ADEA3D900CC98B5 /* KanbanTests.m in Sources */,
+				CCA1A27B1ADEA3D900CC98B5 /* KBNCreateProjectTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

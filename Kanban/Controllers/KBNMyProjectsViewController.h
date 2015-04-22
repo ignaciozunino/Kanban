@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KBNAddProjectViewController.h"
 
 @interface KBNMyProjectsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 

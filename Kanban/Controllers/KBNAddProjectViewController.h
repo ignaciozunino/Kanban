@@ -12,4 +12,7 @@
 
 @interface KBNAddProjectViewController : UIViewController
 
+- (instancetype)initWithService:(KBNProjectService *) projectService;
+- (void) setKBNService:(KBNProjectService *) projectService;
+
 @end
