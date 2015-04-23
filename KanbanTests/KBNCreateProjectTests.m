@@ -59,20 +59,22 @@
     [[projectAPIManager reject] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
 }
 
-//-(void) testCreateProjectOK{
-//    KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
-//    id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
-//    [serviceOrig createProject:@"test" withDescription:@"desc"
-//               completionBlock:^(NSError *error)
-//     {
-//         XCTAssertFalse(false);
-//
-//     }
-//                    errorBlock:^(NSError *error)
-//     {
-//         XCTAssertFalse(true);
-//     }];
-//    [[projectAPIManager verify] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
-//}
+-(void) testCreateProjectOK{
+    KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
+    id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
+    [[projectAPIManager stub] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
+    serviceOrig.dataService = projectAPIManager;
+    [serviceOrig createProject:@"test" withDescription:@"desc"
+               completionBlock:^(NSError *error)
+     {
+         XCTAssertTrue(true); 
+     }
+                    errorBlock:^(NSError *error)
+     {
+         XCTAssertTrue(false);
+     }];
+
+    [projectAPIManager verify];
+}
 
 @end
