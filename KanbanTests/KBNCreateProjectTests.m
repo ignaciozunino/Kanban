@@ -10,7 +10,7 @@
 #import <XCTest/XCTest.h>
 #import "KBNProjectService.h"
 #import <OCMock/OCMock.h>
-//#import "NSInvocation+OCMAdditions.h"
+#import "KBNConstants.h"
 
 
 @interface KBNCreateProjectTests : XCTestCase
@@ -134,21 +134,13 @@
 }
 
 */
-- (void)testEmptyNameCreateProject {
-  /*
-    NSString * projectName = @"";
-    
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Project not created"];
-    [[KBNProjectService sharedInstance]createProject:projectName withDescription:@"project createdby automatic tests" completionBlock:^{
-        [expectation fulfill];
-    } errorBlock:^(NSError *error) {
-        NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
-        XCTFail(@"%@",message);
-    }];
-    
-    [self waitForExpectationsWithTimeout:30.0 handler:^(NSError *error) {
-        NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
-        XCTFail(@"%@",message);
-    }];*/
+
+-(void) testCreateProjectWithoutName{
+    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
+    id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
+    serviceOrig.dataService = projectAPIManager;
+    [serviceOrig createProject:@"" withDescription:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:^(NSError *error) {}];
+    [[projectAPIManager reject] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
 }
+
 @end

@@ -30,11 +30,18 @@
 
 
 -(void)createProject:(NSString *)name withDescription:(NSString *)projectDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
-    project.name = name;
-    project.projectDescription = projectDescription;
-    [self.dataService createProject:project completionBlock:onCompletion errorBlock:onError ] ;
+    if ([name isEqualToString:@""] || !name) {
+        NSString *domain = ERROR_DOMAIN;
+        NSDictionary * info = @{@"NSLocalizedDescriptionKey": SIGNIN_ERROR};
+        NSError *errorPtr = [NSError errorWithDomain:domain code:-101
+                                            userInfo:info];
+        onError(errorPtr);
+    }else{
+        KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
+        project.name = name;
+        project.projectDescription = projectDescription;
+        [self.dataService createProject:project completionBlock:onCompletion errorBlock:onError ] ;
+    }
 }
 
 -(void)editProject:(NSString*)name withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
