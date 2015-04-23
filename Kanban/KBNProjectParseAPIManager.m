@@ -35,14 +35,12 @@
         NSDictionary *taskdata = @{PARSE_TASKLIST_NAME_COLUMN: tasks[i], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:i]};
         dispatch_group_enter(serviceGroup);
         
-        
         [manager POST:PARSE_TASKLISTS parameters:taskdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
             dispatch_group_leave(serviceGroup);
         } failure:^(AFHTTPRequestOperation *operation, NSError *errorParse) {
             error = errorParse;
             dispatch_group_leave(serviceGroup);
         }];
-        
     }
     
     dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
@@ -51,10 +49,7 @@
         } else {
             onCompletion();
         }
-        
-        
     });
-    
 }
 
 - (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
