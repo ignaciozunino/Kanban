@@ -21,35 +21,40 @@
 }
 
 #pragma mark - project methods
-- (void)createTaskListWithIndex:(NSInteger)index projectID:(NSString *)projectID tasks:(NSArray *)tasks onError:(KBNConnectionErrorBlock)onError onCompletion:(KBNConnectionSuccesBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
-    NSInteger nextIndex= index + 1;
-    NSDictionary *taskdata = @{PARSE_TASKLIST_NAME_COLUMN: tasks[index], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:index]};
-    [manager POST:PARSE_TASKLISTS parameters:taskdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if (nextIndex == tasks.count) {//if we are in the last task
-            onCompletion();
-        } else {
-            NSInteger nextIndex= index +1;
-            [self createTaskListWithIndex:nextIndex projectID:projectID tasks:tasks onError:onError onCompletion:onCompletion manager:manager];
-        }
-        
-        ;}failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            onError(error);
-        }];
-}
+
 
 - (void)createTasksListForProject:(id)responseObject tasks:(NSArray *)tasks onError:(KBNConnectionErrorBlock)onError onCompletion:(KBNConnectionSuccesBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
     
-    NSDictionary * item = responseObject;
-    NSString *projectID=[item objectForKey:PARSE_OBJECTID];
-    NSInteger initialIndex = 0;
-    NSDictionary *taskdata = @{PARSE_TASKLIST_NAME_COLUMN: tasks[initialIndex], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:initialIndex]};
+    __block NSError *error = nil;
+    dispatch_group_t serviceGroup = dispatch_group_create();
     
-    [manager POST:PARSE_TASKLISTS parameters:taskdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSInteger nextIndex= initialIndex +1;
-        [self createTaskListWithIndex:nextIndex projectID:projectID tasks:tasks onError:onError onCompletion:onCompletion manager:manager];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        onError(error);
-    }];
+    for (int i =0; i<tasks.count; i++) {
+        NSDictionary * item = responseObject;
+        NSString *projectID=[item objectForKey:PARSE_OBJECTID];
+        
+        NSDictionary *taskdata = @{PARSE_TASKLIST_NAME_COLUMN: tasks[i], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:i]};
+        dispatch_group_enter(serviceGroup);
+        
+        
+        [manager POST:PARSE_TASKLISTS parameters:taskdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            dispatch_group_leave(serviceGroup);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *errorParse) {
+            error = errorParse;
+            dispatch_group_leave(serviceGroup);
+        }];
+        
+    }
+    
+    dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
+        if (error) {
+            onError(error);
+        } else {
+            onCompletion();
+        }
+        
+        
+    });
+    
 }
 
 - (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
