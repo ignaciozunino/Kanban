@@ -100,12 +100,12 @@
   */
 - (void)testCreateProject {
     
-    KBNProjectService * service = [[KBNProjectService alloc]init];
+   /* KBNProjectService * service = [[KBNProjectService alloc]init];
     id projectparseapimanager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
     [[projectparseapimanager expect] andDo:^(NSInvocation *invocation) {
         (KBNParseSuccesBlock);
     }
-     ];
+     ];*/
     /*NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MMM dd, yyyy HH:mm"];
     
