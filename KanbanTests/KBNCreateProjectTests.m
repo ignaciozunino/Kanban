@@ -10,6 +10,8 @@
 #import <XCTest/XCTest.h>
 #import "KBNProjectService.h"
 #import <OCMock/OCMock.h>
+//#import "NSInvocation+OCMAdditions.h"
+
 
 @interface KBNCreateProjectTests : XCTestCase
 
@@ -38,9 +40,10 @@
         // Put the code you want to measure the time of here.
     }];
 }
-/*      EJEMPLO MOCKS
+//     EJEMPLO MOCKS
   
-  @interface ExampleLC : NSObject
+  /*
+@interface ExampleLC : NSObject
   - (void)loginWithUserPass:userPassD withSuccess:(void (^)(NSString *authToken))successBlock failure:(void (^)(NSString *errorMessage))failureBlock;
   @end
   @implementation ExampleLC
@@ -95,17 +98,18 @@
   [example verify];
   }
   @end
-  
-  
   */
+  
+ /*
 - (void)testCreateProject {
     
-   /* KBNProjectService * service = [[KBNProjectService alloc]init];
+   KBNProjectService * service = [[KBNProjectService alloc]init];
     id projectparseapimanager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
     [[projectparseapimanager expect] andDo:^(NSInvocation *invocation) {
-        (KBNParseSuccesBlock);
+        void (KBNParseSuccesBlock)() = [invocation getArgumentAtIndexAsObject:3];
+        KBNParseSuccesBlock();
     }
-     ];*/
+     ];
     /*NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MMM dd, yyyy HH:mm"];
     
@@ -126,10 +130,10 @@
     [self waitForExpectationsWithTimeout:30.0 handler:^(NSError *error) {
         NSString *message = [NSString stringWithFormat:@"ERROR Creating project : %@", [error localizedDescription] ];
         XCTFail(@"%@",message);
-    }];*/
+    }];
 }
 
-
+*/
 - (void)testEmptyNameCreateProject {
   /*
     NSString * projectName = @"";

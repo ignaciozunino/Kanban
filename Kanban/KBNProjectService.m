@@ -18,6 +18,7 @@
     @synchronized(self){
         if (!inst) {
             inst = [[self alloc] init];
+            inst.dataService = [[KBNProjectParseAPIManager alloc]init];
         }
     }
     return inst;
