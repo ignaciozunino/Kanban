@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "KBNParseAPIManager.h"
-
-@interface KBNProjectParseAPIManager : KBNParseAPIManager
+#import "AFHTTPRequestOperationManager+KBNParseAPIManager.h"
+#import "KBNProject.h"
+@interface KBNProjectParseAPIManager : NSObject
 //Projects Functions
--(void) createProject: (KBNProject *) project completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
--(void) editProject: (NSString *)name newDescription:newDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
--(void) removeProject: (NSString *)name completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
--(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNParseErrorBlock)onError;
--(NSArray*) getProjects:(KBNParseErrorBlock)onError;
+-(void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+-(void) editProject: (NSString *)name newDescription:newDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+-(void) removeProject: (NSString *)name completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+-(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError;
+-(NSArray*) getProjects:(KBNConnectionErrorBlock)onError;
 
 @property AFHTTPRequestOperationManager* afManager;
 @end

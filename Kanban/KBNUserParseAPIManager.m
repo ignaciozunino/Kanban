@@ -15,13 +15,13 @@
     self = [super init];
     
     if (self) {
-        _afManager = [KBNParseAPIManager setupManager];
+        _afManager = [AFHTTPRequestOperationManager createAFManager];
     }
     return self;
 }
 
 #pragma mark - user methods
--(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
+-(void) createUser: (KBNUser *) user completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
     NSDictionary *data = @{@"username": user.username, @"password": user.password};
     [self.afManager POST:PARSE_USERS parameters: data

@@ -6,11 +6,12 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "KBNParseAPIManager.h"
+#import "AFHTTPRequestOperationManager+KBNParseAPIManager.h"
+#import "KBNUser.h"
 
-@interface KBNUserParseAPIManager : KBNParseAPIManager
+@interface KBNUserParseAPIManager : NSObject
 //User functions
--(void) createUser: (KBNUser *) user completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
+-(void) createUser:(KBNUser *) user completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 @property AFHTTPRequestOperationManager* afManager;
 

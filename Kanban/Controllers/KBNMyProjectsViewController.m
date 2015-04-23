@@ -105,9 +105,8 @@
     if ([segue.identifier isEqualToString:SEGUE_ADD_PROJECT]) {
         UINavigationController *navController = [segue destinationViewController];
         KBNAddProjectViewController *controller   = (KBNAddProjectViewController*) navController.topViewController;
-        [controller setKBNService:[KBNProjectService sharedInstance]];
+        controller.projectService = [KBNProjectService sharedInstance];
     }
-    
 }
 
 

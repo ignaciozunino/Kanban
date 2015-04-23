@@ -56,8 +56,9 @@
 
 #define taskStates          @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
 
-
-
+//Blocks 
+typedef void (^KBNConnectionErrorBlock) (NSError *error);
+typedef void(^KBNConnectionSuccesBlock)() ;
 
 @interface KBNConstants : NSObject
 

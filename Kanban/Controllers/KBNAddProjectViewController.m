@@ -12,7 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
-@property  (nonatomic, strong) KBNProjectService* projectService;
 
 @end
 
@@ -56,10 +55,6 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
-}
-
-- (void) setKBNService:(KBNProjectService *) projectService{
-    self.projectService = projectService;
 }
 
 

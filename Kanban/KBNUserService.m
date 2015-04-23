@@ -23,7 +23,7 @@
     return inst;
 }
 
--(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError {
+-(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     if ([KBNUserUtils isValidUsername:username] && [KBNUserUtils isValidPassword:password]) {
         

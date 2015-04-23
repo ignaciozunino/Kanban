@@ -14,15 +14,15 @@
 @interface KBNProjectService : NSObject
 +(KBNProjectService *) sharedInstance;
 
--(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
+-(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
--(void)editProject:(NSString*)name withDescription:(NSString*)newDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
+-(void)editProject:(NSString*)name withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
--(void)removeProject:(NSString*)name completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError;
+-(void)removeProject:(NSString*)name completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
--(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNParseErrorBlock)onError;
+-(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError;
 
--(NSArray*) getProjects:(KBNParseErrorBlock)onError;
+-(NSArray*) getProjects:(KBNConnectionErrorBlock)onError;
 
 @property KBNProjectParseAPIManager* dataService;
 

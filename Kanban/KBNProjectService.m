@@ -28,7 +28,7 @@
 }
 
 
--(void)createProject:(NSString *)name withDescription:(NSString *)projectDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError {
+-(void)createProject:(NSString *)name withDescription:(NSString *)projectDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
     project.name = name;
@@ -36,21 +36,21 @@
     [self.dataService createProject:project completionBlock:onCompletion errorBlock:onError ] ;
 }
 
--(void)editProject:(NSString*)name withDescription:(NSString*)newDescription completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
+-(void)editProject:(NSString*)name withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
     
 }
 
--(void)removeProject:(NSString*)name completionBlock:(KBNParseSuccesBlock)onCompletion errorBlock:(KBNParseErrorBlock)onError{
+-(void)removeProject:(NSString*)name completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
     
 }
 
--(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNParseErrorBlock)onError{
+-(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError{
     return nil;
 }
 
--(NSArray*) getProjects:(KBNParseErrorBlock)onError{
+-(NSArray*) getProjects:(KBNConnectionErrorBlock)onError{
     return nil;
 }
 
