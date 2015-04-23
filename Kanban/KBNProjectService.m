@@ -32,8 +32,8 @@
 -(void)createProject:(NSString *)name withDescription:(NSString *)projectDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     if ([name isEqualToString:@""] || !name) {
         NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": SIGNIN_ERROR};
-        NSError *errorPtr = [NSError errorWithDomain:domain code:-101
+        NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_WITHOUTNAME_ERROR};
+        NSError *errorPtr = [NSError errorWithDomain:domain code:-102
                                             userInfo:info];
         onError(errorPtr);
     }else{
