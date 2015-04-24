@@ -56,13 +56,13 @@
     NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription};
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     NSLog(@"POST data JSON returned: %@", responseObject);
+                    
                      NSArray * tasks = taskStates;
                      [self createTasksListForProject:responseObject tasks:tasks onError:onError onCompletion:onCompletion manager:self.afManager];
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
-                     NSLog(@"Error: %@", error);
+                  
                  }
      ];
 }

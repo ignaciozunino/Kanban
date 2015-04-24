@@ -26,13 +26,12 @@
     NSDictionary *data = @{@"username": user.username, @"password": user.password};
     [self.afManager POST:PARSE_USERS parameters: data
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSLog(@"POST data JSON returned: %@", responseObject);
+             
               onCompletion();
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               onError(error);
-              NSLog(@"Error: %@", error);
-          }
+                       }
      ];
 }
 @end
