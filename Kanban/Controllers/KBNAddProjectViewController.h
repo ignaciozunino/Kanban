@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KBNProjectService.h"
+#import "KBNAlertUtils.h"
+#import "KBNAppDelegate.h"
 
 @interface KBNAddProjectViewController : UIViewController
+
+- (instancetype)initWithService:(KBNProjectService *) projectService;
+@property  (nonatomic, strong) KBNProjectService* projectService;
 
 @end

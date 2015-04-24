@@ -30,7 +30,7 @@
 - (IBAction)onSignInPressed:(UIButton *)sender {
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;
-    [[KBNDataService sharedInstance] createUser:username withPasword:password  completionBlock:^{
+    [[KBNUserService sharedInstance] createUser:username withPasword:password  completionBlock:^{
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
             UIViewController *vc = [storyboard instantiateInitialViewController];            [self presentViewController:vc animated:YES completion:nil];
             

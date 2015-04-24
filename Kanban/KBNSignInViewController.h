@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "KBNUser.h"
-#import "KBNDataService.h"
+#import "KBNUserService.h"
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
 #import "KBNAlertUtils.h"

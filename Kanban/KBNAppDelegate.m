@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
+#import "UIFont+CustomFonts.h"
 
 @interface KBNAppDelegate ()
 
@@ -17,9 +18,18 @@
 
 @implementation KBNAppDelegate
 
++(void)activateActivityIndicator:(BOOL)activate{
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:activate];
+
+}
+
+- (void)setUpNavigationBarTitle {
+   
+    [[UINavigationBar appearance] setTitleTextAttributes: [UIFont getKBNNavigationBarFont]];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
- 
     BOOL isLoggedIn = [KBNUserUtils hasUserBeenCreated];
     
     NSString *storyboardId = isLoggedIn ? MAIN_STORYBOARD : SIGNIN_STORYBOARD;
@@ -33,7 +43,8 @@
     pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     pageControl.backgroundColor = [UIColor whiteColor];
-
+    
+    [self setUpNavigationBarTitle];
     return YES;
 }
 
@@ -103,7 +114,7 @@
         error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
         // Replace this with code to handle the error appropriately.
         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+     
         abort();
     }
     
@@ -135,7 +146,7 @@
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+          
             abort();
         }
     }

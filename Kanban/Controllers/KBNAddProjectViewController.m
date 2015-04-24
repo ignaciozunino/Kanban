@@ -10,6 +10,9 @@
 
 @interface KBNAddProjectViewController ()
 
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
+
 @end
 
 @implementation KBNAddProjectViewController
@@ -24,9 +27,28 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (instancetype)initWithService:(KBNProjectService *) projectService{
+    
+    self = [super init];
+    
+    if (self) {
+        _projectService = projectService;
+    }
+    return self;
+}
+
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
+    [KBNAppDelegate activateActivityIndicator:YES];
+    [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
+        [KBNAppDelegate activateActivityIndicator:NO];
+        [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCES andType:SUCCES_ALERT];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } errorBlock:^(NSError *error) {
+        [KBNAppDelegate activateActivityIndicator:NO];
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+    }];
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
@@ -35,14 +57,15 @@
     
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
