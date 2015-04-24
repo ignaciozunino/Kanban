@@ -82,7 +82,7 @@
 {
     KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
-    serviceOrig.dataService = projectAPIManager;
+  
     
     OCMStub([projectAPIManager createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation)
                                                                                                                  {
@@ -100,14 +100,17 @@
                                                                                                                      stubBlock(errorConnection);
                                                                                                                      
                                                                                                                  });
-    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
+      serviceOrig.dataService = projectAPIManager;
     [serviceOrig createProject:@"test" withDescription:@"desc"
                completionBlock:^(NSError *error)
      {
+         [expectation fulfill];
          XCTAssertTrue(false);
      }
                     errorBlock:^(NSError *error)
      {
+         [expectation fulfill];
          XCTAssertTrue(true);
      }];
     
