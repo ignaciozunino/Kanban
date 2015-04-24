@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
+#import "UIFont+CustomFonts.h"
 
 @interface KBNAppDelegate ()
 
@@ -24,14 +25,8 @@
 }
 
 - (void)setUpNavigationBarTitle {
-    NSShadow* shadow = [NSShadow new];
-    shadow.shadowOffset = CGSizeMake(0.0f, 1.0f);
-    shadow.shadowColor = [UIColor darkGrayColor];
-    [[UINavigationBar appearance] setTitleTextAttributes: @{
-                                                            NSForegroundColorAttributeName: [UIColor darkGrayColor],
-                                                            NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Light" size:20.0f],
-                                                            NSShadowAttributeName: shadow
-                                                            }];
+   
+    [[UINavigationBar appearance] setTitleTextAttributes: [UIFont getKBNNavigationBarFont]];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
