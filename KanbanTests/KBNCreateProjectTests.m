@@ -84,30 +84,32 @@
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
     
     
-    OCMStub([projectAPIManager createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation)
-                                                                                                                 {
-                                                                                                                     //definicion del bloque:
-                                                                                                                     void(^stubBlock)(NSError *error);
-                                                                                                                     //obtener la instancia del bloque
-                                                                                                                     [invocation getArgument:&stubBlock atIndex:4];
-                                                                                                                     
-                                                                                                                     NSString *domain = ERROR_DOMAIN;
-                                                                                                                     NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_OFFLINE_ERROR};
-                                                                                                                     NSError *errorConnection = [NSError errorWithDomain:domain code:-102
-                                                                                                                                                                userInfo:info];
-                                                                                                                     
-                                                                                                                     //llamar al bloque con el parametro que nosotros querramos
-                                                                                                                     stubBlock(errorConnection);
-                                                                                                                     
-                                                                                                                 });
+    OCMStub([projectAPIManager createProject:OCMOCK_ANY
+                             completionBlock:OCMOCK_ANY
+                                  errorBlock:OCMOCK_ANY]). andDo(^(NSInvocation *invocation)
+                                                                 {
+                                                                     //definicion del bloque:
+                                                                     void(^stubBlock)(NSError *error);
+                                                                     //obtener la instancia del bloque
+                                                                     [invocation getArgument:&stubBlock atIndex:4];
+                                                                     
+                                                                     NSString *domain = ERROR_DOMAIN;
+                                                                     NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_OFFLINE_ERROR};
+                                                                     NSError *errorConnection = [NSError errorWithDomain:domain code:-102
+                                                                                                                userInfo:info];
+                                                                     
+                                                                     //llamar al bloque con el parametro que nosotros querramos
+                                                                     stubBlock(errorConnection);
+                                                                     
+                                                                 });
     XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
     serviceOrig.dataService = projectAPIManager;
     [serviceOrig createProject:@"test" withDescription:@"desc"
                completionBlock:^(NSError *error)
      {
-        
+         
          XCTAssertTrue(false);
-          [expectation fulfill];
+         [expectation fulfill];
      }
                     errorBlock:^(NSError *error)
      {
@@ -116,9 +118,9 @@
              XCTAssertEqualObjects(errorMessage, CREATING_PROJECT_OFFLINE_ERROR);
              [expectation fulfill];
          }
-
          
-        
+         
+         
      }];
     
     
