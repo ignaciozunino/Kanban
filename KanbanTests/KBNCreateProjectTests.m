@@ -82,7 +82,7 @@
 {
     KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
-  
+    
     
     OCMStub([projectAPIManager createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation)
                                                                                                                  {
@@ -101,25 +101,28 @@
                                                                                                                      
                                                                                                                  });
     XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
-      serviceOrig.dataService = projectAPIManager;
+    serviceOrig.dataService = projectAPIManager;
     [serviceOrig createProject:@"test" withDescription:@"desc"
                completionBlock:^(NSError *error)
      {
-         [expectation fulfill];
+        
          XCTAssertTrue(false);
+          [expectation fulfill];
      }
                     errorBlock:^(NSError *error)
      {
-         [expectation fulfill];
-         XCTAssertTrue(true);
+         if (error) {
+             NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
+             XCTAssertEqualObjects(errorMessage, CREATING_PROJECT_OFFLINE_ERROR);
+             [expectation fulfill];
+         }
+
+         
+        
      }];
     
     
     [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
-        if (error) {
-            NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
-            XCTAssertEqualObjects(errorMessage, CREATING_PROJECT_OFFLINE_ERROR);
-        }
     }];
     
 }
