@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "AFHTTPRequestOperationManager+KBNParseAPIManager.h"
+
 #import "KBNProject.h"
+#import "KBNParseRequestOperationManager.h"
+
 @interface KBNProjectParseAPIManager : NSObject
 //Projects Functions
 -(void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
@@ -16,5 +18,6 @@
 -(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError;
 -(NSArray*) getProjects:(KBNConnectionErrorBlock)onError;
 
-@property AFHTTPRequestOperationManager* afManager;
+@property KBNParseRequestOperationManager * afManager;
+
 @end

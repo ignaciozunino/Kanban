@@ -13,10 +13,8 @@
 -(instancetype) init{
     
     self = [super init];
-    
-    if (self) {
-        _afManager = [AFHTTPRequestOperationManager createAFManager];
-    }
+     self.afManager = [[KBNParseRequestOperationManager alloc]init];
+   
     return self;
 }
 
