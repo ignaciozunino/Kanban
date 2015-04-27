@@ -13,6 +13,7 @@
 		181FA9781AE0286E001DD816 /* KBNUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 181FA9771AE0286E001DD816 /* KBNUser.m */; };
 		18513D951AE5829300D090A9 /* KBNProjectParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18513D941AE5829300D090A9 /* KBNProjectParseAPIManager.m */; };
 		18513D981AE5831A00D090A9 /* KBNUserParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18513D971AE5831A00D090A9 /* KBNUserParseAPIManager.m */; };
+		18BE0FAD1AEE755500B2B0C2 /* KBNLoginTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BE0FAC1AEE755500B2B0C2 /* KBNLoginTest.m */; };
 		18CB2DBB1AEAE16600F5F390 /* UIFont+CustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB2DBA1AEAE16600F5F390 /* UIFont+CustomFonts.m */; };
 		18CB2DBC1AEAE40700F5F390 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		18CB2DBD1AEAE40700F5F390 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -80,6 +81,7 @@
 		18513D941AE5829300D090A9 /* KBNProjectParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNProjectParseAPIManager.m; sourceTree = "<group>"; };
 		18513D961AE5831A00D090A9 /* KBNUserParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNUserParseAPIManager.h; sourceTree = "<group>"; };
 		18513D971AE5831A00D090A9 /* KBNUserParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUserParseAPIManager.m; sourceTree = "<group>"; };
+		18BE0FAC1AEE755500B2B0C2 /* KBNLoginTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNLoginTest.m; sourceTree = "<group>"; };
 		18CB2DB91AEAE16600F5F390 /* UIFont+CustomFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+CustomFonts.h"; sourceTree = "<group>"; };
 		18CB2DBA1AEAE16600F5F390 /* UIFont+CustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+CustomFonts.m"; sourceTree = "<group>"; };
 		26271C345D16C540A1C1CE66 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				CCA1A27A1ADEA3D900CC98B5 /* KBNCreateProjectTests.m */,
+				18BE0FAC1AEE755500B2B0C2 /* KBNLoginTest.m */,
 				CCA1A2781ADEA3D900CC98B5 /* Supporting Files */,
 			);
 			path = KanbanTests;
@@ -571,6 +574,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCA1A27B1ADEA3D900CC98B5 /* KBNCreateProjectTests.m in Sources */,
+				18BE0FAD1AEE755500B2B0C2 /* KBNLoginTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
