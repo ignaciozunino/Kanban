@@ -43,7 +43,7 @@
     [KBNAppDelegate activateActivityIndicator:YES];
     [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
         [KBNAppDelegate activateActivityIndicator:NO];
-        [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCES andType:SUCCES_ALERT];
+        [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCESS andType:SUCCESS_ALERT];
         [self dismissViewControllerAnimated:YES completion:nil];
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];

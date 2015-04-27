@@ -57,7 +57,7 @@
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                     
-                     NSArray * tasks = taskStates;
+                     NSArray * tasks = DEFAULT_TASK_LISTS;
                      [self createTasksListForProject:responseObject tasks:tasks onError:onError onCompletion:onCompletion manager:self.afManager];
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {

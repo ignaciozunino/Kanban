@@ -1,24 +1,22 @@
 //
-//  KBNTask.m
+//  KBNTaskList.m
 //  Kanban
 //
 //  Created by Marcelo Dessal on 4/27/15.
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "KBNTask.h"
-#import "KBNProject.h"
 #import "KBNTaskList.h"
+#import "KBNProject.h"
+#import "KBNTask.h"
 
 
-@implementation KBNTask
+@implementation KBNTaskList
 
 @dynamic name;
-@dynamic taskDescription;
-@dynamic taskId;
 @dynamic order;
-@dynamic active;
+@dynamic taskListId;
 @dynamic project;
-@dynamic taskList;
+@dynamic tasks;
 
 @end

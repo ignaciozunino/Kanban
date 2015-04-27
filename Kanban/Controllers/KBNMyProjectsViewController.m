@@ -44,26 +44,6 @@
 
 - (void)getProjects {
     
-    //For now this method is for testing purposes. Sooner it will get my projects from the database
-    
-    NSMutableArray *projectsArray = [[NSMutableArray alloc] init];
-    
-    NSURL *url = [[NSBundle mainBundle] URLForResource:RESOURCE_NAME_PROJECTS withExtension:@"json"];
-    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    NSArray *projectList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    
-    for (NSDictionary* item in projectList) {
-        KBNProject *newProject = [[KBNProject alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
-                                                                          inManagedObjectContext:self.managedObjectContext]
-                               insertIntoManagedObjectContext:self.managedObjectContext];
-        
-        newProject.name = [item objectForKey:@"name"];
-        newProject.projectDescription = [item objectForKey:@"projectDescription"];
-        
-        [projectsArray addObject:newProject];
-    }
-    
-    self.projects = projectsArray;
 }
 
 #pragma mark - Table View Data Source

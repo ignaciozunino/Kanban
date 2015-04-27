@@ -22,7 +22,7 @@
     
     self.title = self.project.name;
     
-    self.states = taskStates;
+    self.states = DEFAULT_TASK_LISTS;
     
     [self getTasks];
     
@@ -55,35 +55,6 @@
 
 - (void)getTasks {
     
-    //For now this method is for testing purposes. Sooner it will get tasks from the database
-    
-    NSMutableArray *tasksArray = [[NSMutableArray alloc] init];
-    
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"tasks" withExtension:@"json"];
-    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    NSArray *projectList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    
-    for (NSDictionary* item in projectList) {
-        KBNTask *newTask = [[KBNTask alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_TASK
-                                                                          inManagedObjectContext:self.managedObjectContext]
-                               insertIntoManagedObjectContext:self.managedObjectContext];
-        
-        newTask.name = [item objectForKey:@"name"];
-        newTask.taskDescription = [item objectForKey:@"description"];
-        newTask.state = [item objectForKey:@"state"];
-        
-        KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
-        project.name = [item objectForKey:@"project"];
-        
-        newTask.project = project;
-        
-        if ([project.name isEqualToString:self.project.name]) {
-            [tasksArray addObject:newTask];
-        }
-        
-    }
-    
-    self.tasks = tasksArray;
 }
 
 #pragma mark - Page View Controller Data Source
@@ -125,21 +96,8 @@
     KBNProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
 
     projectDetailViewController.pageIndex = index;
-    projectDetailViewController.tasks = [self tasksForState:(int)index];
     
     return projectDetailViewController;
-}
-
--(NSArray*)tasksForState:(TaskState)state
-{
-    NSMutableArray *result = [[NSMutableArray alloc] init];
-    
-    for (KBNTask* task in self.tasks) {
-        if ([task.state intValue] == state){
-            [result addObject:task];
-        }
-    }
-    return result;
 }
 
 -(NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController
