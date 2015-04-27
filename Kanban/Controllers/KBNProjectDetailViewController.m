@@ -27,7 +27,7 @@
     // Do any additional setup after loading the view.
     
     self.title = self.project.name;
-    self.labelState.text = [taskStates objectAtIndex:self.pageIndex];
+    self.labelState.text = [DEFAULT_TASK_LISTS objectAtIndex:self.pageIndex];
     
 }
 
