@@ -13,7 +13,7 @@
 -(instancetype) init{
     
     self = [super init];
-    
+    self.afManager = [[KBNParseRequestOperationManager alloc]init];
    
     return self;
 }
