@@ -43,6 +43,19 @@
 #pragma mark - Private methods
 
 - (void)getProjects {
+    __weak typeof(self) weakself = self;
+    [KBNAppDelegate activateActivityIndicator:YES];
+    [[KBNProjectService sharedInstance]getProjectsOnSucces:^(NSArray *records) {
+        weakself.projects = records;
+        [weakself.tableView reloadData];
+        
+        [KBNAppDelegate activateActivityIndicator:NO];
+        
+    } errorBlock:^(NSError *error) {
+        [KBNAppDelegate activateActivityIndicator:NO];
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        
+    }];
     
 }
 
