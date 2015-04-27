@@ -12,10 +12,10 @@
 
 
 
-@interface KBNParseAPIManager : NSObject
+@interface KBNParseRequestOperationManager : AFHTTPRequestOperationManager 
 
--(AFHTTPRequestOperationManager *) createAFManager;
+- (void)setupParseConfig;
 
-@property AFHTTPRequestOperationManager* afManager;
+
 
 @end
