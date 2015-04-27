@@ -1,16 +1,16 @@
 //
-//  AFHTTPRequestOperationManager+KBNParseAPIManager.m
+//  KBNParseAPIManager.m
 //  Kanban
 //
-//  Created by Maximiliano Casal on 4/23/15.
+//  Created by Guillermo Apoj on 4/27/15.
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "AFHTTPRequestOperationManager+KBNParseAPIManager.h"
+#import "KBNParseAPIManager.h"
 
-@implementation AFHTTPRequestOperationManager (KBNParseAPIManager)
+@implementation KBNParseAPIManager
 
-+(instancetype) createAFManager{
+-(AFHTTPRequestOperationManager *) createAFManager{
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     if (manager) {
@@ -22,4 +22,12 @@
     
     return manager;
 }
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.afManager = [self createAFManager];
+    }
+    return self;
+}
+
 @end

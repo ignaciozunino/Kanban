@@ -14,9 +14,7 @@
     
     self = [super init];
     
-    if (self) {
-        _afManager = [AFHTTPRequestOperationManager createAFManager];
-    }
+   
     return self;
 }
 

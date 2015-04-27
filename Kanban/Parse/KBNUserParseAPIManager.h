@@ -8,11 +8,12 @@
 
 #import "AFHTTPRequestOperationManager+KBNParseAPIManager.h"
 #import "KBNUser.h"
+#import "KBNParseAPIManager.h"
 
-@interface KBNUserParseAPIManager : NSObject
+@interface KBNUserParseAPIManager :KBNParseAPIManager
 //User functions
 -(void) createUser:(KBNUser *) user completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
-@property AFHTTPRequestOperationManager* afManager;
+
 
 @end

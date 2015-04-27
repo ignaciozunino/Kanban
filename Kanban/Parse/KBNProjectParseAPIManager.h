@@ -8,7 +8,9 @@
 
 #import "AFHTTPRequestOperationManager+KBNParseAPIManager.h"
 #import "KBNProject.h"
-@interface KBNProjectParseAPIManager : NSObject
+#import "KBNParseAPIManager.h"
+
+@interface KBNProjectParseAPIManager : KBNParseAPIManager
 //Projects Functions
 -(void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 -(void) editProject: (NSString *)name newDescription:newDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
@@ -16,5 +18,5 @@
 -(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError;
 -(NSArray*) getProjects:(KBNConnectionErrorBlock)onError;
 
-@property AFHTTPRequestOperationManager* afManager;
+
 @end
