@@ -54,10 +54,8 @@
                                       completionBlock:^{
                                           ///on the complete block we get all the projects
                                           [[KBNProjectService sharedInstance]getProjectsOnSucces:^(NSArray *records) {
-                                              NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
-                                              NSArray *filteredArray = [records filteredArrayUsingPredicate:predicate];
-                                              //we have the resently created  project or we fail
-                                              if (filteredArray.count>0) {
+                                              //we have at least one project or we fail
+                                              if (records.count>0) {
                                                   XCTAssertTrue(true);
                                               }else{
                                                   XCTAssertTrue(false);
