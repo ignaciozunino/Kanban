@@ -78,7 +78,10 @@
 }
 
 - (void)getProjectsOnSuccess:(KBNConnectionSuccesDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError {
-    [self.afManager GET:PARSE_PROJECTS parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
+    [params setObject:@"-createdAt" forKey:@"order"];
+    
+    [self.afManager GET:PARSE_PROJECTS parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *projectList = [responseObject objectForKey:@"results"];
         
         onSuccess(projectList);
