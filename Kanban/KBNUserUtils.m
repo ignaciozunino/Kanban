@@ -35,13 +35,7 @@
 
 //Validate the password has at least 6 characters, one letter and one numbercp
 +(BOOL) isValidPassword:(NSString*) password{
-    if ([password length]<6 || [password length]>32) return NO;  // too long or too short
-    NSRange rang;
-    rang = [password rangeOfCharacterFromSet:[NSCharacterSet letterCharacterSet]];
-    if ( !rang.length ) return NO;  // no letter
-    rang = [password rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]];
-    if ( !rang.length )  return NO;  // no number;
-    return YES;
+    return [password length]>5;
 }
 
 @end
