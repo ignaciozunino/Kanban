@@ -12,6 +12,9 @@
 		18CB2DBC1AEAE40700F5F390 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		18CB2DBD1AEAE40700F5F390 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		26081C403E469312BC4A463C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1248F82C2AA466919F32613 /* libPods.a */; };
+		3A0CCD211AEEB7A40039F629 /* KBNTaskParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD201AEEB7A40039F629 /* KBNTaskParseAPIManager.m */; };
+		3A0CCD261AEEB7B50039F629 /* KBNTaskService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD231AEEB7B50039F629 /* KBNTaskService.m */; };
+		3A0CCD271AEEB7B50039F629 /* KBNTaskServiceOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD251AEEB7B50039F629 /* KBNTaskServiceOld.m */; };
 		3A312A9C1AEE8408005837A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9A1AEE8408005837A5 /* Main.storyboard */; };
 		3A312A9D1AEE8408005837A5 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9B1AEE8408005837A5 /* Signin.storyboard */; };
 		3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */; };
@@ -71,6 +74,12 @@
 /* Begin PBXFileReference section */
 		18BE0FAC1AEE755500B2B0C2 /* KBNLoginTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNLoginTest.m; sourceTree = "<group>"; };
 		26271C345D16C540A1C1CE66 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		3A0CCD1F1AEEB7A40039F629 /* KBNTaskParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskParseAPIManager.h; path = Parse/KBNTaskParseAPIManager.h; sourceTree = "<group>"; };
+		3A0CCD201AEEB7A40039F629 /* KBNTaskParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskParseAPIManager.m; path = Parse/KBNTaskParseAPIManager.m; sourceTree = "<group>"; };
+		3A0CCD221AEEB7B50039F629 /* KBNTaskService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskService.h; path = Services/KBNTaskService.h; sourceTree = "<group>"; };
+		3A0CCD231AEEB7B50039F629 /* KBNTaskService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskService.m; path = Services/KBNTaskService.m; sourceTree = "<group>"; };
+		3A0CCD241AEEB7B50039F629 /* KBNTaskServiceOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskServiceOld.h; path = Services/KBNTaskServiceOld.h; sourceTree = "<group>"; };
+		3A0CCD251AEEB7B50039F629 /* KBNTaskServiceOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskServiceOld.m; path = Services/KBNTaskServiceOld.m; sourceTree = "<group>"; };
 		3A312A9A1AEE8408005837A5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Storyboards/Main.storyboard; sourceTree = "<group>"; };
 		3A312A9B1AEE8408005837A5 /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Signin.storyboard; path = Storyboards/Signin.storyboard; sourceTree = "<group>"; };
 		3A312A9E1AEE8420005837A5 /* KBNSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSignInViewController.h; path = Controllers/KBNSignInViewController.h; sourceTree = "<group>"; };
@@ -208,6 +217,10 @@
 		181FA97D1AE04888001DD816 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3A0CCD221AEEB7B50039F629 /* KBNTaskService.h */,
+				3A0CCD231AEEB7B50039F629 /* KBNTaskService.m */,
+				3A0CCD241AEEB7B50039F629 /* KBNTaskServiceOld.h */,
+				3A0CCD251AEEB7B50039F629 /* KBNTaskServiceOld.m */,
 				3A312AAA1AEE8473005837A5 /* KBNProjectService.h */,
 				3A312AAB1AEE8473005837A5 /* KBNProjectService.m */,
 				3A312AAC1AEE8473005837A5 /* KBNUserService.h */,
@@ -219,6 +232,8 @@
 		181FA97E1AE048B4001DD816 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
+				3A0CCD1F1AEEB7A40039F629 /* KBNTaskParseAPIManager.h */,
+				3A0CCD201AEEB7A40039F629 /* KBNTaskParseAPIManager.m */,
 				3A312AA41AEE845E005837A5 /* KBNProjectParseAPIManager.h */,
 				3A312AA51AEE845E005837A5 /* KBNProjectParseAPIManager.m */,
 				3A312AA61AEE845E005837A5 /* KBNUserParseAPIManager.h */,
@@ -540,6 +555,7 @@
 				3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */,
 				3A312AA31AEE8442005837A5 /* KBNUser.m in Sources */,
 				3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */,
+				3A0CCD211AEEB7A40039F629 /* KBNTaskParseAPIManager.m in Sources */,
 				3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */,
 				3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */,
 				3A312AA81AEE845E005837A5 /* KBNProjectParseAPIManager.m in Sources */,
@@ -548,10 +564,12 @@
 				CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */,
 				3A312AC11AEE8BEE005837A5 /* KBNProject.m in Sources */,
 				3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */,
+				3A0CCD271AEEB7B50039F629 /* KBNTaskServiceOld.m in Sources */,
 				3A312AB91AEE84B6005837A5 /* KBNProjectUtils.m in Sources */,
 				3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */,
 				3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */,
 				3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */,
+				3A0CCD261AEEB7B50039F629 /* KBNTaskService.m in Sources */,
 				3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */,
 				3A312ABB1AEE84B6005837A5 /* UIFont+CustomFonts.m in Sources */,
 				3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */,

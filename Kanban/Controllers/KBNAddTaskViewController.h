@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KBNTaskServiceOld.h"
+
+@protocol KBNAddTaskViewControllerDelegate <NSObject>
+
+- (void)didCreateTask:(KBNTask*)task;
+
+@end
+
 
 @interface KBNAddTaskViewController : UIViewController
+
+@property (strong, nonatomic) KBNTask *addTask;
+
+@property (weak, nonatomic) id <KBNAddTaskViewControllerDelegate> delegate;
+
 
 @end

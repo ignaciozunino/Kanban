@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "KBNTask.h"
+#import "KBNProject.h"
 
 @interface KBNTaskDetailViewController : UIViewController
 
 @property (strong, nonatomic) KBNTask *task;
-@property (weak, nonatomic) IBOutlet UITextView *descriptionText;
 
 @end

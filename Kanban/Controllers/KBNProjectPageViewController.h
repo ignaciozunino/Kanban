@@ -8,17 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "KBNTask.h"
+#import "KBNTaskList.h"
 #import "KBNProject.h"
 #import "KBNProjectDetailViewController.h"
+#import "KBNAddTaskViewController.h"
 #import "KBNConstants.h"
 
-@interface KBNProjectPageViewController : UIViewController<UIPageViewControllerDataSource>
+@interface KBNProjectPageViewController : UIViewController<UIPageViewControllerDataSource, KBNProjectDetailViewControllerDelegate, KBNAddTaskViewControllerDelegate>
 
 @property (strong, nonatomic) KBNProject *project;
 
 @property (strong, nonatomic) UIPageViewController *pageViewController;
-@property (strong, nonatomic) NSArray* tasks;
-@property (strong, nonatomic) NSArray* states;
+
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 

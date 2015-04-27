@@ -7,8 +7,13 @@
 //
 
 #import "KBNAddTaskViewController.h"
+#import "KBNConstants.h"
+#import "KBNAlertUtils.h"
 
 @interface KBNAddTaskViewController ()
+
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
 
 @end
 
@@ -27,6 +32,20 @@
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
+    
+    self.addTask.name = self.nameTextField.text;
+    self.addTask.taskDescription = self.descriptionTextField.text;
+    
+    __weak typeof(self) weakself = self;
+    
+    [[KBNTaskServiceOld sharedInstance] createTask:self.addTask success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        weakself.addTask.taskId = [responseObject objectForKey:PARSE_OBJECTID];
+        [weakself.delegate didCreateTask:weakself.addTask];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
@@ -35,6 +54,17 @@
 
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+}
+     
+    
+     
 /*
 #pragma mark - Navigation
 

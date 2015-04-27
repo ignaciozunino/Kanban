@@ -10,6 +10,9 @@
 
 @interface KBNTaskDetailViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *labelTaskName;
+@property (weak, nonatomic) IBOutlet UILabel *labelTaskDescription;
+
 @end
 
 @implementation KBNTaskDetailViewController
@@ -18,9 +21,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = self.task.name;
+    self.title = self.task.project.name;
     
-    self.descriptionText.text = self.task.taskDescription;
+    self.labelTaskName.text = self.task.name;
+    self.labelTaskDescription.text = self.task.taskDescription;
 }
 
 - (void)didReceiveMemoryWarning {
