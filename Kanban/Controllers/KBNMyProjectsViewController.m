@@ -45,7 +45,7 @@
 - (void)getProjects {
     __weak typeof(self) weakself = self;
     [KBNAppDelegate activateActivityIndicator:YES];
-    [[KBNProjectService sharedInstance]getProjectsOnSucces:^(NSArray *records) {
+    [[KBNProjectService sharedInstance]getProjectsOnSuccess:^(NSArray *records) {
         weakself.projects = records;
         [weakself.tableView reloadData];
         

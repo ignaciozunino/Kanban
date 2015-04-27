@@ -53,7 +53,7 @@
                                       withDescription:@"created with automatic test"
                                       completionBlock:^{
                                           ///on the complete block we get all the projects
-                                          [[KBNProjectService sharedInstance]getProjectsOnSucces:^(NSArray *records) {
+                                          [[KBNProjectService sharedInstance]getProjectsOnSuccess:^(NSArray *records) {
                                               NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
                                               NSArray *filteredArray = [records filteredArrayUsingPredicate:predicate];
                                               

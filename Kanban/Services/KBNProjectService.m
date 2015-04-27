@@ -58,7 +58,7 @@
     return nil;
 }
 
--(void)getProjectsOnSucces:(KBNConnectionSuccesArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)getProjectsOnSuccess:(KBNConnectionSuccesArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     __weak typeof(self) weakself = self;
     [self.dataService getProjectsOnSuccess:^(NSDictionary *records) {
         
