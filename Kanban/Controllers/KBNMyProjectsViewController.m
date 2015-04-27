@@ -10,6 +10,7 @@
 #import "KBNProjectPageViewController.h"
 #import "KBNAppDelegate.h"
 #import "KBNTaskServiceOld.h"
+#import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
@@ -66,7 +67,7 @@
         
         weakself.projects = projectsArray;
         
-        [weakself addTaskListsToProjects];
+        //[weakself addTaskListsToProjects];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];

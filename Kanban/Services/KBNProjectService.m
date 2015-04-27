@@ -10,7 +10,7 @@
 
 @implementation KBNProjectService
 
-//This method is because KBNProxy is a Sigleton
+//This method is because KBNProxy is a Singleton
 +(KBNProjectService *) sharedInstance{
     
     static  KBNProjectService *inst = nil;
@@ -29,7 +29,7 @@
 }
 
 
--(void)createProject:(NSString *)name withDescription:(NSString *)projectDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)createProject:(NSString *)name withDescription:(NSString *)projectDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     if ([name isEqualToString:@""] || !name) {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_WITHOUTNAME_ERROR};
@@ -44,12 +44,12 @@
     }
 }
 
--(void)editProject:(NSString*)name withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+-(void)editProject:(NSString*)name withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
     
 }
 
--(void)removeProject:(NSString*)name completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+-(void)removeProject:(NSString*)name completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
     
 }

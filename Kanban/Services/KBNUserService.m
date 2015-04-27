@@ -10,7 +10,7 @@
 
 @implementation KBNUserService
 
-//This method is because KBNProxy is a Sigleton
+//This method is because KBNProxy is a Singleton
 +(KBNUserService *) sharedInstance{
     
     static  KBNUserService *inst = nil;
@@ -24,7 +24,7 @@
     return inst;
 }
 
--(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)createUser:(NSString*)username withPasword:(NSString*)password completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     if ([KBNUserUtils isValidUsername:username] && [KBNUserUtils isValidPassword:password]) {
         

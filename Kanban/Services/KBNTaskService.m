@@ -29,7 +29,7 @@
 }
 
 
-- (void)createTask:(NSString*)name withDescription:(NSString*)taskDescription withTaskList:(KBNTaskList*)taskList withProject:(KBNProject*)project success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure {
+- (void)createTask:(NSString*)name withDescription:(NSString*)taskDescription withTaskList:(KBNTaskList*)taskList withProject:(KBNProject*)project success:(KBNConnectionSuccessBlock)success failure:(KBNConnectionErrorBlock)failure {
     
     if ([name isEqualToString:@""] || !name) {
         NSString *domain = ERROR_DOMAIN;
@@ -51,23 +51,23 @@
 
 
 
-- (void)createTask:(KBNTask*)task success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure {
+- (void)createTask:(KBNTask*)task success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
     
         [self.dataService createTask:task completionBlock:success errorBlock:failure];
     
 }
 
-- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure {
+- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
     
     [self.dataService moveTask:task toList:list success:success failure:failure];
 }
 
-- (void)getTasksOnSuccess:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure {
+- (void)getTasksOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
     
     [self.dataService getTasksOnSuccess:success failure:failure];
 }
 
-- (void)getTasksForProject:(KBNProject*)project success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure {
+- (void)getTasksForProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
     [self.dataService getTasksForProject:(KBNProject*)project success:success failure:failure];
 }
 

@@ -84,8 +84,15 @@
     // Now projects lists are loaded to all projects in MyProjectsViewController.
     // They should be loaded here for each project, maybe from KBNProjectService (TBD)
     
-    self.projectLists = self.project.taskLists.array;
     
+    self.projectLists = self.project.taskLists.array;
+    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project
+                                                        success:^(NSDictionary *response) {
+                                                            NSLog(@"%@",response);
+                                                        }
+                                                        failure:^(NSError* error){
+                                                            NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
+                                                        }];
 }
 
 - (void)getProjectTasks {

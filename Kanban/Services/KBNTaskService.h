@@ -18,9 +18,9 @@
 @property KBNTaskParseAPIManager* dataService;
 
 +(KBNTaskService *) sharedInstance;
-- (void)createTask:(NSString*)name withDescription:(NSString*)taskDescription withTaskList:(KBNTaskList*)taskList withProject:(KBNProject*)project success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure;
-- (void)createTask:(KBNTask*)task success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure;
-- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure;
-- (void)getTasksOnSuccess:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure;
-- (void)getTasksForProject:(KBNProject*)project success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure;
+- (void)createTask:(NSString*)name withDescription:(NSString*)taskDescription withTaskList:(KBNTaskList*)taskList withProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
+- (void)createTask:(KBNTask*)task success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
+- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
+- (void)getTasksOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
+- (void)getTasksForProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
 @end

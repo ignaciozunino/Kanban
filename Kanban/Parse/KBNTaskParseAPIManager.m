@@ -15,13 +15,13 @@
     self = [super init];
     
     if (self) {
-        _afManager = [AFHTTPRequestOperationManager createAFManager];
+        _afManager = [[KBNParseRequestOperationManager alloc] init];
     }
     return self;
 }
 
 
-- (void) createTask:(KBNTask *)task completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+- (void) createTask:(KBNTask *)task completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:4];
     [params setObject:task.name forKey:PARSE_TASK_NAME_COLUMN];
@@ -41,7 +41,7 @@
      ];
 }
 
-- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure{
+- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure{
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
     [params setObject:list.taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
     NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, task.taskId];
@@ -58,7 +58,7 @@
 }
 
 
-- (void)getTasksOnSuccess:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure {
+- (void)getTasksOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
     
     [self.afManager GET:PARSE_TASKS
              parameters:nil
@@ -71,7 +71,7 @@
                             }];
 }
 
--(void)getTasksForProject:(KBNProject*)project success:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure
+-(void)getTasksForProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure
 {
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
@@ -93,7 +93,7 @@
 #pragma mark - Deprecated
 
 //This method should be deprecated after refactoring any depending viewcontroller
-- (void)getProjectsOnSuccess:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure {
+- (void)getProjectsOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
     
     [self.afManager GET:PARSE_PROJECTS
              parameters:nil
@@ -108,7 +108,7 @@
 }
 
 //This method should be deprecated after refactoring any depending viewcontroller
-- (void)getTaskListsOnSuccess:(KBNConnectionSuccesBlock)success failure:(KBNConnectionErrorBlock)failure {
+- (void)getTaskListsOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
     
     [self.afManager GET:PARSE_TASKLISTS
              parameters:nil

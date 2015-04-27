@@ -38,6 +38,8 @@
 		3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */; };
 		3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */; };
 		846FA57D1AE6F0B900AB91C1 /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */; };
+		A0C8A7001AEED4560069E236 /* KBNTaskListParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8A6FF1AEED4560069E236 /* KBNTaskListParseAPIManager.m */; };
+		A0C8A7031AEED4640069E236 /* KBNTaskListService.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8A7021AEED4640069E236 /* KBNTaskListService.m */; };
 		CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A25D1ADEA3D900CC98B5 /* main.m */; };
 		CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2601ADEA3D900CC98B5 /* KBNAppDelegate.m */; };
 		CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2621ADEA3D900CC98B5 /* Kanban.xcdatamodeld */; };
@@ -123,6 +125,10 @@
 		3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskDetailViewController.h; path = Controllers/KBNTaskDetailViewController.h; sourceTree = "<group>"; };
 		3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskDetailViewController.m; path = Controllers/KBNTaskDetailViewController.m; sourceTree = "<group>"; };
 		846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
+		A0C8A6FE1AEED4560069E236 /* KBNTaskListParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskListParseAPIManager.h; path = Parse/KBNTaskListParseAPIManager.h; sourceTree = "<group>"; };
+		A0C8A6FF1AEED4560069E236 /* KBNTaskListParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskListParseAPIManager.m; path = Parse/KBNTaskListParseAPIManager.m; sourceTree = "<group>"; };
+		A0C8A7011AEED4640069E236 /* KBNTaskListService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskListService.h; path = Services/KBNTaskListService.h; sourceTree = "<group>"; };
+		A0C8A7021AEED4640069E236 /* KBNTaskListService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskListService.m; path = Services/KBNTaskListService.m; sourceTree = "<group>"; };
 		C8E27ED1C549693279A34999 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CCA1A2581ADEA3D900CC98B5 /* Kanban.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kanban.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCA1A25C1ADEA3D900CC98B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -217,6 +223,8 @@
 		181FA97D1AE04888001DD816 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A0C8A7011AEED4640069E236 /* KBNTaskListService.h */,
+				A0C8A7021AEED4640069E236 /* KBNTaskListService.m */,
 				3A0CCD221AEEB7B50039F629 /* KBNTaskService.h */,
 				3A0CCD231AEEB7B50039F629 /* KBNTaskService.m */,
 				3A0CCD241AEEB7B50039F629 /* KBNTaskServiceOld.h */,
@@ -232,6 +240,8 @@
 		181FA97E1AE048B4001DD816 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
+				A0C8A6FE1AEED4560069E236 /* KBNTaskListParseAPIManager.h */,
+				A0C8A6FF1AEED4560069E236 /* KBNTaskListParseAPIManager.m */,
 				3A0CCD1F1AEEB7A40039F629 /* KBNTaskParseAPIManager.h */,
 				3A0CCD201AEEB7A40039F629 /* KBNTaskParseAPIManager.m */,
 				3A312AA41AEE845E005837A5 /* KBNProjectParseAPIManager.h */,
@@ -559,6 +569,7 @@
 				3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */,
 				3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */,
 				3A312AA81AEE845E005837A5 /* KBNProjectParseAPIManager.m in Sources */,
+				A0C8A7001AEED4560069E236 /* KBNTaskListParseAPIManager.m in Sources */,
 				18D88D3D1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.m in Sources */,
 				CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */,
 				CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */,
@@ -569,6 +580,7 @@
 				3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */,
 				3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */,
 				3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */,
+				A0C8A7031AEED4640069E236 /* KBNTaskListService.m in Sources */,
 				3A0CCD261AEEB7B50039F629 /* KBNTaskService.m in Sources */,
 				3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */,
 				3A312ABB1AEE84B6005837A5 /* UIFont+CustomFonts.m in Sources */,
