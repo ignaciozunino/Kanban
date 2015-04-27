@@ -42,7 +42,15 @@
 
 - (void)testLogin {
     XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
-    [[KBNUserService sharedInstance]createUser:@"user@test.com" withPasword:@"12345g" completionBlock:^{
+    NSDate *currDate = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
+    NSString *dateString = [dateFormatter stringFromDate:currDate];
+    
+    //we put the date in the usernameso we always have diferent users
+    NSString * user = [NSString stringWithFormat:@"user%@@test.com",dateString];
+    
+    [[KBNUserService sharedInstance]createUser:user withPasword:@"12345g" completionBlock:^{
          XCTAssertTrue(true);
         [expectation fulfill];
     } errorBlock:^(NSError *error) {
