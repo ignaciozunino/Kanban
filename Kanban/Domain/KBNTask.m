@@ -17,6 +17,7 @@
 @dynamic taskDescription;
 @dynamic taskId;
 @dynamic order;
+@dynamic active;
 @dynamic project;
 @dynamic taskList;
 

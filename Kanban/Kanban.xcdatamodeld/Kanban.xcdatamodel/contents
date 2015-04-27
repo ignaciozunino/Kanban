@@ -8,6 +8,7 @@
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTask" inverseName="project" inverseEntity="KBNTask" syncable="YES"/>
     </entity>
     <entity name="KBNTask" representedClassName="KBNTask" syncable="YES">
+        <attribute name="active" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="taskDescription" optional="YES" attributeType="String" syncable="YES"/>
@@ -24,7 +25,7 @@
     </entity>
     <elements>
         <element name="KBNProject" positionX="-56" positionY="-306" width="128" height="120"/>
-        <element name="KBNTask" positionX="115" positionY="-130" width="128" height="135"/>
+        <element name="KBNTask" positionX="115" positionY="-130" width="128" height="150"/>
         <element name="KBNTaskList" positionX="-225" positionY="-108" width="128" height="120"/>
     </elements>
 </model>

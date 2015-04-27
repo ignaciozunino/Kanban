@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString * taskDescription;
 @property (nonatomic, strong) NSString * taskId;
 @property (nonatomic, strong) NSNumber * order;
+@property (nonatomic, strong) NSNumber *active;
 @property (nonatomic, strong) KBNProject *project;
 @property (nonatomic, strong) KBNTaskList *taskList;
 
