@@ -13,12 +13,13 @@
 
 @interface KBNTaskListService : NSObject
 
-@property KBNTaskListParseAPIManager* dataService;
+@property (strong, nonatomic) KBNTaskListParseAPIManager* dataService;           
 
 +(KBNTaskListService *) sharedInstance;
-- (void)createTaskList:(NSString*)name withDescription:(NSString*)taskDescription withTaskList:(KBNTaskList*)taskList withProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
-- (void)createTaskList:(KBNTask*)task success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
-- (void)moveTaskList:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
-- (void)getTaskListsOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
-- (void)getTaskListsForProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
+
+- (void)createTaskListWithName:(NSString*)name order:(NSNumber*)order projectId:(NSString*)projectId
+               completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
+-(void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
 @end

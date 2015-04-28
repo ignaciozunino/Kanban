@@ -10,7 +10,6 @@
 
 @implementation KBNTaskService
 
-
 +(KBNTaskService *) sharedInstance{
     
     static  KBNTaskService *inst = nil;
@@ -24,52 +23,27 @@
     return inst;
 }
 
-- (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
-}
-
-
-- (void)createTask:(NSString*)name withDescription:(NSString*)taskDescription withTaskList:(KBNTaskList*)taskList withProject:(KBNProject*)project success:(KBNConnectionSuccessBlock)success failure:(KBNConnectionErrorBlock)failure {
+-(void)createTaskWithName:(NSString *)name taskDescription:(NSString *)taskDescription order:(NSNumber *)order projectId:(NSString *)projectId taskListId:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     if ([name isEqualToString:@""] || !name) {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_TASK_WITHOUT_NAME_ERROR};
-        NSError *errorPtr = [NSError errorWithDomain:domain code:-102
-                                            userInfo:info];
-        failure(errorPtr);
-    }else{
+        NSError *errorPtr = [NSError errorWithDomain:domain code:-104 userInfo:info];
+        onError(errorPtr);
+    } else {
         
-        KBNTask *task = [[KBNTask alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_TASK inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
-        task.name = name;
-        task.taskDescription = taskDescription;
-        [self.dataService createTask:task completionBlock:success errorBlock:failure];
-        
+        [self.dataService createTaskWithName:name taskDescription:taskDescription order:order projectId:projectId taskListId:taskListId completionBlock:onCompletion errorBlock:onError];
     }
-    
 }
 
-
-
-
-- (void)createTask:(KBNTask*)task success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
+-(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-        [self.dataService createTask:task completionBlock:success errorBlock:failure];
-    
+    [self.dataService moveTask:taskId toList:taskListId completionBlock:onCompletion errorBlock:onError];
 }
 
-- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
+-(void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    [self.dataService moveTask:task toList:list success:success failure:failure];
+    [self.dataService getTasksForProject:projectId completionBlock:onCompletion errorBlock:onError];
 }
-
-- (void)getTasksOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
-    
-    [self.dataService getTasksOnSuccess:success failure:failure];
-}
-
-- (void)getTasksForProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
-    [self.dataService getTasksForProject:(KBNProject*)project success:success failure:failure];
-}
-
 
 @end

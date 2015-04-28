@@ -8,8 +8,10 @@
 
 #import "KBNProjectPageViewController.h"
 #import "KBNAppDelegate.h"
-#import "KBNTaskServiceOld.h"
+#import "KBNTaskListUtils.h"
+#import "KBNTaskUtils.h"
 #import "KBNAlertUtils.h"
+
 
 @interface KBNProjectPageViewController ()
 
@@ -28,15 +30,73 @@
     
     self.title = self.project.name;
     
+    [self getProjectLists];
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Data methods
+
+- (void)getProjectLists {
+    __weak typeof(self) weakself = self;
+    
+    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
+        
+        NSMutableArray *taskLists = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* params in [response objectForKey:@"results"]) {
+            [taskLists addObject:[KBNTaskListUtils taskListForProject:self.project params:params]];
+        }
+        
+        weakself.projectLists = taskLists;
+        [weakself getProjectTasks];
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
+    }];
+}
+
+- (void)getProjectTasks {
+    __weak typeof(self) weakself = self;
+    
+    [[KBNTaskService sharedInstance] getTasksForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
+        
+        NSMutableArray *tasks = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* params in [response objectForKey:@"results"]) {
+            NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+            KBNTaskList *taskList;
+            
+            for (KBNTaskList* list in weakself.projectLists) {
+                if ([list.taskListId isEqualToString:taskListId]) {
+                    taskList = list;
+                    break;
+                }
+            }
+            [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
+        }
+        
+        weakself.projectTasks = tasks;
+        [weakself createPageViewController];
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error getting Tasks: %@",error.localizedDescription);
+    }];
+}
+
+#pragma mark - Controller methods
+
+- (void)createPageViewController {
+    
     // Configure appearance for page control indicator
     UIPageControl *pageControl = [UIPageControl appearance];
     pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     pageControl.backgroundColor = [UIColor whiteColor];
-    
-    [self getProjectLists];
-    
-    [self getProjectTasks];
     
     // Create page view controller
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:PAGE_VC];
@@ -57,79 +117,10 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-
 - (void)startingViewController {
     KBNProjectDetailViewController* startingViewController = [self viewControllerAtIndex:0];
     NSArray *viewControllers = @[startingViewController];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
-}
-
-#pragma mark - Private methods
-
-- (void)getProjectLists {
-    
-    // Now projects lists are loaded to all projects in MyProjectsViewController.
-    // They should be loaded here for each project, maybe from KBNProjectService (TBD)
-    
-    
-    self.projectLists = self.project.taskLists.array;
-    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project
-                                                        success:^(NSDictionary *response) {
-                                                            NSLog(@"%@",response);
-                                                        }
-                                                        failure:^(NSError* error){
-                                                            NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
-                                                        }];
-}
-
-- (void)getProjectTasks {
-    
-    [[KBNTaskServiceOld sharedInstance] getTasksForProject:self.project success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        __weak typeof(self) weakself = self;
-        NSMutableArray *tasksArray = [[NSMutableArray alloc] init];
-        
-        NSDictionary *tasks = [responseObject objectForKey:@"results"];
-        
-        for (NSDictionary* item in tasks) {
-            KBNTask *newTask = [[KBNTask alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_TASK
-                                                                                    inManagedObjectContext:weakself.managedObjectContext]
-                                         insertIntoManagedObjectContext:weakself.managedObjectContext];
-            
-            newTask.taskId = [item objectForKey:PARSE_OBJECTID];
-            newTask.name = [item objectForKey:PARSE_TASK_NAME_COLUMN];
-            newTask.taskDescription = [item objectForKey:PARSE_TASK_DESCRIPTION_COLUMN];
-            newTask.project = weakself.project;
-            
-            NSString* taskListId = [item objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-            
-            for (KBNTaskList *taskList in newTask.project.taskLists) {
-                if ([taskListId isEqualToString:taskList.taskListId]) {
-                    newTask.taskList = taskList;
-                    [tasksArray addObject:newTask];
-                    break;
-                }
-            }
-        }
-        
-        weakself.projectTasks = tasksArray;
-        [weakself startingViewController];
-    
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-    }];
 }
 
 -(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index {
@@ -255,9 +246,9 @@
     
     task.taskList = taskList;
     
-    [[KBNTaskServiceOld sharedInstance] moveTask:task toList:taskList success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[KBNTaskService sharedInstance] moveTask:task.taskId toList:taskList.taskListId completionBlock:^(NSDictionary *response) {
         //
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
     }];
 }

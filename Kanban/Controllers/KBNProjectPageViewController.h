@@ -14,15 +14,12 @@
 #import "KBNAddTaskViewController.h"
 #import "KBNConstants.h"
 #import "KBNTaskListService.h"
+#import "KBNTaskService.h"
 
 @interface KBNProjectPageViewController : UIViewController<UIPageViewControllerDataSource, KBNProjectDetailViewControllerDelegate, KBNAddTaskViewControllerDelegate>
 
 @property (strong, nonatomic) KBNProject *project;
 
 @property (strong, nonatomic) UIPageViewController *pageViewController;
-
-@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
-
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end

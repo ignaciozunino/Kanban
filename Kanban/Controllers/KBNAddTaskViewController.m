@@ -9,6 +9,7 @@
 #import "KBNAddTaskViewController.h"
 #import "KBNConstants.h"
 #import "KBNAlertUtils.h"
+#import "KBNTaskService.h"
 
 @interface KBNAddTaskViewController ()
 
@@ -38,14 +39,16 @@
     
     __weak typeof(self) weakself = self;
     
-    [[KBNTaskServiceOld sharedInstance] createTask:self.addTask success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        weakself.addTask.taskId = [responseObject objectForKey:PARSE_OBJECTID];
-        [weakself.delegate didCreateTask:weakself.addTask];
-        [weakself dismissViewControllerAnimated:YES completion:nil];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-        [weakself dismissViewControllerAnimated:YES completion:nil];
-    }];
+//    [KBNTaskService sharedInstance] createTaskWithName:self.addTask.name taskDescription:<#(NSString *)#> order:<#(NSNumber *)#> projectId:<#(NSString *)#> taskListId:<#(NSString *)#> completionBlock:<#^(NSDictionary *response)onCompletion#> errorBlock:<#^(NSError *error)onError#>
+//    
+//    [[KBNTaskService sharedInstance] createTask:self.addTask success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        weakself.addTask.taskId = [responseObject objectForKey:PARSE_OBJECTID];
+//        [weakself.delegate didCreateTask:weakself.addTask];
+//        [weakself dismissViewControllerAnimated:YES completion:nil];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+//        [weakself dismissViewControllerAnimated:YES completion:nil];
+//    }];
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {

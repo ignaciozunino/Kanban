@@ -20,14 +20,15 @@
     return self;
 }
 
+-(void)createTaskWithName:(NSString *)name taskDescription:(NSString *)taskDescription order:(NSNumber *)order projectId:(NSString *)projectId taskListId:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
 
-- (void) createTask:(KBNTask *)task completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:4];
-    [params setObject:task.name forKey:PARSE_TASK_NAME_COLUMN];
-    [params setObject:task.taskDescription forKey:PARSE_TASK_DESCRIPTION_COLUMN];
-    [params setObject:task.project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
-    [params setObject:task.taskList.taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:6];
+    [params setObject:name forKey:PARSE_TASK_NAME_COLUMN];
+    [params setObject:taskDescription forKey:PARSE_TASK_DESCRIPTION_COLUMN];
+    [params setObject:order forKey:PARSE_TASK_ORDER_COLUMN];
+    [params setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
+    [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+    [params setObject:@"true" forKey:PARSE_TASK_ACTIVE_COLUMN];
     
     [self.afManager POST:PARSE_PROJECTS parameters: params
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -41,84 +42,41 @@
      ];
 }
 
-- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)list success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure{
+-(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
-    [params setObject:list.taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
-    NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, task.taskId];
+    [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+    
+    NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, taskId];
+    
     [self.afManager PUT:stringURL
              parameters:params
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
-                        success(responseObject);
+                        onCompletion(responseObject);
                         }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        failure(error);
+                        onError(error);
                         NSLog(@"Error: %@", error);
                         }
      ];
 }
 
+-(void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
 
-- (void)getTasksOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
-    
-    [self.afManager GET:PARSE_TASKS
-             parameters:nil
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                            success(responseObject);
-                            }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                            failure(error);
-                            NSLog(@"Error: %@", error);
-                            }];
-}
-
--(void)getTasksForProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure
-{
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
-    [where setObject:project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
+    [where setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", nil];
     
     [self.afManager GET:PARSE_TASKS
              parameters:params
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
-                        success(responseObject);
+                        onCompletion(responseObject);
                         }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        failure(error);
+                        onError(error);
                         NSLog(@"Error: %@", error);
                         }];
-}
-
-
-#pragma mark - Deprecated
-
-//This method should be deprecated after refactoring any depending viewcontroller
-- (void)getProjectsOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
-    
-    [self.afManager GET:PARSE_PROJECTS
-             parameters:nil
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                        success(responseObject);
-                        }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        failure(error);
-                        NSLog(@"Error: %@", error);
-                        }];
-    
-}
-
-//This method should be deprecated after refactoring any depending viewcontroller
-- (void)getTaskListsOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure {
-    
-    [self.afManager GET:PARSE_TASKLISTS
-             parameters:nil
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    success(responseObject);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    failure(error);
-                    NSLog(@"Error: %@", error);
-                }];
 }
 
 @end

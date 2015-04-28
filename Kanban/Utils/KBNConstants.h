@@ -61,7 +61,7 @@
 #define PARSE_TASK_PROJECT_COLUMN @"project"
 #define PARSE_TASK_TASK_LIST_COLUMN @"taskList"
 #define PARSE_TASK_ORDER_COLUMN @"order"
-#define PARSE_TASK_DELETED_COLUMN @"deleted"
+#define PARSE_TASK_ACTIVE_COLUMN @"active"
 
 //alert titles
 #define ERROR_ALERT @"ERROR"

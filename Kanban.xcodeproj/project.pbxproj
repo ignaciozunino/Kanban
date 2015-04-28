@@ -16,6 +16,12 @@
 		3A0CCD211AEEB7A40039F629 /* KBNTaskParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD201AEEB7A40039F629 /* KBNTaskParseAPIManager.m */; };
 		3A0CCD261AEEB7B50039F629 /* KBNTaskService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD231AEEB7B50039F629 /* KBNTaskService.m */; };
 		3A0CCD271AEEB7B50039F629 /* KBNTaskServiceOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD251AEEB7B50039F629 /* KBNTaskServiceOld.m */; };
+		3A0CCD2C1AEFC1270039F629 /* KBNTaskListUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD2B1AEFC1270039F629 /* KBNTaskListUtils.m */; };
+		3A0CCD361AEFC1780039F629 /* KBNAlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD2E1AEFC1780039F629 /* KBNAlertUtils.m */; };
+		3A0CCD371AEFC1780039F629 /* KBNProjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD311AEFC1780039F629 /* KBNProjectUtils.m */; };
+		3A0CCD381AEFC1780039F629 /* KBNUserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD331AEFC1780039F629 /* KBNUserUtils.m */; };
+		3A0CCD391AEFC1780039F629 /* UIFont+CustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD351AEFC1780039F629 /* UIFont+CustomFonts.m */; };
+		3A0CCD3C1AEFD2740039F629 /* KBNTaskUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD3B1AEFD2740039F629 /* KBNTaskUtils.m */; };
 		3A312A9C1AEE8408005837A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9A1AEE8408005837A5 /* Main.storyboard */; };
 		3A312A9D1AEE8408005837A5 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9B1AEE8408005837A5 /* Signin.storyboard */; };
 		3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */; };
@@ -24,10 +30,6 @@
 		3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AA71AEE845E005837A5 /* KBNUserParseAPIManager.m */; };
 		3A312AAE1AEE8473005837A5 /* KBNProjectService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AAB1AEE8473005837A5 /* KBNProjectService.m */; };
 		3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AAD1AEE8473005837A5 /* KBNUserService.m */; };
-		3A312AB81AEE84B6005837A5 /* KBNAlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AB11AEE84B6005837A5 /* KBNAlertUtils.m */; };
-		3A312AB91AEE84B6005837A5 /* KBNProjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AB31AEE84B6005837A5 /* KBNProjectUtils.m */; };
-		3A312ABA1AEE84B6005837A5 /* KBNUserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AB51AEE84B6005837A5 /* KBNUserUtils.m */; };
-		3A312ABB1AEE84B6005837A5 /* UIFont+CustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AB71AEE84B6005837A5 /* UIFont+CustomFonts.m */; };
 		3A312AC11AEE8BEE005837A5 /* KBNProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC01AEE8BEE005837A5 /* KBNProject.m */; };
 		3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC31AEE8BEF005837A5 /* KBNTask.m */; };
 		3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC61AEE8BEF005837A5 /* KBNTaskList.m */; };
@@ -84,6 +86,19 @@
 		3A0CCD231AEEB7B50039F629 /* KBNTaskService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskService.m; path = Services/KBNTaskService.m; sourceTree = "<group>"; };
 		3A0CCD241AEEB7B50039F629 /* KBNTaskServiceOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskServiceOld.h; path = Services/KBNTaskServiceOld.h; sourceTree = "<group>"; };
 		3A0CCD251AEEB7B50039F629 /* KBNTaskServiceOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskServiceOld.m; path = Services/KBNTaskServiceOld.m; sourceTree = "<group>"; };
+		3A0CCD2A1AEFC1270039F629 /* KBNTaskListUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskListUtils.h; path = Utils/KBNTaskListUtils.h; sourceTree = "<group>"; };
+		3A0CCD2B1AEFC1270039F629 /* KBNTaskListUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskListUtils.m; path = Utils/KBNTaskListUtils.m; sourceTree = "<group>"; };
+		3A0CCD2D1AEFC1780039F629 /* KBNAlertUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAlertUtils.h; path = Utils/KBNAlertUtils.h; sourceTree = "<group>"; };
+		3A0CCD2E1AEFC1780039F629 /* KBNAlertUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAlertUtils.m; path = Utils/KBNAlertUtils.m; sourceTree = "<group>"; };
+		3A0CCD2F1AEFC1780039F629 /* KBNConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNConstants.h; path = Utils/KBNConstants.h; sourceTree = "<group>"; };
+		3A0CCD301AEFC1780039F629 /* KBNProjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectUtils.h; path = Utils/KBNProjectUtils.h; sourceTree = "<group>"; };
+		3A0CCD311AEFC1780039F629 /* KBNProjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectUtils.m; path = Utils/KBNProjectUtils.m; sourceTree = "<group>"; };
+		3A0CCD321AEFC1780039F629 /* KBNUserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNUserUtils.h; path = Utils/KBNUserUtils.h; sourceTree = "<group>"; };
+		3A0CCD331AEFC1780039F629 /* KBNUserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNUserUtils.m; path = Utils/KBNUserUtils.m; sourceTree = "<group>"; };
+		3A0CCD341AEFC1780039F629 /* UIFont+CustomFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFont+CustomFonts.h"; path = "Utils/UIFont+CustomFonts.h"; sourceTree = "<group>"; };
+		3A0CCD351AEFC1780039F629 /* UIFont+CustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+CustomFonts.m"; path = "Utils/UIFont+CustomFonts.m"; sourceTree = "<group>"; };
+		3A0CCD3A1AEFD2740039F629 /* KBNTaskUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskUtils.h; path = Utils/KBNTaskUtils.h; sourceTree = "<group>"; };
+		3A0CCD3B1AEFD2740039F629 /* KBNTaskUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskUtils.m; path = Utils/KBNTaskUtils.m; sourceTree = "<group>"; };
 		3A312A9A1AEE8408005837A5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Storyboards/Main.storyboard; sourceTree = "<group>"; };
 		3A312A9B1AEE8408005837A5 /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Signin.storyboard; path = Storyboards/Signin.storyboard; sourceTree = "<group>"; };
 		3A312A9E1AEE8420005837A5 /* KBNSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSignInViewController.h; path = Controllers/KBNSignInViewController.h; sourceTree = "<group>"; };
@@ -98,14 +113,6 @@
 		3A312AAB1AEE8473005837A5 /* KBNProjectService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectService.m; path = Services/KBNProjectService.m; sourceTree = "<group>"; };
 		3A312AAC1AEE8473005837A5 /* KBNUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNUserService.h; path = Services/KBNUserService.h; sourceTree = "<group>"; };
 		3A312AAD1AEE8473005837A5 /* KBNUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNUserService.m; path = Services/KBNUserService.m; sourceTree = "<group>"; };
-		3A312AB01AEE84B6005837A5 /* KBNAlertUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAlertUtils.h; path = Utils/KBNAlertUtils.h; sourceTree = "<group>"; };
-		3A312AB11AEE84B6005837A5 /* KBNAlertUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAlertUtils.m; path = Utils/KBNAlertUtils.m; sourceTree = "<group>"; };
-		3A312AB21AEE84B6005837A5 /* KBNProjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectUtils.h; path = Utils/KBNProjectUtils.h; sourceTree = "<group>"; };
-		3A312AB31AEE84B6005837A5 /* KBNProjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectUtils.m; path = Utils/KBNProjectUtils.m; sourceTree = "<group>"; };
-		3A312AB41AEE84B6005837A5 /* KBNUserUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNUserUtils.h; path = Utils/KBNUserUtils.h; sourceTree = "<group>"; };
-		3A312AB51AEE84B6005837A5 /* KBNUserUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNUserUtils.m; path = Utils/KBNUserUtils.m; sourceTree = "<group>"; };
-		3A312AB61AEE84B6005837A5 /* UIFont+CustomFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFont+CustomFonts.h"; path = "Utils/UIFont+CustomFonts.h"; sourceTree = "<group>"; };
-		3A312AB71AEE84B6005837A5 /* UIFont+CustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+CustomFonts.m"; path = "Utils/UIFont+CustomFonts.m"; sourceTree = "<group>"; };
 		3A312ABF1AEE8BEE005837A5 /* KBNProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProject.h; path = Domain/KBNProject.h; sourceTree = "<group>"; };
 		3A312AC01AEE8BEE005837A5 /* KBNProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProject.m; path = Domain/KBNProject.m; sourceTree = "<group>"; };
 		3A312AC21AEE8BEF005837A5 /* KBNTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTask.h; path = Domain/KBNTask.h; sourceTree = "<group>"; };
@@ -154,7 +161,6 @@
 		CCA1A29C1ADEA62F00CC98B5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CCA1A2A61ADEA75C00CC98B5 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CCA1A2A81ADEA79400CC98B5 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
-		CCA1A2AA1ADEAAB900CC98B5 /* KBNConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNConstants.h; path = Utils/KBNConstants.h; sourceTree = "<group>"; };
 		CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		E1248F82C2AA466919F32613 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -353,15 +359,19 @@
 		CCA1A2AD1ADEAABF00CC98B5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				CCA1A2AA1ADEAAB900CC98B5 /* KBNConstants.h */,
-				3A312AB01AEE84B6005837A5 /* KBNAlertUtils.h */,
-				3A312AB11AEE84B6005837A5 /* KBNAlertUtils.m */,
-				3A312AB21AEE84B6005837A5 /* KBNProjectUtils.h */,
-				3A312AB31AEE84B6005837A5 /* KBNProjectUtils.m */,
-				3A312AB41AEE84B6005837A5 /* KBNUserUtils.h */,
-				3A312AB51AEE84B6005837A5 /* KBNUserUtils.m */,
-				3A312AB61AEE84B6005837A5 /* UIFont+CustomFonts.h */,
-				3A312AB71AEE84B6005837A5 /* UIFont+CustomFonts.m */,
+				3A0CCD2D1AEFC1780039F629 /* KBNAlertUtils.h */,
+				3A0CCD2E1AEFC1780039F629 /* KBNAlertUtils.m */,
+				3A0CCD2F1AEFC1780039F629 /* KBNConstants.h */,
+				3A0CCD301AEFC1780039F629 /* KBNProjectUtils.h */,
+				3A0CCD311AEFC1780039F629 /* KBNProjectUtils.m */,
+				3A0CCD321AEFC1780039F629 /* KBNUserUtils.h */,
+				3A0CCD331AEFC1780039F629 /* KBNUserUtils.m */,
+				3A0CCD2A1AEFC1270039F629 /* KBNTaskListUtils.h */,
+				3A0CCD2B1AEFC1270039F629 /* KBNTaskListUtils.m */,
+				3A0CCD3A1AEFD2740039F629 /* KBNTaskUtils.h */,
+				3A0CCD3B1AEFD2740039F629 /* KBNTaskUtils.m */,
+				3A0CCD341AEFC1780039F629 /* UIFont+CustomFonts.h */,
+				3A0CCD351AEFC1780039F629 /* UIFont+CustomFonts.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -558,17 +568,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A0CCD381AEFC1780039F629 /* KBNUserUtils.m in Sources */,
 				18CB2DBC1AEAE40700F5F390 /* (null) in Sources */,
 				3A312AAE1AEE8473005837A5 /* KBNProjectService.m in Sources */,
-				3A312ABA1AEE84B6005837A5 /* KBNUserUtils.m in Sources */,
 				18CB2DBD1AEAE40700F5F390 /* (null) in Sources */,
+				3A0CCD2C1AEFC1270039F629 /* KBNTaskListUtils.m in Sources */,
 				3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */,
 				3A312AA31AEE8442005837A5 /* KBNUser.m in Sources */,
 				3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */,
+				3A0CCD3C1AEFD2740039F629 /* KBNTaskUtils.m in Sources */,
 				3A0CCD211AEEB7A40039F629 /* KBNTaskParseAPIManager.m in Sources */,
 				3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */,
 				3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */,
 				3A312AA81AEE845E005837A5 /* KBNProjectParseAPIManager.m in Sources */,
+				3A0CCD371AEFC1780039F629 /* KBNProjectUtils.m in Sources */,
 				A0C8A7001AEED4560069E236 /* KBNTaskListParseAPIManager.m in Sources */,
 				18D88D3D1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.m in Sources */,
 				CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */,
@@ -576,17 +589,16 @@
 				3A312AC11AEE8BEE005837A5 /* KBNProject.m in Sources */,
 				3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */,
 				3A0CCD271AEEB7B50039F629 /* KBNTaskServiceOld.m in Sources */,
-				3A312AB91AEE84B6005837A5 /* KBNProjectUtils.m in Sources */,
 				3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */,
 				3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */,
 				3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */,
 				A0C8A7031AEED4640069E236 /* KBNTaskListService.m in Sources */,
 				3A0CCD261AEEB7B50039F629 /* KBNTaskService.m in Sources */,
 				3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */,
-				3A312ABB1AEE84B6005837A5 /* UIFont+CustomFonts.m in Sources */,
+				3A0CCD391AEFC1780039F629 /* UIFont+CustomFonts.m in Sources */,
 				3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */,
 				3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */,
-				3A312AB81AEE84B6005837A5 /* KBNAlertUtils.m in Sources */,
+				3A0CCD361AEFC1780039F629 /* KBNAlertUtils.m in Sources */,
 				CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

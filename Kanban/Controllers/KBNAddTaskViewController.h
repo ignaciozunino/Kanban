@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KBNTaskServiceOld.h"
+#import "KBNTask.h"
 
 @protocol KBNAddTaskViewControllerDelegate <NSObject>
 

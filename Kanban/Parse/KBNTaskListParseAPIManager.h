@@ -7,17 +7,15 @@
 //
 
 #import "KBNParseRequestOperationManager.h"
-#import "KBNTask.h"
-#import "KBNProject.h"
-#import "KBNTaskList.h"
 #import "KBNConstants.h"
 
 @interface KBNTaskListParseAPIManager : NSObject
 
 @property AFHTTPRequestOperationManager* afManager;
 
-- (void) createTaskList:(KBNTaskList *)task completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
-- (void)getTaskListOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
--(void)getTaskListsForProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure;
+- (void)createTaskListWithName:(NSString*)name order:(NSNumber*)order projectId:(NSString*)projectId
+               completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
+-(void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 @end

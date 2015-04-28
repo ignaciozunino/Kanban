@@ -13,21 +13,21 @@
 -(instancetype) init{
     
     self = [super init];
-    
     if (self) {
         _afManager = [[KBNParseRequestOperationManager alloc] init];
     }
     return self;
 }
 
-- (void) createTaskList:(KBNTaskList *)taskList completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:4];
-    [params setObject:taskList.name forKey:PARSE_TASKLIST_NAME_COLUMN];
-    [params setObject:taskList.taskListId forKey:PARSE_OBJECTID];
-    [params setObject:taskList.order forKey:PARSE_TASKLIST_ORDER_COLUMN];
-    [params setObject:taskList.project forKey:PARSE_TASKLIST_PROJECT_COLUMN];
+- (void)createTaskListWithName:(NSString*)name
+                          order:(NSNumber*)order
+                      projectId:(NSString*)projectId
+                completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:3];
+    [params setObject:name forKey:PARSE_TASKLIST_NAME_COLUMN];
+    [params setObject:order forKey:PARSE_TASKLIST_ORDER_COLUMN];
+    [params setObject:projectId forKey:PARSE_TASKLIST_PROJECT_COLUMN];
     
     [self.afManager POST:PARSE_TASKLISTS parameters: params
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -41,36 +41,22 @@
      ];
 }
 
-- (void)getTaskListOnSuccess:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure
-{
-    [self.afManager GET:PARSE_TASKLISTS
-             parameters:nil
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    success(responseObject);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    failure(error);
-                    NSLog(@"Error: %@", error);
-                }];
-}
+-(void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
 
--(void)getTaskListsForProject:(KBNProject*)project success:(KBNConnectionSuccessDictionaryBlock)success failure:(KBNConnectionErrorBlock)failure
-{
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
-    [where setObject:project.projectId forKey:PARSE_TASKLIST_PROJECT_COLUMN];
+    [where setObject:projectId forKey:PARSE_TASKLIST_PROJECT_COLUMN];
     
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", PARSE_TASKLIST_ORDER_COLUMN, @"order", nil];
     
     [self.afManager GET:PARSE_TASKLISTS
              parameters:params
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    success(responseObject);
+                    onCompletion(responseObject);
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    failure(error);
+                    onError(error);
                     NSLog(@"Error: %@", error);
                 }];
 }
-
 
 @end
