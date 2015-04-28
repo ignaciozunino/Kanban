@@ -30,7 +30,13 @@
     [super viewDidLoad];
     //Do any additional setup after loading the view.
     
-    [self getProjects];
+   
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+
+   [self getProjects];
+    
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
@@ -46,29 +52,20 @@
 #pragma mark - Private methods
 
 - (void)getProjects {
-    [[KBNTaskServiceOld sharedInstance] getProjectsOnSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        __weak typeof(self) weakself = self;
-        NSMutableArray *projectsArray = [[NSMutableArray alloc] init];
-        
-        NSDictionary *projectList = [responseObject objectForKey:@"results"];
-        
-        for (NSDictionary* item in projectList) {
-            KBNProject *newProject = [[KBNProject alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
-                                                                                    inManagedObjectContext:weakself.managedObjectContext]
-                                         insertIntoManagedObjectContext:weakself.managedObjectContext];
-            
-            newProject.projectId = [item objectForKey:PARSE_OBJECTID];
-            newProject.name = [item objectForKey:PARSE_PROJECT_NAME_COLUMN];
-            newProject.projectDescription = [item objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
-            
-            [projectsArray addObject:newProject];
-        }
-        
-        weakself.projects = projectsArray;
+
+    __weak typeof(self) weakself = self;
+    [KBNAppDelegate activateActivityIndicator:YES];
+    [[KBNProjectService sharedInstance]getProjectsOnSuccess:^(NSArray *records) {
+        weakself.projects = records;
+        dispatch_async(dispatch_get_main_queue(), ^{
         [weakself.tableView reloadData];
         
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [KBNAppDelegate activateActivityIndicator:NO];
+        });
+    } errorBlock:^(NSError *error) {
+        [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        
     }];
 }
 

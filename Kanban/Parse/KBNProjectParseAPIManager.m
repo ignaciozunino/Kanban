@@ -13,10 +13,12 @@
 -(instancetype) init{
     
     self = [super init];
-     self.afManager = [[KBNParseRequestOperationManager alloc]init];
-   
+    self.afManager = [[KBNParseRequestOperationManager alloc]init];
+    
     return self;
 }
+
+
 
 #pragma mark - project methods
 
@@ -54,13 +56,13 @@
     NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription};
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    
+                     
                      NSArray * tasks = DEFAULT_TASK_LISTS;
                      [self createTasksListForProject:responseObject tasks:tasks onError:onError onCompletion:onCompletion manager:self.afManager];
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
-                  
+                     
                  }
      ];
 }
@@ -77,7 +79,17 @@
     return nil;
 }
 
-- (NSArray*) getProjects:(KBNConnectionErrorBlock)onError{
-    return nil;
+- (void)getProjectsOnSuccess:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError {
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
+    [params setObject:@"-createdAt" forKey:@"order"];
+    [self.afManager GET:PARSE_PROJECTS parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *projectList = [responseObject objectForKey:@"results"];
+        
+        onSuccess(projectList);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        onError(error);
+    }];
+    
+    
 }
 @end

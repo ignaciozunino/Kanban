@@ -73,7 +73,9 @@
 //Blocks 
 typedef void (^KBNConnectionErrorBlock) (NSError *error);
 typedef void (^KBNConnectionSuccessBlock)() ;
-typedef void (^KBNConnectionSuccessDictionaryBlock)(NSDictionary* response);
+typedef void (^KBNConnectionSuccessArrayBlock) (NSArray *records);
+typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
+
 @interface KBNConstants : NSObject
 
 @end
