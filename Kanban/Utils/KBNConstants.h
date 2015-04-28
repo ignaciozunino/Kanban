@@ -39,6 +39,7 @@
 #define CREATING_PROJECT_OFFLINE_ERROR @"The service is offline."
 #define CREATING_TASK_WITHOUT_NAME_ERROR @"Task must have a name"
 #define CREATING_TASKLIST_WITHOUT_NAME_ERROR @"Task List must have a name"
+#define CREATING_TASK_OFFLINE_ERROR @"The connection to the server has timed out"
 
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
