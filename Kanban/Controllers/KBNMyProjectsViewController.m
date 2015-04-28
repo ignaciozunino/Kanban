@@ -27,7 +27,13 @@
     [super viewDidLoad];
     //Do any additional setup after loading the view.
     
-    [self getProjects];
+   
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+
+   [self getProjects];
+    
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
@@ -43,27 +49,21 @@
 #pragma mark - Private methods
 
 - (void)getProjects {
-    
-    //For now this method is for testing purposes. Sooner it will get my projects from the database
-    
-    NSMutableArray *projectsArray = [[NSMutableArray alloc] init];
-    
-    NSURL *url = [[NSBundle mainBundle] URLForResource:RESOURCE_NAME_PROJECTS withExtension:@"json"];
-    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    NSArray *projectList = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    
-    for (NSDictionary* item in projectList) {
-        KBNProject *newProject = [[KBNProject alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
-                                                                          inManagedObjectContext:self.managedObjectContext]
-                               insertIntoManagedObjectContext:self.managedObjectContext];
+    __weak typeof(self) weakself = self;
+    [KBNAppDelegate activateActivityIndicator:YES];
+    [[KBNProjectService sharedInstance]getProjectsOnSuccess:^(NSArray *records) {
+        weakself.projects = records;
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [weakself.tableView reloadData];
         
-        newProject.name = [item objectForKey:@"name"];
-        newProject.projectDescription = [item objectForKey:@"projectDescription"];
+        [KBNAppDelegate activateActivityIndicator:NO];
+        });
+    } errorBlock:^(NSError *error) {
+        [KBNAppDelegate activateActivityIndicator:NO];
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
         
-        [projectsArray addObject:newProject];
-    }
+    }];
     
-    self.projects = projectsArray;
 }
 
 #pragma mark - Table View Data Source

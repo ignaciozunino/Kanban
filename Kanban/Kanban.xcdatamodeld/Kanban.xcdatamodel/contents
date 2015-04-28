@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="KBNProject" representedClassName="KBNProject" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="projectDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="projectId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="taskLists" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTaskList" inverseName="project" inverseEntity="KBNTaskList" syncable="YES"/>
-        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KBNTask" inverseName="project" inverseEntity="KBNTask" syncable="YES"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTask" inverseName="project" inverseEntity="KBNTask" syncable="YES"/>
     </entity>
     <entity name="KBNTask" representedClassName="KBNTask" syncable="YES">
+        <attribute name="active" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="taskDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taskId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KBNProject" inverseName="tasks" inverseEntity="KBNProject" syncable="YES"/>
         <relationship name="taskList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KBNTaskList" inverseName="tasks" inverseEntity="KBNTaskList" syncable="YES"/>
     </entity>
-    <entity name="KBNTaskList" syncable="YES">
+    <entity name="KBNTaskList" representedClassName="KBNTaskList" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="taskListId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KBNProject" inverseName="taskLists" inverseEntity="KBNProject" syncable="YES"/>
-        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KBNTask" inverseName="taskList" inverseEntity="KBNTask" syncable="YES"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTask" inverseName="taskList" inverseEntity="KBNTask" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KBNProject" positionX="315" positionY="-189" width="128" height="103"/>
-        <element name="KBNTask" positionX="-72" positionY="-166" width="128" height="103"/>
-        <element name="KBNTaskList" positionX="0" positionY="-450" width="128" height="88"/>
+        <element name="KBNProject" positionX="-56" positionY="-306" width="128" height="120"/>
+        <element name="KBNTask" positionX="115" positionY="-130" width="128" height="150"/>
+        <element name="KBNTaskList" positionX="-225" positionY="-108" width="128" height="120"/>
     </elements>
 </model>

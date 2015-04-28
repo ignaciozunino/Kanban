@@ -28,21 +28,20 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
-}
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
-
+//tests the regular signin 
 - (void)testLogin {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
-    [[KBNUserService sharedInstance]createUser:@"user@test.com" withPasword:@"12345g" completionBlock:^{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testLogin normal"];
+    NSDate *currDate = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
+    NSString *dateString = [dateFormatter stringFromDate:currDate];
+    
+    //we put the date in the usernameso we always have diferent users
+    NSString * user = [NSString stringWithFormat:@"user%@@test.com",dateString];
+    KBNUserService * service = [[KBNUserService alloc] init];
+    service.dataService = [[KBNUserParseAPIManager alloc]init];
+    [service createUser:user withPasword:@"12345g" completionBlock:^{
          XCTAssertTrue(true);
         [expectation fulfill];
     } errorBlock:^(NSError *error) {

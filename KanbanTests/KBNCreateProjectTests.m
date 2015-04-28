@@ -29,17 +29,7 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
-}
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
 
 //Feature tested: Create Project
 //Description: In this test we will verify that you cant create a project without a name
@@ -107,7 +97,7 @@
               stubBlock(errorConnection);
               
           });
-    XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testOfflineCreateProject"];
     serviceOrig.dataService = projectAPIManager;
     [serviceOrig createProject:@"test" withDescription:@"desc"
                completionBlock:^ {
