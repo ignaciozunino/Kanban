@@ -12,6 +12,7 @@
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
 #import "KBNAlertUtils.h"
+#import "KBNErrorUtils.h"
 
 @interface KBNSignInViewController : UIViewController
 
