@@ -26,20 +26,11 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
-}
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
-
+///test that we get all the projects
+///we create a project and then we bring all the projects and we verify that the new created project is on the list
 - (void)testGetProjects {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testGetProjects ok"];
     NSDate *currDate = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
@@ -48,7 +39,9 @@
     //we put the date in the name so we always have diferent projects
     NSString * name = [NSString stringWithFormat:@"test project:%@",dateString];
     //first we create a project to be sure we have at least one project to bring
-    [[KBNProjectService sharedInstance] createProject:name
+    KBNProjectService * service = [[KBNProjectService alloc]init];
+    service.dataService =[[KBNProjectParseAPIManager alloc]init];
+    [service createProject:name
      
                                       withDescription:@"created with automatic test"
                                       completionBlock:^{
