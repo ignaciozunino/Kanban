@@ -20,9 +20,9 @@
 }
 
 - (void)createTaskListWithName:(NSString*)name
-                          order:(NSNumber*)order
-                      projectId:(NSString*)projectId
-                completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+                         order:(NSNumber*)order
+                     projectId:(NSString*)projectId
+               completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:3];
     [params setObject:name forKey:PARSE_TASKLIST_NAME_COLUMN];
@@ -31,18 +31,16 @@
     
     [self.afManager POST:PARSE_TASKLISTS parameters: params
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     NSLog(@"POST data JSON returned: %@", responseObject);
                      onCompletion(responseObject);
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
-                     NSLog(@"Error: %@", error);
                  }
      ];
 }
 
 -(void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-
+    
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:projectId forKey:PARSE_TASKLIST_PROJECT_COLUMN];
     
@@ -55,7 +53,6 @@
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     onError(error);
-                    NSLog(@"Error: %@", error);
                 }];
 }
 

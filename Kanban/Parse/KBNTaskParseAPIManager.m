@@ -21,7 +21,7 @@
 }
 
 -(void)createTaskWithName:(NSString *)name taskDescription:(NSString *)taskDescription order:(NSNumber *)order projectId:(NSString *)projectId taskListId:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:6];
     [params setObject:name forKey:PARSE_TASK_NAME_COLUMN];
     [params setObject:taskDescription forKey:PARSE_TASK_DESCRIPTION_COLUMN];
@@ -32,12 +32,10 @@
     
     [self.afManager POST:PARSE_PROJECTS parameters: params
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     NSLog(@"POST data JSON returned: %@", responseObject);
                      onCompletion(responseObject);
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
-                     NSLog(@"Error: %@", error);
                  }
      ];
 }
@@ -52,17 +50,16 @@
     [self.afManager PUT:stringURL
              parameters:params
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
-                        onCompletion(responseObject);
-                        }
+                    onCompletion(responseObject);
+                }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        onError(error);
-                        NSLog(@"Error: %@", error);
-                        }
+                    onError(error);
+                }
      ];
 }
 
 -(void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-
+    
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
     
@@ -71,12 +68,11 @@
     [self.afManager GET:PARSE_TASKS
              parameters:params
                 success:^(AFHTTPRequestOperation *operation, id responseObject){
-                        onCompletion(responseObject);
-                        }
+                    onCompletion(responseObject);
+                }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        onError(error);
-                        NSLog(@"Error: %@", error);
-                        }];
+                    onError(error);
+                }];
 }
 
 @end
