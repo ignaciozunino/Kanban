@@ -44,11 +44,11 @@
         weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
         [weakself.delegate didCreateTask:weakself.addTask];
         [weakself dismissViewControllerAnimated:YES completion:nil];
-
+        
     } errorBlock:^(NSError *error) {
-                [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-                [weakself dismissViewControllerAnimated:YES completion:nil];
-
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
+        
     }];
 }
 

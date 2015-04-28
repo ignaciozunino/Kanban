@@ -28,9 +28,10 @@
     [params setObject:order forKey:PARSE_TASK_ORDER_COLUMN];
     [params setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
     [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
-    [params setObject:@"true" forKey:PARSE_TASK_ACTIVE_COLUMN];
+    [params setObject:[NSNumber numberWithBool:YES] forKey:PARSE_TASK_ACTIVE_COLUMN];
     
-    [self.afManager POST:PARSE_PROJECTS parameters: params
+    
+    [self.afManager POST:PARSE_TASKS parameters: params
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                      onCompletion(responseObject);
                  }
