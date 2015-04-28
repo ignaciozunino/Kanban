@@ -76,4 +76,47 @@
                 }];
 }
 
+//-(void)decrementOrderOnTaskList:(NSString*)taskListId from:(NSNumber*)order completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+//    
+//    NSDictionary *operation = NSDictionary dictionaryWithObjectsAndKeys:<#(id), ...#>, nil
+//    
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
+//    [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+//    
+//    [self.afManager PUT:PARSE_TASKS
+//             parameters:params
+//                success:^(AFHTTPRequestOperation *operation, id responseObject){
+//                    onCompletion(responseObject);
+//                }
+//                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                    onError(error);
+//                }
+//     ];
+//}
+
+-(void)getTasksForTaskList:(NSString*)taskListId withOrderGreaterThan:(NSNumber*) order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError
+{
+    NSMutableDictionary *greaterThanOrder = [NSMutableDictionary dictionaryWithCapacity:1];
+    [greaterThanOrder setObject:order forKey:@"$gt"];//@{@"$gt":order};
+    
+    NSDictionary *column = [NSDictionary dictionaryWithObjectsAndKeys:greaterThanOrder, PARSE_TASK_ORDER_COLUMN, nil];
+    
+    NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:2];
+    [where setObject:taskListId forKey:PARSE_TASK_PROJECT_COLUMN];
+
+    //[where setObject:orderDict forKey:PARSE_TASK_ORDER_COLUMN];
+    [where setObject:greaterthan forKey:PARSE_TASK_ORDER_COLUMN];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", nil];
+    
+    [self.afManager GET:PARSE_TASKS
+             parameters:params
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    NSDictionary *projectList = [responseObject objectForKey:@"results"];
+                }
+                failure:^(AFHTTPRequestOperation operation, NSError error) {
+                    onError(error);
+                    NSLog(@"Error: %@", error);
+                }];
+}
+
 @end
