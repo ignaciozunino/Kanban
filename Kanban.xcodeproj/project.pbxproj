@@ -12,6 +12,7 @@
 		18CB2DBC1AEAE40700F5F390 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		18CB2DBD1AEAE40700F5F390 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		18D88D3D1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D88D3C1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.m */; };
+		18D88D3F1AEEC4BB00D9BDE1 /* KBNGetProjectsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D88D3E1AEEC4BB00D9BDE1 /* KBNGetProjectsTest.m */; };
 		26081C403E469312BC4A463C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1248F82C2AA466919F32613 /* libPods.a */; };
 		3A312A9C1AEE8408005837A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9A1AEE8408005837A5 /* Main.storyboard */; };
 		3A312A9D1AEE8408005837A5 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9B1AEE8408005837A5 /* Signin.storyboard */; };
@@ -72,6 +73,7 @@
 		18BE0FAC1AEE755500B2B0C2 /* KBNLoginTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNLoginTest.m; sourceTree = "<group>"; };
 		18D88D3B1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNParseRequestOperationManager.h; path = Services/KBNParseRequestOperationManager.h; sourceTree = "<group>"; };
 		18D88D3C1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNParseRequestOperationManager.m; path = Services/KBNParseRequestOperationManager.m; sourceTree = "<group>"; };
+		18D88D3E1AEEC4BB00D9BDE1 /* KBNGetProjectsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNGetProjectsTest.m; sourceTree = "<group>"; };
 		26271C345D16C540A1C1CE66 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		3A312A9A1AEE8408005837A5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Storyboards/Main.storyboard; sourceTree = "<group>"; };
 		3A312A9B1AEE8408005837A5 /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Signin.storyboard; path = Storyboards/Signin.storyboard; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				CCA1A27A1ADEA3D900CC98B5 /* KBNCreateProjectTests.m */,
+				18D88D3E1AEEC4BB00D9BDE1 /* KBNGetProjectsTest.m */,
 				18BE0FAC1AEE755500B2B0C2 /* KBNLoginTest.m */,
 				CCA1A2781ADEA3D900CC98B5 /* Supporting Files */,
 			);
@@ -566,6 +569,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCA1A27B1ADEA3D900CC98B5 /* KBNCreateProjectTests.m in Sources */,
+				18D88D3F1AEEC4BB00D9BDE1 /* KBNGetProjectsTest.m in Sources */,
 				18BE0FAD1AEE755500B2B0C2 /* KBNLoginTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

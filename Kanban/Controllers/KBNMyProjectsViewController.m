@@ -27,7 +27,13 @@
     [super viewDidLoad];
     //Do any additional setup after loading the view.
     
-    [self getProjects];
+   
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+
+   [self getProjects];
+    
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
@@ -43,6 +49,20 @@
 #pragma mark - Private methods
 
 - (void)getProjects {
+    __weak typeof(self) weakself = self;
+    [KBNAppDelegate activateActivityIndicator:YES];
+    [[KBNProjectService sharedInstance]getProjectsOnSuccess:^(NSArray *records) {
+        weakself.projects = records;
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [weakself.tableView reloadData];
+        
+        [KBNAppDelegate activateActivityIndicator:NO];
+        });
+    } errorBlock:^(NSError *error) {
+        [KBNAppDelegate activateActivityIndicator:NO];
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        
+    }];
     
 }
 

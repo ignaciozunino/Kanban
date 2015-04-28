@@ -16,7 +16,8 @@
 -(void) editProject: (NSString *)name newDescription:newDescription completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 -(void) removeProject: (NSString *)name completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 -(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError;
--(NSArray*) getProjects:(KBNConnectionErrorBlock)onError;
+- (void)getProjectsOnSuccess:(KBNConnectionSuccesDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError;
+
 
 @property KBNParseRequestOperationManager * afManager;
 
