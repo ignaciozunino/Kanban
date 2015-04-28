@@ -63,7 +63,7 @@
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
     
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", PARSE_TASK_ORDER_COLUMN, @"order",nil];
     
     [self.afManager GET:PARSE_TASKS
              parameters:params
