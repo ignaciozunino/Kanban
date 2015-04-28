@@ -37,11 +37,8 @@
     
     }else{
         NSString *domain = ERROR_DOMAIN;
-       
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": SIGNIN_ERROR};
-                                  
         NSError *errorPtr = [NSError errorWithDomain:domain code:-101
-                                    userInfo:info];
+                                    userInfo:nil];
         onError(errorPtr);
     }
     
