@@ -39,16 +39,21 @@
     
     __weak typeof(self) weakself = self;
     
-//    [KBNTaskService sharedInstance] createTaskWithName:self.addTask.name taskDescription:<#(NSString *)#> order:<#(NSNumber *)#> projectId:<#(NSString *)#> taskListId:<#(NSString *)#> completionBlock:<#^(NSDictionary *response)onCompletion#> errorBlock:<#^(NSError *error)onError#>
-//    
-//    [[KBNTaskService sharedInstance] createTask:self.addTask success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        weakself.addTask.taskId = [responseObject objectForKey:PARSE_OBJECTID];
-//        [weakself.delegate didCreateTask:weakself.addTask];
-//        [weakself dismissViewControllerAnimated:YES completion:nil];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-//        [weakself dismissViewControllerAnimated:YES completion:nil];
-//    }];
+    [[KBNTaskService sharedInstance] createTaskWithName:self.addTask.name taskDescription:self.addTask.taskDescription order:[self getOrderNumber] projectId:self.addTask.project.projectId taskListId:self.addTask.taskList.taskListId completionBlock:^(NSDictionary *response) {
+        
+        weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
+        [weakself.delegate didCreateTask:weakself.addTask];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
+
+    } errorBlock:^(NSError *error) {
+                [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+                [weakself dismissViewControllerAnimated:YES completion:nil];
+
+    }];
+}
+
+- (NSNumber*)getOrderNumber {
+    return [self.delegate nextOrderNumber];
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
