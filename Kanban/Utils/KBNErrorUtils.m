@@ -18,7 +18,7 @@
             break;
             
         default:
-            return @"";
+            return @"Unknown Error";
             break;
     }
 }
