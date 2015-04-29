@@ -9,7 +9,6 @@
 #import "KBNMyProjectsViewController.h"
 #import "KBNProjectPageViewController.h"
 #import "KBNAppDelegate.h"
-#import "KBNTaskServiceOld.h"
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
 
