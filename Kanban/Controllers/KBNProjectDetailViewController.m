@@ -15,7 +15,7 @@
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
 #define SEGUE_ADD_TASK @"addTask"
-#define TASK_SELECTION_THRESHOLD 50
+#define TASK_SWIPE_THRESHOLD 50
 
 @interface KBNProjectDetailViewController ()
 
@@ -94,13 +94,13 @@
     } else if (sender.state == UIGestureRecognizerStateEnded) {
         _endPoint = [sender locationInView:self.tableView.superview];
         if (_selectedTask) {
-            if (_endPoint.x > _beginPoint.x + TASK_SELECTION_THRESHOLD) {
+            if (_endPoint.x > _beginPoint.x + TASK_SWIPE_THRESHOLD) {
                 // Swipe Right
                 [self.delegate moveToRightTask:_selectedTask from:self];
                 if (self.pageIndex < self.totalPages -1) {
                     [self removeTask:_selectedTask];
                 }
-            } else if (_endPoint.x < _beginPoint.x - TASK_SELECTION_THRESHOLD) {
+            } else if (_endPoint.x < _beginPoint.x - TASK_SWIPE_THRESHOLD) {
                 // Swipe Left
                 [self.delegate moveToLeftTask:_selectedTask from:self];
                 if (self.pageIndex > 0) {
