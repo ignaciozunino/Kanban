@@ -13,7 +13,7 @@
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
 #define SEGUE_ADD_TASK @"addTask"
-
+#define TASK_SELECTION_THRESHOLD 50
 
 @interface KBNProjectDetailViewController ()
 
@@ -25,12 +25,14 @@
 
 @property (assign, nonatomic) BOOL cellSelected;
 
+
+@property CGPoint beginPoint, endPoint;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+@property (strong, nonatomic) KBNTask *selectedTask;
 @end
 
 @implementation KBNProjectDetailViewController {
-    CGPoint beginPoint, endPoint;
-    NSIndexPath *selectedIndexPath;
-    KBNTask *selectedTask;
+
 }
 
 - (void)viewDidLoad {
@@ -81,26 +83,26 @@
 - (IBAction)handleLongPress:(UILongPressGestureRecognizer *)sender {
     
     if (sender.state == UIGestureRecognizerStateBegan) {
-        beginPoint = [sender locationInView:self.tableView.superview];
-        selectedIndexPath = [self indexPathForSender:sender];
-        selectedTask = [self.taskListTasks objectAtIndex:selectedIndexPath.row];
+        _beginPoint = [sender locationInView:self.tableView.superview];
+        _selectedIndexPath = [self indexPathForSender:sender];
+        _selectedTask = [self.taskListTasks objectAtIndex:_selectedIndexPath.row];
         
         [self toggleSelectedStatus:sender];
         [self.delegate toggleScrollStatus];
     } else if (sender.state == UIGestureRecognizerStateEnded) {
-        endPoint = [sender locationInView:self.tableView.superview];
-        if (selectedTask) {
-            if (endPoint.x > beginPoint.x + 50) {
+        _endPoint = [sender locationInView:self.tableView.superview];
+        if (_selectedTask) {
+            if (_endPoint.x > _beginPoint.x + TASK_SELECTION_THRESHOLD) {
                 // Swipe Right
-                [self.delegate moveToRightTask:selectedTask from:self];
+                [self.delegate moveToRightTask:_selectedTask from:self];
                 if (self.pageIndex < self.totalPages -1) {
-                    [self removeTask:selectedTask];
+                    [self removeTask:_selectedTask];
                 }
-            } else if (endPoint.x < beginPoint.x - 50) {
+            } else if (_endPoint.x < _beginPoint.x - TASK_SELECTION_THRESHOLD) {
                 // Swipe Left
-                [self.delegate moveToLeftTask:selectedTask from:self];
+                [self.delegate moveToLeftTask:_selectedTask from:self];
                 if (self.pageIndex > 0) {
-                    [self removeTask:selectedTask];
+                    [self removeTask:_selectedTask];
                 }
             }
         }
