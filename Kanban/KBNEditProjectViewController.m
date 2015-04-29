@@ -49,7 +49,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_TASKLIST_CELL forIndexPath:indexPath];
     KBNTaskList *taskList = [self.states objectAtIndex:indexPath.row];
     cell.textLabel.text = taskList.name;
-    cell.textLabel.font = [UIFont getKBNTableFont];
+    cell.textLabel.font = [UIFont getTableFont];
     cell.textLabel.textColor = [UIColor whiteColor];
     return cell;
 }
