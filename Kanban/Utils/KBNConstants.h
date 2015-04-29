@@ -38,6 +38,8 @@
 #define CREATING_PROJECT_WITHOUTNAME_ERROR @"Project must have a name"
 #define CREATING_PROJECT_OFFLINE_ERROR @"The service is offline."
 #define CREATING_TASK_WITHOUT_NAME_ERROR @"Task must have a name"
+#define CREATING_TASKLIST_WITHOUT_NAME_ERROR @"Task List must have a name"
+#define CREATING_TASK_OFFLINE_ERROR @"The connection to the server has timed out"
 
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
@@ -60,7 +62,7 @@
 #define PARSE_TASK_PROJECT_COLUMN @"project"
 #define PARSE_TASK_TASK_LIST_COLUMN @"taskList"
 #define PARSE_TASK_ORDER_COLUMN @"order"
-#define PARSE_TASK_DELETED_COLUMN @"deleted"
+#define PARSE_TASK_ACTIVE_COLUMN @"active"
 
 //alert titles
 #define ERROR_ALERT @"ERROR"
@@ -71,8 +73,8 @@
 
 //Blocks 
 typedef void (^KBNConnectionErrorBlock) (NSError *error);
-typedef void(^KBNConnectionSuccesBlock)() ;
-typedef void (^KBNConnectionSuccesArrayBlock) (NSArray *records);
+typedef void (^KBNConnectionSuccessBlock)() ;
+typedef void (^KBNConnectionSuccessArrayBlock) (NSArray *records);
 typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
 
 @interface KBNConstants : NSObject

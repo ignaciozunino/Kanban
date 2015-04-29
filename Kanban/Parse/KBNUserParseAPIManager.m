@@ -19,7 +19,7 @@
 }
 
 #pragma mark - user methods
--(void) createUser: (KBNUser *) user completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+-(void) createUser: (KBNUser *) user completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
     NSDictionary *data = @{@"username": user.username, @"password": user.password};
     [self.afManager POST:PARSE_USERS parameters: data

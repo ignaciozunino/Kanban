@@ -8,8 +8,16 @@
 
 #import "KBNProjectPageViewController.h"
 #import "KBNAppDelegate.h"
+#import "KBNTaskListUtils.h"
+#import "KBNTaskUtils.h"
+#import "KBNAlertUtils.h"
+
 
 @interface KBNProjectPageViewController ()
+
+@property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) NSArray* projectTasks;
+@property (strong, nonatomic) NSArray* projectLists;
 
 @end
 
@@ -22,23 +30,7 @@
     
     self.title = self.project.name;
     
-    self.states = DEFAULT_TASK_LISTS;
-    
-    [self getTasks];
-    
-    // Create page view controller
-    self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:PAGE_VC];
-    self.pageViewController.dataSource = self;
-    KBNProjectDetailViewController* startingViewController = [self viewControllerAtIndex:0];
-    NSArray *viewControllers = @[startingViewController];
-    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    
-    // Change the size of page view controller
-    self.pageViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-    [self addChildViewController:_pageViewController];
-    [self.view addSubview:_pageViewController.view];
-    [self.pageViewController didMoveToParentViewController:self];
-    
+    [self getProjectLists];
     
 }
 
@@ -47,14 +39,121 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+#pragma mark - Data methods
+
+- (void)getProjectLists {
+    __weak typeof(self) weakself = self;
+    
+    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
+        
+        NSMutableArray *taskLists = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* params in [response objectForKey:@"results"]) {
+            [taskLists addObject:[KBNTaskListUtils taskListForProject:self.project params:params]];
+        }
+        
+        weakself.projectLists = taskLists;
+        [weakself getProjectTasks];
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
+    }];
 }
 
-#pragma mark - Private methods
-
-- (void)getTasks {
+- (void)getProjectTasks {
+    __weak typeof(self) weakself = self;
     
+    [[KBNTaskService sharedInstance] getTasksForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
+        
+        NSMutableArray *tasks = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* params in [response objectForKey:@"results"]) {
+            NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+            KBNTaskList *taskList;
+            
+            for (KBNTaskList* list in weakself.projectLists) {
+                if ([list.taskListId isEqualToString:taskListId]) {
+                    taskList = list;
+                    break;
+                }
+            }
+            [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
+        }
+        
+        weakself.projectTasks = tasks;
+        [weakself createPageViewController];
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error getting Tasks: %@",error.localizedDescription);
+    }];
+}
+
+#pragma mark - Controller methods
+
+- (void)createPageViewController {
+    
+    // Configure appearance for page control indicator
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    pageControl.backgroundColor = [UIColor whiteColor];
+    
+    // Create page view controller
+    self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:PAGE_VC];
+    self.pageViewController.dataSource = self;
+    
+    [self startingViewController];
+    
+    // Change the size of page view controller
+    self.pageViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [self addChildViewController:_pageViewController];
+    [self.view addSubview:_pageViewController.view];
+    [self.pageViewController didMoveToParentViewController:self];
+    
+    for (UIScrollView *view in self.pageViewController.view.subviews) {
+        if ([view isKindOfClass:[UIScrollView class]]) {
+            self.scrollView = view;
+        }
+    }
+}
+
+- (void)startingViewController {
+    KBNProjectDetailViewController* startingViewController = [self viewControllerAtIndex:0];
+    NSArray *viewControllers = @[startingViewController];
+    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+}
+
+-(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index {
+    if (([self.projectLists count] == 0) || (index >= [self.projectLists count]))
+    {
+        return nil;
+    }
+    
+    // Create a new view controller and pass suitable data.
+    KBNProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
+    
+    projectDetailViewController.delegate = self;
+    projectDetailViewController.pageIndex = index;
+    projectDetailViewController.totalPages = self.projectLists.count;
+    projectDetailViewController.project = self.project;
+    
+    KBNTaskList *currentList = [self.project.taskLists objectAtIndex:index];
+    
+    projectDetailViewController.taskListTasks = [self tasksForList:currentList];
+    projectDetailViewController.taskList = currentList;
+    
+    return projectDetailViewController;
+}
+
+-(NSArray*)tasksForList:(KBNTaskList*)list {
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    for (KBNTask* task in self.projectTasks) {
+        if ([task.taskList.taskListId isEqualToString:list.taskListId]){
+            [result addObject:task];
+        }
+    }
+    return result;
 }
 
 #pragma mark - Page View Controller Data Source
@@ -78,36 +177,92 @@
         return nil;
     }
     index++;
-    if (index == [self.states count])
+    if (index == [self.projectLists count])
     {
         return nil;
     }
     return [self viewControllerAtIndex:index];
 }
 
--(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index
-{
-    if (([self.states count] == 0) || (index >= [self.states count]))
-    {
-        return nil;
+-(NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
+    return [self.projectLists count];
+}
+
+-(NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
+    return ((KBNProjectDetailViewController*)[self.pageViewController.viewControllers lastObject]).pageIndex;
+}
+
+#pragma mark - Project Detail View Controller Delegate
+
+- (void)moveToRightFrom:(KBNProjectDetailViewController *)viewController {
+    
+    if (viewController.pageIndex == [self.projectLists count] - 1) return;
+    
+    KBNProjectDetailViewController *nextViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerAfterViewController:viewController];
+    [self.pageViewController setViewControllers:@[nextViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+}
+
+- (void)moveToLeftFrom:(KBNProjectDetailViewController *)viewController {
+    
+    if (viewController.pageIndex == 0) return;
+    
+    KBNProjectDetailViewController *nextViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
+    [self.pageViewController setViewControllers:@[nextViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
+
+}
+
+- (void)moveToRightTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
+    
+    NSUInteger index = 0;
+    for (KBNTaskList* list in self.projectLists) {
+        if ([list.taskListId isEqualToString:task.taskList.taskListId]) {
+            break;
+        }
+        index++;
     }
     
-    // Create a new view controller and pass suitable data.
-    KBNProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
+    if (index < self.projectLists.count - 1) {
+        [self moveTask:task toList:[self.projectLists objectAtIndex:++index]];
+    }
+}
 
-    projectDetailViewController.pageIndex = index;
+- (void)moveToLeftTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
     
-    return projectDetailViewController;
+    NSUInteger index = 0;
+    for (KBNTaskList* list in self.projectLists) {
+        if ([list.taskListId isEqualToString:task.taskList.taskListId]) {
+            break;
+        }
+        index++;
+    }
+    
+    if (index > 0) {
+        [self moveTask:task toList:[self.projectLists objectAtIndex:--index]];
+    }
+
 }
 
--(NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController
-{
-    return [self.states count];
+- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)taskList {
+    
+    task.taskList = taskList;
+    
+    [[KBNTaskService sharedInstance] moveTask:task.taskId toList:taskList.taskListId completionBlock:^(NSDictionary *response) {
+        //
+    } errorBlock:^(NSError *error) {
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+    }];
 }
 
--(NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController
-{
-    return 0;
+- (void)toggleScrollStatus {
+    self.scrollView.scrollEnabled = !self.scrollView.scrollEnabled;
+}
+
+#pragma mark - Add Task View Controller delegate
+
+-(void)didCreateTask:(KBNTask *)task {
+    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.projectTasks];
+    [temp addObject:task];
+    self.projectTasks = temp;
 }
 
 

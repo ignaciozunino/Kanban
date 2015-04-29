@@ -9,6 +9,9 @@
 #import "KBNMyProjectsViewController.h"
 #import "KBNProjectPageViewController.h"
 #import "KBNAppDelegate.h"
+#import "KBNTaskServiceOld.h"
+#import "KBNTaskService.h"
+#import "KBNAlertUtils.h"
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
 #define SEGUE_PROJECT_DETAIL @"projectDetail"
@@ -49,6 +52,7 @@
 #pragma mark - Private methods
 
 - (void)getProjects {
+
     __weak typeof(self) weakself = self;
     [KBNAppDelegate activateActivityIndicator:YES];
     [[KBNProjectService sharedInstance]getProjectsOnSuccess:^(NSArray *records) {
@@ -63,7 +67,6 @@
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
         
     }];
-    
 }
 
 #pragma mark - Table View Data Source

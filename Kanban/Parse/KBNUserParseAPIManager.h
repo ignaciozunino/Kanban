@@ -14,7 +14,7 @@
 
 @interface KBNUserParseAPIManager :NSObject
 //User functions
--(void) createUser:(KBNUser *) user completionBlock:(KBNConnectionSuccesBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+-(void) createUser:(KBNUser *) user completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 @property KBNParseRequestOperationManager * afManager;
 
