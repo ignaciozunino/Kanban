@@ -25,7 +25,7 @@
 
 -(void)createTaskListWithName:(NSString *)name order:(NSNumber *)order projectId:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
 
-    if ([name isEqualToString:@""] || !name) {
+    if (!name || [name isEqualToString:@""]) {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_TASKLIST_WITHOUT_NAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-103 userInfo:info];
