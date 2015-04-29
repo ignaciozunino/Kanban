@@ -9,6 +9,8 @@
 #import "KBNProjectDetailViewController.h"
 #import "KBNAppDelegate.h"
 #import "KBNTaskDetailViewController.h"
+#import "KBNTaskService.h"
+#import "KBNAlertUtils.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
@@ -152,10 +154,27 @@
 
 // Removes task from the the current list array when it´s moved to another list and reload data
 - (void)removeTask:(KBNTask*)task {
+    
+    // Get the index of the task to be removed
+    NSUInteger index = [self.taskListTasks indexOfObject:task];
+    
+    // Remove the task from the list
     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.taskListTasks];
     [temp removeObject:task];
     self.taskListTasks = temp;
+    
     [self.tableView reloadData];
+    
+    // Compress orders in the taskList
+    NSMutableArray* tasksToBeUpdated = [[NSMutableArray alloc] init];
+    for (int i = (int)index; i < self.taskListTasks.count; i++) {
+        [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
+    }
+    [[KBNTaskService sharedInstance] decrementOrderToTaskIds:tasksToBeUpdated completionBlock:^{
+        //
+    } errorBlock:^(NSError *error) {
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+    }];
 }
 
 #pragma mark - Add Task View Controller delegate
