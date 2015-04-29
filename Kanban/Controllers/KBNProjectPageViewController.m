@@ -11,6 +11,7 @@
 #import "KBNTaskListUtils.h"
 #import "KBNTaskUtils.h"
 #import "KBNAlertUtils.h"
+#define KBNEDIT_VC @"KBNEditProjectViewController"
 
 
 @interface KBNProjectPageViewController ()
@@ -29,7 +30,8 @@
     // Do any additional setup after loading the view.
     
     self.title = self.project.name;
-    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
+
     [self getProjectLists];
     
 }
@@ -265,7 +267,13 @@
     self.projectTasks = temp;
 }
 
-
+- (void)setupEdit {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    KBNEditProjectViewController *vc = [storyboard instantiateViewControllerWithIdentifier:KBNEDIT_VC];
+    vc.project = self.project;
+    vc.states = self.projectLists;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 /*
 #pragma mark - Navigation
 

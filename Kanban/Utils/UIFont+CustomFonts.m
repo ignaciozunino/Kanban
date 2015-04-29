@@ -20,4 +20,8 @@
     };
 }
 
++(UIFont*)getKBNTableFont {
+    return  [UIFont fontWithName:@"Helvetica-Light" size:20.0f];
+}
+
 @end
