@@ -212,9 +212,8 @@
 }
 
 - (void)moveToRightTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
-    
     NSUInteger index = 0;
-    for (KBNTaskList* list in self.projectLists) {
+     for (KBNTaskList* list in self.projectLists) {
         if ([list.taskListId isEqualToString:task.taskList.taskListId]) {
             break;
         }
@@ -222,13 +221,16 @@
     }
     
     if (index < self.projectLists.count - 1) {
-        [self moveTask:task toList:[self.projectLists objectAtIndex:++index]];
+        index++;
+        // Con este indice voy a obtener el orden del array.count de las tareas de la lista (se está implementando, por ahora le pongo un 0)
+        NSNumber *order = @0;
+        [self moveTask:task toList:[self.projectLists objectAtIndex:index] order:order];
     }
 }
 
 - (void)moveToLeftTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
     
-    NSUInteger index = 0;
+     NSUInteger index = 0;
     for (KBNTaskList* list in self.projectLists) {
         if ([list.taskListId isEqualToString:task.taskList.taskListId]) {
             break;
@@ -237,16 +239,19 @@
     }
     
     if (index > 0) {
-        [self moveTask:task toList:[self.projectLists objectAtIndex:--index]];
+        index--;
+        // Con este indice voy a obtener el orden del array.count de las tareas de la lista (se está implementando, por ahora le pongo un 0)
+        NSNumber *order = @0;
+        [self moveTask:task toList:[self.projectLists objectAtIndex:index] order:order];
     }
 
 }
 
-- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)taskList {
+- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)taskList order:(NSNumber*)order {
     
     task.taskList = taskList;
     
-    [[KBNTaskService sharedInstance] moveTask:task.taskId toList:taskList.taskListId completionBlock:^(NSDictionary *response) {
+    [[KBNTaskService sharedInstance] moveTask:task.taskId toList:taskList.taskListId order:order completionBlock:^(NSDictionary *response) {
         //
     } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];

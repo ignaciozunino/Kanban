@@ -41,10 +41,11 @@
      ];
 }
 
--(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:2];
     [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+    [params setObject:order forKey:PARSE_TASK_ORDER_COLUMN];
     
     NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, taskId];
     

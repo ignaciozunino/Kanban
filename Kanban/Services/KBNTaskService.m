@@ -36,9 +36,9 @@
     }
 }
 
--(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    [self.dataService moveTask:taskId toList:taskListId completionBlock:onCompletion errorBlock:onError];
+    [self.dataService moveTask:taskId toList:taskListId order:(NSNumber*)order completionBlock:onCompletion errorBlock:onError];
 }
 
 -(void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
