@@ -46,9 +46,9 @@
     [self.dataService getTasksForProject:projectId completionBlock:onCompletion errorBlock:onError];
 }
 
-- (void)decrementOrderToTaskIds:(NSArray*)taskIds completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)incrementOrderToTaskIds:(NSArray*)taskIds by:(NSNumber*)amount completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    [self.dataService decrementOrderToTaskIds:taskIds completionBlock:onCompletion errorBlock:onError];
+    [self.dataService incrementOrderToTaskIds:taskIds by:(NSNumber*)amount completionBlock:onCompletion errorBlock:onError];
 }
 
 

@@ -135,6 +135,8 @@
     }
 }
 
+#pragma mark - Helper methods
+
 - (void)toggleSelectedStatus:(UIGestureRecognizer *)sender {
     
     if (self.cellSelected) {
@@ -170,7 +172,7 @@
     for (int i = (int)index; i < self.taskListTasks.count; i++) {
         [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
     }
-    [[KBNTaskService sharedInstance] decrementOrderToTaskIds:tasksToBeUpdated completionBlock:^{
+    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
         //
     } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];

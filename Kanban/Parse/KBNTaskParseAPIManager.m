@@ -76,25 +76,38 @@
                 }];
 }
 
--(void)decrementOrderToTask:(NSString*)taskId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)incrementOrderToTaskIds:(NSArray*)taskIds by:(NSNumber*)amount completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    NSDictionary *operation = [NSDictionary dictionaryWithObjectsAndKeys:@"Increment", @"__op", @-1, @"amount", nil];
+    NSMutableDictionary *operation = [NSMutableDictionary dictionaryWithCapacity:1];
+    [operation setObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Increment", @"__op", amount, @"amount", nil]
+                  forKey:PARSE_TASK_ORDER_COLUMN];
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
-    [params setObject:operation forKey:PARSE_TASK_ORDER_COLUMN];
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
+    NSMutableDictionary *record;
     
-    NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, taskId];
+    for (NSString *taskId in taskIds) {
+        record = [NSMutableDictionary dictionaryWithCapacity:3];
+        [record setObject:@"PUT" forKey:@"method"];
+        [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", taskId] forKey:@"path"];
+        [record setObject:operation forKey:@"body"];
+        
+        [requests addObject:record];
+    }
     
-    [self.afManager PUT:stringURL
-             parameters:params
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    onCompletion(responseObject);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    onError(error);
-                }
-     ];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
+        
+    [self.afManager POST:PARSE_BATCH
+              parameters:params
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     onCompletion(responseObject);
+                 }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     onError(error);
+                 }];
+    
 }
+
+// *********  N O  T   W O R K I N G  ********* //
 
 -(void)getTasksForTaskList:(NSString*)taskListId withOrderGreaterThan:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
@@ -118,37 +131,6 @@
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     onError(error);
                 }];
-}
-
-- (void)decrementOrderToTaskIds:(NSArray*)taskIds completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    NSMutableDictionary *operation = [NSMutableDictionary dictionaryWithCapacity:1];
-    [operation setObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Increment", @"__op", @-1, @"amount", nil]
-               forKey:PARSE_TASK_ORDER_COLUMN];
-    
-    NSMutableArray *requests = [[NSMutableArray alloc] init];
-    NSMutableDictionary *record;
-    
-    for (NSString *taskId in taskIds) {
-        record = [NSMutableDictionary dictionaryWithCapacity:3];
-        [record setObject:@"PUT" forKey:@"method"];
-        [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", taskId] forKey:@"path"];
-        [record setObject:operation forKey:@"body"];
-        
-        [requests addObject:record];
-    }
-    
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
-    
-    [self.afManager POST:PARSE_TASKS
-             parameters:params
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    onCompletion(responseObject);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    onError(error);
-                }];
-
 }
 
 @end
