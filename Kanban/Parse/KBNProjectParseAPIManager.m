@@ -67,8 +67,30 @@
      ];
 }
 
-- (void) editProject: (NSString *)name newDescription:newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    
+
+
+- (void) editProject: (NSString*)projectID withNewName: (NSString*) newName withNewDesc: (NSString*) newDesc completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: newName, PARSE_PROJECT_DESCRIPTION_COLUMN: newDesc};
+    [self.afManager PUT:[NSString stringWithFormat:@"%@/%@", PARSE_PROJECTS, projectID]
+             parameters:data
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    onCompletion();
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    onError(error);
+                }];
+}
+
+-(void) getProjectWithProjectID: (NSString*)projectID successBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+    [self.afManager GET: [NSString stringWithFormat:@"%@/%@", PARSE_PROJECTS, projectID]
+             parameters:nil
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    NSMutableArray *results = [NSMutableArray new];
+                    [results addObject:responseObject];
+                    onCompletion(results);
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    onError(error);
+                }];
 }
 
 - (void) removeProject: (NSString *)name completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{

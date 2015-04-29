@@ -82,9 +82,10 @@
     KBNProject *project = [self.projects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = project.name;
-    
+    cell.textLabel.font = [UIFont getTableFont];
+    cell.textLabel.textColor = [UIColor whiteColor];
+
     return cell;
-    
 }
 
 #pragma mark - Table View Delegate
@@ -111,6 +112,5 @@
         controller.projectService = [KBNProjectService sharedInstance];
     }
 }
-
 
 @end

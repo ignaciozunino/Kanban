@@ -15,6 +15,7 @@
 #import "KBNConstants.h"
 #import "KBNTaskListService.h"
 #import "KBNTaskService.h"
+#import "KBNEditProjectViewController.h"
 
 @interface KBNProjectPageViewController : UIViewController<UIPageViewControllerDataSource, KBNProjectDetailViewControllerDelegate, KBNAddTaskViewControllerDelegate>
 
