@@ -256,6 +256,18 @@
     return [self.tableView indexPathForRowAtPoint:point];
 }
 
+//Receives a task from the outside, and adds it to the local list of tasks.
+-(void) receiveTask:(KBNTask *)task
+{
+    //Create a temporary mutable copy, and add the task.
+    NSMutableArray* mutableTaskListTasks = [self.taskListTasks mutableCopy];
+    [mutableTaskListTasks addObject:task];
+    
+    //Convert the mutable copy to immutable, and set it as the list
+    self.taskListTasks = [NSArray arrayWithArray:mutableTaskListTasks];
+}
+
+
 // Removes task from the the current list array when it´s moved to another list and reload data
 - (void)removeTask:(KBNTask*)task {
     

@@ -33,6 +33,10 @@
 
 @interface KBNProjectDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, KBNAddTaskViewControllerDelegate>
 
+- (void)removeTask:(KBNTask*)task;
+
+- (void)receiveTask:(KBNTask*)task;
+
 @property (strong, nonatomic) KBNProject *project;
 
 @property NSUInteger pageIndex;

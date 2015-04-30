@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) NSArray* projectTasks;
 @property (strong, nonatomic) NSArray* projectLists;
+@property (strong, nonatomic) NSArray* detailViewControllers; //An array of view controllers built once. Then, every time the user goes to the next/previous page, the corresponding KBNProjectDetailViewController is obtained immediatly from the array, at no cost.
 
 @end
 
@@ -31,11 +32,16 @@
     // Do any additional setup after loading the view.
     
     self.title = self.project.name;
-    
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
 
-    [self getProjectLists];
-    
+    [self getProjectListsOnSuccess:^(){
+                            [KBNAlertUtils showAlertView:@"Tasks loaded correctly." andType:@"Alert"];
+                         }
+                         onFailure:^(NSError* error){
+                             [KBNAlertUtils showAlertView:@"Sorry, the tasks could not be retrieved at this moment." andType:@"Alert"];
+                         }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,7 +51,17 @@
 
 #pragma mark - Data methods
 
+
+
 - (void)getProjectLists {
+    //This method does the same as "getProjectListsOnSuccess..." but it doesn't require
+    //any block to be invoked. Kept this way for backward compatibility.
+    [self getProjectListsOnSuccess:^(){} onFailure:^(NSError* error){}];
+}
+
+
+- (void)getProjectListsOnSuccess:(KBNConnectionSuccessBlock)success
+                       onFailure:(KBNConnectionErrorBlock)failure {
     __weak typeof(self) weakself = self;
     
     [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
@@ -57,14 +73,60 @@
         }
         
         weakself.projectLists = taskLists;
-        [weakself getProjectTasks];
+        [weakself getProjectTasksOnSuccess:success onFailure:failure];
         
     } errorBlock:^(NSError *error) {
         NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
+        failure(error);
+    }];
+}
+
+
+
+
+- (void)getProjectTasksOnSuccess:(KBNConnectionSuccessBlock)success
+                       onFailure:(KBNConnectionErrorBlock)failure {
+    __weak typeof(self) weakself = self;
+    
+    [[KBNTaskService sharedInstance] getTasksForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
+        
+        NSMutableArray *tasks = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* params in [response objectForKey:@"results"]) {
+            NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+            KBNTaskList *taskList;
+            
+            for (KBNTaskList* list in weakself.projectLists) {
+                if ([list.taskListId isEqualToString:taskListId]) {
+                    taskList = list;
+                    break;
+                }
+            }
+            [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
+            
+        }
+        
+        weakself.projectTasks = tasks;
+        [weakself buildDetailViewControllers];
+        [weakself createPageViewController];
+        success();
+        
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error getting Tasks: %@",error.localizedDescription);
+        failure(error);
     }];
 }
 
 - (void)getProjectTasks {
+    //This method does the same as "getProjectTasksOnSuccess..." but it doesn't require
+    //any block to be invoked. Kept this way for backward compatibility.
+    [self getProjectTasksOnSuccess:^(){} onFailure:^(NSError* error){}];
+}
+
+
+#pragma mark Old data methods (original version)
+- (void)getProjectTasks_deprecated {
     __weak typeof(self) weakself = self;
     
     [[KBNTaskService sharedInstance] getTasksForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
@@ -86,13 +148,49 @@
         
         weakself.projectTasks = tasks;
         [weakself createPageViewController];
+        [weakself buildDetailViewControllers];
         
     } errorBlock:^(NSError *error) {
         NSLog(@"Error getting Tasks: %@",error.localizedDescription);
     }];
 }
 
+
+- (void)getProjectLists_deprecated {
+    __weak typeof(self) weakself = self;
+    
+    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
+        
+        NSMutableArray *taskLists = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* params in [response objectForKey:@"results"]) {
+            [taskLists addObject:[KBNTaskListUtils taskListForProject:self.project params:params]];
+        }
+        
+        weakself.projectLists = taskLists;
+        [weakself getProjectTasks];
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
+    }];
+}
+
+
+
 #pragma mark - Controller methods
+
+-(void)buildDetailViewControllers
+{
+    NSMutableArray* viewControllers = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (KBNTaskList* taskList in self.projectLists)
+    {
+        //Add all detail view controllers to the pageViewController, each one having its own TaskList and array of Lists.
+        [viewControllers addObject:[self createViewControllerWithIndex:i andTaskList:taskList andTasks:[self tasksForList:taskList]]];
+        i++;
+    }
+    self.detailViewControllers = [NSArray arrayWithArray:viewControllers];
+}
 
 - (void)createPageViewController {
     
@@ -127,7 +225,7 @@
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 }
 
--(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index {
+-(KBNProjectDetailViewController*)viewControllerAtIndex_deprecated:(NSUInteger)index {
     if (([self.projectLists count] == 0) || (index >= [self.projectLists count]))
     {
         return nil;
@@ -148,6 +246,38 @@
     
     return projectDetailViewController;
 }
+
+-(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index {
+
+    //Check if it is out of bounds
+    if (([self.detailViewControllers count] == 0) || (index >= [self.detailViewControllers count]))
+    {
+        NSLog(@"* * WARNING * * : KBNProjectPageViewController->viewControllerAtIndex: received an index out of bounds. Array count:%lu, Index given:%lu",(unsigned long)[self.detailViewControllers count],(unsigned long)index);
+        return nil;
+    }
+    
+    //Just return the view controller at the given index
+    return [self.detailViewControllers objectAtIndex:index];
+
+}
+
+
+-(KBNProjectDetailViewController*)createViewControllerWithIndex:(NSUInteger)index andTaskList:(KBNTaskList*)taskList andTasks:(NSArray*)tasks{
+    
+    // Create a new view controller and pass suitable data.
+    KBNProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
+    
+    projectDetailViewController.delegate = self;
+    projectDetailViewController.pageIndex = index;
+    projectDetailViewController.totalPages = self.projectLists.count;
+    projectDetailViewController.project = self.project;
+    
+    projectDetailViewController.taskListTasks = [NSMutableArray arrayWithArray:tasks];
+    projectDetailViewController.taskList = taskList;
+    
+    return projectDetailViewController;
+}
+
 
 -(NSMutableArray*)tasksForList:(KBNTaskList*)list {
     NSMutableArray *result = [[NSMutableArray alloc] init];
@@ -216,6 +346,19 @@
 }
 
 - (void)moveToRightTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
+    
+    KBNProjectDetailViewController* viewControllerAtTheRight = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerAfterViewController:viewController];
+
+    
+    if (viewControllerAtTheRight) {
+        [viewControllerAtTheRight receiveTask:task];
+        task.taskList = viewControllerAtTheRight.taskList;
+        [viewController removeTask:task];
+    }
+    
+
+
+    /*
     NSUInteger index = 0;
      for (KBNTaskList* list in self.projectLists) {
         if ([list.taskListId isEqualToString:task.taskList.taskListId]) {
@@ -230,11 +373,21 @@
         NSNumber *order = @0;
         [self moveTask:task toList:[self.projectLists objectAtIndex:index] order:order];
     }
+     */
 }
 
 - (void)moveToLeftTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
     
-     NSUInteger index = 0;
+    KBNProjectDetailViewController* viewControllerAtTheLeft = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
+    
+    if (viewControllerAtTheLeft) {
+        [viewControllerAtTheLeft receiveTask:task];
+        task.taskList = viewControllerAtTheLeft.taskList;
+        [viewController removeTask:task];
+    }
+    
+    /*
+    NSUInteger index = 0;
     for (KBNTaskList* list in self.projectLists) {
         if ([list.taskListId isEqualToString:task.taskList.taskListId]) {
             break;
@@ -248,7 +401,7 @@
         NSNumber *order = @0;
         [self moveTask:task toList:[self.projectLists objectAtIndex:index] order:order];
     }
-
+     */
 }
 
 - (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)taskList order:(NSNumber*)order {
