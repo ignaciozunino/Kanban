@@ -36,7 +36,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
 
     [self getProjectListsOnSuccess:^(){
-                            [KBNAlertUtils showAlertView:@"Tasks loaded correctly." andType:@"Alert"];
+                           // [KBNAlertUtils showAlertView:@"Tasks loaded correctly." andType:@"Alert"];
                          }
                          onFailure:^(NSError* error){
                              [KBNAlertUtils showAlertView:@"Sorry, the tasks could not be retrieved at this moment." andType:@"Alert"];
