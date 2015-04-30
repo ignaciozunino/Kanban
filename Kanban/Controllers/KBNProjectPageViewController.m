@@ -349,27 +349,21 @@
 
     
     if (viewControllerAtTheRight) {
-        [viewControllerAtTheRight receiveTask:task];
+        // Update task
+        task.order = [NSNumber numberWithUnsignedLong:viewControllerAtTheRight.taskListTasks.count];
         task.taskList = viewControllerAtTheRight.taskList;
+        
+        // Move it to the next page
+        [viewControllerAtTheRight receiveTask:task];
         [viewController removeTask:task];
+        
+        // Update task status on server
+        [[KBNTaskService sharedInstance] moveTask:task.taskId toList:task.taskList.taskListId order:task.order completionBlock:^(NSDictionary *response) {
+            //
+        } errorBlock:^(NSError *error) {
+            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+        }];
     }
-
-    /*
-    NSUInteger index = 0;
-     for (KBNTaskList* list in self.projectLists) {
-        if ([list.taskListId isEqualToString:task.taskList.taskListId]) {
-            break;
-        }
-        index++;
-    }
-    
-    if (index < self.projectLists.count - 1) {
-        index++;
-        // Con este indice voy a obtener el orden del array.count de las tareas de la lista (se está implementando, por ahora le pongo un 0)
-        NSNumber *order = @0;
-        [self moveTask:task toList:[self.projectLists objectAtIndex:index] order:order];
-    }
-     */
 }
 
 - (void)moveToLeftTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
@@ -377,40 +371,20 @@
     KBNProjectDetailViewController* viewControllerAtTheLeft = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
     
     if (viewControllerAtTheLeft) {
-        [viewControllerAtTheLeft receiveTask:task];
+        // Update task
+        task.order = [NSNumber numberWithUnsignedLong:viewControllerAtTheLeft.taskListTasks.count];
         task.taskList = viewControllerAtTheLeft.taskList;
-        [viewController removeTask:task];
-    }
-    
-    NSUInteger order = (NSUInteger)viewControllerAtTheLeft.taskListTasks.count;
-    
-    /*
-    NSUInteger index = 0;
-    for (KBNTaskList* list in self.projectLists) {
-        if ([list.taskListId isEqualToString:task.taskList.taskListId]) {
-            break;
-        }
-        index++;
-    }
-    
-    if (index > 0) {
-        index--;
-        // Con este indice voy a obtener el orden del array.count de las tareas de la lista (se está implementando, por ahora le pongo un 0)
-        NSNumber *order = @0;
-        [self moveTask:task toList:[self.projectLists objectAtIndex:index] order:order];
-    }
-     */
-}
 
-- (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)taskList order:(NSNumber*)order {
-    
-    task.taskList = taskList;
-    
-    [[KBNTaskService sharedInstance] moveTask:task.taskId toList:taskList.taskListId order:order completionBlock:^(NSDictionary *response) {
-        //
-    } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-    }];
+        [viewControllerAtTheLeft receiveTask:task];
+        [viewController removeTask:task];
+        
+        // Update task status on server
+        [[KBNTaskService sharedInstance] moveTask:task.taskId toList:task.taskList.taskListId order:task.order completionBlock:^(NSDictionary *response) {
+            //
+        } errorBlock:^(NSError *error) {
+            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+        }];
+    }
 }
 
 - (void)toggleScrollStatus {

@@ -256,10 +256,9 @@
     return [self.tableView indexPathForRowAtPoint:point];
 }
 
-//Receives a task from the outside, and adds it to the local list of tasks.
+// Receives a task from the outside, and adds it to the local list of tasks.
 -(void) receiveTask:(KBNTask *)task {
     
-    task.order = [NSNumber numberWithUnsignedLong:self.taskListTasks.count];
     [self.taskListTasks addObject:task];
     
 }
