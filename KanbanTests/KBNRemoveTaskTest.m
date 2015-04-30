@@ -69,7 +69,8 @@
                     }
                     NSArray* tasksforverif=[records objectForKey:@"results"];
                     NSDictionary * taskdictfoverif = tasksforverif[0];
-                    if ([taskdictfoverif objectForKey:PARSE_TASK_ACTIVE_COLUMN  ] ) {
+                   
+                    if (((NSNumber*)[taskdictfoverif objectForKey:PARSE_TASK_ACTIVE_COLUMN  ]).boolValue ) {
                         XCTAssertTrue(true);
                         [expectation fulfill];
                     } else {

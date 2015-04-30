@@ -19,7 +19,7 @@
 #define RegularTitle @"Delete Tasks"
 #define EditingTitle @"Done"
 
-@interface KBNProjectDetailViewController ()
+@interface KBNProjectDetailViewController () <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -37,7 +37,7 @@
 @property (strong, nonatomic) KBNTask *selectedTask;
 @end
 
-@implementation KBNProjectDetailViewController {
+@implementation KBNProjectDetailViewController{
     
 }
 
@@ -51,7 +51,9 @@
     [self.editButton sizeToFit];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
-    
+    self.tap.delegate = self;
+    self.doubleTap.delegate=self;
+    self.longPress.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -86,6 +88,18 @@
 }
 
 #pragma mark - Gestures Handlers
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([self.tableView isEditing]) {
+        
+        // Don't let selections of auto-complete entries fire the
+        // gesture recognizer
+        return NO;
+    }
+    
+    return YES;
+}
 
 // Tap (Long Press) and Swipe to move a task to the previous/next list
 - (IBAction)handleLongPress:(UILongPressGestureRecognizer *)sender {
@@ -136,6 +150,7 @@
     if (self.cellSelected) {
         [self toggleSelectedStatus:sender];
     } else {
+        
         [self performSegueWithIdentifier:SEGUE_TASK_DETAIL sender:sender];
         [self.tableView deselectRowAtIndexPath:[self indexPathForSender:sender] animated:YES];
     }
@@ -260,10 +275,12 @@
         KBNTask *object = [self.taskListTasks objectAtIndex:indexPath.row];
         [[KBNTaskService sharedInstance] removeTask:object.taskId onSuccess:^{
             // Animate the deletion
-            [tableView deleteRowsAtIndexPaths:[self.taskListTasks objectAtIndex:indexPath.row]              withRowAnimation:UITableViewRowAnimationFade];
-            
-            [self removeTask:object];
-            [KBNAppDelegate activateActivityIndicator:NO];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
+                [self removeTask:object];
+                [KBNAppDelegate activateActivityIndicator:NO];
+            });
         } failure:^(NSError *error) {
             [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
             [KBNAppDelegate activateActivityIndicator:NO];
@@ -272,7 +289,8 @@
         
         // Additional code to configure the Edit Button, if any
         if (self.taskListTasks.count == 0) {
-            self.editButton.enabled = NO;
+            [self.tableView setEditing:NO animated:YES];
+            [self.tableView isEditing ];
             [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
             [self.editButton sizeToFit];
         }
