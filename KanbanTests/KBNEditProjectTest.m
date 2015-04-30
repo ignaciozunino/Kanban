@@ -32,7 +32,8 @@
 //Feature tested: Edit Project
 //Description: In this test we will verify that you can edit an existing project
 -(void) testCreateProjectOK{
-    KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
+    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
+    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
     [serviceOrig editProject:@"x1p7UzZp5m"withNewName:@"TEST-OK" withDescription:@"TEST-Desc" completionBlock:^{
         
         [serviceOrig.dataService getProjectWithProjectID:@"" successBlock:^(NSArray *records) {
