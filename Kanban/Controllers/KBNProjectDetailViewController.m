@@ -9,11 +9,13 @@
 #import "KBNProjectDetailViewController.h"
 #import "KBNAppDelegate.h"
 #import "KBNTaskDetailViewController.h"
+#import "KBNTaskService.h"
+#import "KBNAlertUtils.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
 #define SEGUE_ADD_TASK @"addTask"
-#define TASK_SELECTION_THRESHOLD 50
+#define TASK_SWIPE_THRESHOLD 50
 
 @interface KBNProjectDetailViewController ()
 
@@ -92,13 +94,13 @@
     } else if (sender.state == UIGestureRecognizerStateEnded) {
         _endPoint = [sender locationInView:self.tableView.superview];
         if (_selectedTask) {
-            if (_endPoint.x > _beginPoint.x + TASK_SELECTION_THRESHOLD) {
+            if (_endPoint.x > _beginPoint.x + TASK_SWIPE_THRESHOLD) {
                 // Swipe Right
                 [self.delegate moveToRightTask:_selectedTask from:self];
                 if (self.pageIndex < self.totalPages -1) {
                     [self removeTask:_selectedTask];
                 }
-            } else if (_endPoint.x < _beginPoint.x - TASK_SELECTION_THRESHOLD) {
+            } else if (_endPoint.x < _beginPoint.x - TASK_SWIPE_THRESHOLD) {
                 // Swipe Left
                 [self.delegate moveToLeftTask:_selectedTask from:self];
                 if (self.pageIndex > 0) {
@@ -133,6 +135,8 @@
     }
 }
 
+#pragma mark - Helper methods
+
 - (void)toggleSelectedStatus:(UIGestureRecognizer *)sender {
     
     if (self.cellSelected) {
@@ -150,12 +154,41 @@
     return [self.tableView indexPathForRowAtPoint:point];
 }
 
+//Receives a task from the outside, and adds it to the local list of tasks.
+-(void) receiveTask:(KBNTask *)task
+{
+    //Create a temporary mutable copy, and add the task.
+    NSMutableArray* mutableTaskListTasks = [self.taskListTasks mutableCopy];
+    [mutableTaskListTasks addObject:task];
+    
+    //Convert the mutable copy to immutable, and set it as the list
+    self.taskListTasks = [NSArray arrayWithArray:mutableTaskListTasks];
+}
+
+
 // Removes task from the the current list array when it´s moved to another list and reload data
 - (void)removeTask:(KBNTask*)task {
+    
+    // Get the index of the task to be removed
+    NSUInteger index = [self.taskListTasks indexOfObject:task];
+    
+    // Remove the task from the list
     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.taskListTasks];
     [temp removeObject:task];
     self.taskListTasks = temp;
+    
     [self.tableView reloadData];
+    
+    // Compress orders in the taskList
+    NSMutableArray* tasksToBeUpdated = [[NSMutableArray alloc] init];
+    for (int i = (int)index; i < self.taskListTasks.count; i++) {
+        [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
+    }
+    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
+        //
+    } errorBlock:^(NSError *error) {
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+    }];
 }
 
 #pragma mark - Add Task View Controller delegate

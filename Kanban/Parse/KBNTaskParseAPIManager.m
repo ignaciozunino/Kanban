@@ -76,4 +76,61 @@
                 }];
 }
 
+- (void)incrementOrderToTaskIds:(NSArray*)taskIds by:(NSNumber*)amount completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    NSMutableDictionary *operation = [NSMutableDictionary dictionaryWithCapacity:1];
+    [operation setObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Increment", @"__op", amount, @"amount", nil]
+                  forKey:PARSE_TASK_ORDER_COLUMN];
+    
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
+    NSMutableDictionary *record;
+    
+    for (NSString *taskId in taskIds) {
+        record = [NSMutableDictionary dictionaryWithCapacity:3];
+        [record setObject:@"PUT" forKey:@"method"];
+        [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", taskId] forKey:@"path"];
+        [record setObject:operation forKey:@"body"];
+        
+        [requests addObject:record];
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
+        
+    [self.afManager POST:PARSE_BATCH
+              parameters:params
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     onCompletion(responseObject);
+                 }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     onError(error);
+                 }];
+    
+}
+
+// *********  N O  T   W O R K I N G  ********* //
+
+-(void)getTasksForTaskList:(NSString*)taskListId withOrderGreaterThan:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    taskListId = @"q3fpXmrJuZ";
+    order = @2;
+    
+    NSMutableDictionary *greaterThanOrder = [NSMutableDictionary dictionaryWithCapacity:1];
+    [greaterThanOrder setObject:order forKey:@"$gt"];
+    
+    NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:2];
+    [where setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+    [where setObject:greaterThanOrder forKey:PARSE_TASK_ORDER_COLUMN];
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", nil];
+    
+    [self.afManager GET:PARSE_TASKS
+             parameters:params
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    onCompletion(responseObject);
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    onError(error);
+                }];
+}
+
 @end

@@ -13,6 +13,7 @@
 
 - (void)didCreateTask:(KBNTask*)task;
 
+@optional
 - (NSNumber*)nextOrderNumber;
 
 @end
