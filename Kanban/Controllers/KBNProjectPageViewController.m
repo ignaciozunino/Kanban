@@ -81,9 +81,6 @@
     }];
 }
 
-
-
-
 - (void)getProjectTasksOnSuccess:(KBNConnectionSuccessBlock)success
                        onFailure:(KBNConnectionErrorBlock)failure {
     __weak typeof(self) weakself = self;
@@ -93,17 +90,18 @@
         NSMutableArray *tasks = [[NSMutableArray alloc] init];
         
         for (NSDictionary* params in [response objectForKey:@"results"]) {
-            NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-            KBNTaskList *taskList;
-            
-            for (KBNTaskList* list in weakself.projectLists) {
-                if ([list.taskListId isEqualToString:taskListId]) {
-                    taskList = list;
-                    break;
+            if ([[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] boolValue]) {
+                NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+                KBNTaskList *taskList;
+                
+                for (KBNTaskList* list in weakself.projectLists) {
+                    if ([list.taskListId isEqualToString:taskListId]) {
+                        taskList = list;
+                        break;
+                    }
                 }
+                [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
             }
-            [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
-            
         }
         
         weakself.projectTasks = tasks;
@@ -355,8 +353,6 @@
         task.taskList = viewControllerAtTheRight.taskList;
         [viewController removeTask:task];
     }
-    
-
 
     /*
     NSUInteger index = 0;
@@ -385,6 +381,8 @@
         task.taskList = viewControllerAtTheLeft.taskList;
         [viewController removeTask:task];
     }
+    
+    NSUInteger order = (NSUInteger)viewControllerAtTheLeft.taskListTasks.count;
     
     /*
     NSUInteger index = 0;

@@ -257,14 +257,11 @@
 }
 
 //Receives a task from the outside, and adds it to the local list of tasks.
--(void) receiveTask:(KBNTask *)task
-{
-    //Create a temporary mutable copy, and add the task.
-    NSMutableArray* mutableTaskListTasks = [self.taskListTasks mutableCopy];
-    [mutableTaskListTasks addObject:task];
+-(void) receiveTask:(KBNTask *)task {
     
-    //Convert the mutable copy to immutable, and set it as the list
-    self.taskListTasks = [NSArray arrayWithArray:mutableTaskListTasks];
+    task.order = [NSNumber numberWithUnsignedLong:self.taskListTasks.count];
+    [self.taskListTasks addObject:task];
+    
 }
 
 
