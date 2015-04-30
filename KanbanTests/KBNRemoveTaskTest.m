@@ -29,7 +29,9 @@
 ///test that we can logical remove tasks
 ///we create a task, we remove it and then we prove that is actually removed
 - (void)testRemoveTask {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"testRemoveTask ok"];
+    
+  
+    XCTestExpectation *expectation = [self expectationWithDescription:@"settings for testRemoveTask "];
     NSDate *currDate = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
@@ -42,6 +44,8 @@
     NSString * taskName = [NSString stringWithFormat:@"Task%@",dateString];
     NSNumber * order = [NSNumber numberWithInt:51];
     
+    
+    //*************************Preparation to the test ***************************
     //first we create a project to be sure we have at least one project to bring
     KBNTaskService * service = [[KBNTaskService alloc]init];
     service.dataService =[[KBNTaskParseAPIManager alloc]init];
@@ -53,39 +57,12 @@
             NSArray* tasksforid=[records objectForKey:@"results"];
             if (tasksforid.count==0) {//we bring no recors error creating the task
                 XCTAssertTrue(false);
-                [expectation fulfill];
-
+                
+                
             }
             NSDictionary * taskdictforid = tasksforid[0];
-           taskId = [taskdictforid objectForKey:PARSE_OBJECTID];
-            //we actually remove the task
-            [service removeTask:taskId onSuccess:^{
-                //we verify that was removed
-                [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
-                    if (tasksforid.count==0) {//we bring no recors error geting the task
-                        XCTAssertTrue(false);
-                        [expectation fulfill];
-                        
-                    }
-                    NSArray* tasksforverif=[records objectForKey:@"results"];
-                    NSDictionary * taskdictfoverif = tasksforverif[0];
-                   
-                    if (!((NSNumber*)[taskdictfoverif objectForKey:PARSE_TASK_ACTIVE_COLUMN  ]).boolValue ) {
-                        XCTAssertTrue(true);
-                        [expectation fulfill];
-                    } else {
-                        XCTAssertTrue(false);
-                        [expectation fulfill];
-                    }
-                } errorBlock:^(NSError *error) {
-                    XCTAssertTrue(false);
-                    [expectation fulfill];
-
-                }];
-            } failure:^(NSError *error) {
-                XCTAssertTrue(false);
-                [expectation fulfill];
-            }];
+            taskId = [taskdictforid objectForKey:PARSE_OBJECTID];
+            [expectation fulfill];
             
         } errorBlock:^(NSError *error) {
             XCTAssertTrue(false);
@@ -95,10 +72,42 @@
         XCTAssertTrue(false);
         [expectation fulfill];
     }];
-
     
-    [self waitForExpectationsWithTimeout:1000.0 handler:^(NSError *error) {
+    
+    [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
+    }];
+    
+    ////************************the test itself**********************************************
+    XCTestExpectation *finalexpectation = [self expectationWithDescription:@"testRemoveTask  completed"];
+    //we actually remove the task
+    [service removeTask:taskId onSuccess:^{
+        //we verify that was removed
+        [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
+            if (records.count==0) {//we bring no recors error geting the task
+                XCTAssertTrue(false);
+                [finalexpectation fulfill];
+                
+            }
+            NSArray* tasksforverif=[records objectForKey:@"results"];
+            NSDictionary * taskdictfoverif = tasksforverif[0];
+            
+            if (!((NSNumber*)[taskdictfoverif objectForKey:PARSE_TASK_ACTIVE_COLUMN  ]).boolValue ) {
+                XCTAssertTrue(true);
+                [finalexpectation fulfill];
+            } else {
+                XCTAssertTrue(false);
+                [finalexpectation fulfill];
+            }
+        } errorBlock:^(NSError *error) {
+            XCTAssertTrue(false);
+            [finalexpectation fulfill];
+            
+        }];
+    } failure:^(NSError *error) {
+        XCTAssertTrue(false);
+        [finalexpectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
     }];
 }
-
 @end
