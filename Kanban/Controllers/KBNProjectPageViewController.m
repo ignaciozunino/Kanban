@@ -11,6 +11,7 @@
 #import "KBNTaskListUtils.h"
 #import "KBNTaskUtils.h"
 #import "KBNAlertUtils.h"
+
 #define KBNEDIT_VC @"KBNEditProjectViewController"
 
 
@@ -30,6 +31,7 @@
     // Do any additional setup after loading the view.
     
     self.title = self.project.name;
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
 
     [self getProjectLists];
@@ -147,7 +149,7 @@
     return projectDetailViewController;
 }
 
--(NSArray*)tasksForList:(KBNTaskList*)list {
+-(NSMutableArray*)tasksForList:(KBNTaskList*)list {
     NSMutableArray *result = [[NSMutableArray alloc] init];
     
     for (KBNTask* task in self.projectTasks) {
@@ -256,7 +258,7 @@
     [[KBNTaskService sharedInstance] moveTask:task.taskId toList:taskList.taskListId order:order completionBlock:^(NSDictionary *response) {
         //
     } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
     }];
 }
 

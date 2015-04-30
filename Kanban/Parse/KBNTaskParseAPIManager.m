@@ -108,30 +108,4 @@
     
 }
 
-// *********  N O  T   W O R K I N G  ********* //
-
--(void)getTasksForTaskList:(NSString*)taskListId withOrderGreaterThan:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    taskListId = @"q3fpXmrJuZ";
-    order = @2;
-    
-    NSMutableDictionary *greaterThanOrder = [NSMutableDictionary dictionaryWithCapacity:1];
-    [greaterThanOrder setObject:order forKey:@"$gt"];
-    
-    NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:2];
-    [where setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
-    [where setObject:greaterThanOrder forKey:PARSE_TASK_ORDER_COLUMN];
-
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", nil];
-    
-    [self.afManager GET:PARSE_TASKS
-             parameters:params
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    onCompletion(responseObject);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    onError(error);
-                }];
-}
-
 @end

@@ -38,7 +38,7 @@
 @property NSUInteger pageIndex;
 @property NSUInteger totalPages;
 
-@property NSArray* taskListTasks;
+@property NSMutableArray* taskListTasks;
 @property KBNTaskList *taskList;
 
 @property (strong, nonatomic) IBOutlet UILabel *labelState;
