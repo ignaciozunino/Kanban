@@ -17,6 +17,5 @@
 @interface KBNEditProjectViewController : UIViewController
 
 @property KBNProject* project;
-@property NSArray* states;
 @property NSString* projectId;
 @end

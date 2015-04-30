@@ -11,7 +11,6 @@
 
 @interface KBNEditProjectViewController()
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
 
@@ -36,22 +35,6 @@
     self.nameTextField.text = self.project.name;
     self.descriptionTextField.text = self.project.projectDescription;
     self.projectId = self.project.projectId;
-}
-
-#pragma mark - Table View Data Source
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.states.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_TASKLIST_CELL forIndexPath:indexPath];
-    KBNTaskList *taskList = [self.states objectAtIndex:indexPath.row];
-    cell.textLabel.text = taskList.name;
-    cell.textLabel.font = [UIFont getTableFont];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    return cell;
 }
 
 #pragma mark - IBActions

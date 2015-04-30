@@ -271,7 +271,6 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     KBNEditProjectViewController *vc = [storyboard instantiateViewControllerWithIdentifier:KBNEDIT_VC];
     vc.project = self.project;
-    vc.states = self.projectLists;
     [self.navigationController pushViewController:vc animated:YES];
 }
 /*
