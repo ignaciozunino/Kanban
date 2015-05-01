@@ -60,6 +60,24 @@
      ];
 }
 
+- (void)updateTask:(NSString *)taskId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
+    [params setObject:order forKey:PARSE_TASK_ORDER_COLUMN];
+    
+    NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, taskId];
+    
+    [self.afManager PUT:stringURL
+             parameters:params
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    onCompletion(responseObject);
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    onError(error);
+                }
+     ];
+}
+
 -(void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];

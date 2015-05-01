@@ -41,6 +41,11 @@
     [self.dataService moveTask:taskId toList:taskListId order:(NSNumber*)order completionBlock:onCompletion errorBlock:onError];
 }
 
+-(void)updateTask:(NSString *)taskId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    [self.dataService updateTask:taskId order:(NSNumber*)order completionBlock:onCompletion errorBlock:onError];
+}
+
 -(void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     [self.dataService getTasksForProject:projectId completionBlock:onCompletion errorBlock:onError];

@@ -25,13 +25,9 @@
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *doubleTap;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tap;
 
-@property (assign, nonatomic) BOOL cellSelected;
-
 @end
 
-@implementation KBNProjectDetailViewController {
-
-}
+@implementation KBNProjectDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -112,6 +108,7 @@
     
     static UIView *snapshot = nil;               // A snapshot of the row user is moving.
     static NSIndexPath *sourceIndexPath = nil;   // Initial index path, where gesture begins.
+    static NSIndexPath *holdIndexPath = nil;    // Hold index path of the previous gesture to detect change of cells.
     static CGPoint sourceLocation;
     static KBNTask *selectedTask = nil;
     
@@ -165,28 +162,36 @@
                 [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
                 
                 // ... and update source so it is in sync with UI changes.
+                holdIndexPath = sourceIndexPath;
                 sourceIndexPath = indexPath;
             }
             break;
         }
             
         case UIGestureRecognizerStateEnded: {
-            if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
-                // Swipe Right
-                [self.delegate moveToRightTask:selectedTask from:self];
-                if (self.pageIndex < self.totalPages -1) {
-                    [self removeTask:selectedTask];
-                }
-            } else if (location.x < sourceLocation.x - TASK_SWIPE_THRESHOLD) {
-                // Swipe Left
-                [self.delegate moveToLeftTask:selectedTask from:self];
-                if (self.pageIndex > 0) {
-                    [self removeTask:selectedTask];
+            
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
+            NSUInteger origin = [selectedTask.order integerValue];
+            
+            if (holdIndexPath && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
+                [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
+            } else {
+                if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
+                    // Swipe Right
+                    [self.delegate moveToRightTask:selectedTask from:self];
+                    if (self.pageIndex < self.totalPages -1) {
+                        [self removeTask:selectedTask];
+                    }
+                } else if (location.x < sourceLocation.x - TASK_SWIPE_THRESHOLD) {
+                    // Swipe Left
+                    [self.delegate moveToLeftTask:selectedTask from:self];
+                    if (self.pageIndex > 0) {
+                        [self removeTask:selectedTask];
+                    }
                 }
             }
-
+            
             // Clean up.
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
             cell.hidden = NO;
             cell.alpha = 0.0;
             
@@ -217,7 +222,7 @@
     KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
     [self.delegate moveToRightTask:task from:self];
     [self removeTask:task];
-
+    
 }
 
 // Tap to display task details
@@ -263,17 +268,19 @@
     
 }
 
-
 // Removes task from the the current list array when it´s moved to another list and reload data
 - (void)removeTask:(KBNTask*)task {
+    
+    // Get the index in the array before removing
+    NSUInteger index = [self.taskListTasks indexOfObject:task];
     
     // Remove the task from the list
     [self.taskListTasks removeObject:task];
     [self.tableView reloadData];
     
-    // Compress orders in the taskList at server. As task was removed from the array, the starting point to reorder will be task.order
+    // Compress orders in the taskList at server.
     NSMutableArray* tasksToBeUpdated = [[NSMutableArray alloc] init];
-    for (int i = (int)task.order; i < self.taskListTasks.count; i++) {
+    for (int i = (int)index; i < self.taskListTasks.count; i++) {
         [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
     }
     [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
@@ -283,24 +290,48 @@
     }];
 }
 
-//// Reorder task in the the current list array when it´s moved to another place in the same list
-//- (void)moveTask:(KBNTask*)task toIndex:(NSUInteger)index {
-//    
-//    // Move the task in the list
-//    [self.taskListTasks removeObject:task];
-//    [self.taskListTasks insertObject:task atIndex:index];
-//    
-//    // Re-arrange orders in the taskList at server.
-//    NSMutableArray* tasksToBeUpdated = [[NSMutableArray alloc] init];
-//    for (int i = (int)task.order; i < self.taskListTasks.count; i++) {
-//        [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
-//    }
-//    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:1] completionBlock:^{
-//        //
-//    } errorBlock:^(NSError *error) {
-//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-//    }];
-//}
+// Reorder task in the the current list array when it´s moved to another place in the same list
+- (void)updateOrdersForExchangeFrom:(NSUInteger)start to:(NSUInteger)end {
+    
+    // Update task order and re-arrange orders in the taskList at server.
+    
+    KBNTask *task = self.taskListTasks[end];
+    [task setOrder:[NSNumber numberWithUnsignedInteger:end]];
+    
+    
+    // First determine other tasks to be updated
+    NSMutableArray* tasksToBeUpdated = [[NSMutableArray alloc] init];
+    NSNumber *amount;
+    NSUInteger index;
+    
+    if (start < end) {
+        for (index = start; index < end; index++) {
+            [self.taskListTasks[index] setOrder:[NSNumber numberWithUnsignedInteger:index]];
+            [tasksToBeUpdated addObject:[self.taskListTasks[index] taskId]];
+        }
+        amount = @-1;
+    } else {
+        for (index = start; index > end; index--) {
+            [self.taskListTasks[index] setOrder:[NSNumber numberWithUnsignedInteger:index]];
+            [tasksToBeUpdated addObject:[self.taskListTasks[index] taskId]];
+        }
+        amount = @1;
+    }
+    
+    // Update tasks orden on persistance system
+    KBNTaskService *taskService = [KBNTaskService sharedInstance];
+    
+    [taskService updateTask:task.taskId order:[NSNumber numberWithUnsignedInteger:end] completionBlock:^{
+        [taskService incrementOrderToTaskIds:tasksToBeUpdated by:amount completionBlock:^{
+            // Tasks updated
+        } errorBlock:^(NSError *error) {
+            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        }];
+    } errorBlock:^(NSError *error) {
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+    }];
+    
+}
 
 #pragma mark - Add Task View Controller delegate
 
