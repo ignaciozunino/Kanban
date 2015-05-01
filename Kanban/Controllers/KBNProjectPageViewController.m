@@ -51,8 +51,6 @@
 
 #pragma mark - Data methods
 
-
-
 - (void)getProjectLists {
     //This method does the same as "getProjectListsOnSuccess..." but it doesn't require
     //any block to be invoked. Kept this way for backward compatibility.
@@ -123,58 +121,6 @@
 }
 
 
-#pragma mark Old data methods (original version)
-- (void)getProjectTasks_deprecated {
-    __weak typeof(self) weakself = self;
-    
-    [[KBNTaskService sharedInstance] getTasksForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
-        
-        NSMutableArray *tasks = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* params in [response objectForKey:@"results"]) {
-            NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-            KBNTaskList *taskList;
-            
-            for (KBNTaskList* list in weakself.projectLists) {
-                if ([list.taskListId isEqualToString:taskListId]) {
-                    taskList = list;
-                    break;
-                }
-            }
-            [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
-        }
-        
-        weakself.projectTasks = tasks;
-        [weakself createPageViewController];
-        [weakself buildDetailViewControllers];
-        
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Error getting Tasks: %@",error.localizedDescription);
-    }];
-}
-
-
-- (void)getProjectLists_deprecated {
-    __weak typeof(self) weakself = self;
-    
-    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
-        
-        NSMutableArray *taskLists = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* params in [response objectForKey:@"results"]) {
-            [taskLists addObject:[KBNTaskListUtils taskListForProject:self.project params:params]];
-        }
-        
-        weakself.projectLists = taskLists;
-        [weakself getProjectTasks];
-        
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
-    }];
-}
-
-
-
 #pragma mark - Controller methods
 
 -(void)buildDetailViewControllers
@@ -221,28 +167,6 @@
     KBNProjectDetailViewController* startingViewController = [self viewControllerAtIndex:0];
     NSArray *viewControllers = @[startingViewController];
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-}
-
--(KBNProjectDetailViewController*)viewControllerAtIndex_deprecated:(NSUInteger)index {
-    if (([self.projectLists count] == 0) || (index >= [self.projectLists count]))
-    {
-        return nil;
-    }
-    
-    // Create a new view controller and pass suitable data.
-    KBNProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
-    
-    projectDetailViewController.delegate = self;
-    projectDetailViewController.pageIndex = index;
-    projectDetailViewController.totalPages = self.projectLists.count;
-    projectDetailViewController.project = self.project;
-    
-    KBNTaskList *currentList = [self.project.taskLists objectAtIndex:index];
-    
-    projectDetailViewController.taskListTasks = [self tasksForList:currentList];
-    projectDetailViewController.taskList = currentList;
-    
-    return projectDetailViewController;
 }
 
 -(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index {
