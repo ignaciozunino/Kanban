@@ -25,8 +25,10 @@
 }
 
 - (void)setUpNavigationBarTitle {
-   
-    [[UINavigationBar appearance] setTitleTextAttributes: [UIFont getKBNNavigationBarFont]];
+    
+    UINavigationBar *navigationBar = [UINavigationBar appearance];
+    [navigationBar setTitleTextAttributes: [UIFont getKBNNavigationBarFont]];
+
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -37,12 +39,6 @@
     UIViewController *initViewController = [storyboard instantiateInitialViewController];
     
     [self.window setRootViewController:initViewController];
-    
-    // Configure appearance for page control indicator
-    UIPageControl *pageControl = [UIPageControl appearance];
-    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
-    pageControl.backgroundColor = [UIColor whiteColor];
     
     [self setUpNavigationBarTitle];
     return YES;

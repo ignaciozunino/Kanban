@@ -10,7 +10,7 @@
 
 @implementation KBNProjectUtils
 
-+ (BOOL)existProject {
++ (BOOL)existProject:(NSString*)name {
     return NO;
 }
 

@@ -112,106 +112,99 @@
     static CGPoint sourceLocation;
     static KBNTask *selectedTask = nil;
     
-    switch (state) {
-        case UIGestureRecognizerStateBegan: {
-            if (indexPath) {
-                sourceIndexPath = indexPath;
-                sourceLocation = location;
-                selectedTask = [self.taskListTasks objectAtIndex:sourceIndexPath.row];
-                
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                
-                // Take a snapshot of the selected row using helper method.
-                snapshot = [self customSnapshoFromView:cell];
-                
-                // Add the snapshot as subview, centered at cell's center...
-                __block CGPoint center = cell.center;
-                snapshot.center = center;
-                snapshot.alpha = 0.0;
-                [self.tableView addSubview:snapshot];
-                [UIView animateWithDuration:0.25 animations:^{
-                    
-                    // Offset for gesture location.
-                    center.y = location.y;
-                    snapshot.center = center;
-                    snapshot.transform = CGAffineTransformMakeScale(1.05, 1.05);
-                    snapshot.alpha = 0.98;
-                    cell.alpha = 0.0;
-                    
-                } completion:^(BOOL finished) {
-                    
-                    cell.hidden = YES;
-                    
-                }];
-            }
-            break;
-        }
+    if (state == UIGestureRecognizerStateBegan) {
+        
+        if (indexPath) {
+            sourceIndexPath = indexPath;
+            sourceLocation = location;
+            selectedTask = [self.taskListTasks objectAtIndex:sourceIndexPath.row];
             
-        case UIGestureRecognizerStateChanged: {
-            CGPoint center = snapshot.center;
-            center.y = location.y;
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            
+            // Take a snapshot of the selected row using helper method.
+            snapshot = [self customSnapshoFromView:cell];
+            
+            // Add the snapshot as subview, centered at cell's center...
+            __block CGPoint center = cell.center;
             snapshot.center = center;
-            
-            // Is destination valid and is it different from source?
-            if (indexPath && ![indexPath isEqual:sourceIndexPath]) {
-                
-                // ... update data source.
-                [self.taskListTasks exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
-                
-                // ... move the rows.
-                [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
-                
-                // ... and update source so it is in sync with UI changes.
-                holdIndexPath = sourceIndexPath;
-                sourceIndexPath = indexPath;
-            }
-            break;
-        }
-            
-        case UIGestureRecognizerStateEnded: {
-            
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
-            NSUInteger origin = [selectedTask.order integerValue];
-            
-            if (holdIndexPath && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
-                [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
-            } else {
-                if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
-                    // Swipe Right
-                    [self.delegate moveToRightTask:selectedTask from:self];
-                    if (self.pageIndex < self.totalPages -1) {
-                        [self removeTask:selectedTask];
-                    }
-                } else if (location.x < sourceLocation.x - TASK_SWIPE_THRESHOLD) {
-                    // Swipe Left
-                    [self.delegate moveToLeftTask:selectedTask from:self];
-                    if (self.pageIndex > 0) {
-                        [self removeTask:selectedTask];
-                    }
-                }
-            }
-            
-            // Clean up.
-            cell.hidden = NO;
-            cell.alpha = 0.0;
-            
+            snapshot.alpha = 0.0;
+            [self.tableView addSubview:snapshot];
             [UIView animateWithDuration:0.25 animations:^{
                 
-                snapshot.center = CGPointMake(cell.center.x, cell.center.y);
-                snapshot.transform = CGAffineTransformIdentity;
-                snapshot.alpha = 0.0;
-                cell.alpha = 1.0;
+                // Offset for gesture location.
+                center.y = location.y;
+                snapshot.center = center;
+                snapshot.transform = CGAffineTransformMakeScale(1.05, 1.05);
+                snapshot.alpha = 0.98;
+                cell.alpha = 0.0;
                 
             } completion:^(BOOL finished) {
                 
-                sourceIndexPath = nil;
-                [snapshot removeFromSuperview];
-                snapshot = nil;
+                cell.hidden = YES;
                 
             }];
-            
-            break;
         }
+        
+    } else if (state == UIGestureRecognizerStateChanged) {
+        CGPoint center = snapshot.center;
+        center.y = location.y;
+        snapshot.center = center;
+        
+        // Is destination valid and is it different from source?
+        if (indexPath && ![indexPath isEqual:sourceIndexPath]) {
+            
+            // ... update data source.
+            [self.taskListTasks exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
+            
+            // ... move the rows.
+            [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
+            
+            // ... and update source so it is in sync with UI changes.
+            holdIndexPath = sourceIndexPath;
+            sourceIndexPath = indexPath;
+        }
+        
+    } else if (state == UIGestureRecognizerStateEnded) {
+        
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
+        NSUInteger origin = [selectedTask.order integerValue];
+        
+        if (holdIndexPath && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
+            [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
+        } else {
+            if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
+                // Swipe Right
+                [self.delegate moveToRightTask:selectedTask from:self];
+                if (self.pageIndex < self.totalPages -1) {
+                    [self removeTask:selectedTask];
+                }
+            } else if (location.x < sourceLocation.x - TASK_SWIPE_THRESHOLD) {
+                // Swipe Left
+                [self.delegate moveToLeftTask:selectedTask from:self];
+                if (self.pageIndex > 0) {
+                    [self removeTask:selectedTask];
+                }
+            }
+        }
+        
+        // Clean up.
+        cell.hidden = NO;
+        cell.alpha = 0.0;
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            
+            snapshot.center = CGPointMake(cell.center.x, cell.center.y);
+            snapshot.transform = CGAffineTransformIdentity;
+            snapshot.alpha = 0.0;
+            cell.alpha = 1.0;
+            
+        } completion:^(BOOL finished) {
+            
+            sourceIndexPath = nil;
+            [snapshot removeFromSuperview];
+            snapshot = nil;
+            
+        }];
     }
 }
 
