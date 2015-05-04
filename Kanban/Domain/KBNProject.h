@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) NSString * projectDescription;
 @property (nonatomic, strong) NSString * projectId;
+@property (nonatomic, strong) id users;
 @property (nonatomic, strong) NSOrderedSet *taskLists;
 @property (nonatomic, strong) NSOrderedSet *tasks;
 @end
