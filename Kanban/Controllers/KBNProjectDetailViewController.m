@@ -291,7 +291,6 @@
         // Additional code to configure the Edit Button, if any
         if (self.taskListTasks.count == 0) {
             [self.tableView setEditing:NO animated:YES];
-            [self.tableView isEditing ];
             [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
             [self.editButton sizeToFit];
         }
