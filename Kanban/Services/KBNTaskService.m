@@ -56,5 +56,10 @@
     [self.dataService incrementOrderToTaskIds:taskIds by:(NSNumber*)amount completionBlock:onCompletion errorBlock:onError];
 }
 
+-(void)removeTask:(NSString*)taskId onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
+    
+    [self.dataService removeTask:taskId onSuccess:onSuccess failure:onError];
+    
+}
 
 @end

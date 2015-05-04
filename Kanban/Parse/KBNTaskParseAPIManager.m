@@ -114,7 +114,7 @@
     }
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
-        
+
     [self.afManager POST:PARSE_BATCH
               parameters:params
                  success:^(AFHTTPRequestOperation *operation, id responseObject){
@@ -123,6 +123,19 @@
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
                  }];
+    
+}
+
+-(void)removeTask:(NSString*)taskId onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
+    NSDictionary *params = @{PARSE_TASK_ACTIVE_COLUMN: @NO};
+    NSString * url =[NSString stringWithFormat:@"%@/%@",PARSE_TASKS,taskId];
+    [self.afManager PUT:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        onSuccess();
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        onError(error);
+    }];
     
 }
 

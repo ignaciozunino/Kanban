@@ -41,7 +41,6 @@
                          onFailure:^(NSError* error){
                              [KBNAlertUtils showAlertView:@"Sorry, the tasks could not be retrieved at this moment." andType:@"Alert"];
                          }];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -264,7 +263,7 @@
     
     KBNProjectDetailViewController *nextViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
     [self.pageViewController setViewControllers:@[nextViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-
+    
 }
 
 - (void)moveToRightTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
@@ -330,14 +329,14 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ 
+ }
+ */
 
 @end
