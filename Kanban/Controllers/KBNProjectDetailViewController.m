@@ -66,34 +66,9 @@
     
     KBNTask* task = [self.taskListTasks objectAtIndex:indexPath.row];
     cell.textLabel.text = task.name;
-    cell.detailTextLabel.text = task.taskDescription;
-    
-    // Assign a background image for the cell
-    UIImage *background = [self cellBackgroundForRowAtIndexPath:indexPath];
-    
-    UIImageView *cellBackgroundView = [[UIImageView alloc] initWithImage:background];
-    cellBackgroundView.image = background;
-    cell.backgroundView = cellBackgroundView;
-    
+
     return cell;
     
-}
-
-- (UIImage *)cellBackgroundForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSInteger rowCount = [self tableView:[self tableView] numberOfRowsInSection:0];
-    NSInteger rowIndex = indexPath.row;
-    UIImage *background = nil;
-    
-    if (rowIndex == 0) {
-        background = [UIImage imageNamed:@"cell_top.png"];
-    } else if (rowIndex == rowCount - 1) {
-        background = [UIImage imageNamed:@"cell_bottom.png"];
-    } else {
-        background = [UIImage imageNamed:@"cell_middle.png"];
-    }
-    
-    return background;
 }
 
 #pragma mark - Gestures Handlers
@@ -166,8 +141,9 @@
         
     } else if (state == UIGestureRecognizerStateEnded) {
         
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
         NSUInteger origin = [selectedTask.order integerValue];
+        CGPoint endPoint;
+        BOOL swipeDetected = NO;
         
         if (holdIndexPath && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
             [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
@@ -177,23 +153,36 @@
                 [self.delegate moveToRightTask:selectedTask from:self];
                 if (self.pageIndex < self.totalPages -1) {
                     [self removeTask:selectedTask];
+                    endPoint = CGPointMake(9999, location.y);
+                    swipeDetected = YES;
                 }
             } else if (location.x < sourceLocation.x - TASK_SWIPE_THRESHOLD) {
                 // Swipe Left
                 [self.delegate moveToLeftTask:selectedTask from:self];
                 if (self.pageIndex > 0) {
                     [self removeTask:selectedTask];
+                    endPoint = CGPointMake(-9999, location.y);
+                    swipeDetected = YES;
                 }
             }
         }
         
         // Clean up.
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
         cell.hidden = NO;
         cell.alpha = 0.0;
         
-        [UIView animateWithDuration:0.25 animations:^{
+        NSTimeInterval duration;
+        
+        if (swipeDetected) {
+            duration = 2.5;
+        } else {
+            duration = 0.25;
+        }
+        
+        [UIView animateWithDuration:duration animations:^{
             
-            snapshot.center = CGPointMake(cell.center.x, cell.center.y);
+            snapshot.center = CGPointMake(cell.center.x + endPoint.x, cell.center.y);
             snapshot.transform = CGAffineTransformIdentity;
             snapshot.alpha = 0.0;
             cell.alpha = 1.0;
