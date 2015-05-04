@@ -47,6 +47,7 @@
 #define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"
 #define PARSE_TASKLISTS @"https://api.parse.com/1/classes/TaskList"
 #define PARSE_TASKS @"https://api.parse.com/1/classes/Task"
+#define PARSE_BATCH @"https://api.parse.com/1/batch"
 
 //PARSE TABLE COLUMNS
 #define PARSE_OBJECTID @"objectId"

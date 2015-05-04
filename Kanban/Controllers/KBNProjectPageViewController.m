@@ -31,7 +31,7 @@
     
     self.title = self.project.name;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
-
+    
     [self getProjectLists];
     
 }
@@ -72,14 +72,18 @@
         for (NSDictionary* params in [response objectForKey:@"results"]) {
             NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
             KBNTaskList *taskList;
-            
-            for (KBNTaskList* list in weakself.projectLists) {
-                if ([list.taskListId isEqualToString:taskListId]) {
-                    taskList = list;
-                    break;
+            BOOL isactive = ((NSNumber*)[params objectForKey:PARSE_TASK_ACTIVE_COLUMN]).boolValue;
+            if (isactive){
+                
+                for (KBNTaskList* list in weakself.projectLists) {
+                    if ([list.taskListId isEqualToString:taskListId]) {
+                        taskList = list;
+                         [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
+                        break;
+                    }
                 }
+               
             }
-            [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
         }
         
         weakself.projectTasks = tasks;
@@ -210,7 +214,7 @@
     
     KBNProjectDetailViewController *nextViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
     [self.pageViewController setViewControllers:@[nextViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-
+    
 }
 
 - (void)moveToRightTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
@@ -241,7 +245,7 @@
     if (index > 0) {
         [self moveTask:task toList:[self.projectLists objectAtIndex:--index]];
     }
-
+    
 }
 
 - (void)moveTask:(KBNTask*)task toList:(KBNTaskList*)taskList {
@@ -274,14 +278,14 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ 
+ }
+ */
 
 @end

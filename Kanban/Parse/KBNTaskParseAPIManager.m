@@ -76,4 +76,50 @@
                 }];
 }
 
+- (void)incrementOrderToTaskIds:(NSArray*)taskIds by:(NSNumber*)amount completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    NSMutableDictionary *operation = [NSMutableDictionary dictionaryWithCapacity:1];
+    [operation setObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Increment", @"__op", amount, @"amount", nil]
+                  forKey:PARSE_TASK_ORDER_COLUMN];
+    
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
+    NSMutableDictionary *record;
+    
+    for (NSString *taskId in taskIds) {
+        record = [NSMutableDictionary dictionaryWithCapacity:3];
+        [record setObject:@"PUT" forKey:@"method"];
+        [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", taskId] forKey:@"path"];
+        [record setObject:operation forKey:@"body"];
+        
+        [requests addObject:record];
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
+    
+    [self.afManager POST:PARSE_BATCH
+              parameters:params
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     onCompletion(responseObject);
+                 }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     onError(error);
+                 }];
+    
+}
+
+
+
+-(void)removeTask:(NSString*)taskId onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
+    NSDictionary *params = @{PARSE_TASK_ACTIVE_COLUMN: @NO};
+    NSString * url =[NSString stringWithFormat:@"%@/%@",PARSE_TASKS,taskId];
+    [self.afManager PUT:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        onSuccess();
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        onError(error);
+    }];
+    
+}
+
 @end
