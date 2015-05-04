@@ -78,10 +78,11 @@
                 for (KBNTaskList* list in weakself.projectLists) {
                     if ([list.taskListId isEqualToString:taskListId]) {
                         taskList = list;
+                         [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
                         break;
                     }
                 }
-                [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
+               
             }
         }
         

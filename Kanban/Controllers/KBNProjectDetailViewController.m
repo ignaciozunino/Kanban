@@ -259,8 +259,9 @@
     }
     else {
         [self.editButton setTitle:EditingTitle forState:UIControlStateNormal];
-        [self.editButton sizeToFit];        // Turn on edit mode
+        [self.editButton sizeToFit];
         
+        // Turn on edit mode
         [self.tableView setEditing:YES animated:YES];
     }
 }
