@@ -16,6 +16,7 @@
 @dynamic name;
 @dynamic projectDescription;
 @dynamic projectId;
+@dynamic users;
 @dynamic taskLists;
 @dynamic tasks;
 

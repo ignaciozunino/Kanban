@@ -16,10 +16,14 @@
 #define SEGUE_TASK_DETAIL @"taskDetail"
 #define SEGUE_ADD_TASK @"addTask"
 #define TASK_SWIPE_THRESHOLD 50
+#define RegularTitle @"Delete Tasks"
+#define EditingTitle @"Done"
 
-@interface KBNProjectDetailViewController ()
+@interface KBNProjectDetailViewController () <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (weak, nonatomic) IBOutlet UIButton *editButton;
 
 @property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *longPress;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *doubleTap;
@@ -35,9 +39,13 @@
     
     self.title = self.project.name;
     self.labelState.text = self.taskList.name;
-    
+    [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
+    [self.editButton sizeToFit];
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
-    
+    self.tap.delegate = self;
+    self.doubleTap.delegate=self;
+    self.longPress.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -72,6 +80,18 @@
 }
 
 #pragma mark - Gestures Handlers
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([self.tableView isEditing]) {
+        
+        // Don't let selections of auto-complete entries fire the
+        // gesture recognizer
+        return NO;
+    }
+    
+    return YES;
+}
 
 // Tap (Long Press) and Swipe to move a task to the previous/next list
 - (IBAction)handleLongPress:(UILongPressGestureRecognizer *)sender {
@@ -312,7 +332,6 @@
     } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
     }];
-    
 }
 
 #pragma mark - Add Task View Controller delegate
@@ -352,5 +371,63 @@
     }
 }
 
+#pragma mark - TableView edit
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //for now all the task are editable
+    return YES;
+    
+}
+
+- (IBAction)enterEditMode:(id)sender {
+    
+    if ([self.tableView isEditing]) {
+        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
+        [self.tableView setEditing:NO animated:YES];
+        
+        [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
+        [self.editButton sizeToFit];
+        
+    }
+    else {
+        [self.editButton setTitle:EditingTitle forState:UIControlStateNormal];
+        [self.editButton sizeToFit];
+        
+        // Turn on edit mode
+        [self.tableView setEditing:YES animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [KBNAppDelegate activateActivityIndicator:YES];
+        KBNTask *object = [self.taskListTasks objectAtIndex:indexPath.row];
+        [[KBNTaskService sharedInstance] removeTask:object.taskId onSuccess:^{
+            // Animate the deletion
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
+                [self removeTask:object];
+                [KBNAppDelegate activateActivityIndicator:NO];
+            });
+        } failure:^(NSError *error) {
+            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+            [KBNAppDelegate activateActivityIndicator:NO];
+        }];
+        
+        
+        // Additional code to configure the Edit Button, if any
+        if (self.taskListTasks.count == 0) {
+            [self.tableView setEditing:NO animated:YES];
+            [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
+            [self.editButton sizeToFit];
+        }
+    }
+    
+}
 @end
