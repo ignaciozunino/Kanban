@@ -117,8 +117,7 @@
         KBNTask *object = [self.taskListTasks objectAtIndex:indexPath.row];
         [[KBNTaskService sharedInstance] removeTask:object.taskId onSuccess:^{
             // Animate the deletion
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
+            dispatch_async(dispatch_get_main_queue(), ^{                
                 
                 [self removeTask:object];
                 [KBNAppDelegate activateActivityIndicator:NO];
@@ -233,7 +232,6 @@
                 // Swipe Right
                 [self.delegate moveToRightTask:selectedTask from:self];
                 if (self.pageIndex < self.totalPages -1) {
-                    [self removeTask:selectedTask];
                     endPoint = CGPointMake(9999, location.y);
                     swipeDetected = YES;
                 }
@@ -241,7 +239,6 @@
                 // Swipe Left
                 [self.delegate moveToLeftTask:selectedTask from:self];
                 if (self.pageIndex > 0) {
-                    [self removeTask:selectedTask];
                     endPoint = CGPointMake(-9999, location.y);
                     swipeDetected = YES;
                 }
