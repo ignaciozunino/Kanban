@@ -4,6 +4,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="projectDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="projectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="users" optional="YES" attributeType="Transformable" syncable="YES"/>
         <relationship name="taskLists" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTaskList" inverseName="project" inverseEntity="KBNTaskList" syncable="YES"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTask" inverseName="project" inverseEntity="KBNTask" syncable="YES"/>
     </entity>
@@ -24,8 +25,8 @@
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTask" inverseName="taskList" inverseEntity="KBNTask" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KBNProject" positionX="-56" positionY="-306" width="128" height="120"/>
+        <element name="KBNProject" positionX="-218" positionY="-378" width="128" height="133"/>
         <element name="KBNTask" positionX="115" positionY="-130" width="128" height="150"/>
-        <element name="KBNTaskList" positionX="-225" positionY="-108" width="128" height="120"/>
+        <element name="KBNTaskList" positionX="-324" positionY="-84" width="128" height="120"/>
     </elements>
 </model>
