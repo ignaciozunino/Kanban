@@ -17,15 +17,9 @@
 
 @protocol KBNProjectDetailViewControllerDelegate <NSObject>
 
-- (void)moveToRightFrom:(KBNProjectDetailViewController*)viewController;
-
-- (void)moveToLeftFrom:(KBNProjectDetailViewController*)viewController;
-
 - (void)moveToRightTask:(KBNTask*)task from:(KBNProjectDetailViewController*)viewController;
 
 - (void)moveToLeftTask:(KBNTask*)task from:(KBNProjectDetailViewController*)viewController;
-
-- (void)didCreateTask:(KBNTask*)task;
 
 - (void)toggleScrollStatus;
 

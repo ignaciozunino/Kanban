@@ -398,9 +398,7 @@
 #pragma mark - Add Task View Controller delegate
 
 -(void)didCreateTask:(KBNTask *)task {
-    
     [self.taskListTasks addObject:task];
-    [self.delegate didCreateTask:task];
 }
 
 - (NSNumber*)nextOrderNumber {

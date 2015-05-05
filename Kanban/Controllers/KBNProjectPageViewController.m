@@ -14,7 +14,6 @@
 
 #define KBNEDIT_VC @"KBNEditProjectViewController"
 
-
 @interface KBNProjectPageViewController ()
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -254,31 +253,6 @@
 
 #pragma mark - Project Detail View Controller Delegate
 
-- (void)moveToRightFrom:(KBNProjectDetailViewController *)viewController {
-    
-    if (viewController.pageIndex == [self.projectLists count] - 1) return;
-    
-    KBNProjectDetailViewController *nextViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerAfterViewController:viewController];
-    
-    [self.pageViewController setViewControllers:@[nextViewController]
-                                      direction:UIPageViewControllerNavigationDirectionForward
-                                       animated:YES
-                                     completion:nil];
-}
-
-- (void)moveToLeftFrom:(KBNProjectDetailViewController *)viewController {
-    
-    if (viewController.pageIndex == 0) return;
-    
-    KBNProjectDetailViewController *nextViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
-    
-    [self.pageViewController setViewControllers:@[nextViewController]
-                                      direction:UIPageViewControllerNavigationDirectionReverse
-                                       animated:YES
-                                     completion:nil];
-    
-}
-
 - (void)moveToRightTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
     
     KBNProjectDetailViewController* viewControllerAtTheRight = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerAfterViewController:viewController];
@@ -333,13 +307,7 @@
     self.scrollView.scrollEnabled = !self.scrollView.scrollEnabled;
 }
 
-#pragma mark - Add Task View Controller delegate
-
--(void)didCreateTask:(KBNTask *)task {
-    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.projectTasks];
-    [temp addObject:task];
-    self.projectTasks = temp;
-}
+#pragma mark - Navigation
 
 - (void)setupEdit {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -348,8 +316,6 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 /*
- #pragma mark - Navigation
- 
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  // Get the new view controller using [segue destinationViewController].
