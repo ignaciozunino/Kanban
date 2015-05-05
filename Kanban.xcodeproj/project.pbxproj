@@ -70,6 +70,8 @@
 		CCA1A2B01ADEAE8D00CC98B5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */; };
 		CCA1A2B11ADEAE8D00CC98B5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */; };
 		E228B8421AEFD65D00753750 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E2AC8A341AF902D9008A44B5 /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8A331AF902D9008A44B5 /* NSDate+Utils.m */; };
+		E2AC8A371AF90312008A44B5 /* KBNUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8A361AF90312008A44B5 /* KBNUpdateManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +181,10 @@
 		CCA1A2AE1ADEAE8D00CC98B5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		CCA1A2AF1ADEAE8D00CC98B5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Frameworks/Parse.framework; sourceTree = "<group>"; };
 		E1248F82C2AA466919F32613 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2AC8A321AF902D9008A44B5 /* NSDate+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Utils.h"; path = "Utils/NSDate+Utils.h"; sourceTree = "<group>"; };
+		E2AC8A331AF902D9008A44B5 /* NSDate+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Utils.m"; path = "Utils/NSDate+Utils.m"; sourceTree = "<group>"; };
+		E2AC8A351AF90312008A44B5 /* KBNUpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNUpdateManager.h; path = Services/KBNUpdateManager.h; sourceTree = "<group>"; };
+		E2AC8A361AF90312008A44B5 /* KBNUpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNUpdateManager.m; path = Services/KBNUpdateManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +250,8 @@
 		181FA97D1AE04888001DD816 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E2AC8A351AF90312008A44B5 /* KBNUpdateManager.h */,
+				E2AC8A361AF90312008A44B5 /* KBNUpdateManager.m */,
 				3A0CCD401AEFEDCC0039F629 /* KBNTaskServiceOld.h */,
 				3A0CCD411AEFEDCC0039F629 /* KBNTaskServiceOld.m */,
 				A0C8A7011AEED4640069E236 /* KBNTaskListService.h */,
@@ -380,6 +388,8 @@
 		CCA1A2AD1ADEAABF00CC98B5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E2AC8A321AF902D9008A44B5 /* NSDate+Utils.h */,
+				E2AC8A331AF902D9008A44B5 /* NSDate+Utils.m */,
 				3A0CCD2D1AEFC1780039F629 /* KBNAlertUtils.h */,
 				3A0CCD2E1AEFC1780039F629 /* KBNAlertUtils.m */,
 				3A0CCD2F1AEFC1780039F629 /* KBNConstants.h */,
@@ -595,8 +605,10 @@
 				18CB2DBC1AEAE40700F5F390 /* (null) in Sources */,
 				3A312AAE1AEE8473005837A5 /* KBNProjectService.m in Sources */,
 				032EF2921AF0259400F27846 /* KBNErrorUtils.m in Sources */,
+				E2AC8A341AF902D9008A44B5 /* NSDate+Utils.m in Sources */,
 				18CB2DBD1AEAE40700F5F390 /* (null) in Sources */,
 				3A0CCD2C1AEFC1270039F629 /* KBNTaskListUtils.m in Sources */,
+				E2AC8A371AF90312008A44B5 /* KBNUpdateManager.m in Sources */,
 				3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */,
 				3A312AA31AEE8442005837A5 /* KBNUser.m in Sources */,
 				3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */,
