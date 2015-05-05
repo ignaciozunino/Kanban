@@ -57,4 +57,8 @@
     
 }
 
+- (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+    [self.dataService getTasksFromDateForProject:projectId withDate:lastDate completionBlock:onCompletion errorBlock:onError];
+}
+
 @end
