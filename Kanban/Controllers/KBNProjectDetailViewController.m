@@ -16,8 +16,8 @@
 #define SEGUE_TASK_DETAIL @"taskDetail"
 #define SEGUE_ADD_TASK @"addTask"
 #define TASK_SWIPE_THRESHOLD 50
-#define RegularTitle @"Delete Tasks"
-#define EditingTitle @"Done"
+#define REGULAR_TITLE @"Delete Tasks"
+#define EDITING_TITLE @"Done"
 
 @interface KBNProjectDetailViewController () <UIGestureRecognizerDelegate>
 
@@ -39,7 +39,7 @@
     
     self.title = self.project.name;
     self.labelState.text = self.taskList.name;
-    [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
+    [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
     [self.editButton sizeToFit];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
@@ -79,10 +79,70 @@
     
 }
 
+#pragma mark - Table View Delegate
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //for now all the task are editable
+    return YES;
+    
+}
+
+- (IBAction)enterEditMode:(id)sender {
+    
+    if ([self.tableView isEditing]) {
+        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
+        [self.tableView setEditing:NO animated:YES];
+        
+        [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+        [self.editButton sizeToFit];
+        
+    }
+    else {
+        [self.editButton setTitle:EDITING_TITLE forState:UIControlStateNormal];
+        [self.editButton sizeToFit];
+        
+        // Turn on edit mode
+        [self.tableView setEditing:YES animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [KBNAppDelegate activateActivityIndicator:YES];
+        KBNTask *object = [self.taskListTasks objectAtIndex:indexPath.row];
+        [[KBNTaskService sharedInstance] removeTask:object.taskId onSuccess:^{
+            // Animate the deletion
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
+                [self removeTask:object];
+                [KBNAppDelegate activateActivityIndicator:NO];
+            });
+        } failure:^(NSError *error) {
+            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+            [KBNAppDelegate activateActivityIndicator:NO];
+        }];
+        
+        
+        // Additional code to configure the Edit Button, if any
+        if (self.taskListTasks.count == 0) {
+            [self.tableView setEditing:NO animated:YES];
+            [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+            [self.editButton sizeToFit];
+        }
+    }
+    
+}
+
 #pragma mark - Gestures Handlers
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
     if ([self.tableView isEditing]) {
         
         // Don't let selections of auto-complete entries fire the
@@ -371,63 +431,4 @@
     }
 }
 
-#pragma mark - TableView edit
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //for now all the task are editable
-    return YES;
-    
-}
-
-- (IBAction)enterEditMode:(id)sender {
-    
-    if ([self.tableView isEditing]) {
-        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
-        [self.tableView setEditing:NO animated:YES];
-        
-        [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
-        [self.editButton sizeToFit];
-        
-    }
-    else {
-        [self.editButton setTitle:EditingTitle forState:UIControlStateNormal];
-        [self.editButton sizeToFit];
-        
-        // Turn on edit mode
-        [self.tableView setEditing:YES animated:YES];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [KBNAppDelegate activateActivityIndicator:YES];
-        KBNTask *object = [self.taskListTasks objectAtIndex:indexPath.row];
-        [[KBNTaskService sharedInstance] removeTask:object.taskId onSuccess:^{
-            // Animate the deletion
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
-                [self removeTask:object];
-                [KBNAppDelegate activateActivityIndicator:NO];
-            });
-        } failure:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-            [KBNAppDelegate activateActivityIndicator:NO];
-        }];
-        
-        
-        // Additional code to configure the Edit Button, if any
-        if (self.taskListTasks.count == 0) {
-            [self.tableView setEditing:NO animated:YES];
-            [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
-            [self.editButton sizeToFit];
-        }
-    }
-    
-}
 @end
