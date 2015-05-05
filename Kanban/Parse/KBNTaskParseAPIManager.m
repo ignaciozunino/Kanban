@@ -64,6 +64,7 @@
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
     
+    
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", PARSE_TASK_ORDER_COLUMN, @"order",nil];
     
     [self.afManager GET:PARSE_TASKS
@@ -76,7 +77,7 @@
                 }];
 }
 
-- (void)getTasksFromDateForProject:(NSString*)projectId withDate:(NSString*)lastModifiedDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+- (void)getTasksUpdatedForProject:(NSString*)projectId fromDate:(NSString*)lastModifiedDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:2];
     NSMutableDictionary *whereGT = [NSMutableDictionary dictionaryWithCapacity:1];
  

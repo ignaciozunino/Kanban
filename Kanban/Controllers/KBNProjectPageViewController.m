@@ -11,6 +11,8 @@
 #import "KBNTaskListUtils.h"
 #import "KBNTaskUtils.h"
 #import "KBNAlertUtils.h"
+#import "KBNUpdateManager.h"
+
 #define KBNEDIT_VC @"KBNEditProjectViewController"
 
 
@@ -19,6 +21,7 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) NSArray* projectTasks;
 @property (strong, nonatomic) NSArray* projectLists;
+@property (strong, nonatomic) KBNUpdateManager * updateManager;
 
 @end
 
@@ -31,10 +34,20 @@
     
     self.title = self.project.name;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
+    // [self getProjectLists];
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate) name:KBNTasksUpdated object:nil];
+    self.updateManager = [[KBNUpdateManager alloc] init];
+    [self.updateManager startUpdatingTasksForProject:self.project];
     
-    [self getProjectLists];
     
 }
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -42,7 +55,11 @@
 }
 
 #pragma mark - Data methods
-
+-(void)onTasksUpdate{
+    
+    [self getProjectLists];
+    
+}
 - (void)getProjectLists {
     __weak typeof(self) weakself = self;
     
@@ -278,14 +295,81 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 /*
- #pragma mark - Navigation
+ //
+ //  PRSurveyMenuButtonView.m
+ //  Briefcase
+ //
+ //  Created by Luciano Castro  on 6/16/14.
+ //  Copyright (c) 2014 Pernod Ricard. All rights reserved.
+ //
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+ #import "PRSurveyMenuButtonView.h"
+ #import "PRSurveyUploadsViewController.h"
+ #import "PRSurveyManager.h"
  
+ @implementation PRSurveyMenuButtonView
+ 
+ - (id)initWithFrame:(CGRect)frame
+ {
+ self = [super initWithFrame:frame];
+ if (self) {
+ // Initialization code
+ }
+ return self;
+ }
+ 
+ 
+ - (id)initWithCoder:(NSCoder *)aDecoder
+ {
+ self = [super initWithCoder:aDecoder];
+ if (self)
+ {
+ //Add update manager notifications to handle UI feedback
+ [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSurveyManagerDidStartUpdate) name:PRSurveyManagerDidStartSubmittingSurveyNotification object:nil];
+ [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSurveyManagerDidEndUpdate) name:PRSurveyManagerDidFinishSubmittingAllSurveysNotification object:nil];
+ [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSurveyManagerDidStopUpdating) name:PRSurveyMAnagerDidStopNotification object:nil];
+ }
+ return self;
+ }
+ 
+ - (void) onSurveyManagerDidStartUpdate
+ {
+ [self.activityIndicator startAnimating];
+ }
+ 
+ - (void) onSurveyManagerDidEndUpdate
+ {
+ [self.activityIndicator stopAnimating];
+ }
+ 
+ - (void) onSurveyManagerDidStopUpdating
+ {
+ [self.activityIndicator stopAnimating];
+ }
+ 
+ - (IBAction)onShowPopup:(id)sender
+ {
+ if (self.popOver != nil)
+ {
+ [self.popOver dismissPopoverAnimated:NO];
+ }
+ 
+ PRSurveyUploadsViewController *surveyList = [[PRSurveyUploadsViewController alloc] initWithNibName:nil bundle:nil];
+ 
+ surveyList.contentSizeForViewInPopover = surveyList.view.size;
+ 
+ UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:surveyList];
+ 
+ self.popOver = popover;
+ 
+ [self.popOver presentPopoverFromRect:self.bounds inView:self permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+ }
+ 
+ - (void) dealloc
+ {
+ [[NSNotificationCenter defaultCenter] removeObserver:self];
  }
  */
 
 @end
+

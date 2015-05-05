@@ -8,19 +8,24 @@
 
 #import <Foundation/Foundation.h>
 #import "NSDate+Utils.h"
+#import "KBNTaskService.h"
+#import "KBNTaskUtils.h"
+#import "KBNTaskList.h"
+#import "KBNProjectService.h"
 
 #define KBNProjectsUpdated                 @"KBNProjectsUpdated"
 #define KBNTasksUpdated                  @"KBNTasksUpdated"
-#define KBNTimeBetweenUpdates           5.0
+#define KBNTimeBetweenUpdates           50000
 
 @interface KBNUpdateManager : NSObject
 
-@property NSArray * updatedProjects;
-@property NSArray * updatedTasks;
+@property NSMutableArray * updatedProjects;
+@property NSMutableArray * updatedTasks;
+@property KBNProject * projectForTasksUpdate;
 
 // + (KBNUpdateManager *)sharedInstance;
 -(void)startUpdatingProjects;
--(void)startUpdatingTasks;
+-(void)startUpdatingTasksForProject:(KBNProject*)project;
 -(void)stopUpdatingProjects;
 -(void)stopUpdatingTasks;
 
