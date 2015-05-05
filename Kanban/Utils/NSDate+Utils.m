@@ -10,15 +10,19 @@
 
 @implementation NSDate (Utils)
 
-+(NSString *)getUTCNow
++(NSString *)getUTCNowWithParseFormat
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
-    [dateFormatter setTimeZone:timeZone];
-    [dateFormatter setDateFormat:@"YYYY-MM-DDTHH:MM:SS.MMMZ"];
-    NSString *dateString = [dateFormatter stringFromDate:[[NSDate alloc]init]];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
     
+    NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+    [timeFormat setDateFormat:@"HH:mm:ss"];
+    
+    NSDate *now = [[NSDate alloc] init];
+    
+    NSString *theDate = [dateFormat stringFromDate:now];
+    NSString *theTime = [timeFormat stringFromDate:now];
+    NSString * dateString =[NSString stringWithFormat: @"%@T%@.000Z",theDate,theTime];
     return dateString;
 }
-
 @end

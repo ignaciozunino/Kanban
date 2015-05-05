@@ -21,7 +21,7 @@
 
 -(void)startUpdatingProjects{
     self.shouldUpdateProjects = YES;
-    self.lastProjectsUpdate = [NSDate getUTCNow];
+    self.lastProjectsUpdate = [NSDate getUTCNowWithParseFormat];
     [self updateLastProjectUpdateDate];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self updateProjects];
