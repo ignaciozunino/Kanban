@@ -50,6 +50,7 @@
     [[KBNProjectService sharedInstance] getProjectsOnSuccess:^(NSArray* records){
         weakself.projects = records;
         XCTAssertTrue(true);
+        
         //Look for the specific project used for this test
         for (KBNProject* project in weakself.projects) {
             if ([project.projectId isEqualToString:TEST_PROJECT_ID])
@@ -120,8 +121,6 @@
                                                 if ([[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] boolValue]) {
                                                     NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
                                                     
-                                                    
-                                                    
                                                     KBNTaskList *taskList;
                                                     for (KBNTaskList* list in weakself.projectLists) {
                                                         if ([list.taskListId isEqualToString:taskListId]) {
@@ -143,6 +142,7 @@
                                              errorBlock:^(NSError *error){
                                                  XCTAssertTrue(false);
                                              }];
+    
     // The test will pause here, running the run loop, until the timeout is hit
     // or all expectations are fulfilled.
     [self waitForExpectationsWithTimeout:40 handler:^(NSError *error) {
@@ -205,13 +205,18 @@
     
     //Move a task from the backlog list to the requirements list
     XCTestExpectation *taskMovedExpectation = [self expectationWithDescription:TASK_MOVED_EXPECTATION];
-    [[KBNTaskService sharedInstance] moveTask:taskMovedFromBacklog.taskId toList:TEST_TASKLIST_ID_REQUIREMENTS order:[NSNumber numberWithInt:1] completionBlock:^(NSDictionary* records){
-        //XCTAssertTrue(true);
-        [taskMovedExpectation fulfill];
-        
-    } errorBlock:^(NSError* error){
-        XCTAssertTrue(false);
-    }];
+    
+    [[KBNTaskService sharedInstance] moveTask:taskMovedFromBacklog.taskId
+                                       toList:TEST_TASKLIST_ID_REQUIREMENTS
+                                        order:[NSNumber numberWithInt:1]
+                              completionBlock:^(NSDictionary* records){
+                                  
+                                  //XCTAssertTrue(true);
+                                  [taskMovedExpectation fulfill];
+                                  
+                              } errorBlock:^(NSError* error){
+                                  XCTAssertTrue(false);
+                              }];
     
     
     // The test will pause here, running the run loop, until the timeout is hit
@@ -251,13 +256,18 @@
     
     //Roll back the changes made:
     XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
-    [[KBNTaskService sharedInstance] moveTask:taskIdOfTaskMovedFromBacklog toList:TEST_TASKLIST_ID_BACKLOG order:orderOfTaskMovedFromBacklog completionBlock:^(NSDictionary* records){
-        XCTAssertTrue(true);
-        [taskMovedBackExpectation fulfill];
-        
-    } errorBlock:^(NSError* error){
-        XCTAssertTrue(false);
-    }];
+    
+    [[KBNTaskService sharedInstance] moveTask:taskIdOfTaskMovedFromBacklog
+                                       toList:TEST_TASKLIST_ID_BACKLOG
+                                        order:orderOfTaskMovedFromBacklog
+                              completionBlock:^(NSDictionary* records){
+                                  
+                                  XCTAssertTrue(true);
+                                  [taskMovedBackExpectation fulfill];
+                                  
+                              } errorBlock:^(NSError* error){
+                                  XCTAssertTrue(false);
+                              }];
     
     
     // The test will pause here, running the run loop, until the timeout is hit
@@ -272,6 +282,5 @@
     }];
     
 }
-
 
 @end

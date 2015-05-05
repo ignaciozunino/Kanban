@@ -224,8 +224,9 @@
         NSUInteger origin = [selectedTask.order integerValue];
         CGPoint endPoint;
         BOOL swipeDetected = NO;
+        BOOL holding = holdIndexPath;
         
-        if (holdIndexPath && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
+        if (holding && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
             [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
         } else {
             if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {

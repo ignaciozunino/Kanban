@@ -129,7 +129,9 @@
     for (KBNTaskList* taskList in self.projectLists)
     {
         //Add all detail view controllers to the pageViewController, each one having its own TaskList and array of Lists.
-        [viewControllers addObject:[self createViewControllerWithIndex:i andTaskList:taskList andTasks:[self tasksForList:taskList]]];
+        [viewControllers addObject:[self createViewControllerWithIndex:i
+                                                           andTaskList:taskList
+                                                              andTasks:[self tasksForList:taskList]]];
         i++;
     }
     self.detailViewControllers = [NSArray arrayWithArray:viewControllers];
@@ -165,7 +167,10 @@
 - (void)startingViewController {
     KBNProjectDetailViewController* startingViewController = [self viewControllerAtIndex:0];
     NSArray *viewControllers = @[startingViewController];
-    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    [self.pageViewController setViewControllers:viewControllers
+                                      direction:UIPageViewControllerNavigationDirectionForward
+                                       animated:NO
+                                     completion:nil];
 }
 
 -(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index {
@@ -254,7 +259,11 @@
     if (viewController.pageIndex == [self.projectLists count] - 1) return;
     
     KBNProjectDetailViewController *nextViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerAfterViewController:viewController];
-    [self.pageViewController setViewControllers:@[nextViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    
+    [self.pageViewController setViewControllers:@[nextViewController]
+                                      direction:UIPageViewControllerNavigationDirectionForward
+                                       animated:YES
+                                     completion:nil];
 }
 
 - (void)moveToLeftFrom:(KBNProjectDetailViewController *)viewController {
@@ -262,7 +271,11 @@
     if (viewController.pageIndex == 0) return;
     
     KBNProjectDetailViewController *nextViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
-    [self.pageViewController setViewControllers:@[nextViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
+    
+    [self.pageViewController setViewControllers:@[nextViewController]
+                                      direction:UIPageViewControllerNavigationDirectionReverse
+                                       animated:YES
+                                     completion:nil];
     
 }
 
@@ -281,7 +294,10 @@
         [viewController removeTask:task];
         
         // Update task status on server
-        [[KBNTaskService sharedInstance] moveTask:task.taskId toList:task.taskList.taskListId order:task.order completionBlock:^(NSDictionary *response) {
+        [[KBNTaskService sharedInstance] moveTask:task.taskId
+                                           toList:task.taskList.taskListId
+                                            order:task.order
+                                  completionBlock:^(NSDictionary *response) {
             //
         } errorBlock:^(NSError *error) {
             [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
@@ -302,7 +318,10 @@
         [viewController removeTask:task];
         
         // Update task status on server
-        [[KBNTaskService sharedInstance] moveTask:task.taskId toList:task.taskList.taskListId order:task.order completionBlock:^(NSDictionary *response) {
+        [[KBNTaskService sharedInstance] moveTask:task.taskId
+                                           toList:task.taskList.taskListId
+                                            order:task.order
+                                  completionBlock:^(NSDictionary *response) {
             //
         } errorBlock:^(NSError *error) {
             [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
