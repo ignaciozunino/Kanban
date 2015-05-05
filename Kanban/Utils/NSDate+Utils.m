@@ -10,7 +10,7 @@
 
 @implementation NSDate (Utils)
 
--(NSString *)getUTCNow
++(NSString *)getUTCNow
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];

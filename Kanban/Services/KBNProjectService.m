@@ -78,7 +78,7 @@
                                                                                     inManagedObjectContext:weakself.managedObjectContext]
                                          insertIntoManagedObjectContext:weakself.managedObjectContext];
             
-            // newProject.projectId = [item objectForKey:PARSE_OBJECTID];
+            newProject.projectId = [item objectForKey:PARSE_OBJECTID];
             newProject.name = [item objectForKey:PARSE_PROJECT_NAME_COLUMN];
             newProject.projectDescription = [item objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
             newProject.projectId = [item objectForKey:PARSE_OBJECTID];

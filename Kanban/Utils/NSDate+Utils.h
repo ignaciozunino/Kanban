@@ -10,6 +10,6 @@
 
 @interface NSDate (Utils)
 
--(NSString *)getUTCNow;
++(NSString *)getUTCNow;
 
 @end

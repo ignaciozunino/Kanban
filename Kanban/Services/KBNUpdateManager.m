@@ -13,7 +13,7 @@
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateProjects;
 @property (nonatomic,strong) NSDate *lastProjectSyncDate;
 @property (nonatomic,strong) NSDate *lastTasksSyncDate;
-
+@property NSString * lastProjectsUpdate;
 @end
 
 @implementation KBNUpdateManager
@@ -21,6 +21,7 @@
 
 -(void)startUpdatingProjects{
     self.shouldUpdateProjects = YES;
+    self.lastProjectsUpdate = [NSDate getUTCNow];
     [self updateLastProjectUpdateDate];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self updateProjects];
@@ -53,15 +54,10 @@
         //if (upated){
         [self postNotification:KBNProjectsUpdated];
         //}
-        [NSThread sleepForTimeInterval:KBNTimeBetweenUpdates];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self updateProjects];
-       
         });
-         //}
-        
     }
-
 }
 
 - (void)postNotification:(NSString *)notificationName

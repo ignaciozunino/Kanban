@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSDate+Utils.h"
 
 #define KBNProjectsUpdated                 @"KBNProjectsUpdated"
 #define KBNTasksUpdated                  @"KBNTasksUpdated"
