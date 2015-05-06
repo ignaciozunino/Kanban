@@ -55,17 +55,17 @@
 
     __weak typeof(self) weakself = self;
     [KBNAppDelegate activateActivityIndicator:YES];
-    [[KBNProjectService sharedInstance]getProjectsOnSuccess:^(NSArray *records) {
+    
+    [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
         weakself.projects = records;
         dispatch_async(dispatch_get_main_queue(), ^{
-        [weakself.tableView reloadData];
-        
-        [KBNAppDelegate activateActivityIndicator:NO];
+            [weakself.tableView reloadData];
+            
+            [KBNAppDelegate activateActivityIndicator:NO];
         });
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-        
     }];
 }
 
