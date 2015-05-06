@@ -10,6 +10,7 @@
 #import "KBNProjectService.h"
 #import "KBNAlertUtils.h"
 #import "KBNAppDelegate.h"
+#import "KBNUserUtils.h"
 
 @interface KBNAddProjectViewController : UIViewController
 

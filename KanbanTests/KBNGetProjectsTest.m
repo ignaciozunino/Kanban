@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "KBNProjectService.h"
+#import "KBNUserUtils.h"
 
 @interface KBNGetProjectsTest : XCTestCase
 
@@ -43,7 +44,7 @@
     service.dataService =[[KBNProjectParseAPIManager alloc]init];
     [service createProject:name
      
-                                      withDescription:@"created with automatic test"
+                                      withDescription:@"created with automatic test" forUser: [KBNUserUtils getUsername]
                                       completionBlock:^{
                                           ///on the complete block we get all the projects
                                           [service getProjectsOnSuccess:^(NSArray *records) {
