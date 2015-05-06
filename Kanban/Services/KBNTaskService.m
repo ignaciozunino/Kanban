@@ -36,29 +36,49 @@
     }
 }
 
--(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    [self.dataService moveTask:taskId toList:taskListId order:(NSNumber*)order completionBlock:onCompletion errorBlock:onError];
-}
-
--(void)updateTask:(NSString *)taskId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    [self.dataService updateTask:taskId order:(NSNumber*)order completionBlock:onCompletion errorBlock:onError];
-}
-
 -(void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     [self.dataService getTasksForProject:projectId completionBlock:onCompletion errorBlock:onError];
+    
 }
 
-- (void)incrementOrderToTaskIds:(NSArray*)taskIds by:(NSNumber*)amount completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)removeTask:(KBNTask *)task from:(NSArray *)tasksArray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    [self.dataService incrementOrderToTaskIds:taskIds by:(NSNumber*)amount completionBlock:onCompletion errorBlock:onError];
+    NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
+    
+    [tasksToUpdate addObject:task];
+    
+    // As the order has been removed from the array, the first task to reorder will be the deleted task order
+    
+    for (NSUInteger index = [task.order integerValue]; index < tasksArray.count; index++) {
+        KBNTask *taskToReorder = [tasksArray objectAtIndex:index];
+        taskToReorder.order = [NSNumber numberWithInteger:index];
+        [tasksToUpdate addObject:taskToReorder];
+    }
+    
+    [self.dataService updateTasks:tasksToUpdate completionBlock:onCompletion errorBlock:onError];
+    
 }
 
--(void)removeTask:(NSString*)taskId onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
+-(void)reorderTask:(KBNTask *)task in:(NSArray *)tasksArrray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    [self.dataService removeTask:taskId onSuccess:onSuccess failure:onError];
+    NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
+    
+    
+    
+    
+    [self.dataService updateTasks:tasksToUpdate completionBlock:onCompletion errorBlock:onError];
+
+}
+
+-(void)moveTask:(KBNTask *)task from:(NSArray *)tasksArray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
+    
+    
+    
+    
+    [self.dataService updateTasks:tasksToUpdate completionBlock:onCompletion errorBlock:onError];
     
 }
 

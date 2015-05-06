@@ -107,27 +107,30 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         [KBNAppDelegate activateActivityIndicator:YES];
-        KBNTask *object = [self.taskListTasks objectAtIndex:indexPath.row];
-        [[KBNTaskService sharedInstance] removeTask:object.taskId onSuccess:^{
-            // Animate the deletion
-            dispatch_async(dispatch_get_main_queue(), ^{                
-                
-                [self removeTask:object];
-                [KBNAppDelegate activateActivityIndicator:NO];
-            });
-        } failure:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-            [KBNAppDelegate activateActivityIndicator:NO];
+        
+        KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
+        
+        //First remove it from the view
+        [self.taskListTasks removeObjectAtIndex:indexPath.row];
+        
+        // Then remove it in server
+        // We need the array to determine which tasks should be reordered
+        [[KBNTaskService sharedInstance] removeTask:task from:self.taskListTasks completionBlock:^{
+            // task removed
+        } errorBlock:^(NSError *error) {
+            // Insert task at its original position
+            [self.taskListTasks insertObject:task atIndex:indexPath.row];
         }];
         
-        
+        [tableView reloadData];
+
         // Additional code to configure the Edit Button, if any
         if (self.taskListTasks.count == 0) {
             [self.tableView setEditing:NO animated:YES];
@@ -281,7 +284,6 @@
     NSIndexPath *indexPath = [self indexPathForSender:sender];
     KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
     [self.delegate moveToRightTask:task from:self];
-    [self removeTask:task];
     
 }
 
@@ -343,11 +345,11 @@
     for (int i = (int)index; i < self.taskListTasks.count; i++) {
         [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
     }
-    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
-        //
-    } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-    }];
+//    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
+//        //
+//    } errorBlock:^(NSError *error) {
+//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+//    }];
 }
 
 // Reorder task in the the current list array when it´s moved to another place in the same list
@@ -381,15 +383,15 @@
     // Update tasks orden on persistance system
     KBNTaskService *taskService = [KBNTaskService sharedInstance];
     
-    [taskService updateTask:task.taskId order:[NSNumber numberWithUnsignedInteger:end] completionBlock:^{
-        [taskService incrementOrderToTaskIds:tasksToBeUpdated by:amount completionBlock:^{
-            // Tasks updated
-        } errorBlock:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-        }];
-    } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-    }];
+//    [taskService updateTask:task.taskId order:[NSNumber numberWithUnsignedInteger:end] completionBlock:^{
+//        [taskService incrementOrderToTaskIds:tasksToBeUpdated by:amount completionBlock:^{
+//            // Tasks updated
+//        } errorBlock:^(NSError *error) {
+//            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+//        }];
+//    } errorBlock:^(NSError *error) {
+//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+//    }];
 }
 
 #pragma mark - Add Task View Controller delegate

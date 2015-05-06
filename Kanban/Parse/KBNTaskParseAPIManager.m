@@ -7,6 +7,8 @@
 //
 
 #import "KBNTaskParseAPIManager.h"
+#import "KBNTask.h"
+#import "KBNTaskList.h"
 
 @implementation KBNTaskParseAPIManager
 
@@ -41,43 +43,6 @@
      ];
 }
 
--(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:2];
-    [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
-    [params setObject:order forKey:PARSE_TASK_ORDER_COLUMN];
-    
-    NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, taskId];
-    
-    [self.afManager PUT:stringURL
-             parameters:params
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    onCompletion(responseObject);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    onError(error);
-                }
-     ];
-}
-
-- (void)updateTask:(NSString *)taskId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
-    [params setObject:order forKey:PARSE_TASK_ORDER_COLUMN];
-    
-    NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, taskId];
-    
-    [self.afManager PUT:stringURL
-             parameters:params
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    onCompletion(responseObject);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    onError(error);
-                }
-     ];
-}
-
 -(void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
@@ -95,26 +60,29 @@
                 }];
 }
 
-- (void)incrementOrderToTaskIds:(NSArray*)taskIds by:(NSNumber*)amount completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    NSMutableDictionary *operation = [NSMutableDictionary dictionaryWithCapacity:1];
-    [operation setObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Increment", @"__op", amount, @"amount", nil]
-                  forKey:PARSE_TASK_ORDER_COLUMN];
+// This method will receive an array of tasks to update
+- (void)updateTasks:(NSArray*)tasks completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     NSMutableArray *requests = [[NSMutableArray alloc] init];
     NSMutableDictionary *record;
     
-    for (NSString *taskId in taskIds) {
+    for (KBNTask *task in tasks) {
+        
+        NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        task.taskList.taskListId, PARSE_TASK_TASK_LIST_COLUMN,
+                                        task.order, PARSE_TASK_ORDER_COLUMN,
+                                        task.active, PARSE_TASK_ACTIVE_COLUMN, nil];
+        
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"PUT" forKey:@"method"];
-        [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", taskId] forKey:@"path"];
-        [record setObject:operation forKey:@"body"];
+        [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", task.taskId] forKey:@"path"];
+        [record setObject:updates forKey:@"body"];
         
         [requests addObject:record];
     }
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
-
+    
     [self.afManager POST:PARSE_BATCH
               parameters:params
                  success:^(AFHTTPRequestOperation *operation, id responseObject){
@@ -123,20 +91,6 @@
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
                  }];
-    
-}
-
--(void)removeTask:(NSString*)taskId onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
-    NSDictionary *params = @{PARSE_TASK_ACTIVE_COLUMN: @NO};
-    NSString * url =[NSString stringWithFormat:@"%@/%@",PARSE_TASKS,taskId];
-    [self.afManager PUT:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        onSuccess();
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        onError(error);
-    }];
-    
 }
 
 @end

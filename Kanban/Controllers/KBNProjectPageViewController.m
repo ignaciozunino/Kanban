@@ -268,14 +268,14 @@
         [viewController removeTask:task];
         
         // Update task status on server
-        [[KBNTaskService sharedInstance] moveTask:task.taskId
-                                           toList:task.taskList.taskListId
-                                            order:task.order
-                                  completionBlock:^(NSDictionary *response) {
-            //
-        } errorBlock:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-        }];
+//        [[KBNTaskService sharedInstance] moveTask:task.taskId
+//                                           toList:task.taskList.taskListId
+//                                            order:task.order
+//                                  completionBlock:^(NSDictionary *response) {
+//            //
+//        } errorBlock:^(NSError *error) {
+//            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+//        }];
     }
 }
 
@@ -292,14 +292,14 @@
         [viewController removeTask:task];
         
         // Update task status on server
-        [[KBNTaskService sharedInstance] moveTask:task.taskId
-                                           toList:task.taskList.taskListId
-                                            order:task.order
-                                  completionBlock:^(NSDictionary *response) {
-            //
-        } errorBlock:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-        }];
+//        [[KBNTaskService sharedInstance] moveTask:task.taskId
+//                                           toList:task.taskList.taskListId
+//                                            order:task.order
+//                                  completionBlock:^(NSDictionary *response) {
+//            //
+//        } errorBlock:^(NSError *error) {
+//            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+//        }];
     }
 }
 
