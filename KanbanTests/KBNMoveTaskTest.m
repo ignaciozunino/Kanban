@@ -14,6 +14,7 @@
 #import "KBNTaskUtils.h"
 #import "KBNTaskListService.h"
 #import "KBNTaskListUtils.h"
+#import "KBNUserUtils.h"
 
 //Local constants
 #define TEST_PROJECT_ID @"Z1OblTylc6"
@@ -47,25 +48,26 @@
 - (void) retrieveProjects{
     XCTestExpectation *projectsRetrievedExpectation = [self expectationWithDescription:PROJECTS_RETRIEVED_EXPECTATION];
     __weak typeof(self) weakself = self;
-    [[KBNProjectService sharedInstance] getProjectsOnSuccess:^(NSArray* records){
-        weakself.projects = records;
-        XCTAssertTrue(true);
-        
-        //Look for the specific project used for this test
-        for (KBNProject* project in weakself.projects) {
-            if ([project.projectId isEqualToString:TEST_PROJECT_ID])
-            {
-                self.testProject = project;
-                break;
-            }
-        }
-        
-        [projectsRetrievedExpectation fulfill];
-    }
-                                                  errorBlock:^(NSError* error){
-                                                      XCTAssertTrue(false);
-                                                  }
-     ];
+    
+    [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername]
+                                            onSuccessBlock:^(NSArray *records) {
+                                                weakself.projects = records;
+                                                XCTAssertTrue(true);
+                                                
+                                                //Look for the specific project used for this test
+                                                for (KBNProject* project in weakself.projects) {
+                                                    if ([project.projectId isEqualToString:TEST_PROJECT_ID])
+                                                    {
+                                                        self.testProject = project;
+                                                        break;
+                                                    }
+                                                }
+                                                [projectsRetrievedExpectation fulfill];
+                                            }
+                                                errorBlock:^(NSError *error) {
+                                                    XCTAssertTrue(false);
+                                                }];
+    
     // The test will pause here, running the run loop, until the timeout is hit
     // or all expectations are fulfilled.
     [self waitForExpectationsWithTimeout:40 handler:^(NSError *error) {
