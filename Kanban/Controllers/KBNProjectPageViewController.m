@@ -80,8 +80,9 @@
 }
 
 - (void)getProjectTasks {
-    __weak typeof(self) weakself = self;
-    
+    self.projectTasks = self.updateManager.updatedTasks;
+    [self createPageViewController];
+    /*
     [[KBNTaskService sharedInstance] getTasksForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
         
         NSMutableArray *tasks = [[NSMutableArray alloc] init];
@@ -108,7 +109,7 @@
         
     } errorBlock:^(NSError *error) {
         NSLog(@"Error getting Tasks: %@",error.localizedDescription);
-    }];
+    }];*/
 }
 
 #pragma mark - Controller methods
