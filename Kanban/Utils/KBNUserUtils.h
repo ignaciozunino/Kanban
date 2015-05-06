@@ -15,4 +15,5 @@
 + (BOOL)hasUserBeenCreated;
 +(BOOL) isValidUsername:(NSString*) username;
 +(BOOL) isValidPassword:(NSString*) password;
++ (NSString*)getUsername;
 @end

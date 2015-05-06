@@ -26,6 +26,12 @@
     return NO;
 }
 
++ (NSString*)getUsername {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *username = [defaults stringForKey:USERNAME_KEY];
+    return username;
+}
+
 //Validate the email has a correct format
 +(BOOL) isValidUsername:(NSString*) username{
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
