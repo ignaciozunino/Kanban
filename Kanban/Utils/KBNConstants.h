@@ -28,6 +28,8 @@
 #define PROJECT_DETAIL_VC @"KBNProjectDetailViewController"
 #define PAGE_VC @"KBNPageViewController"
 
+//Limits and boundaries
+#define LIMIT_TASKLIST_COUNT 50
 
 //Succes messages
 #define PROJECT_CREATION_SUCCESS @"Project created successfully!"
@@ -42,6 +44,8 @@
 #define CREATING_TASKLIST_WITHOUT_NAME_ERROR @"Task List must have a name"
 #define CREATING_TASK_OFFLINE_ERROR @"The connection to the server has timed out"
 #define EDIT_PROJECT_WITHOUTNAME_ERROR @"Project must have a name"
+#define TASKLIST_COUNT_LIMIT_REACHED @"The list of tasks cannot contain any more items"
+
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
 #define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"

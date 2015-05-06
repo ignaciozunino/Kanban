@@ -36,6 +36,28 @@
     }
 }
 
+-(void)createTaskWithName:(NSString *)name
+          taskDescription:(NSString *)taskDescription
+                    order:(NSNumber *)order
+                projectId:(NSString *)projectId
+               taskListId:(NSString *)taskListId
+            taskListCount:(NSNumber*)taskListCount
+          completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion
+               errorBlock:(KBNConnectionErrorBlock)onError
+{
+    if ((taskListCount < [NSNumber numberWithInt:LIMIT_TASKLIST_COUNT]) || (order < [NSNumber numberWithInt:LIMIT_TASKLIST_COUNT]))
+    {
+        [self createTaskWithName:name taskDescription:taskDescription order:order projectId:projectId taskListId:taskListId completionBlock:onCompletion errorBlock:onError];
+    }
+    else
+    {
+        NSString *domain = ERROR_DOMAIN;
+        NSDictionary * info = @{@"NSLocalizedDescriptionKey": TASKLIST_COUNT_LIMIT_REACHED};
+        NSError *errorPtr = [NSError errorWithDomain:domain code:-105 userInfo:info];
+        onError(errorPtr);
+    }
+}
+
 -(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     [self.dataService moveTask:taskId toList:taskListId completionBlock:onCompletion errorBlock:onError];
