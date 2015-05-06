@@ -19,6 +19,14 @@
 
 @implementation KBNUpdateManager
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.updatedTasks = [[NSMutableArray alloc]init];
+        self.updatedProjects = [[NSMutableArray alloc]init];
+    }
+    return self;
+}
 
 -(void)startUpdatingProjects{
     self.shouldUpdateProjects = YES;
@@ -32,18 +40,17 @@
 
 -(void)startUpdatingTasksForProject:(KBNProject*)project{
     self.projectForTasksUpdate =project;
-    self.updatedTasks = [NSMutableArray new];
+    
     self.shouldUpdateTasks= YES;
     __weak KBNUpdateManager* weakself = self;
     [[KBNTaskService sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-        NSMutableArray *tasks = [[NSMutableArray alloc] init];
         
-       [self updateExistingTasksFromDictionary:[records objectForKey:@"results"]];
+        [weakself updateExistingTasksFromDictionary:[records objectForKey:@"results"]];
         
-        weakself.updatedTasks = tasks;
-        [self postNotification:KBNTasksUpdated];
-         self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-     dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [weakself postNotification:KBNTasksUpdated];
+        weakself.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+        dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
             
             [self updateTasks];
@@ -52,7 +59,7 @@
     } errorBlock:^(NSError *error) {
         
     }];
-   
+    
     
     
 }
@@ -85,14 +92,14 @@
 
 -(void)updateTasks{
     if (self.shouldUpdateTasks) {
-       
+        
         [[KBNTaskService sharedInstance] getUpdatedTasksForProject:self.projectForTasksUpdate.projectId withModifiedDate:self.lastTasksUpdate completionBlock:^(NSDictionary *records) {
             NSDictionary * results=[records objectForKey:@"results"];
             if(results.count > 0 ){
                 [self updateExistingTasksFromDictionary:results];
                 [self postNotification:KBNTasksUpdated];
             }
-             self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+            self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
             dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 
                 [self updateTasks];
@@ -127,36 +134,35 @@
                 if ([list.taskListId isEqualToString:taskListId]) {
                     taskList = list;
                     KBNTask *t = [KBNTaskUtils taskForProject:self.projectForTasksUpdate taskList:taskList params:params];
-                    NSInteger index = [self indexOfTask:t];
+                    NSInteger index = [self indexOfTask:[params objectForKey:PARSE_OBJECTID]];
                     if (index!= -1) {
                         [self.updatedTasks replaceObjectAtIndex:index withObject:t];
                     }else{
                         [self.updatedTasks addObject:t];
                     }
-
-                   
+                    
+                    
                     break;
                 }
             }
             
         }else{///if it is not active we look if it was removed
-            KBNTask *t = [KBNTask new ];
+            
             //here we only care about the task id to compare
-            [t setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"taskId"];
-                 NSInteger index = [self indexOfTask:t];
-            if (index == -1) {
+            NSInteger index = [self indexOfTask:[params objectForKey:PARSE_OBJECTID]];
+            if (index != -1) {
                 [self.updatedTasks removeObjectAtIndex:index];
             }
         }
         
-      
+        
     }
 }
 
 //returns the index of the task in the updatedTask array or -1 if is not in the array
--(NSInteger) indexOfTask:(KBNTask*)task{
+-(NSInteger) indexOfTask:(NSString*)taskid{
     for (int i = 0; i<self.updatedTasks.count; i++) {
-        if([task.taskId isEqualToString:((KBNTask *)[self.updatedTasks objectAtIndex:i]).taskId ]){
+        if([taskid isEqualToString:((KBNTask*)[self.updatedTasks objectAtIndex:i]).taskId ]){
             return i;
         }
     }

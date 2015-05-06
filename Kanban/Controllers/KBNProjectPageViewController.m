@@ -38,9 +38,7 @@
    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate) name:KBNTasksUpdated object:nil];
     self.updateManager = [[KBNUpdateManager alloc] init];
-    [self.updateManager startUpdatingTasksForProject:self.project];
-    
-    
+    [self getProjectLists];
 }
 
 - (void) dealloc
@@ -58,7 +56,7 @@
 #pragma mark - Data methods
 -(void)onTasksUpdate{
     
-    [self getProjectLists];
+   [self getProjectTasks];
     
 }
 - (void)getProjectLists {
@@ -73,7 +71,7 @@
         }
         
         weakself.projectLists = taskLists;
-        [weakself getProjectTasks];
+        [weakself.updateManager startUpdatingTasksForProject:self.project];
         
     } errorBlock:^(NSError *error) {
         NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
