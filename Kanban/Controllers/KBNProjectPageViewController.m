@@ -45,6 +45,7 @@
 
 - (void) dealloc
 {
+    [self.updateManager stopUpdatingTasks];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

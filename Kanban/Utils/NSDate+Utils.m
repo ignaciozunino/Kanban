@@ -12,10 +12,13 @@
 
 +(NSString *)getUTCNowWithParseFormat
 {
+    NSTimeZone *tz = [NSTimeZone timeZoneWithName:@"UTC"];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setTimeZone:tz];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
     
     NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+    [timeFormat setTimeZone:tz];
     [timeFormat setDateFormat:@"HH:mm:ss"];
     
     NSDate *now = [[NSDate alloc] init];

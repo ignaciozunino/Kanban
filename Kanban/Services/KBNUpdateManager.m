@@ -42,6 +42,7 @@
         
         weakself.updatedTasks = tasks;
         [self postNotification:KBNTasksUpdated];
+         self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
      dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
             
@@ -84,12 +85,14 @@
 
 -(void)updateTasks{
     if (self.shouldUpdateTasks) {
-        self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+       
         [[KBNTaskService sharedInstance] getUpdatedTasksForProject:self.projectForTasksUpdate.projectId withModifiedDate:self.lastTasksUpdate completionBlock:^(NSDictionary *records) {
-            if(records.count > 0 ){
-                [self updateExistingTasksFromDictionary:[records objectForKey:@"results"]];
+            NSDictionary * results=[records objectForKey:@"results"];
+            if(results.count > 0 ){
+                [self updateExistingTasksFromDictionary:results];
                 [self postNotification:KBNTasksUpdated];
             }
+             self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
             dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 
                 [self updateTasks];
