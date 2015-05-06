@@ -22,8 +22,6 @@
 
 @property (strong, nonatomic) KBNTask *addTask;
 
-@property (strong, nonatomic) NSArray* taskListTasks;
-
 @property (weak, nonatomic) id <KBNAddTaskViewControllerDelegate> delegate;
 
 

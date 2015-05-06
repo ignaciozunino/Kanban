@@ -43,7 +43,7 @@
     NSString * taskDesc = [NSString stringWithFormat:@"testing remove on:%@",dateString];
     NSString * taskName = [NSString stringWithFormat:@"Task%@",dateString];
     NSNumber * order = [NSNumber numberWithInt:51];
-    NSNumber * taskListCount = [NSNumber numberWithInt:0];
+    
     
     //*************************Preparation to the test ***************************
     //first we create a project to be sure we have at least one project to bring
@@ -51,7 +51,7 @@
     service.dataService =[[KBNTaskParseAPIManager alloc]init];
     __block NSString* taskId;
     //first we creaTE THE TASK
-    [service createTaskWithName:taskName taskDescription:taskDesc order:order projectId:project taskListId:tasklist taskListCount:taskListCount completionBlock:^(NSDictionary *records) {
+    [service createTaskWithName:taskName taskDescription:taskDesc order:order projectId:project taskListId:tasklist completionBlock:^(NSDictionary *records) {
         //we bring the tasks to know the task id, sincethe project id is unique and fake we know that is the only task
         [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
             NSArray* tasksforid=[records objectForKey:@"results"];

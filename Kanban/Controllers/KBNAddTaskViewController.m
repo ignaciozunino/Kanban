@@ -36,10 +36,10 @@
     
     self.addTask.name = self.nameTextField.text;
     self.addTask.taskDescription = self.descriptionTextField.text;
-    NSNumber* taskListCount = [NSNumber numberWithInt:(int)[self.taskListTasks count]];
+    
     __weak typeof(self) weakself = self;
-
-     [[KBNTaskService sharedInstance] createTaskWithName:self.addTask.name taskDescription:self.addTask.taskDescription order:[self getOrderNumber] projectId:self.addTask.project.projectId taskListId:self.addTask.taskList.taskListId taskListCount:taskListCount completionBlock:^(NSDictionary *response) {
+    
+    [[KBNTaskService sharedInstance] createTaskWithName:self.addTask.name taskDescription:self.addTask.taskDescription order:[self getOrderNumber] projectId:self.addTask.project.projectId taskListId:self.addTask.taskList.taskListId completionBlock:^(NSDictionary *response) {
         
         weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
         [weakself.delegate didCreateTask:weakself.addTask];

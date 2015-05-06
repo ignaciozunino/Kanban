@@ -231,7 +231,7 @@
         KBNAddTaskViewController *addTaskViewController = (KBNAddTaskViewController*)navController.topViewController;
         
         addTaskViewController.addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
-        addTaskViewController.taskListTasks = self.taskListTasks;
+        
         addTaskViewController.addTask.project = self.project;
         addTaskViewController.addTask.taskList = self.taskList;
         addTaskViewController.delegate = self;

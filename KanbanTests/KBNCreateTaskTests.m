@@ -51,17 +51,14 @@
     [serviceOrig createTaskWithName:@""
                     taskDescription:OCMOCK_ANY
                               order:[NSNumber numberWithInt:0]
-                          projectId:OCMOCK_ANY
-                         taskListId:OCMOCK_ANY
-                      taskListCount:[NSNumber numberWithInt:0]
+                          projectId:OCMOCK_ANY taskListId:OCMOCK_ANY
                     completionBlock:^(NSDictionary* response){
-                                        XCTAssertFalse(true);
-                                    }
+                        XCTAssertFalse(true);
+    }
                          errorBlock:^(NSError* error){
-                                        NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
-                                        XCTAssertEqualObjects(errorMessage, CREATING_TASK_WITHOUT_NAME_ERROR);
-                                    }];
-    
+                             NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
+                             XCTAssertEqualObjects(errorMessage, CREATING_TASK_WITHOUT_NAME_ERROR);
+                         }];
     
     [[taskAPIManager reject] createTaskWithName:OCMOCK_ANY taskDescription:OCMOCK_ANY order:OCMOCK_ANY projectId:OCMOCK_ANY taskListId:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
 }
@@ -85,7 +82,6 @@
                               order:[NSNumber numberWithInt:0]
                           projectId:@""
                          taskListId:@""
-                      taskListCount:[NSNumber numberWithInt:0]
                     completionBlock:^(NSDictionary* response){
                                         XCTAssertTrue(true);
                                     }
@@ -141,7 +137,6 @@
                               order:[NSNumber numberWithInt:0]
                           projectId:@""
                          taskListId:@""
-                      taskListCount:[NSNumber numberWithInt:0]
                     completionBlock:^(NSDictionary* response){
                         XCTAssertTrue(false);
                         [expectation fulfill];
