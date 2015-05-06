@@ -68,7 +68,7 @@
     return nil;
 }
 
--(void)getProjectsOnSuccess:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)getProjectsOnSuccess:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError forUser:(NSString*) username {
     __weak typeof(self) weakself = self;
     [self.dataService getProjectsOnSuccess:^(NSDictionary *records) {
         
@@ -84,12 +84,13 @@
             newProject.name = [item objectForKey:PARSE_PROJECT_NAME_COLUMN];
             newProject.projectDescription = [item objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
             newProject.projectId = [item objectForKey:PARSE_OBJECTID];
-            
+            newProject.users = [NSMutableArray new];
+            [newProject.users addObject:[item objectForKey:PARSE_PROJECT_USER_COLUMN]];
             [projectsArray addObject:newProject];
         }
         onCompletion(projectsArray);
         
-    } errorBlock:onError];
+    } errorBlock:onError forUser:username];
     
 }
 

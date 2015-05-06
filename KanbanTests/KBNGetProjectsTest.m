@@ -63,7 +63,7 @@
                                               XCTAssertTrue(false);
                                               [expectation fulfill];
                                               
-                                          }];
+                                          } forUser:[KBNUserUtils getUsername]];
                                       } errorBlock:^(NSError *error) {
                                           XCTAssertTrue(false);
                                           [expectation fulfill];

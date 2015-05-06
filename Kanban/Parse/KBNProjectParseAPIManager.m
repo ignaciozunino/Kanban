@@ -101,14 +101,23 @@
     return nil;
 }
 
-- (void)getProjectsOnSuccess:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
-    [params setObject:@"-createdAt" forKey:@"order"];
-    [self.afManager GET:PARSE_PROJECTS parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+- (void)getProjectsOnSuccess:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError
+                     forUser:(NSString*) username{
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
+//    [params setObject:@"-createdAt" forKey:@"order"];
+    
+    NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
+    [where setObject:username forKey:PARSE_PROJECT_USER_COLUMN];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", PARSE_TASK_ORDER_COLUMN, @"order",nil];
+
+    [self.afManager GET:PARSE_PROJECTS
+             parameters:params
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *projectList = [responseObject objectForKey:@"results"];
         
         onSuccess(projectList);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         onError(error);
     }];
     

@@ -22,7 +22,7 @@
 
 -(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError;
 
--(void)getProjectsOnSuccess:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+-(void)getProjectsOnSuccess:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError forUser:(NSString*) username;
 
 @property KBNProjectParseAPIManager* dataService;
 

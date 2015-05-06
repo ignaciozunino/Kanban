@@ -66,7 +66,7 @@
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
         
-    }];
+    } forUser: [KBNUserUtils getUsername]];
 }
 
 #pragma mark - Table View Data Source
