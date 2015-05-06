@@ -21,8 +21,6 @@
 
 @interface KBNProjectDetailViewController () <UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 
 @property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *longPress;
@@ -112,12 +110,10 @@
     // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [KBNAppDelegate activateActivityIndicator:YES];
         
         KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
         
-        //First remove it from the view
+        //First remove it from data source
         [self.taskListTasks removeObjectAtIndex:indexPath.row];
         
         // Then remove it in server
@@ -126,10 +122,12 @@
             // task removed
         } errorBlock:^(NSError *error) {
             // Insert task at its original position
-            [self.taskListTasks insertObject:task atIndex:indexPath.row];
+            __weak typeof(self) weakself = self;
+            [weakself.taskListTasks insertObject:task atIndex:indexPath.row];
+            [weakself.tableView reloadData];
         }];
         
-        [tableView reloadData];
+        [self.tableView reloadData];
 
         // Additional code to configure the Edit Button, if any
         if (self.taskListTasks.count == 0) {
@@ -229,11 +227,13 @@
         BOOL holding = holdIndexPath;
         
         if (holding && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
-            [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
+ //           [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
         } else {
             if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
                 // Swipe Right
                 [self.delegate moveToRightTask:selectedTask from:self];
+                
+                // Prepare for animation
                 if (self.pageIndex < self.totalPages -1) {
                     endPoint = CGPointMake(9999, location.y);
                     swipeDetected = YES;
@@ -241,6 +241,8 @@
             } else if (location.x < sourceLocation.x - TASK_SWIPE_THRESHOLD) {
                 // Swipe Left
                 [self.delegate moveToLeftTask:selectedTask from:self];
+                
+                // Prepare for animation
                 if (self.pageIndex > 0) {
                     endPoint = CGPointMake(-9999, location.y);
                     swipeDetected = YES;
@@ -321,77 +323,6 @@
     
     CGPoint point = [sender locationInView:self.tableView];
     return [self.tableView indexPathForRowAtPoint:point];
-}
-
-// Receives a task from the outside, and adds it to the local list of tasks.
--(void) receiveTask:(KBNTask *)task {
-    
-    [self.taskListTasks addObject:task];
-    
-}
-
-// Removes task from the the current list array when it´s moved to another list and reload data
-- (void)removeTask:(KBNTask*)task {
-    
-    // Get the index in the array before removing
-    NSUInteger index = [self.taskListTasks indexOfObject:task];
-    
-    // Remove the task from the list
-    [self.taskListTasks removeObject:task];
-    [self.tableView reloadData];
-    
-    // Compress orders in the taskList at server.
-    NSMutableArray* tasksToBeUpdated = [[NSMutableArray alloc] init];
-    for (int i = (int)index; i < self.taskListTasks.count; i++) {
-        [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
-    }
-//    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
-//        //
-//    } errorBlock:^(NSError *error) {
-//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-//    }];
-}
-
-// Reorder task in the the current list array when it´s moved to another place in the same list
-- (void)updateOrdersForExchangeFrom:(NSUInteger)start to:(NSUInteger)end {
-    
-    // Update task order and re-arrange orders in the taskList at server.
-    
-    KBNTask *task = self.taskListTasks[end];
-    [task setOrder:[NSNumber numberWithUnsignedInteger:end]];
-    
-    
-    // First determine other tasks to be updated
-    NSMutableArray* tasksToBeUpdated = [[NSMutableArray alloc] init];
-    NSNumber *amount;
-    NSUInteger index;
-    
-    if (start < end) {
-        for (index = start; index < end; index++) {
-            [self.taskListTasks[index] setOrder:[NSNumber numberWithUnsignedInteger:index]];
-            [tasksToBeUpdated addObject:[self.taskListTasks[index] taskId]];
-        }
-        amount = @-1;
-    } else {
-        for (index = start; index > end; index--) {
-            [self.taskListTasks[index] setOrder:[NSNumber numberWithUnsignedInteger:index]];
-            [tasksToBeUpdated addObject:[self.taskListTasks[index] taskId]];
-        }
-        amount = @1;
-    }
-    
-    // Update tasks orden on persistance system
-    KBNTaskService *taskService = [KBNTaskService sharedInstance];
-    
-//    [taskService updateTask:task.taskId order:[NSNumber numberWithUnsignedInteger:end] completionBlock:^{
-//        [taskService incrementOrderToTaskIds:tasksToBeUpdated by:amount completionBlock:^{
-//            // Tasks updated
-//        } errorBlock:^(NSError *error) {
-//            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-//        }];
-//    } errorBlock:^(NSError *error) {
-//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-//    }];
 }
 
 #pragma mark - Add Task View Controller delegate

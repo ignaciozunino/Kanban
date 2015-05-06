@@ -46,9 +46,10 @@
     
     NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
     
+    task.active = @NO;
     [tasksToUpdate addObject:task];
     
-    // As the order has been removed from the array, the first task to reorder will be the deleted task order
+    // As the task has been removed from the array, the first task to reorder will be the deleted task order
     
     for (NSUInteger index = [task.order integerValue]; index < tasksArray.count; index++) {
         KBNTask *taskToReorder = [tasksArray objectAtIndex:index];
@@ -60,12 +61,17 @@
     
 }
 
--(void)reorderTask:(KBNTask *)task in:(NSArray *)tasksArrray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)reorderTasks:(NSArray *)tasksArray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
     
+    // As the task has been moved to the desired position in the received array, just assign the index to each task order
     
-    
+    for (NSUInteger index = 0; index < tasksArray.count; index++) {
+        KBNTask *taskToReorder = [tasksArray objectAtIndex:index];
+        taskToReorder.order = [NSNumber numberWithInteger:index];
+        [tasksToUpdate addObject:taskToReorder];
+    }
     
     [self.dataService updateTasks:tasksToUpdate completionBlock:onCompletion errorBlock:onError];
 
@@ -75,8 +81,15 @@
     
     NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
     
+    [tasksToUpdate addObject:task];
     
+    // As the task has been removed from the array, just assign the index to each task order
     
+    for (NSUInteger index = 0; index < tasksArray.count; index++) {
+        KBNTask *taskToReorder = [tasksArray objectAtIndex:index];
+        taskToReorder.order = [NSNumber numberWithInteger:index];
+        [tasksToUpdate addObject:taskToReorder];
+    }
     
     [self.dataService updateTasks:tasksToUpdate completionBlock:onCompletion errorBlock:onError];
     

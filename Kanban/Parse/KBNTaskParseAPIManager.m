@@ -71,7 +71,7 @@
         NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         task.taskList.taskListId, PARSE_TASK_TASK_LIST_COLUMN,
                                         task.order, PARSE_TASK_ORDER_COLUMN,
-                                        task.active, PARSE_TASK_ACTIVE_COLUMN, nil];
+                                        [NSNumber numberWithBool:[task.active boolValue]], PARSE_TASK_ACTIVE_COLUMN, nil];
         
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"PUT" forKey:@"method"];

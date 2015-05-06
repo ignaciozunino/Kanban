@@ -25,7 +25,7 @@
 
 - (void)removeTask:(KBNTask*)task from:(NSArray*)tasksArray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
-- (void)reorderTask:(KBNTask*)task in:(NSArray*)tasksArrray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)reorderTasks:(NSArray*)tasksArray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 - (void)moveTask:(KBNTask*)task from:(NSArray*)tasksArray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 

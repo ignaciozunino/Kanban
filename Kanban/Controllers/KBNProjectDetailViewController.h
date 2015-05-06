@@ -27,10 +27,6 @@
 
 @interface KBNProjectDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, KBNAddTaskViewControllerDelegate>
 
-- (void)removeTask:(KBNTask*)task;
-
-- (void)receiveTask:(KBNTask*)task;
-
 @property (strong, nonatomic) KBNProject *project;
 
 @property (assign, nonatomic) NSUInteger pageIndex;
@@ -41,6 +37,14 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *labelState;
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @property (weak, nonatomic) id <KBNProjectDetailViewControllerDelegate> delegate;
 
+
+- (void)removeTask:(KBNTask*)task;
+
+- (void)receiveTask:(KBNTask*)task;
+
+- (void)sendTask:(KBNTask*)task;
 @end
