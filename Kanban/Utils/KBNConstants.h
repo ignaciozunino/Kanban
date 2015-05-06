@@ -58,6 +58,8 @@
 
 #define PARSE_PROJECT_NAME_COLUMN @"name"
 #define PARSE_PROJECT_DESCRIPTION_COLUMN @"project_description"
+#define PARSE_PROJECT_USER_COLUMN @"userName"
+
 
 #define PARSE_TASK_NAME_COLUMN @"name"
 #define PARSE_TASK_DESCRIPTION_COLUMN @"taskDescription"
