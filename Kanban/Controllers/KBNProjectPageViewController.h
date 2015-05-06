@@ -17,7 +17,7 @@
 #import "KBNTaskService.h"
 #import "KBNEditProjectViewController.h"
 
-@interface KBNProjectPageViewController : UIViewController<UIPageViewControllerDataSource, KBNProjectDetailViewControllerDelegate, KBNAddTaskViewControllerDelegate>
+@interface KBNProjectPageViewController : UIViewController<UIPageViewControllerDataSource, KBNProjectDetailViewControllerDelegate>
 
 @property (strong, nonatomic) KBNProject *project;
 

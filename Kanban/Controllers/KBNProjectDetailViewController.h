@@ -17,15 +17,9 @@
 
 @protocol KBNProjectDetailViewControllerDelegate <NSObject>
 
-- (void)moveToRightFrom:(KBNProjectDetailViewController*)viewController;
-
-- (void)moveToLeftFrom:(KBNProjectDetailViewController*)viewController;
-
 - (void)moveToRightTask:(KBNTask*)task from:(KBNProjectDetailViewController*)viewController;
 
 - (void)moveToLeftTask:(KBNTask*)task from:(KBNProjectDetailViewController*)viewController;
-
-- (void)didCreateTask:(KBNTask*)task;
 
 - (void)toggleScrollStatus;
 
@@ -39,11 +33,11 @@
 
 @property (strong, nonatomic) KBNProject *project;
 
-@property NSUInteger pageIndex;
-@property NSUInteger totalPages;
+@property (assign, nonatomic) NSUInteger pageIndex;
+@property (assign, nonatomic) NSUInteger totalPages;
 
-@property NSMutableArray* taskListTasks;
-@property KBNTaskList *taskList;
+@property (strong, nonatomic) NSMutableArray* taskListTasks;
+@property (strong, nonatomic) KBNTaskList *taskList;
 
 @property (strong, nonatomic) IBOutlet UILabel *labelState;
 

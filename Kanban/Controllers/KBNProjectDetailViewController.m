@@ -16,8 +16,8 @@
 #define SEGUE_TASK_DETAIL @"taskDetail"
 #define SEGUE_ADD_TASK @"addTask"
 #define TASK_SWIPE_THRESHOLD 50
-#define RegularTitle @"Delete Tasks"
-#define EditingTitle @"Done"
+#define REGULAR_TITLE @"Delete Tasks"
+#define EDITING_TITLE @"Done"
 
 @interface KBNProjectDetailViewController () <UIGestureRecognizerDelegate>
 
@@ -39,7 +39,7 @@
     
     self.title = self.project.name;
     self.labelState.text = self.taskList.name;
-    [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
+    [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
     [self.editButton sizeToFit];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
@@ -74,40 +74,77 @@
     
     KBNTask* task = [self.taskListTasks objectAtIndex:indexPath.row];
     cell.textLabel.text = task.name;
-    cell.detailTextLabel.text = task.taskDescription;
-    
-    // Assign a background image for the cell
-    UIImage *background = [self cellBackgroundForRowAtIndexPath:indexPath];
-    
-    UIImageView *cellBackgroundView = [[UIImageView alloc] initWithImage:background];
-    cellBackgroundView.image = background;
-    cell.backgroundView = cellBackgroundView;
-    
+
     return cell;
     
 }
 
-- (UIImage *)cellBackgroundForRowAtIndexPath:(NSIndexPath *)indexPath {
+#pragma mark - Table View Delegate
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //for now all the task are editable
+    return YES;
     
-    NSInteger rowCount = [self tableView:[self tableView] numberOfRowsInSection:0];
-    NSInteger rowIndex = indexPath.row;
-    UIImage *background = nil;
+}
+
+- (IBAction)enterEditMode:(id)sender {
     
-    if (rowIndex == 0) {
-        background = [UIImage imageNamed:@"cell_top.png"];
-    } else if (rowIndex == rowCount - 1) {
-        background = [UIImage imageNamed:@"cell_bottom.png"];
-    } else {
-        background = [UIImage imageNamed:@"cell_middle.png"];
+    if ([self.tableView isEditing]) {
+        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
+        [self.tableView setEditing:NO animated:YES];
+        
+        [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+        [self.editButton sizeToFit];
+        
+    }
+    else {
+        [self.editButton setTitle:EDITING_TITLE forState:UIControlStateNormal];
+        [self.editButton sizeToFit];
+        
+        // Turn on edit mode
+        [self.tableView setEditing:YES animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [KBNAppDelegate activateActivityIndicator:YES];
+        
+        KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
+        
+        //First remove it from the view
+        [self.taskListTasks removeObjectAtIndex:indexPath.row];
+        
+        // Then remove it in server
+        // We need the array to determine which tasks should be reordered
+        [[KBNTaskService sharedInstance] removeTask:task from:self.taskListTasks completionBlock:^{
+            // task removed
+        } errorBlock:^(NSError *error) {
+            // Insert task at its original position
+            [self.taskListTasks insertObject:task atIndex:indexPath.row];
+        }];
+        
+        [tableView reloadData];
+
+        // Additional code to configure the Edit Button, if any
+        if (self.taskListTasks.count == 0) {
+            [self.tableView setEditing:NO animated:YES];
+            [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+            [self.editButton sizeToFit];
+        }
     }
     
-    return background;
 }
 
 #pragma mark - Gestures Handlers
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
     if ([self.tableView isEditing]) {
         
         // Don't let selections of auto-complete entries fire the
@@ -186,34 +223,47 @@
         
     } else if (state == UIGestureRecognizerStateEnded) {
         
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
         NSUInteger origin = [selectedTask.order integerValue];
+        CGPoint endPoint;
+        BOOL swipeDetected = NO;
+        BOOL holding = holdIndexPath;
         
-        if (holdIndexPath && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
+        if (holding && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
             [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
         } else {
             if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
                 // Swipe Right
                 [self.delegate moveToRightTask:selectedTask from:self];
                 if (self.pageIndex < self.totalPages -1) {
-                    [self removeTask:selectedTask];
+                    endPoint = CGPointMake(9999, location.y);
+                    swipeDetected = YES;
                 }
             } else if (location.x < sourceLocation.x - TASK_SWIPE_THRESHOLD) {
                 // Swipe Left
                 [self.delegate moveToLeftTask:selectedTask from:self];
                 if (self.pageIndex > 0) {
-                    [self removeTask:selectedTask];
+                    endPoint = CGPointMake(-9999, location.y);
+                    swipeDetected = YES;
                 }
             }
         }
         
         // Clean up.
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
         cell.hidden = NO;
         cell.alpha = 0.0;
         
-        [UIView animateWithDuration:0.25 animations:^{
+        NSTimeInterval duration;
+        
+        if (swipeDetected) {
+            duration = 2.5;
+        } else {
+            duration = 0.25;
+        }
+        
+        [UIView animateWithDuration:duration animations:^{
             
-            snapshot.center = CGPointMake(cell.center.x, cell.center.y);
+            snapshot.center = CGPointMake(cell.center.x + endPoint.x, cell.center.y);
             snapshot.transform = CGAffineTransformIdentity;
             snapshot.alpha = 0.0;
             cell.alpha = 1.0;
@@ -234,7 +284,6 @@
     NSIndexPath *indexPath = [self indexPathForSender:sender];
     KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
     [self.delegate moveToRightTask:task from:self];
-    [self removeTask:task];
     
 }
 
@@ -296,11 +345,11 @@
     for (int i = (int)index; i < self.taskListTasks.count; i++) {
         [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
     }
-    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
-        //
-    } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-    }];
+//    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
+//        //
+//    } errorBlock:^(NSError *error) {
+//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+//    }];
 }
 
 // Reorder task in the the current list array when it´s moved to another place in the same list
@@ -334,23 +383,21 @@
     // Update tasks orden on persistance system
     KBNTaskService *taskService = [KBNTaskService sharedInstance];
     
-    [taskService updateTask:task.taskId order:[NSNumber numberWithUnsignedInteger:end] completionBlock:^{
-        [taskService incrementOrderToTaskIds:tasksToBeUpdated by:amount completionBlock:^{
-            // Tasks updated
-        } errorBlock:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-        }];
-    } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-    }];
+//    [taskService updateTask:task.taskId order:[NSNumber numberWithUnsignedInteger:end] completionBlock:^{
+//        [taskService incrementOrderToTaskIds:tasksToBeUpdated by:amount completionBlock:^{
+//            // Tasks updated
+//        } errorBlock:^(NSError *error) {
+//            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+//        }];
+//    } errorBlock:^(NSError *error) {
+//        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+//    }];
 }
 
 #pragma mark - Add Task View Controller delegate
 
 -(void)didCreateTask:(KBNTask *)task {
-    
     [self.taskListTasks addObject:task];
-    [self.delegate didCreateTask:task];
 }
 
 - (NSNumber*)nextOrderNumber {
@@ -382,63 +429,4 @@
     }
 }
 
-#pragma mark - TableView edit
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //for now all the task are editable
-    return YES;
-    
-}
-
-- (IBAction)enterEditMode:(id)sender {
-    
-    if ([self.tableView isEditing]) {
-        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
-        [self.tableView setEditing:NO animated:YES];
-        
-        [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
-        [self.editButton sizeToFit];
-        
-    }
-    else {
-        [self.editButton setTitle:EditingTitle forState:UIControlStateNormal];
-        [self.editButton sizeToFit];
-        
-        // Turn on edit mode
-        [self.tableView setEditing:YES animated:YES];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [KBNAppDelegate activateActivityIndicator:YES];
-        KBNTask *object = [self.taskListTasks objectAtIndex:indexPath.row];
-        [[KBNTaskService sharedInstance] removeTask:object.taskId onSuccess:^{
-            // Animate the deletion
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
-                [self removeTask:object];
-                [KBNAppDelegate activateActivityIndicator:NO];
-            });
-        } failure:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-            [KBNAppDelegate activateActivityIndicator:NO];
-        }];
-        
-        
-        // Additional code to configure the Edit Button, if any
-        if (self.taskListTasks.count == 0) {
-            [self.tableView setEditing:NO animated:YES];
-            [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
-            [self.editButton sizeToFit];
-        }
-    }
-    
-}
 @end
