@@ -262,8 +262,8 @@
     
     if (viewControllerAtTheRight) {
         // In case of failure, hold the original values for rollback
-        __block NSNumber *holdOrder = task.order;
-        __block KBNTaskList *holdTaskList = task.taskList;
+        NSNumber *holdOrder = task.order;
+        KBNTaskList *holdTaskList = task.taskList;
         
         // Update task values
         task.order = [NSNumber numberWithUnsignedLong:receiverTasks.count];
@@ -280,8 +280,10 @@
             task.order = holdOrder;
             task.taskList = holdTaskList;
             
-            [senderTasks addObject:task];
+            [senderTasks insertObject:task atIndex:[task.order integerValue]];
             [receiverTasks removeObject:task];
+            
+            [viewController.tableView reloadData];
 
             [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         }];

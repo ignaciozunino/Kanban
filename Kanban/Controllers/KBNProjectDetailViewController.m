@@ -125,6 +125,8 @@
             __weak typeof(self) weakself = self;
             [weakself.taskListTasks insertObject:task atIndex:indexPath.row];
             [weakself.tableView reloadData];
+            
+            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         }];
         
         [self.tableView reloadData];
@@ -163,7 +165,6 @@
     
     static UIView *snapshot = nil;               // A snapshot of the row user is moving.
     static NSIndexPath *sourceIndexPath = nil;   // Initial index path, where gesture begins.
-    static NSIndexPath *holdIndexPath = nil;    // Hold index path of the previous gesture to detect change of cells.
     static CGPoint sourceLocation;
     static KBNTask *selectedTask = nil;
     
@@ -215,19 +216,29 @@
             [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
             
             // ... and update source so it is in sync with UI changes.
-            holdIndexPath = sourceIndexPath;
             sourceIndexPath = indexPath;
         }
         
     } else if (state == UIGestureRecognizerStateEnded) {
         
-        NSUInteger origin = [selectedTask.order integerValue];
+        NSIndexPath *originIndexPath = [NSIndexPath indexPathForRow:[selectedTask.order integerValue] inSection:0];
+        
         CGPoint endPoint;
         BOOL swipeDetected = NO;
-        BOOL holding = holdIndexPath;
-        
-        if (holding && sourceIndexPath.row != holdIndexPath.row && sourceIndexPath.row != origin) {
- //           [self updateOrdersForExchangeFrom:origin to:sourceIndexPath.row];
+
+        if (sourceIndexPath.row != originIndexPath.row) {
+            
+            [[KBNTaskService sharedInstance] reorderTasks:self.taskListTasks completionBlock:^{
+                // Tasks reordered
+            } errorBlock:^(NSError *error) {
+                __weak typeof(self) weakself = self;
+                [weakself.taskListTasks exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:originIndexPath.row];
+                [weakself.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:originIndexPath];
+                [weakself.tableView reloadData];
+                
+                [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+            }];
+            
         } else {
             if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
                 // Swipe Right
