@@ -101,26 +101,24 @@
     return nil;
 }
 
-- (void)getProjectsOnSuccess:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError
-                     forUser:(NSString*) username{
-//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
-//    [params setObject:@"-createdAt" forKey:@"order"];
+- (void)getProjectsFromUsername:(NSString*) username onSuccessBlock:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError{
     
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:username forKey:PARSE_PROJECT_USER_COLUMN];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", PARSE_TASK_ORDER_COLUMN, @"order",nil];
-
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:2];
+    [params setObject:@"-createdAt" forKey:@"order"];
+    [params setObject:where forKey:@"where"];
+    
     [self.afManager GET:PARSE_PROJECTS
              parameters:params
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSDictionary *projectList = [responseObject objectForKey:@"results"];
-        
-        onSuccess(projectList);
-    }
+                    NSDictionary *projectList = [responseObject objectForKey:@"results"];
+                    
+                    onSuccess(projectList);
+                }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        onError(error);
-    }];
-    
-    
+                    onError(error);
+                }];
 }
 @end

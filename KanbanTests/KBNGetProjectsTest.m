@@ -47,7 +47,8 @@
                                       withDescription:@"created with automatic test" forUser: [KBNUserUtils getUsername]
                                       completionBlock:^{
                                           ///on the complete block we get all the projects
-                                          [service getProjectsOnSuccess:^(NSArray *records) {
+                                          
+                                          [service getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
                                               NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
                                               NSArray *filteredArray = [records filteredArrayUsingPredicate:predicate];
                                               
@@ -59,11 +60,9 @@
                                               }
                                               [expectation fulfill];
                                           } errorBlock:^(NSError *error) {
-                                              
                                               XCTAssertTrue(false);
                                               [expectation fulfill];
-                                              
-                                          } forUser:[KBNUserUtils getUsername]];
+                                          }];
                                       } errorBlock:^(NSError *error) {
                                           XCTAssertTrue(false);
                                           [expectation fulfill];

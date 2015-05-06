@@ -68,11 +68,11 @@
     return nil;
 }
 
--(void)getProjectsOnSuccess:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError forUser:(NSString*) username {
+-(void)getProjectsForUser: (NSString*) username onSuccessBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+    
     __weak typeof(self) weakself = self;
-    [self.dataService getProjectsOnSuccess:^(NSDictionary *records) {
-        
-        
+    
+    [self.dataService getProjectsFromUsername:username onSuccessBlock:^(NSDictionary *records) {
         NSMutableArray *projectsArray = [[NSMutableArray alloc] init];
         
         for (NSDictionary* item in records) {
@@ -89,9 +89,7 @@
             [projectsArray addObject:newProject];
         }
         onCompletion(projectsArray);
-        
-    } errorBlock:onError forUser:username];
-    
+    } errorBlock:onError];
 }
 
 @end
