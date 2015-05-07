@@ -39,6 +39,18 @@
     
     __weak typeof(self) weakself = self;
     
+    [[KBNTaskService sharedInstance] createTask:self.addTask inList:self.addTask.taskList completionBlock:^(NSDictionary *response) {
+        weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
+        [weakself.delegate didCreateTask:weakself.addTask];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
+        
+    } errorBlock:^(NSError *error) {
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
+        
+    }];
+    
+    /*
     [[KBNTaskService sharedInstance] createTaskWithName:self.addTask.name taskDescription:self.addTask.taskDescription order:[self getOrderNumber] projectId:self.addTask.project.projectId taskListId:self.addTask.taskList.taskListId completionBlock:^(NSDictionary *response) {
         
         weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
@@ -50,6 +62,7 @@
         [weakself dismissViewControllerAnimated:YES completion:nil];
         
     }];
+     */
 }
 
 - (NSNumber*)getOrderNumber {

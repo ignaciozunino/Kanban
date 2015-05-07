@@ -41,6 +41,9 @@
     }];
 }
 
+- (NSManagedObjectContext*) managedObjectContext {
+    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+}
 
 //Feature tested: Create Task
 //Description: In this test we will verify that you cant create a task without a name
@@ -48,11 +51,12 @@
     KBNTaskService * serviceOrig = [[KBNTaskService alloc]init];
     id taskAPIManager = [OCMockObject mockForClass:[KBNTaskParseAPIManager class]];
     serviceOrig.dataService = taskAPIManager;
-    [serviceOrig createTaskWithName:@""
-                    taskDescription:OCMOCK_ANY
-                              order:[NSNumber numberWithInt:0]
-                          projectId:OCMOCK_ANY taskListId:OCMOCK_ANY
-                    completionBlock:^(NSDictionary* response){
+    KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    addTask.name = @"";
+    addTask.project = OCMOCK_ANY;
+    addTask.taskList = OCMOCK_ANY;
+    addTask.order = [NSNumber numberWithInt:0];
+    [serviceOrig createTask:addTask inList:OCMOCK_ANY completionBlock:^(NSDictionary* response){
                         XCTAssertFalse(true);
     }
                          errorBlock:^(NSError* error){
@@ -68,28 +72,27 @@
 -(void) testCreateTaskOK{
     KBNTaskService * serviceOrig = [KBNTaskService sharedInstance];
     id taskAPIManager = [OCMockObject mockForClass:[KBNTaskParseAPIManager class]];
-    [[taskAPIManager stub] createTaskWithName:OCMOCK_ANY
-                              taskDescription:OCMOCK_ANY
-                                        order:OCMOCK_ANY
-                                    projectId:OCMOCK_ANY
-                                   taskListId:OCMOCK_ANY
+    [[taskAPIManager stub] createTask:OCMOCK_ANY
+                               inList:OCMOCK_ANY
                               completionBlock:OCMOCK_ANY
                                    errorBlock:OCMOCK_ANY];
 
     serviceOrig.dataService = taskAPIManager;
-    [serviceOrig createTaskWithName:@"Test task"
-                    taskDescription:@"This is a test"
-                              order:[NSNumber numberWithInt:0]
-                          projectId:@""
-                         taskListId:@""
+    serviceOrig.dataService = taskAPIManager;
+    
+    KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    addTask.name = @"Test create task OK";
+    addTask.project = OCMOCK_ANY;
+    addTask.taskList = OCMOCK_ANY;
+    addTask.order = [NSNumber numberWithInt:0];
+    
+    [serviceOrig createTask:addTask inList:OCMOCK_ANY
                     completionBlock:^(NSDictionary* response){
                                         XCTAssertTrue(true);
                                     }
                          errorBlock:^(NSError* error){
                                         XCTAssertTrue(false);
                                     }];
-
-    
     
     [taskAPIManager verify];
 }
@@ -106,11 +109,8 @@
     id taskAPIManager = [OCMockObject mockForClass:[KBNTaskParseAPIManager class]];
     
     //This is to redefine the createTask method from the ParseAPIManager class
-    OCMStub([taskAPIManager createTaskWithName:OCMOCK_ANY
-                              taskDescription:OCMOCK_ANY
-                                        order:OCMOCK_ANY
-                                    projectId:OCMOCK_ANY
-                                   taskListId:OCMOCK_ANY
+    OCMStub([taskAPIManager createTask:OCMOCK_ANY
+                                   inList:OCMOCK_ANY
                               completionBlock:OCMOCK_ANY
                                    errorBlock:OCMOCK_ANY]).
     andDo(^(NSInvocation *invocation){
@@ -132,11 +132,8 @@
     
     XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
     serviceOrig.dataService = taskAPIManager;
-    [serviceOrig createTaskWithName:@"Test"
-                    taskDescription:@"desc"
-                              order:[NSNumber numberWithInt:0]
-                          projectId:@""
-                         taskListId:@""
+    [serviceOrig createTask:OCMOCK_ANY
+                         inList:OCMOCK_ANY
                     completionBlock:^(NSDictionary* response){
                         XCTAssertTrue(false);
                         [expectation fulfill];

@@ -12,6 +12,7 @@
 #import "KBNTaskList.h"
 #import "KBNConstants.h"
 #import "KBNAddTaskViewController.h"
+#import "KBNTaskListService.h"
 
 @class KBNProjectDetailViewController;
 
