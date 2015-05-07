@@ -19,10 +19,4 @@
 @dynamic project;
 @dynamic tasks;
 
--(BOOL)countLimitReached
-{
-    return ([self.tasks count] > LIMIT_TASKLIST_ITEMS);
-}
-
-
 @end

@@ -12,6 +12,7 @@
 #import "KBNProject.h"
 #import "KBNTask.h"
 #import "KBNTaskList.h"
+#import "KBNTaskListService.h"
 
 @interface KBNTaskService : NSObject
 
