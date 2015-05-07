@@ -228,7 +228,7 @@
         
     } else if ([[segue identifier] isEqualToString:SEGUE_ADD_TASK]) {
         //Make sure the list will accept another item before trying to add the task
-        if ([[KBNTaskListService sharedInstance] countLimitReached:self.taskList]){
+        if ([[KBNTaskListService sharedInstance] hasCountLimitBeenReached:self.taskList]){
             [KBNAlertUtils showAlertView:CREATING_TASK_TASKLIST_FULL andType:ERROR_ALERT];
         } else {
         [self goToAddTaskScreen:[segue destinationViewController]];

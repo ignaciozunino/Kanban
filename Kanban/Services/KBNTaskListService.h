@@ -22,6 +22,6 @@
 
 -(void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
--(BOOL)countLimitReached:(KBNTaskList*)taskList;
+-(BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList;
 
 @end
