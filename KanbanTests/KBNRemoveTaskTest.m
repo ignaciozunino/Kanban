@@ -30,6 +30,10 @@
     [super tearDown];
 }
 
+- (NSManagedObjectContext*) managedObjectContext {
+    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+}
+
 ///test that we can logical remove tasks
 ///we create a task, we remove it and then we prove that is actually removed
 - (void)testRemoveTask {
@@ -48,14 +52,25 @@
     NSString * taskName = [NSString stringWithFormat:@"Task%@",dateString];
     NSNumber * order = [NSNumber numberWithInt:51];
     
-    
     //*************************Preparation to the test ***************************
     //first we create a project to be sure we have at least one project to bring
+    KBNProject* projectObj = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    
+    KBNTaskList* taskListObj = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK_LIST inManagedObjectContext:[self managedObjectContext]];
+    taskListObj.taskListId = tasklist;
+    taskListObj.name = @"";
+    taskListObj.project = projectObj;
+
     KBNTaskService * service = [[KBNTaskService alloc]init];
     service.dataService =[[KBNTaskParseAPIManager alloc]init];
     __block NSString* taskId;
+    
     //first we creaTE THE TASK
-    [service createTaskWithName:taskName taskDescription:taskDesc order:order projectId:project taskListId:tasklist completionBlock:^(NSDictionary *records) {
+    KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    addTask.name = taskName;
+    addTask.taskDescription = taskDesc;
+
+    [service createTask:addTask inList:taskListObj completionBlock:^(NSDictionary *records) {
         //we bring the tasks to know the task id, sincethe project id is unique and fake we know that is the only task
         [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
             NSArray* tasksforid=[records objectForKey:@"results"];

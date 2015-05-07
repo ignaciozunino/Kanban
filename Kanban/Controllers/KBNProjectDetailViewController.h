@@ -12,6 +12,7 @@
 #import "KBNTaskList.h"
 #import "KBNConstants.h"
 #import "KBNAddTaskViewController.h"
+#import "KBNTaskListService.h"
 
 @class KBNProjectDetailViewController;
 
@@ -41,10 +42,4 @@
 
 @property (weak, nonatomic) id <KBNProjectDetailViewControllerDelegate> delegate;
 
-
-- (void)removeTask:(KBNTask*)task;
-
-- (void)receiveTask:(KBNTask*)task;
-
-- (void)sendTask:(KBNTask*)task;
 @end
