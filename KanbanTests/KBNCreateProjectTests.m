@@ -12,6 +12,7 @@
 #import <OCMock/OCMock.h>
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
+#import "KBNInitialSetupTest.h"
 
 @interface KBNCreateProjectTests : XCTestCase
 
@@ -19,17 +20,13 @@
 
 @implementation KBNCreateProjectTests
 
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
++ (void)setUp {
+    [[KBNInitialSetupTest new] testCreateUser];
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
++ (void)tearDown {
+    [[KBNInitialSetupTest new] testRemoveUser];
 }
-
-
 
 //Feature tested: Create Project
 //Description: In this test we will verify that you cant create a project without a name

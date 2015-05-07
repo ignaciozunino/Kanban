@@ -68,6 +68,9 @@
 #define PARSE_TASK_ORDER_COLUMN @"order"
 #define PARSE_TASK_ACTIVE_COLUMN @"active"
 
+#define PARSE_USER_NAME_COLUMN @"username"
+
+
 //alert titles
 #define ERROR_ALERT @"ERROR"
 #define WARNING_ALERT @"WARNING"

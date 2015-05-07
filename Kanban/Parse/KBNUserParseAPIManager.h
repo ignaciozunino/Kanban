@@ -16,6 +16,8 @@
 //User functions
 -(void) createUser:(KBNUser *) user completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
+-(void) deleteUser:(NSString *) username completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
 @property KBNParseRequestOperationManager * afManager;
 
 @end
