@@ -92,4 +92,30 @@
     } errorBlock:onError];
 }
 
+-(void)getProjectsForUser: (NSString*) username updatedAfter:(NSString*) lastUpdate  onSuccessBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+
+    __weak typeof(self) weakself = self;
+    
+    [self.dataService getProjectsFromUsername:username updatedAfter:lastUpdate onSuccessBlock:^(NSDictionary *records) {
+        NSMutableArray *projectsArray = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* item in records) {
+            KBNProject *newProject = [[KBNProject alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
+                                                                                    inManagedObjectContext:weakself.managedObjectContext]
+                                         insertIntoManagedObjectContext:weakself.managedObjectContext];
+            
+            newProject.projectId = [item objectForKey:PARSE_OBJECTID];
+            newProject.name = [item objectForKey:PARSE_PROJECT_NAME_COLUMN];
+            newProject.projectDescription = [item objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
+            newProject.projectId = [item objectForKey:PARSE_OBJECTID];
+            newProject.users = [NSMutableArray new];
+            [newProject.users addObject:[item objectForKey:PARSE_PROJECT_USER_COLUMN]];
+            [projectsArray addObject:newProject];
+        }
+        onCompletion(projectsArray);
+    } errorBlock:onError];
+
+
+}
+
 @end

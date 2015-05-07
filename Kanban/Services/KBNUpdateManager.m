@@ -11,13 +11,23 @@
 @interface KBNUpdateManager ()
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateTasks;
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateProjects;
-@property (nonatomic,strong) NSDate *lastProjectSyncDate;
-@property (nonatomic,strong) NSDate *lastTasksSyncDate;
 @property NSString * lastProjectsUpdate;
 @property NSString * lastTasksUpdate;
 @end
 
 @implementation KBNUpdateManager
+
++ (KBNUpdateManager *)sharedInstance{
+    static  KBNUpdateManager *inst = nil;
+    
+    @synchronized(self){
+        if (!inst) {
+            inst = [[KBNUpdateManager alloc] init];
+          
+        }
+    }
+    return inst;
+}
 
 - (id)init {
     self = [super init];
@@ -30,12 +40,19 @@
 
 -(void)startUpdatingProjects{
     self.shouldUpdateProjects = YES;
-    self.lastProjectsUpdate = [NSDate getUTCNowWithParseFormat];
-    
-    dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    __weak KBNUpdateManager* weakself = self;
+    [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
         
-        [self updateProjects];
-    });
+        
+        weakself.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
+        [weakself postNotification:KBNProjectsUpdated];
+        dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [weakself updateProjects];
+        });
+    } errorBlock:^(NSError *error) {
+        
+    }];
+    
 }
 
 -(void)startUpdatingTasksForProject:(KBNProject*)project{
@@ -53,7 +70,7 @@
         dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
             
-            [self updateTasks];
+            [weakself updateTasks];
         });
         
     } errorBlock:^(NSError *error) {
@@ -76,17 +93,23 @@
 }
 
 -(void)updateProjects{
+    
     if (self.shouldUpdateProjects) {
-        //query
-        //completionblock
-        //{
-        //if (upated){
-        [self postNotification:KBNProjectsUpdated];
-        //}
-        dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[KBNProjectService sharedInstance    ]getProjectsForUser:[KBNUserUtils getUsername] updatedAfter:self.lastProjectsUpdate onSuccessBlock:^(NSArray *records) {
+            if (records.count>0) {
+                [self updateExistingProjectsFromArray:records];
+                [self postNotification:KBNProjectsUpdated];
+                
+            }
+            self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
             
-            [self updateProjects];
-        });
+            dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                [self updateProjects];
+            });
+        } errorBlock:^(NSError *error) {
+            
+        }];
     }
 }
 
@@ -168,6 +191,34 @@
     }
     return -1;
 }
+//update the projects retrieved in the dictionary or if is not previusly exists add the new task
+-(void) updateExistingProjectsFromArray:(NSArray *) updatedProjects
+{
+    for (KBNProject *project in updatedProjects) {
+        if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
+            self.projectForTasksUpdate= project;
+            [self postNotification:KBNCurrentProjectUpdated];
+        }
+        NSInteger index = [self indexOfTask:project.projectId];
+        if (index!= -1) {
+            [self.updatedProjects replaceObjectAtIndex:index withObject:project];
+        }else{
+            [self.updatedProjects addObject:project];
+        }
+        
+        
+        
+    }
+}
 
+//returns the index of the projrct in the updatedTask array or -1 if is not in the array
+-(NSInteger) indexOfProject:(NSString*)projectid{
+    for (int i = 0; i<self.updatedProjects.count; i++) {
+        if([projectid isEqualToString:((KBNProject*)[self.updatedProjects objectAtIndex:i]).projectId ]){
+            return i;
+        }
+    }
+    return -1;
+}
 @end
 

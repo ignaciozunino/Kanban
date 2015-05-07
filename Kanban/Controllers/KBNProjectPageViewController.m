@@ -21,7 +21,7 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) NSArray* projectTasks;
 @property (strong, nonatomic) NSArray* projectLists;
-@property (strong, nonatomic) KBNUpdateManager * updateManager;
+
 
 @end
 
@@ -37,13 +37,14 @@
     // [self getProjectLists];
    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate) name:KBNTasksUpdated object:nil];
-    self.updateManager = [[KBNUpdateManager alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate) name:KBNCurrentProjectUpdated object:nil];
+    
     [self getProjectLists];
 }
 
 - (void) dealloc
 {
-    [self.updateManager stopUpdatingTasks];
+    [[KBNUpdateManager sharedInstance] stopUpdatingTasks];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -58,7 +59,14 @@
     
    [self getProjectTasks];
     
+    
 }
+-(void)onCurrentProjectUpdate{
+    
+    self.project = [KBNUpdateManager sharedInstance].projectForTasksUpdate;
+    self.title = self.project.name;
+}
+
 - (void)getProjectLists {
     __weak typeof(self) weakself = self;
     
@@ -71,7 +79,7 @@
         }
         
         weakself.projectLists = taskLists;
-        [weakself.updateManager startUpdatingTasksForProject:self.project];
+        [[KBNUpdateManager sharedInstance] startUpdatingTasksForProject:self.project];
         
     } errorBlock:^(NSError *error) {
         NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
@@ -79,36 +87,9 @@
 }
 
 - (void)getProjectTasks {
-    self.projectTasks = self.updateManager.updatedTasks;
+    self.projectTasks = [KBNUpdateManager sharedInstance].updatedTasks;
     [self createPageViewController];
-    /*
-    [[KBNTaskService sharedInstance] getTasksForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
-        
-        NSMutableArray *tasks = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* params in [response objectForKey:@"results"]) {
-            NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-            KBNTaskList *taskList;
-            BOOL isactive = ((NSNumber*)[params objectForKey:PARSE_TASK_ACTIVE_COLUMN]).boolValue;
-            if (isactive){
-                
-                for (KBNTaskList* list in weakself.projectLists) {
-                    if ([list.taskListId isEqualToString:taskListId]) {
-                        taskList = list;
-                         [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
-                        break;
-                    }
-                }
-               
-            }
-        }
-        
-        weakself.projectTasks = tasks;
-        [weakself createPageViewController];
-        
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Error getting Tasks: %@",error.localizedDescription);
-    }];*/
+  
 }
 
 #pragma mark - Controller methods
