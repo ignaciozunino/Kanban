@@ -49,7 +49,7 @@
     XCTestExpectation *projectsRetrievedExpectation = [self expectationWithDescription:PROJECTS_RETRIEVED_EXPECTATION];
     __weak typeof(self) weakself = self;
     
-    [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername]
+    [[KBNProjectService sharedInstance] getProjectsForUser:@"user@test.com"
                                             onSuccessBlock:^(NSArray *records) {
                                                 weakself.projects = records;
                                                 XCTAssertTrue(true);
@@ -159,7 +159,6 @@
 }
 
 
-
 - (KBNTask*) getFirstTaskFromListId:(NSString*)listId{
     //Returns the task belonging to the give taskListId with the lowest order
     KBNTask* result;
@@ -203,23 +202,25 @@
     NSNumber* orderOfTaskMovedFromBacklog = taskMovedFromBacklog.order;
     NSString* taskIdOfTaskMovedFromBacklog = taskMovedFromBacklog.taskId;
     
-    
+    NSArray* backlogTasks;
+    NSArray* requirementsTasks;
     
     //Move a task from the backlog list to the requirements list
     XCTestExpectation *taskMovedExpectation = [self expectationWithDescription:TASK_MOVED_EXPECTATION];
     
-    [[KBNTaskService sharedInstance] moveTask:taskMovedFromBacklog.taskId
-                                       toList:TEST_TASKLIST_ID_REQUIREMENTS
-                                        order:[NSNumber numberWithInt:1]
-                              completionBlock:^(NSDictionary* records){
+    taskMovedFromBacklog.order = [NSNumber numberWithInt:1];
+    taskMovedFromBacklog.taskList.taskListId = TEST_TASKLIST_ID_REQUIREMENTS;
+    
+    [[KBNTaskService sharedInstance] moveTask:taskMovedFromBacklog
+                                         from:backlogTasks
+                              completionBlock:^{
                                   
                                   //XCTAssertTrue(true);
                                   [taskMovedExpectation fulfill];
                                   
-                              } errorBlock:^(NSError* error){
+                              } errorBlock:^(NSError *error) {
                                   XCTAssertTrue(false);
                               }];
-    
     
     // The test will pause here, running the run loop, until the timeout is hit
     // or all expectations are fulfilled.
@@ -259,18 +260,19 @@
     //Roll back the changes made:
     XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
     
-    [[KBNTaskService sharedInstance] moveTask:taskIdOfTaskMovedFromBacklog
-                                       toList:TEST_TASKLIST_ID_BACKLOG
-                                        order:orderOfTaskMovedFromBacklog
-                              completionBlock:^(NSDictionary* records){
+    movedTask.taskList.taskListId = TEST_TASKLIST_ID_BACKLOG;
+    movedTask.order = orderOfTaskMovedFromBacklog;
+    
+    [[KBNTaskService sharedInstance] moveTask:movedTask
+                                         from:requirementsTasks
+                              completionBlock:^{
                                   
                                   XCTAssertTrue(true);
                                   [taskMovedBackExpectation fulfill];
                                   
-                              } errorBlock:^(NSError* error){
+                              } errorBlock:^(NSError *error) {
                                   XCTAssertTrue(false);
                               }];
-    
     
     // The test will pause here, running the run loop, until the timeout is hit
     // or all expectations are fulfilled.

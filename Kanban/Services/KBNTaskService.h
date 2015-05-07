@@ -29,13 +29,4 @@
 
 - (void)moveTask:(KBNTask*)task from:(NSArray*)tasksArray completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
-
-// To be deleted:
-
--(void)removeTask:(NSString*)taskId onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError;
-
-- (void)moveTask:(NSString*)taskId toList:(NSString*)taskListId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
-
-- (void)updateTask:(NSString *)taskId order:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
-
 @end

@@ -10,6 +10,10 @@
 #import <XCTest/XCTest.h>
 #import <UIKit/UIKit.h>
 #import "KBNTaskService.h"
+#import "KBNTaskUtils.h"
+#import "KBNTaskListUtils.h"
+#import "KBNProjectUtils.h"
+
 @interface KBNRemoveTaskTest : XCTestCase
 
 @end
@@ -79,9 +83,24 @@
     
     ////************************the test itself**********************************************
     XCTestExpectation *finalexpectation = [self expectationWithDescription:@"testRemoveTask  completed"];
+    
+    // Create a task object to pass to the remove method
+    KBNProject *testProject = [KBNProjectUtils projectWithParams:nil];
+    KBNTaskList *testTaskList = [KBNTaskListUtils taskListForProject:testProject
+                                                              params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                      tasklist, PARSE_OBJECTID, nil]];
+    
+    KBNTask *task = [KBNTaskUtils taskForProject:testProject
+                                        taskList:testTaskList
+                                          params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                  taskId, PARSE_OBJECTID,
+                                                  taskName, PARSE_TASK_NAME_COLUMN,
+                                                  taskDesc, PARSE_TASK_DESCRIPTION_COLUMN,
+                                                  @0, PARSE_TASKLIST_ORDER_COLUMN,
+                                                  [NSNumber numberWithBool:@YES], PARSE_TASK_ACTIVE_COLUMN, nil]];
+    
     //we actually remove the task
-    [service removeTask:taskId onSuccess:^{
-        //we verify that was removed
+    [service removeTask:task from:@[] completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
             if (records.count==0) {//we bring no recors error geting the task
                 XCTAssertTrue(false);
@@ -103,10 +122,13 @@
             [finalexpectation fulfill];
             
         }];
-    } failure:^(NSError *error) {
+
+    } errorBlock:^(NSError *error) {
         XCTAssertTrue(false);
         [finalexpectation fulfill];
+
     }];
+    
     [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
     }];
 }
