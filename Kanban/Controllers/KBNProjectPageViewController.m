@@ -37,8 +37,8 @@
     // [self getProjectLists];
    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate) name:KBNTasksUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate) name:KBNCurrentProjectUpdated object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate) name:KBNCurrentProjectUpdated object:nil];
+    [KBNAppDelegate activateActivityIndicator:YES];
     [self getProjectLists];
 }
 
@@ -58,6 +58,7 @@
 -(void)onTasksUpdate{
     
    [self getProjectTasks];
+    [KBNAppDelegate activateActivityIndicator:NO];
     
     
 }
@@ -88,6 +89,7 @@
 
 - (void)getProjectTasks {
     self.projectTasks = [KBNUpdateManager sharedInstance].updatedTasks;
+    
     [self createPageViewController];
   
 }

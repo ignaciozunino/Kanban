@@ -23,7 +23,7 @@
     @synchronized(self){
         if (!inst) {
             inst = [[KBNUpdateManager alloc] init];
-          
+            
         }
     }
     return inst;
@@ -39,14 +39,15 @@
 }
 
 -(void)startUpdatingProjects{
-    self.shouldUpdateProjects = YES;
+    
     __weak KBNUpdateManager* weakself = self;
     [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
         
-        
+        [weakself updateExistingProjectsFromArray:records];
         weakself.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
         [weakself postNotification:KBNProjectsUpdated];
         dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            weakself.shouldUpdateProjects = YES;
             [weakself updateProjects];
         });
     } errorBlock:^(NSError *error) {
@@ -58,7 +59,7 @@
 -(void)startUpdatingTasksForProject:(KBNProject*)project{
     self.projectForTasksUpdate =project;
     
-    self.shouldUpdateTasks= YES;
+    
     __weak KBNUpdateManager* weakself = self;
     [[KBNTaskService sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
         
@@ -69,7 +70,7 @@
         weakself.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
         dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-            
+            weakself.shouldUpdateTasks= YES;
             [weakself updateTasks];
         });
         
