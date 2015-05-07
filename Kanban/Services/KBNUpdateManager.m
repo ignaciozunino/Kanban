@@ -40,15 +40,15 @@
 
 -(void)startUpdatingProjects{
     
-    __weak KBNUpdateManager* weakself = self;
+   
     [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
         
-        [weakself updateExistingProjectsFromArray:records];
-        weakself.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
-        [weakself postNotification:KBNProjectsUpdated];
+        [self updateExistingProjectsFromArray:records];
+        self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
+        [self postNotification:KBNProjectsUpdated];
         dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            weakself.shouldUpdateProjects = YES;
-            [weakself updateProjects];
+            self.shouldUpdateProjects = YES;
+            [self updateProjects];
         });
     } errorBlock:^(NSError *error) {
         
@@ -60,18 +60,17 @@
     self.projectForTasksUpdate =project;
     
     
-    __weak KBNUpdateManager* weakself = self;
-    [[KBNTaskService sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
+        [[KBNTaskService sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
         
-        [weakself updateExistingTasksFromDictionary:[records objectForKey:@"results"]];
+        [self updateExistingTasksFromDictionary:[records objectForKey:@"results"]];
         
         
-        [weakself postNotification:KBNTasksUpdated];
-        weakself.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+        [self postNotification:KBNTasksUpdated];
+        self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
         dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-            weakself.shouldUpdateTasks= YES;
-            [weakself updateTasks];
+            self.shouldUpdateTasks= YES;
+            [self updateTasks];
         });
         
     } errorBlock:^(NSError *error) {

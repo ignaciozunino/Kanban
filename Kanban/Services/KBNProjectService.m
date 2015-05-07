@@ -47,7 +47,7 @@
 }
 
 -(void)editProject: (NSString*)projectID withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    if ([projectID isEqualToString:@""] || [newName isEqualToString:@""] || [newDescription isEqualToString:@""]) {
+    if ([projectID isEqualToString:@""] || [newName isEqualToString:@""] ) {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": EDIT_PROJECT_WITHOUTNAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-102

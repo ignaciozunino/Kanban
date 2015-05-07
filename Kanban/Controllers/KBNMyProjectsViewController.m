@@ -45,14 +45,14 @@
 }
 
 -(void)onProjectsUpdate{
-    [KBNAppDelegate activateActivityIndicator:YES];
+   
     [self getProjects];
 }
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    [KBNAppDelegate activateActivityIndicator:YES];
-    [self getProjects];
+    
+  
     
 }
 
@@ -74,25 +74,12 @@
     
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
+       [KBNAppDelegate activateActivityIndicator:YES];
         [weakself.tableView reloadData];
         
         [KBNAppDelegate activateActivityIndicator:NO];
     });
-    /*
-     __weak typeof(self) weakself = self;
-     [KBNAppDelegate activateActivityIndicator:YES];
-     
-     [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
-     weakself.projects = records;
-     dispatch_async(dispatch_get_main_queue(), ^{
-     [weakself.tableView reloadData];
-     
-     [KBNAppDelegate activateActivityIndicator:NO];
-     });
-     } errorBlock:^(NSError *error) {
-     [KBNAppDelegate activateActivityIndicator:NO];
-     [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-     }];*/
+
 }
 
 #pragma mark - Table View Data Source
