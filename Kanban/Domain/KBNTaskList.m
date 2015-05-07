@@ -9,7 +9,7 @@
 #import "KBNTaskList.h"
 #import "KBNProject.h"
 #import "KBNTask.h"
-
+#import "KBNConstants.h"
 
 @implementation KBNTaskList
 
@@ -18,5 +18,11 @@
 @dynamic taskListId;
 @dynamic project;
 @dynamic tasks;
+
+-(BOOL)countLimitReached
+{
+    return ([self.tasks count] > LIMIT_TASKLIST_ITEMS);
+}
+
 
 @end
