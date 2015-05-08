@@ -14,7 +14,7 @@
 
 #define ProjectTest @"TestProject"
 @interface KBNUpdateManagerTest : XCTestCase
-
+@property XCTestExpectation *expectation;
 @end
 
 @implementation KBNUpdateManagerTest
@@ -30,7 +30,7 @@
 //Feature tested: Update manager
 //Description: In this test we will verify that the app is updating in real time
 -(void) testCreateProjectAndReloaded{
-    XCTestExpectation *expectation = [self expectationWithDescription:@"testRealTime ok"];
+    self.expectation = [self expectationWithDescription:@"testRealTime ok"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
     [[KBNUpdateManager sharedInstance] startUpdatingProjects];
@@ -38,13 +38,11 @@
     KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
     [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser: [KBNUserUtils getUsername]
                completionBlock:^{
-                   XCTAssertTrue(true);
-                   [expectation fulfill];
+                   [self.expectation fulfill];
                }
                     errorBlock:^(NSError *error) {
-                        XCTAssertTrue(false);
-                        [expectation fulfill];
-                        
+                        XCTFail();
+                        [self.expectation fulfill];
                     }];
     [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
     }];
@@ -65,6 +63,7 @@
     }else{
         XCTAssertTrue(false);
     }
+    [self.expectation fulfill];
     [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
 }
 
