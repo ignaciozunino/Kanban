@@ -233,11 +233,8 @@
                                           // Tasks reordered within the list
                                       } errorBlock:^(NSError *error) {
                                           __weak typeof(self) weakself = self;
-                                          [weakself.taskListTasks exchangeObjectAtIndex:sourceIndexPath.row
-                                                                      withObjectAtIndex:originIndexPath.row];
-                                          
-                                          [weakself.tableView moveRowAtIndexPath:sourceIndexPath
-                                                                     toIndexPath:originIndexPath];
+                                          [weakself.taskListTasks removeObject:selectedTask];
+                                          [weakself.taskListTasks insertObject:selectedTask atIndex:originIndexPath.row];
                                           
                                           [weakself.tableView reloadData];
                                           
