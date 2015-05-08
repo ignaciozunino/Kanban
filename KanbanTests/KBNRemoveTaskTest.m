@@ -50,7 +50,6 @@
     NSString * tasklist = [NSString stringWithFormat:@"test_task_List%@",dateString];
     NSString * taskDesc = [NSString stringWithFormat:@"testing remove on:%@",dateString];
     NSString * taskName = [NSString stringWithFormat:@"Task%@",dateString];
-    NSNumber * order = [NSNumber numberWithInt:51];
     
     //*************************Preparation to the test ***************************
     //first we create a project to be sure we have at least one project to bring
@@ -65,7 +64,7 @@
     service.dataService =[[KBNTaskParseAPIManager alloc]init];
     __block NSString* taskId;
     
-    //first we creaTE THE TASK
+    //first we create the task
     KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
     addTask.name = taskName;
     addTask.taskDescription = taskDesc;
@@ -115,7 +114,7 @@
                                                   [NSNumber numberWithBool:@YES], PARSE_TASK_ACTIVE_COLUMN, nil]];
     
     //we actually remove the task
-    [service removeTask:task from:@[] completionBlock:^{
+    [service removeTask:task completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
             if (records.count==0) {//we bring no recors error geting the task
                 XCTAssertTrue(false);
@@ -137,11 +136,11 @@
             [finalexpectation fulfill];
             
         }];
-
+        
     } errorBlock:^(NSError *error) {
         XCTAssertTrue(false);
         [finalexpectation fulfill];
-
+        
     }];
     
     [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {

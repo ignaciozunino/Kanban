@@ -9,6 +9,7 @@
 #import "KBNTaskParseAPIManager.h"
 #import "KBNTask.h"
 #import "KBNTaskList.h"
+#import "KBNProject.h"
 
 @implementation KBNTaskParseAPIManager
 
@@ -68,11 +69,14 @@
     
     for (KBNTask *task in tasks) {
         
-        NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        task.taskList.taskListId, PARSE_TASK_TASK_LIST_COLUMN,
-                                        task.order, PARSE_TASK_ORDER_COLUMN,
-                                        [NSNumber numberWithBool:[task.active boolValue]], PARSE_TASK_ACTIVE_COLUMN, nil];
-        
+        NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithCapacity:6];
+        [updates setObject:task.name forKey:PARSE_TASK_NAME_COLUMN];
+        [updates setObject:task.taskDescription forKey:PARSE_TASK_DESCRIPTION_COLUMN];
+        [updates setObject:task.taskList.taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+        [updates setObject:task.project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
+        [updates setObject:task.order forKey:PARSE_TASK_ORDER_COLUMN];
+        [updates setObject:[NSNumber numberWithBool:[task.active boolValue]] forKey:PARSE_TASK_ACTIVE_COLUMN];
+
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"PUT" forKey:@"method"];
         [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", task.taskId] forKey:@"path"];

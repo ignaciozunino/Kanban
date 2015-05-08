@@ -107,8 +107,6 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
-    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
@@ -116,21 +114,21 @@
         //First remove it from data source
         [self.taskListTasks removeObjectAtIndex:indexPath.row];
         
-        // Then remove it in server
-        // We need the array to determine which tasks should be reordered
-        [[KBNTaskService sharedInstance] removeTask:task from:self.taskListTasks completionBlock:^{
-            // task removed
-        } errorBlock:^(NSError *error) {
-            // Insert task at its original position
-            __weak typeof(self) weakself = self;
-            [weakself.taskListTasks insertObject:task atIndex:indexPath.row];
-            [weakself.tableView reloadData];
-            
-            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-        }];
+        // Then ask the service to remove it from the taskList
+        [[KBNTaskService sharedInstance] removeTask:task
+                                    completionBlock:^{
+                                        // Task removed
+                                    } errorBlock:^(NSError *error) {
+                                        // Re-insert task at its original position
+                                        __weak typeof(self) weakself = self;
+                                        [weakself.taskListTasks insertObject:task atIndex:indexPath.row];
+                                        [weakself.tableView reloadData];
+                                        
+                                        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+                                    }];
         
         [self.tableView reloadData];
-
+        
         // Additional code to configure the Edit Button, if any
         if (self.taskListTasks.count == 0) {
             [self.tableView setEditing:NO animated:YES];
@@ -225,21 +223,29 @@
         
         CGPoint endPoint;
         BOOL swipeDetected = NO;
-
+        
         if (sourceIndexPath.row != originIndexPath.row) {
             
-            [[KBNTaskService sharedInstance] reorderTasks:self.taskListTasks completionBlock:^{
-                // Tasks reordered
-            } errorBlock:^(NSError *error) {
-                __weak typeof(self) weakself = self;
-                [weakself.taskListTasks exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:originIndexPath.row];
-                [weakself.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:originIndexPath];
-                [weakself.tableView reloadData];
-                
-                [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-            }];
+            [[KBNTaskService sharedInstance] moveTask:selectedTask
+                                               toList:selectedTask.taskList
+                                              inOrder:[NSNumber numberWithUnsignedLong:sourceIndexPath.row]
+                                      completionBlock:^{
+                                          // Tasks reordered within the list
+                                      } errorBlock:^(NSError *error) {
+                                          __weak typeof(self) weakself = self;
+                                          [weakself.taskListTasks exchangeObjectAtIndex:sourceIndexPath.row
+                                                                      withObjectAtIndex:originIndexPath.row];
+                                          
+                                          [weakself.tableView moveRowAtIndexPath:sourceIndexPath
+                                                                     toIndexPath:originIndexPath];
+                                          
+                                          [weakself.tableView reloadData];
+                                          
+                                          [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+                                      }];
             
         } else {
+            
             if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
                 // Swipe Right
                 [self.delegate moveToRightTask:selectedTask from:self];

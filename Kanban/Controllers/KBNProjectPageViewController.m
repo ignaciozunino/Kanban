@@ -255,75 +255,45 @@
 
 - (void)moveToRightTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
     
-    KBNProjectDetailViewController* viewControllerAtTheRight = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerAfterViewController:viewController];
+    KBNProjectDetailViewController* destinationViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerAfterViewController:viewController];
     
-    __block NSMutableArray *senderTasks = viewController.taskListTasks;
-    __block NSMutableArray *receiverTasks = viewControllerAtTheRight.taskListTasks;
+    [self moveTask:task from:viewController to:destinationViewController];
     
-    if (viewControllerAtTheRight) {
-        // In case of failure, hold the original values for rollback
-        NSNumber *holdOrder = task.order;
-        KBNTaskList *holdTaskList = task.taskList;
-        
-        // Update task values
-        task.order = [NSNumber numberWithUnsignedLong:receiverTasks.count];
-        task.taskList = viewControllerAtTheRight.taskList;
-        
-        // Move it to the next page
-        [senderTasks removeObject:task];
-        [receiverTasks addObject:task];
-        
-        // Update task status on server
-        [[KBNTaskService sharedInstance] moveTask:task from:senderTasks completionBlock:^{
-            // task moved
-        } errorBlock:^(NSError *error) {
-            task.order = holdOrder;
-            task.taskList = holdTaskList;
-            
-            [senderTasks insertObject:task atIndex:[task.order integerValue]];
-            [receiverTasks removeObject:task];
-            
-            [viewController.tableView reloadData];
-
-            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-        }];
-        
-        [viewController.tableView reloadData];
-    }
 }
 
 - (void)moveToLeftTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController {
     
-    KBNProjectDetailViewController* viewControllerAtTheLeft = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
+    KBNProjectDetailViewController* destinationViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
     
+    [self moveTask:task from:viewController to:destinationViewController];
+    
+}
+
+- (void)moveTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController to:(KBNProjectDetailViewController *)destinationViewController {
+
     __block NSMutableArray *senderTasks = viewController.taskListTasks;
-    __block NSMutableArray *receiverTasks = viewControllerAtTheLeft.taskListTasks;
+    __block NSMutableArray *receiverTasks = destinationViewController.taskListTasks;
     
-    if (viewControllerAtTheLeft) {
+    if (destinationViewController) {
         // In case of failure, hold the original values for rollback
-        __block NSNumber *holdOrder = task.order;
-        __block KBNTaskList *holdTaskList = task.taskList;
+        NSUInteger holdIndex = [senderTasks indexOfObject:task];
         
-        // Update task values
-        task.order = [NSNumber numberWithUnsignedLong:receiverTasks.count];
-        task.taskList = viewControllerAtTheLeft.taskList;
-        
-        // Move it to the next page
+        // Move the task to the next page tasks array
         [senderTasks removeObject:task];
         [receiverTasks addObject:task];
         
-        // Update task status on server
-        [[KBNTaskService sharedInstance] moveTask:task from:senderTasks completionBlock:^{
-            // task moved
-        } errorBlock:^(NSError *error) {
-            task.order = holdOrder;
-            task.taskList = holdTaskList;
-            
-            [senderTasks addObject:task];
-            [receiverTasks removeObject:task];
-            
-            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-        }];
+        // Ask the service to move the task
+        [[KBNTaskService sharedInstance] moveTask:task
+                                           toList:destinationViewController.taskList
+                                          inOrder:nil
+                                  completionBlock:^{
+                                      // task moved
+                                  } errorBlock:^(NSError *error) {
+                                      [senderTasks insertObject:task atIndex:holdIndex];
+                                      [receiverTasks removeObject:task];
+                                      [viewController.tableView reloadData];
+                                      [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+                                  }];
         
         [viewController.tableView reloadData];
     }

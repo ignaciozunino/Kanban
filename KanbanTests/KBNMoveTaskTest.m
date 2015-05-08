@@ -25,6 +25,7 @@
 #define TASKLISTS_RETRIEVED_EXPECTATION @"task lists retrieved"
 #define TASK_MOVED_EXPECTATION @"task moved"
 #define TASK_MOVED_BACK_EXPECTATION @"task moved back"
+#define TASK_REORDER_EXPECTATION @"task reordered"
 
 @interface KBNMoveTaskTest : XCTestCase
 
@@ -186,6 +187,16 @@
     return result;
 }
 
+- (KBNTaskList*) taskListForListId:(NSString*)listId {
+    
+    for (KBNTaskList* list in self.projectLists) {
+        if ([list.taskListId isEqualToString:listId]) {
+            return list;
+        }
+    }
+    return nil;
+}
+
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
@@ -199,20 +210,15 @@
     
     KBNTask* taskMovedFromBacklog = [self getFirstTaskFromListId:TEST_TASKLIST_ID_BACKLOG];
     
-    NSNumber* orderOfTaskMovedFromBacklog = taskMovedFromBacklog.order;
     NSString* taskIdOfTaskMovedFromBacklog = taskMovedFromBacklog.taskId;
-    
-    NSArray* backlogTasks;
-    NSArray* requirementsTasks;
+    NSNumber* orderOfTaskMovedFromBacklog = taskMovedFromBacklog.order;
     
     //Move a task from the backlog list to the requirements list
     XCTestExpectation *taskMovedExpectation = [self expectationWithDescription:TASK_MOVED_EXPECTATION];
     
-    taskMovedFromBacklog.order = [NSNumber numberWithInt:1];
-    taskMovedFromBacklog.taskList.taskListId = TEST_TASKLIST_ID_REQUIREMENTS;
-    
     [[KBNTaskService sharedInstance] moveTask:taskMovedFromBacklog
-                                         from:backlogTasks
+                                       toList:[self taskListForListId:TEST_TASKLIST_ID_REQUIREMENTS]
+                                      inOrder:nil
                               completionBlock:^{
                                   
                                   //XCTAssertTrue(true);
@@ -261,18 +267,19 @@
     XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
     
     movedTask.taskList.taskListId = TEST_TASKLIST_ID_BACKLOG;
-    movedTask.order = orderOfTaskMovedFromBacklog;
     
     [[KBNTaskService sharedInstance] moveTask:movedTask
-                                         from:requirementsTasks
+                                       toList:[self taskListForListId:TEST_TASKLIST_ID_BACKLOG]
+                                      inOrder:orderOfTaskMovedFromBacklog
                               completionBlock:^{
                                   
-                                  XCTAssertTrue(true);
+                                  //XCTAssertTrue(true);
                                   [taskMovedBackExpectation fulfill];
                                   
                               } errorBlock:^(NSError *error) {
                                   XCTAssertTrue(false);
                               }];
+
     
     // The test will pause here, running the run loop, until the timeout is hit
     // or all expectations are fulfilled.

@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSNumber * order;
 @property (nonatomic, strong) NSString * taskListId;
 @property (nonatomic, strong) KBNProject *project;
-@property (nonatomic, strong) NSOrderedSet *tasks;
+@property (nonatomic, strong) NSMutableOrderedSet *tasks;
 @end
 
 @interface KBNTaskList (CoreDataGeneratedAccessors)
