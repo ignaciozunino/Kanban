@@ -30,12 +30,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view.
-    
     self.title = self.project.name;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
     // [self getProjectLists];
-   
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate) name:KBNTasksUpdated object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate) name:KBNCurrentProjectUpdated object:nil];
     [KBNAppDelegate activateActivityIndicator:YES];
@@ -57,11 +55,10 @@
 #pragma mark - Data methods
 -(void)onTasksUpdate{
     
-   [self getProjectTasks];
+    [self getProjectTasks];
     [KBNAppDelegate activateActivityIndicator:NO];
-    
-    
 }
+
 -(void)onCurrentProjectUpdate{
     
     self.project = [KBNUpdateManager sharedInstance].projectForTasksUpdate;
@@ -91,7 +88,7 @@
     self.projectTasks = [KBNUpdateManager sharedInstance].updatedTasks;
     
     [self createPageViewController];
-  
+    
 }
 
 #pragma mark - Controller methods
@@ -275,7 +272,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     KBNEditProjectViewController *vc = [storyboard instantiateViewControllerWithIdentifier:KBNEDIT_VC];
     vc.project = self.project;
-    vc.projectId = self.project.projectId;        
+    vc.projectId = self.project.projectId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 /*

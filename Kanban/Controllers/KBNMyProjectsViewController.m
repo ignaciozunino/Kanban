@@ -31,28 +31,20 @@
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate) name:KBNProjectsUpdated object:nil];
     [[KBNUpdateManager sharedInstance] startUpdatingProjects];
-   
-    
-    
-    
 }
 
 - (void) dealloc
 {
-   
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-     [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
+    [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
 }
 
 -(void)onProjectsUpdate{
-   
+    
     [self getProjects];
 }
 
-
 -(void)viewWillAppear:(BOOL)animated{
-    
-  
     
 }
 
@@ -74,12 +66,11 @@
     
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-       [KBNAppDelegate activateActivityIndicator:YES];
+        [KBNAppDelegate activateActivityIndicator:YES];
         [weakself.tableView reloadData];
         
         [KBNAppDelegate activateActivityIndicator:NO];
     });
-
 }
 
 #pragma mark - Table View Data Source

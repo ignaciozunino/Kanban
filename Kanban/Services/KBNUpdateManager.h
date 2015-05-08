@@ -14,11 +14,11 @@
 #import "KBNUserUtils.h"
 #import "KBNProjectService.h"
 
-#define KBNProjectsUpdated               @"KBNProjectsUpdated"
-#define KBNTasksUpdated                  @"KBNTasksUpdated"
-#define KBNCurrentProjectUpdated         @"KBNCurrentProjectUpdated"
+#define KBNProjectsUpdated @"KBNProjectsUpdated"
+#define KBNTasksUpdated @"KBNTasksUpdated"
+#define KBNCurrentProjectUpdated @"KBNCurrentProjectUpdated"
 
-#define KBNTimeBetweenUpdates           dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC)
+#define KBNTimeBetweenUpdates 2.0
 
 @interface KBNUpdateManager : NSObject
 

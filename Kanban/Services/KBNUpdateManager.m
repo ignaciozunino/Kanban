@@ -13,6 +13,8 @@
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateProjects;
 @property NSString * lastProjectsUpdate;
 @property NSString * lastTasksUpdate;
+@property NSTimer * projectTimer;
+@property NSTimer * taskTimer;
 @end
 
 @implementation KBNUpdateManager
@@ -23,7 +25,6 @@
     @synchronized(self){
         if (!inst) {
             inst = [[KBNUpdateManager alloc] init];
-            
         }
     }
     return inst;
@@ -39,98 +40,94 @@
 }
 
 -(void)startUpdatingProjects{
-    
-    
-    [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
-        
-        [self updateExistingProjectsFromArray:records];
-        self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
-        [self postNotification:KBNProjectsUpdated];
-        dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            self.shouldUpdateProjects = YES;
-            [self updateProjects];
-        });
-    } errorBlock:^(NSError *error) {
-        
-    }];
-    
+    if (!self.projectTimer) {
+        [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername]
+                                                onSuccessBlock:^(NSArray *records) {
+                                                    
+                                                    [self updateExistingProjectsFromArray:records];
+                                                    self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
+                                                    [self postNotification:KBNProjectsUpdated];
+                                                    self.shouldUpdateProjects = YES;
+                                                    self.projectTimer = [NSTimer scheduledTimerWithTimeInterval:KBNTimeBetweenUpdates
+                                                                                                         target:self
+                                                                                                       selector:@selector(updateProjects)
+                                                                                                       userInfo:nil
+                                                                                                        repeats:YES];
+                                                }
+                                                    errorBlock:^(NSError *error) {
+                                                        
+                                                    }];
+    }
 }
 
 -(void)startUpdatingTasksForProject:(KBNProject*)project{
     self.projectForTasksUpdate =project;
     
-    
-    [[KBNTaskService sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-        
-        [self updateExistingTasksFromDictionary:[records objectForKey:@"results"]];
-        
-        
-        [self postNotification:KBNTasksUpdated];
-        self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-        dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            self.shouldUpdateTasks= YES;
-            [self updateTasks];
-        });
-        
-    } errorBlock:^(NSError *error) {
-        
-    }];
-    
-    
-    
+    [[KBNTaskService sharedInstance] getTasksForProject:project.projectId
+                                        completionBlock:^(NSDictionary *records) {
+                                            
+                                            [self updateExistingTasksFromDictionary:[records objectForKey:@"results"]];
+                                            
+                                            [self postNotification:KBNTasksUpdated];
+                                            self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+                                            self.shouldUpdateTasks = YES;
+                                            self.taskTimer =  [NSTimer scheduledTimerWithTimeInterval:KBNTimeBetweenUpdates
+                                                                                               target:self
+                                                                                             selector:@selector(updateTasks)
+                                                                                             userInfo:nil
+                                                                                              repeats:YES];
+                                        }
+                                             errorBlock:^(NSError *error) {
+                                                 
+                                             }];
 }
 
 -(void)stopUpdatingProjects{
     self.shouldUpdateProjects = NO;
-    
 }
 
 -(void)stopUpdatingTasks{
-    
     self.shouldUpdateTasks= NO;
-    
 }
 
 -(void)updateProjects{
     
     if (self.shouldUpdateProjects) {
-        [[KBNProjectService sharedInstance    ]getProjectsForUser:[KBNUserUtils getUsername] updatedAfter:self.lastProjectsUpdate onSuccessBlock:^(NSArray *records) {
-            if (records.count>0) {
-                [self updateExistingProjectsFromArray:records];
-                [self postNotification:KBNProjectsUpdated];
-                
-            }
-            self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-            
-            dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                
-                [self updateProjects];
-            });
-        } errorBlock:^(NSError *error) {
-            
-        }];
+        [[KBNProjectService sharedInstance]getProjectsForUser:[KBNUserUtils getUsername]
+                                                 updatedAfter:self.lastProjectsUpdate
+                                               onSuccessBlock:^(NSArray *records) {
+                                                   if (records.count>0) {
+                                                       [self updateExistingProjectsFromArray:records];
+                                                       [self postNotification:KBNProjectsUpdated];
+                                                   }
+                                                   self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+                                               }
+                                                   errorBlock:^(NSError *error) {
+                                                       
+                                                   }];
     }
 }
 
 -(void)updateTasks{
     if (self.shouldUpdateTasks) {
         
-        [[KBNTaskService sharedInstance] getUpdatedTasksForProject:self.projectForTasksUpdate.projectId withModifiedDate:self.lastTasksUpdate completionBlock:^(NSDictionary *records) {
-            NSDictionary * results=[records objectForKey:@"results"];
-            if(results.count > 0 ){
-                [self updateExistingTasksFromDictionary:results];
-                [self postNotification:KBNTasksUpdated];
-            }
-            self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-            dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                
-                [self updateTasks];
-            });
-        } errorBlock:^(NSError *error) {
-            
-        }];
-        
+        [[KBNTaskService sharedInstance] getUpdatedTasksForProject:self.projectForTasksUpdate.projectId
+                                                  withModifiedDate:self.lastTasksUpdate
+                                                   completionBlock:^(NSDictionary *records) {
+                                                       NSDictionary * results=[records objectForKey:@"results"];
+                                                       if(results.count > 0 ){
+                                                           [self updateExistingTasksFromDictionary:results];
+                                                           [self postNotification:KBNTasksUpdated];
+                                                       }
+                                                       self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+                                                       //                                                       dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                       //
+                                                       //                                                           [self updateTasks];
+                                                       //                                                       });
+                                                   }
+                                                        errorBlock:^(NSError *error) {
+                                                            
+                                                        }];
     }
 }
 
@@ -163,22 +160,17 @@
                     }else{
                         [self.updatedTasks addObject:t];
                     }
-                    
-                    
                     break;
                 }
             }
             
         }else{///if it is not active we look if it was removed
-            
             //here we only care about the task id to compare
             NSInteger index = [self indexOfTask:[params objectForKey:PARSE_OBJECTID]];
             if (index != -1) {
                 [self.updatedTasks removeObjectAtIndex:index];
             }
         }
-        
-        
     }
 }
 
@@ -207,9 +199,6 @@
         }else{
             [self.updatedProjects addObject:project];
         }
-        
-        
-        
     }
 }
 
@@ -223,4 +212,3 @@
     return -1;
 }
 @end
-
