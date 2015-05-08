@@ -84,10 +84,12 @@
 
 -(void)stopUpdatingProjects{
     self.shouldUpdateProjects = NO;
+    [self.projectTimer invalidate];
 }
 
 -(void)stopUpdatingTasks{
     self.shouldUpdateTasks= NO;
+    [self.taskTimer invalidate];
 }
 
 -(void)updateProjects{
@@ -120,10 +122,6 @@
                                                            [self postNotification:KBNTasksUpdated];
                                                        }
                                                        self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-                                                       //                                                       dispatch_after(KBNTimeBetweenUpdates, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                                       //
-                                                       //                                                           [self updateTasks];
-                                                       //                                                       });
                                                    }
                                                         errorBlock:^(NSError *error) {
                                                             
