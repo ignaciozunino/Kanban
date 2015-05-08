@@ -14,11 +14,11 @@
 #import "KBNUserUtils.h"
 #import "KBNProjectService.h"
 
-#define KBNProjectsUpdated                 @"KBNProjectsUpdated"
+#define KBNProjectsUpdated               @"KBNProjectsUpdated"
 #define KBNTasksUpdated                  @"KBNTasksUpdated"
-#define KBNCurrentProjectUpdated                  @"KBNCurrentProjectUpdated"
+#define KBNCurrentProjectUpdated         @"KBNCurrentProjectUpdated"
 
-#define KBNTimeBetweenUpdates           50000
+#define KBNTimeBetweenUpdates           dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC)
 
 @interface KBNUpdateManager : NSObject
 
@@ -26,7 +26,7 @@
 @property NSMutableArray * updatedTasks;
 @property KBNProject * projectForTasksUpdate;
 
- + (KBNUpdateManager *)sharedInstance;
++ (KBNUpdateManager *)sharedInstance;
 -(void)startUpdatingProjects;
 -(void)startUpdatingTasksForProject:(KBNProject*)project;
 -(void)stopUpdatingProjects;

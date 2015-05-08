@@ -40,7 +40,7 @@
 
 -(void)startUpdatingProjects{
     
-   
+    
     [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
         
         [self updateExistingProjectsFromArray:records];
@@ -60,7 +60,7 @@
     self.projectForTasksUpdate =project;
     
     
-        [[KBNTaskService sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
+    [[KBNTaskService sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
         
         [self updateExistingTasksFromDictionary:[records objectForKey:@"results"]];
         
@@ -195,13 +195,15 @@
 -(void) updateExistingProjectsFromArray:(NSArray *) updatedProjects
 {
     for (KBNProject *project in updatedProjects) {
-        if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
-            self.projectForTasksUpdate= project;
-            [self postNotification:KBNCurrentProjectUpdated];
-        }
-        NSInteger index = [self indexOfTask:project.projectId];
+        NSInteger index = [self indexOfProject:project.projectId];
         if (index!= -1) {
             [self.updatedProjects replaceObjectAtIndex:index withObject:project];
+            //if we update the current project we notify
+            if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
+                self.projectForTasksUpdate= project;
+                [self postNotification:KBNCurrentProjectUpdated];
+            }
+            
         }else{
             [self.updatedProjects addObject:project];
         }
