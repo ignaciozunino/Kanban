@@ -12,6 +12,7 @@
 #import "KBNTaskUtils.h"
 #import "KBNAlertUtils.h"
 #import "KBNUpdateManager.h"
+#import "KBNUpdateUtils.h"
 
 #define KBNEDIT_VC @"KBNEditProjectViewController"
 
@@ -19,7 +20,7 @@
 @interface KBNProjectPageViewController ()
 
 @property (strong, nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) NSArray* projectTasks;
+@property (strong, nonatomic) NSMutableArray* projectTasks;
 @property (strong, nonatomic) NSArray* projectLists;
 
 
@@ -32,18 +33,22 @@
     
     self.title = self.project.name;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
-    // [self getProjectLists];
+    self.projectTasks = [NSMutableArray new ];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate) name:KBNTasksUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate) name:KBNCurrentProjectUpdated object:nil];
+    
     [KBNAppDelegate activateActivityIndicator:YES];
     [self getProjectLists];
 }
 
-- (void) dealloc
+- (void)stopListeningUpdateManager
 {
     [[KBNUpdateManager sharedInstance] stopUpdatingTasks];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) dealloc
+{
+    [self stopListeningUpdateManager];
 }
 
 
@@ -53,16 +58,22 @@
 }
 
 #pragma mark - Data methods
--(void)onTasksUpdate{
+-(void)onTasksUpdate:(NSNotification *)noti{
     
-    [self getProjectTasks];
-    [KBNAppDelegate activateActivityIndicator:NO];
+    [self getProjectTasks:noti];
+    
 }
 
--(void)onCurrentProjectUpdate{
+-(void)onCurrentProjectUpdate:(NSNotification *)noti{
     
-    self.project = [KBNUpdateManager sharedInstance].projectForTasksUpdate;
+    self.project = (KBNProject*)noti.object;
     self.title = self.project.name;
+}
+
+- (void)listenUpdateManager {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
+    [[KBNUpdateManager sharedInstance] startUpdatingTasksForProject:self.project];
 }
 
 - (void)getProjectLists {
@@ -77,16 +88,16 @@
         }
         
         weakself.projectLists = taskLists;
-        [[KBNUpdateManager sharedInstance] startUpdatingTasksForProject:self.project];
+        [self listenUpdateManager];
         
     } errorBlock:^(NSError *error) {
         NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
     }];
 }
 
-- (void)getProjectTasks {
-    self.projectTasks = [KBNUpdateManager sharedInstance].updatedTasks;
+- (void)getProjectTasks:(NSNotification *)noti {
     
+    [KBNUpdateUtils updateExistingTasksFromDictionary:(NSDictionary*)noti.object inArray:self.projectTasks forProject:self.project];
     [self createPageViewController];
     
 }

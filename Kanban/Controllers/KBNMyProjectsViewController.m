@@ -21,27 +21,37 @@
 @interface KBNMyProjectsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *projects;
+@property (strong, nonatomic) NSMutableArray *projects;
 
 @end
 
 @implementation KBNMyProjectsViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate) name:KBNProjectsUpdated object:nil];
+- (void)listenUpdateManager {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
     [[KBNUpdateManager sharedInstance] startUpdatingProjects];
 }
 
-- (void) dealloc
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.projects=[NSMutableArray new];
+    [self listenUpdateManager];
+}
+
+- (void)stopListeningUpdateManager
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
 }
 
--(void)onProjectsUpdate{
+- (void) dealloc
+{
+    [self stopListeningUpdateManager];
+}
+
+-(void)onProjectsUpdate:(NSNotification *)noti{
     
-    [self getProjects];
+    [self getProjects:noti];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -60,9 +70,8 @@
 
 #pragma mark - Private methods
 
-- (void)getProjects {
-    
-    self.projects = [KBNUpdateManager sharedInstance].updatedProjects;
+- (void)getProjects:(NSNotification *)noti {
+    [KBNUpdateUtils updateExistingProjectsFromArray:(NSArray*)noti.object inArray:self.projects];
     
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{

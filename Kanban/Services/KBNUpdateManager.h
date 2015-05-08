@@ -13,6 +13,7 @@
 #import "KBNTaskList.h"
 #import "KBNUserUtils.h"
 #import "KBNProjectService.h"
+#import "KBNUpdateUtils.h"
 
 #define KBNProjectsUpdated @"KBNProjectsUpdated"
 #define KBNTasksUpdated @"KBNTasksUpdated"
@@ -22,8 +23,7 @@
 
 @interface KBNUpdateManager : NSObject
 
-@property NSMutableArray * updatedProjects;
-@property NSMutableArray * updatedTasks;
+
 @property KBNProject * projectForTasksUpdate;
 
 + (KBNUpdateManager *)sharedInstance;
