@@ -38,7 +38,6 @@
     KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
     [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser: [KBNUserUtils getUsername]
                completionBlock:^{
-                   [self.expectation fulfill];
                }
                     errorBlock:^(NSError *error) {
                         XCTFail();
