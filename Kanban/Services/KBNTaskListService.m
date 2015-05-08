@@ -42,4 +42,9 @@
     
 }
 
+-(BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList
+{
+    return ([taskList.tasks count] > LIMIT_TASKLIST_ITEMS);
+}
+
 @end

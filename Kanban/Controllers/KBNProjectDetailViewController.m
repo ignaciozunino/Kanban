@@ -227,15 +227,24 @@
         taskDetailViewController.task = [self.taskListTasks objectAtIndex:indexPath.row];
         
     } else if ([[segue identifier] isEqualToString:SEGUE_ADD_TASK]) {
-        UINavigationController *navController = [segue destinationViewController];
-        KBNAddTaskViewController *addTaskViewController = (KBNAddTaskViewController*)navController.topViewController;
-        
-        addTaskViewController.addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
-        
-        addTaskViewController.addTask.project = self.project;
-        addTaskViewController.addTask.taskList = self.taskList;
-        addTaskViewController.delegate = self;
+        //Make sure the list will accept another item before trying to add the task
+        if ([[KBNTaskListService sharedInstance] hasCountLimitBeenReached:self.taskList]){
+            [KBNAlertUtils showAlertView:CREATING_TASK_TASKLIST_FULL andType:ERROR_ALERT];
+        } else {
+        [self goToAddTaskScreen:[segue destinationViewController]];
+        }
     }
+}
+
+
+-(void)goToAddTaskScreen:(UINavigationController*)navController{
+    KBNAddTaskViewController *addTaskViewController = (KBNAddTaskViewController*)navController.topViewController;
+    
+    addTaskViewController.addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    
+    addTaskViewController.addTask.project = self.project;
+    addTaskViewController.addTask.taskList = self.taskList;
+    addTaskViewController.delegate = self;
 }
 
 #pragma mark - TableView edit

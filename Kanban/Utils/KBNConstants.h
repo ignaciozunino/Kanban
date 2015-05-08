@@ -19,6 +19,9 @@
 #define SIGNIN_STORYBOARD @"Signin"
 #define RESOURCE_NAME_PROJECTS @"projects"
 
+//Limits and thresholds
+#define LIMIT_TASKLIST_ITEMS 50
+
 //Entities
 #define ENTITY_TASK @"KBNTask"
 #define ENTITY_PROJECT @"KBNProject"
@@ -41,6 +44,7 @@
 #define CREATING_TASK_WITHOUT_NAME_ERROR @"Task must have a name"
 #define CREATING_TASKLIST_WITHOUT_NAME_ERROR @"Task List must have a name"
 #define CREATING_TASK_OFFLINE_ERROR @"The connection to the server has timed out"
+#define CREATING_TASK_TASKLIST_FULL @"The task list cannot hold any more items"
 #define EDIT_PROJECT_WITHOUTNAME_ERROR @"Project must have a name"
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
@@ -68,6 +72,9 @@
 #define PARSE_TASK_ORDER_COLUMN @"order"
 #define PARSE_TASK_ACTIVE_COLUMN @"active"
 #define PARSE_TASK_UPDATED_COLUMN @"updatedAt"
+
+
+#define PARSE_USER_NAME_COLUMN @"username"
 
 
 //alert titles

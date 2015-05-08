@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KBNAppDelegate.h"
 #import "KBNTaskListParseAPIManager.h"
-
+#import "KBNTaskList.h"
 
 @interface KBNTaskListService : NSObject
 
@@ -21,5 +21,7 @@
                completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 -(void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
+-(BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList;
 
 @end
