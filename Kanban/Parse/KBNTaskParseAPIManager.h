@@ -19,4 +19,6 @@
 
 - (void)updateTasks:(NSArray*)tasks completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
+- (void)createTasks:(NSArray*)tasks completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
 @end

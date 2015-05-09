@@ -37,4 +37,28 @@
     return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
++ (NSArray*)mockTasksForProject:(KBNProject*)project taskList:(KBNTaskList*)taskList quantity:(NSUInteger)quantity {
+    
+    NSMutableArray *tasks = [[NSMutableArray alloc] init];
+    KBNTask *task;
+    
+    for (NSUInteger i = 0; i < quantity; i++) {
+        
+        task = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+
+        [task setValue:[NSString stringWithFormat:@"Task%lu", i] forKey:@"taskId"];
+        [task setValue:[NSString stringWithFormat:@"Task%lu", i] forKey:@"name"];
+        [task setValue:@"Mock task for testing purposes" forKey:@"taskDescription"];
+        [task setValue:[NSNumber numberWithUnsignedLong:i] forKey:@"order"];
+        [task setValue:@YES forKey:@"active"];
+        task.project = project;
+        task.taskList = taskList;
+        
+        [tasks addObject:task];
+    }
+    
+    return tasks;
+    
+}
+
 @end

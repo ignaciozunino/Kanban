@@ -7,6 +7,7 @@
 //
 
 #import "KBNTaskService.h"
+#import "KBNTaskUtils.h"
 
 @implementation KBNTaskService
 
@@ -111,6 +112,13 @@
         KBNTask *taskToReorder = [set objectAtIndex:index];
         taskToReorder.order = [NSNumber numberWithInteger:index];
     }
+}
+
+- (void)createTasks:(NSArray*)tasks
+    completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    [self.dataService createTasks:tasks completionBlock:onCompletion errorBlock:onError];
+
 }
 
 @end

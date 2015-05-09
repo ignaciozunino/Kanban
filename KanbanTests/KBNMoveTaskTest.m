@@ -8,31 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "KBNProjectDetailViewController.h"
-#import "KBNProjectService.h"
-#import "KBNTaskService.h"
+#import "KBNProjectUtils.h"
 #import "KBNTaskUtils.h"
-#import "KBNTaskListService.h"
 #import "KBNTaskListUtils.h"
-#import "KBNUserUtils.h"
+#import "KBNTaskService.h"
 
 //Local constants
-#define TEST_PROJECT_ID @"Z1OblTylc6"
-#define TEST_TASKLIST_ID_BACKLOG @"q3fpXmrJuZ"
-#define TEST_TASKLIST_ID_REQUIREMENTS @"aoDh6esO15"
-#define PROJECTS_RETRIEVED_EXPECTATION @"projects retrieved"
-#define TASKS_RETRIEVED_EXPECTATION @"tasks retrieved"
-#define TASKLISTS_RETRIEVED_EXPECTATION @"task lists retrieved"
+#define TASKS_CREATED_EXPECTATION @"tasks created"
 #define TASK_MOVED_EXPECTATION @"task moved"
+#define TASKS_REORDERED_EXPECTATION @"tasks reordered"
 #define TASK_MOVED_BACK_EXPECTATION @"task moved back"
 #define TASK_REORDER_EXPECTATION @"task reordered"
 
+#define TIMEOUT 40.0
+
 @interface KBNMoveTaskTest : XCTestCase
 
-@property (nonatomic,strong) NSMutableArray* tasks;
-@property (nonatomic,strong) NSArray* projects;
-@property (nonatomic,strong) KBNProject* testProject;
-@property (nonatomic,strong) NSArray *projectLists;
 @end
 
 @implementation KBNMoveTaskTest
@@ -40,161 +31,6 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    [self retrieveProjects];
-    [self retrieveTaskLists];
-    [self retrieveTasks];
-    
-}
-
-- (void) retrieveProjects{
-    XCTestExpectation *projectsRetrievedExpectation = [self expectationWithDescription:PROJECTS_RETRIEVED_EXPECTATION];
-    __weak typeof(self) weakself = self;
-    
-    [[KBNProjectService sharedInstance] getProjectsForUser:@"user@test.com"
-                                            onSuccessBlock:^(NSArray *records) {
-                                                weakself.projects = records;
-                                                XCTAssertTrue(true);
-                                                
-                                                //Look for the specific project used for this test
-                                                for (KBNProject* project in weakself.projects) {
-                                                    if ([project.projectId isEqualToString:TEST_PROJECT_ID])
-                                                    {
-                                                        self.testProject = project;
-                                                        break;
-                                                    }
-                                                }
-                                                [projectsRetrievedExpectation fulfill];
-                                            }
-                                                errorBlock:^(NSError *error) {
-                                                    XCTAssertTrue(false);
-                                                }];
-    
-    // The test will pause here, running the run loop, until the timeout is hit
-    // or all expectations are fulfilled.
-    [self waitForExpectationsWithTimeout:40 handler:^(NSError *error) {
-        if (error){
-            XCTAssertTrue(false);
-        }
-        else{
-            XCTAssertTrue(true);
-        }
-        
-    }];
-    
-}
-
-
--(void)retrieveTaskLists{
-    __weak typeof(self) weakself = self;
-    
-    XCTestExpectation *taskListsRetrievedExpectation = [self expectationWithDescription:TASKLISTS_RETRIEVED_EXPECTATION];
-    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.testProject.projectId completionBlock:^(NSDictionary *response) {
-        
-        NSMutableArray *taskLists = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* params in [response objectForKey:@"results"]) {
-            [taskLists addObject:[KBNTaskListUtils taskListForProject:self.testProject params:params]];
-        }
-        
-        
-        weakself.projectLists = taskLists;
-        [taskListsRetrievedExpectation fulfill];
-        
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
-    }];
-    
-    [self waitForExpectationsWithTimeout:40 handler:^(NSError *error) {
-        if (error){
-            XCTAssertTrue(false);
-        }
-        else{
-            XCTAssertTrue(true);
-        }
-    }];
-}
-
-- (void)retrieveTasks{
-    XCTestExpectation *tasksExpectation = [self expectationWithDescription:TASKS_RETRIEVED_EXPECTATION];
-    __weak typeof(self) weakself = self;
-    [[KBNTaskService sharedInstance] getTasksForProject:TEST_PROJECT_ID
-                                        completionBlock:^(NSDictionary* response){
-                                            NSMutableArray *tasks = [[NSMutableArray alloc] init];
-                                            for (NSDictionary* params in [response objectForKey:@"results"]) {
-                                                if ([[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] boolValue]) {
-                                                    NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-                                                    
-                                                    KBNTaskList *taskList;
-                                                    for (KBNTaskList* list in weakself.projectLists) {
-                                                        if ([list.taskListId isEqualToString:taskListId]) {
-                                                            taskList = list;
-                                                            break;
-                                                        }
-                                                    }
-                                                    
-                                                    KBNTask* task = [KBNTaskUtils taskForProject:weakself.testProject taskList:taskList params:params];
-                                                    [tasks addObject:task];
-                                                }
-                                                
-                                            }
-                                            
-                                            weakself.tasks = tasks;
-                                            XCTAssertTrue(true);
-                                            [tasksExpectation fulfill];
-                                        }
-                                             errorBlock:^(NSError *error){
-                                                 XCTAssertTrue(false);
-                                             }];
-    
-    // The test will pause here, running the run loop, until the timeout is hit
-    // or all expectations are fulfilled.
-    [self waitForExpectationsWithTimeout:40 handler:^(NSError *error) {
-        if (error){
-            XCTAssertTrue(false);
-        }
-        else{
-            XCTAssertTrue(true);
-        }
-    }];
-    
-}
-
-
-- (KBNTask*) getFirstTaskFromListId:(NSString*)listId{
-    //Returns the task belonging to the give taskListId with the lowest order
-    KBNTask* result;
-    int order = -1;
-    for (KBNTask* task in self.tasks) {
-        if ([task.taskList.taskListId isEqualToString:listId] && order < [task.order intValue]){
-            result = task;
-            order = [task.order intValue];
-        }
-    }
-    return result;
-}
-
-
-- (KBNTask*) getLastTaskFromListId:(NSString*)listId{
-    //Returns the task belonging to the give taskListId with the lowest order
-    KBNTask* result;
-    int order = 9999;
-    for (KBNTask* task in self.tasks) {
-        if ([task.taskList.taskListId isEqualToString:listId] && order > [task.order intValue]){
-            result = task;
-            order = [task.order intValue];
-        }
-    }
-    return result;
-}
-
-- (KBNTaskList*) taskListForListId:(NSString*)listId {
-    
-    for (KBNTaskList* list in self.projectLists) {
-        if ([list.taskListId isEqualToString:listId]) {
-            return list;
-        }
-    }
-    return nil;
 }
 
 - (void)tearDown {
@@ -202,96 +38,241 @@
     [super tearDown];
 }
 
+- (NSManagedObjectContext*) managedObjectContext {
+    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+}
 
+// Test description
+// ----------------
+// 1. Create 4 tasks, tasks 0, 1, 2 and 3 in backlog (orders 0, 1, 2 and 3 respectively).
+//
+// 2. Move task 1 to requirements and verify that it was moved and has order 0 in requirements list.
+//    Verify that task 2 and 3's orders were changed to 1 and 2 respectively and task 0's order remains unchanged.
+//
+// 3. Move back task 1 to backlog. It should be put at the end of the list.
+//    Verify that task 1 has order 3.
+//
+// 4. Move task 1 to order 1 within backlog.
+//    Verify that all tasks have their original order.
 
-- (void)testKBNMoveTask{
-    XCTAssertTrue(true);
-    //Get a predefined project with a list of tasks, and swap the order between the 1st and 2nd task.
+- (void)testMoveTask {
     
-    KBNTask* taskMovedFromBacklog = [self getFirstTaskFromListId:TEST_TASKLIST_ID_BACKLOG];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
     
-    NSString* taskIdOfTaskMovedFromBacklog = taskMovedFromBacklog.taskId;
-    NSNumber* orderOfTaskMovedFromBacklog = taskMovedFromBacklog.order;
+    // 1. Create 4 tasks, tasks 0, 1, 2 and 3 in backlog (orders 0, 1, 2 and 3 respectively).
     
-    //Move a task from the backlog list to the requirements list
+    XCTestExpectation *tasksCreatedExpectation = [self expectationWithDescription:TASKS_CREATED_EXPECTATION];
+    
+    KBNProject *project = [KBNProjectUtils projectWithParams:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"test_project_%@",dateString] forKey:PARSE_OBJECTID]];
+    
+    __block KBNTaskList* backlog = [KBNTaskListUtils taskListForProject:project params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                        @"backlog", PARSE_OBJECTID,
+                                                                                        @"backlog", PARSE_TASKLIST_NAME_COLUMN,
+                                                                                        @0, PARSE_TASKLIST_ORDER_COLUMN, nil]];
+    
+    __block KBNTaskList* requirements = [KBNTaskListUtils taskListForProject:project params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                        @"requirements", PARSE_OBJECTID,
+                                                                                        @"requirements", PARSE_TASKLIST_NAME_COLUMN,
+                                                                                        @1, PARSE_TASKLIST_ORDER_COLUMN, nil]];
+    
+    KBNTaskService * service = [[KBNTaskService alloc]init];
+    service.dataService =[[KBNTaskParseAPIManager alloc]init];
+    
+    __block NSArray* retrievedTasks;
+    
+    // Create the tasks and retrieve tasks of the test project
+    // NOTE: mock tasks will have fictious taskIds that should be replaced by those returned by createTasks
+    NSArray *tasks = [KBNTaskUtils mockTasksForProject:project taskList:backlog quantity:4];
+    
+    KBNTask *task0 = tasks[0];
+    KBNTask *task1 = tasks[1];
+    KBNTask *task2 = tasks[2];
+    KBNTask *task3 = tasks[3];
+    
+    [service createTasks:tasks
+         completionBlock:^(NSDictionary *records) {
+             [service getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
+                 retrievedTasks = [records objectForKey:@"results"];
+                 if (!retrievedTasks.count) { // We brought no records => error creating the tasks
+                     XCTAssertTrue(false);
+                 } else {
+                     //update ids in tasks. NOTE: Tasks are retrieved ordered by task order.
+                     NSUInteger i = 0;
+                     for (NSDictionary *dict in retrievedTasks) {
+                         KBNTask *task = tasks[i];
+                          task.taskId = [dict objectForKey:PARSE_OBJECTID];
+                         i++;
+                     }
+                 }
+                 [tasksCreatedExpectation fulfill];
+                 
+             } errorBlock:^(NSError *error) {
+                 XCTAssertTrue(false);
+                 [tasksCreatedExpectation fulfill];
+             }];
+             
+         } errorBlock:^(NSError *error) {
+             XCTAssertTrue(false);
+             [tasksCreatedExpectation fulfill];
+         }];
+    
+    [self waitForExpectationsWithTimeout:TIMEOUT handler:^(NSError *error) {
+    }];
+
+    
+    
+
+    // 2. Move task 1 to requirements and verify that it was moved and has order 0 in requirements list.
+    //    Verify that task 2 and 3's orders were changed to 1 and 2 respectively and task 0's order remains unchanged.
+  
     XCTestExpectation *taskMovedExpectation = [self expectationWithDescription:TASK_MOVED_EXPECTATION];
     
-    [[KBNTaskService sharedInstance] moveTask:taskMovedFromBacklog
-                                       toList:[self taskListForListId:TEST_TASKLIST_ID_REQUIREMENTS]
-                                      inOrder:nil
-                              completionBlock:^{
-                                  
-                                  //XCTAssertTrue(true);
-                                  [taskMovedExpectation fulfill];
-                                  
-                              } errorBlock:^(NSError *error) {
-                                  XCTAssertTrue(false);
-                              }];
-    
-    // The test will pause here, running the run loop, until the timeout is hit
-    // or all expectations are fulfilled.
-    [self waitForExpectationsWithTimeout:40 handler:^(NSError *error) {
-        if (error){
+    [service moveTask:task1 toList:requirements inOrder:nil completionBlock:^{
+        [service getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
+            retrievedTasks = [records objectForKey:@"results"];
+            
+            for (NSDictionary *dict in retrievedTasks) {
+
+                NSString *name = [dict objectForKey:PARSE_TASK_NAME_COLUMN];
+                NSString *taskListId = [dict objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+                NSNumber *order = [dict objectForKey:PARSE_TASK_ORDER_COLUMN];
+                
+                if ([name isEqualToString:task0.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task1.name]) {
+                    if (!([taskListId isEqualToString:requirements.taskListId] && [order integerValue] == 0)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task2.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task3.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
+                        XCTAssertTrue(false);
+                    }
+                }
+            }
+            
+            [taskMovedExpectation fulfill];
+            
+        } errorBlock:^(NSError *error) {
             XCTAssertTrue(false);
-        }
-        else{
-            XCTAssertTrue(true);
-        }
+            [taskMovedExpectation fulfill];
+        }];
+    } errorBlock:^(NSError *error) {
+        XCTAssertTrue(false);
+        [taskMovedExpectation fulfill];
     }];
     
-    
-    //Make sure the changes were effective:
-    //1.-Retrieve all tasks again
-    [self retrieveTasks];
-    
-    //2.-Look for the task that was moved
-    KBNTask* movedTask;
-    for (KBNTask* task in self.tasks) {
-        if ([task.taskId isEqualToString:taskIdOfTaskMovedFromBacklog])
-        {
-            movedTask = task;
-            break;
-        }
-    }
-    
-    //3.-Verify that its' task list ID is correct.
-    if ((movedTask != nil) && ([movedTask.taskList.taskListId isEqualToString:TEST_TASKLIST_ID_REQUIREMENTS])){
-        XCTAssertTrue(true);
-    }
-    else{
-        XCTAssertTrue(false);
-    }
-    
-    
-    //Roll back the changes made:
-    XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
-    
-    movedTask.taskList.taskListId = TEST_TASKLIST_ID_BACKLOG;
-    
-    [[KBNTaskService sharedInstance] moveTask:movedTask
-                                       toList:[self taskListForListId:TEST_TASKLIST_ID_BACKLOG]
-                                      inOrder:orderOfTaskMovedFromBacklog
-                              completionBlock:^{
-                                  
-                                  //XCTAssertTrue(true);
-                                  [taskMovedBackExpectation fulfill];
-                                  
-                              } errorBlock:^(NSError *error) {
-                                  XCTAssertTrue(false);
-                              }];
+    [self waitForExpectationsWithTimeout:TIMEOUT handler:^(NSError *error) {
+    }];
+
 
     
-    // The test will pause here, running the run loop, until the timeout is hit
-    // or all expectations are fulfilled.
-    [self waitForExpectationsWithTimeout:40 handler:^(NSError *error) {
-        if (error){
+    
+    // 3. Move back task 1 to backlog. It should be put at the end of the list.
+    //    Verify that task 1 has order 3.
+
+    XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
+
+    [service moveTask:task1 toList:backlog inOrder:nil completionBlock:^{
+        [service getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
+            retrievedTasks = [records objectForKey:@"results"];
+            
+            for (NSDictionary *dict in retrievedTasks) {
+                
+                NSString *name = [dict objectForKey:PARSE_TASK_NAME_COLUMN];
+                NSString *taskListId = [dict objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+                NSNumber *order = [dict objectForKey:PARSE_TASK_ORDER_COLUMN];
+                
+                if ([name isEqualToString:task0.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task1.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task2.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task3.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
+                        XCTAssertTrue(false);
+                    }
+                }
+            }
+            
+            [taskMovedBackExpectation fulfill];
+            
+        } errorBlock:^(NSError *error) {
             XCTAssertTrue(false);
-        }
-        else{
-            XCTAssertTrue(true);
-        }
+            [taskMovedBackExpectation fulfill];
+        }];
+    } errorBlock:^(NSError *error) {
+        XCTAssertTrue(false);
+        [taskMovedBackExpectation fulfill];
     }];
     
+    [self waitForExpectationsWithTimeout:TIMEOUT handler:^(NSError *error) {
+    }];
+ 
+    
+    
+    
+    // 4. Move task 1 to order 1 within backlog.
+    //    Verify that all tasks have their original order.
+    
+    XCTestExpectation *taskReorderExpectation = [self expectationWithDescription:TASK_REORDER_EXPECTATION];
+    
+    [service moveTask:task1 toList:backlog inOrder:@1 completionBlock:^{
+        [service getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
+            retrievedTasks = [records objectForKey:@"results"];
+            
+            for (NSDictionary *dict in retrievedTasks) {
+                
+                NSString *name = [dict objectForKey:PARSE_TASK_NAME_COLUMN];
+                NSString *taskListId = [dict objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+                NSNumber *order = [dict objectForKey:PARSE_TASK_ORDER_COLUMN];
+                
+                if ([name isEqualToString:task0.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task1.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task2.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
+                        XCTAssertTrue(false);
+                    }
+                } else if ([name isEqualToString:task3.name]) {
+                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
+                        XCTAssertTrue(false);
+                    }
+                }
+            }
+            
+            [taskReorderExpectation fulfill];
+            
+        } errorBlock:^(NSError *error) {
+            XCTAssertTrue(false);
+            [taskReorderExpectation fulfill];
+        }];
+    } errorBlock:^(NSError *error) {
+        XCTAssertTrue(false);
+        [taskReorderExpectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:TIMEOUT handler:^(NSError *error) {
+    }];
 }
 
 @end

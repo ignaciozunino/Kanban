@@ -45,7 +45,7 @@
     [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
     NSString *dateString = [dateFormatter stringFromDate:currDate];
     
-    //we put the date in the name so we always have diferent project,tasklist and service
+    //we put the date in the name so we always have different project, tasklist and service
     NSString * project = [NSString stringWithFormat:@"test_project_%@",dateString];
     NSString * tasklist = [NSString stringWithFormat:@"test_task_List%@",dateString];
     NSString * taskDesc = [NSString stringWithFormat:@"testing remove on:%@",dateString];

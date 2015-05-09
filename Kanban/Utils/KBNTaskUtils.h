@@ -13,4 +13,6 @@
 
 + (KBNTask*)taskForProject:(KBNProject*)project taskList:(KBNTaskList*)taskList params:(NSDictionary*)params;
 
++ (NSArray*)mockTasksForProject:(KBNProject*)project taskList:(KBNTaskList*)taskList quantity:(NSUInteger)quantity;
+
 @end
