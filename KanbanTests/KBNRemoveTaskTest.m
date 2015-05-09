@@ -54,6 +54,7 @@
     //*************************Preparation to the test ***************************
     //first we create a project to be sure we have at least one project to bring
     KBNProject* projectObj = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    projectObj.projectId = project;
     
     KBNTaskList* taskListObj = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK_LIST inManagedObjectContext:[self managedObjectContext]];
     taskListObj.taskListId = tasklist;
@@ -96,13 +97,11 @@
     }];
     
     ////************************the test itself**********************************************
-    XCTestExpectation *finalexpectation = [self expectationWithDescription:@"testRemoveTask  completed"];
+    XCTestExpectation *finalexpectation = [self expectationWithDescription:@"testRemoveTask completed"];
     
     // Create a task object to pass to the remove method
-    KBNProject *testProject = [KBNProjectUtils projectWithParams:nil];
-    KBNTaskList *testTaskList = [KBNTaskListUtils taskListForProject:testProject
-                                                              params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                      tasklist, PARSE_OBJECTID, nil]];
+    KBNProject *testProject = projectObj;
+    KBNTaskList *testTaskList = taskListObj;
     
     KBNTask *task = [KBNTaskUtils taskForProject:testProject
                                         taskList:testTaskList
