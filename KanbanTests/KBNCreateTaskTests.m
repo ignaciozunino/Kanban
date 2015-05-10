@@ -11,9 +11,22 @@
 #import "KBNTaskService.h"
 #import <OCMock/OCMock.h>
 #import "KBNConstants.h"
+#import "KBNProjectUtils.h"
+#import "KBNTaskListUtils.h"
+#import "KBNTaskUtils.h"
+
+//Local constants
+#define TASKS_CREATED_WITHOUT_NAME_EXPECTATION @"task created without name"
+#define TASKS_CREATED_EXPECTATION @"task created ok"
+
+#define TIMEOUT 40.0
 
 
 @interface KBNCreateTaskTests : XCTestCase
+
+@property (strong, nonatomic) KBNProject *project;
+@property (strong, nonatomic) KBNTaskList *taskList;
+@property (strong, nonatomic) KBNTaskService *service;
 
 @end
 
@@ -22,6 +35,20 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+    
+    self.project = [KBNProjectUtils projectWithParams:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"test_project_%@",dateString] forKey:PARSE_OBJECTID]];
+    
+    self.taskList = [KBNTaskListUtils taskListForProject:self.project params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                              @"taskList", PARSE_OBJECTID,
+                                                                              @"taskList", PARSE_TASKLIST_NAME_COLUMN,
+                                                                              @0, PARSE_TASKLIST_ORDER_COLUMN, nil]];
+    
+    self.service = [[KBNTaskService alloc]init];
+    self.service.dataService =[[KBNTaskParseAPIManager alloc]init];
 }
 
 - (void)tearDown {
@@ -29,128 +56,59 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
-
 - (NSManagedObjectContext*) managedObjectContext {
     return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
 //Feature tested: Create Task
-//Description: In this test we will verify that you cant create a task without a name
+//Description: In this test we will verify that you can't create a task without a name
 -(void) testCreateTaskWithoutName{
-    KBNTaskService * serviceOrig = [[KBNTaskService alloc]init];
-    id taskAPIManager = [OCMockObject mockForClass:[KBNTaskParseAPIManager class]];
-    serviceOrig.dataService = taskAPIManager;
-    KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
-    addTask.name = @"";
-    addTask.project = OCMOCK_ANY;
-    addTask.taskList = OCMOCK_ANY;
-    addTask.order = [NSNumber numberWithInt:0];
-    [serviceOrig createTask:addTask inList:OCMOCK_ANY completionBlock:^(NSDictionary* response){
-                        XCTAssertFalse(true);
-    }
-                         errorBlock:^(NSError* error){
-                             NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
-                             XCTAssertEqualObjects(errorMessage, CREATING_TASK_WITHOUT_NAME_ERROR);
-                         }];
     
-    [[taskAPIManager reject] createTaskWithName:OCMOCK_ANY taskDescription:OCMOCK_ANY order:OCMOCK_ANY projectId:OCMOCK_ANY taskListId:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
+    XCTestExpectation *taskCreatedWithoutNameExpectation = [self expectationWithDescription:TASKS_CREATED_WITHOUT_NAME_EXPECTATION];
+    
+    KBNTask *addTask = [[KBNTaskUtils mockTasksForProject:self.project taskList:self.taskList quantity:1] objectAtIndex:0];
+    addTask.name = @"";
+    
+    [self.service createTask:addTask
+                      inList:self.taskList
+             completionBlock:^(NSDictionary* response){
+                 
+                 XCTAssertFalse(true);
+                 
+             }
+                  errorBlock:^(NSError* error){
+                      NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
+                      XCTAssertEqualObjects(errorMessage, CREATING_TASK_WITHOUT_NAME_ERROR);
+                  }];
+    
+    [taskCreatedWithoutNameExpectation fulfill];
+    
+    [self waitForExpectationsWithTimeout:TIMEOUT handler:^(NSError *error) {
+    }];
 }
 
 //Feature tested: Create Task
 //Description: In this test we will verify that you create a task with name and description and everything is OK
 -(void) testCreateTaskOK{
-    KBNTaskService * serviceOrig = [KBNTaskService sharedInstance];
-    id taskAPIManager = [OCMockObject mockForClass:[KBNTaskParseAPIManager class]];
-    [[taskAPIManager stub] createTask:OCMOCK_ANY
-                               inList:OCMOCK_ANY
-                              completionBlock:OCMOCK_ANY
-                                   errorBlock:OCMOCK_ANY];
-
-    serviceOrig.dataService = taskAPIManager;
-    serviceOrig.dataService = taskAPIManager;
     
-    KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    XCTestExpectation *taskCreatedExpectation = [self expectationWithDescription:TASKS_CREATED_EXPECTATION];
+    
+    KBNTask *addTask = [[KBNTaskUtils mockTasksForProject:self.project taskList:self.taskList quantity:1] objectAtIndex:0];
     addTask.name = @"Test create task OK";
-    addTask.project = OCMOCK_ANY;
-    addTask.taskList = OCMOCK_ANY;
-    addTask.order = [NSNumber numberWithInt:0];
     
-    [serviceOrig createTask:addTask inList:OCMOCK_ANY
-                    completionBlock:^(NSDictionary* response){
-                                        XCTAssertTrue(true);
-                                    }
-                         errorBlock:^(NSError* error){
-                                        XCTAssertTrue(false);
-                                    }];
+    [self.service createTask:addTask
+                      inList:self.taskList
+             completionBlock:^(NSDictionary* response){
+                 XCTAssertTrue(true);
+             }
+                  errorBlock:^(NSError* error){
+                      XCTAssertTrue(false);
+                  }];
     
-    [taskAPIManager verify];
-}
-
-
-
-
-//Feature tested: Creation Timeout for CreateTask method
-//Description: In this test we will verify that a task doesn't get created if the
-//internet connection times out.
--(void)testTimeoutForCreateTask
-{
-    KBNTaskService * serviceOrig = [KBNTaskService sharedInstance];
-    id taskAPIManager = [OCMockObject mockForClass:[KBNTaskParseAPIManager class]];
+    [taskCreatedExpectation fulfill];
     
-    //This is to redefine the createTask method from the ParseAPIManager class
-    OCMStub([taskAPIManager createTask:OCMOCK_ANY
-                                   inList:OCMOCK_ANY
-                              completionBlock:OCMOCK_ANY
-                                   errorBlock:OCMOCK_ANY]).
-    andDo(^(NSInvocation *invocation){
-        
-        //Block definition
-        void(^stubBlock)(NSError *error);
-        
-        //Get the instance from the error block (position 8)
-        [invocation getArgument:&stubBlock atIndex:8];
-        
-        //Error creation
-        NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_TASK_OFFLINE_ERROR};
-        NSError *errorConnection = [NSError errorWithDomain:domain code:-102 userInfo:info];
-        
-        //Call the block with the error created
-        stubBlock(errorConnection);
-    });
-    
-    XCTestExpectation *expectation = [self expectationWithDescription:@"..."];
-    serviceOrig.dataService = taskAPIManager;
-    [serviceOrig createTask:OCMOCK_ANY
-                         inList:OCMOCK_ANY
-                    completionBlock:^(NSDictionary* response){
-                        XCTAssertTrue(false);
-                        [expectation fulfill];
-                        }
-                         errorBlock:^(NSError* error ){
-                             if (error) {
-                                 NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
-                                 XCTAssertEqualObjects(errorMessage, CREATING_TASK_OFFLINE_ERROR);
-                                 [expectation fulfill];
-                                }
-                         }
-                        ];
-    
-    [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:TIMEOUT handler:^(NSError *error) {
     }];
 }
-
-
 
 @end
