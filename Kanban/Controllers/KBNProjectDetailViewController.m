@@ -72,7 +72,7 @@
     
     KBNTask* task = [self.taskListTasks objectAtIndex:indexPath.row];
     cell.textLabel.text = task.name;
-
+    
     return cell;
     
 }
@@ -297,10 +297,33 @@
 // Double Tap to move a task to the next list
 - (IBAction)handleDoubleTap:(UITapGestureRecognizer *)sender {
     
-    NSIndexPath *indexPath = [self indexPathForSender:sender];
-    KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
-    [self.delegate moveToRightTask:task from:self];
-    
+    if (self.pageIndex < self.totalPages -1) {
+        
+        CGPoint location = [self.doubleTap locationInView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+        
+        //Prepare for animation
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        // Take a snapshot of the selected row using helper method.
+        UIView *snapshot = [self customSnapshoFromView:cell];
+        
+        // Add the snapshot as subview, centered at cell's center...
+        __block CGPoint center = cell.center;
+        snapshot.center = center;
+        [self.tableView addSubview:snapshot];
+        
+        // Move the task to the next list
+        KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
+        [self.delegate moveToRightTask:task from:self];
+        
+        // Animate the movement
+        [UIView animateWithDuration:2.5 animations:^{
+            snapshot.center = CGPointMake(9999, cell.center.y);
+        } completion:^(BOOL finished) {
+            [snapshot removeFromSuperview];
+        }];
+    }
 }
 
 // Tap to display task details
@@ -367,7 +390,7 @@
         if ([[KBNTaskListService sharedInstance] hasCountLimitBeenReached:self.taskList]){
             [KBNAlertUtils showAlertView:CREATING_TASK_TASKLIST_FULL andType:ERROR_ALERT];
         } else {
-        [self goToAddTaskScreen:[segue destinationViewController]];
+            [self goToAddTaskScreen:[segue destinationViewController]];
         }
     }
 }
