@@ -16,7 +16,9 @@
         case -101:
             return SIGNIN_ERROR;
             break;
-            
+        case -1011:
+            return USER_EXISTS_ERROR;
+            break;
         default:
             return @"Unknown Error";
             break;
