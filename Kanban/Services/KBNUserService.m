@@ -28,8 +28,6 @@
     
     if ([KBNUserUtils isValidUsername:username] && [KBNUserUtils isValidPassword:password]) {
         
-        [KBNUserUtils saveUsername:username];
-        
         KBNUser *user = [KBNUser new];
         user.username = username;
         user.password = password;
