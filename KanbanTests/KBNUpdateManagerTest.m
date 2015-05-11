@@ -50,27 +50,25 @@
     [self.um startUpdatingProjects];
     
     [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
+        [self.um stopUpdatingProjects];
     }];
 }
 
 -(void)onProjectsUpdate:(NSNotification *)noti{
     NSArray *projects = (NSArray*)noti.object;
-    BOOL projectFound = NO;
     
     for (KBNProject *project in projects) {
         if ([project.name isEqualToString:ProjectTest]){
-            projectFound = YES;
+            
+            [self.expectation fulfill];
+            
             break;
         }
     }
-    if (projectFound) {
-        XCTAssertTrue(true);
-        
-    }else{
-        XCTFail();
-    }
+   
+    XCTFail();
+    
     [self.expectation fulfill];
-    [self.um stopUpdatingProjects];
     
 }
 
