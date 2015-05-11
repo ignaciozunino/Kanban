@@ -23,7 +23,8 @@
 
 @interface KBNUpdateManager : NSObject
 
-
+@property KBNProjectService* projectService;
+@property KBNTaskService * tasksService;
 @property KBNProject * projectForTasksUpdate;
 
 + (KBNUpdateManager *)sharedInstance;

@@ -25,6 +25,8 @@
     @synchronized(self){
         if (!inst) {
             inst = [[KBNUpdateManager alloc] init];
+            inst.projectService = [KBNProjectService sharedInstance];
+            inst.tasksService = [KBNTaskService sharedInstance];
         }
     }
     return inst;
@@ -40,7 +42,7 @@
 
 -(void)startUpdatingProjects{
     if (!self.projectTimer) {
-        [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername]
+        [self.projectService getProjectsForUser:[KBNUserUtils getUsername]
                                                 onSuccessBlock:^(NSArray *records) {
                                                     
                                                     self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
@@ -61,7 +63,7 @@
 -(void)startUpdatingTasksForProject:(KBNProject*)project{
     self.projectForTasksUpdate =project;
     
-    [[KBNTaskService sharedInstance] getTasksForProject:project.projectId
+    [self.tasksService getTasksForProject:project.projectId
                                         completionBlock:^(NSDictionary *records) {
                                             
                                             [self postNotification:KBNTasksUpdated withObject:[records objectForKey:@"results"]];
@@ -93,7 +95,7 @@
 -(void)updateProjects{
     
     if (self.shouldUpdateProjects) {
-        [[KBNProjectService sharedInstance]getProjectsForUser:[KBNUserUtils getUsername]
+        [self.projectService getProjectsForUser:[KBNUserUtils getUsername]
                                                  updatedAfter:self.lastProjectsUpdate
                                                onSuccessBlock:^(NSArray *records) {
                                                    if (records.count>0) {
@@ -121,7 +123,7 @@
 -(void)updateTasks{
     if (self.shouldUpdateTasks) {
         
-        [[KBNTaskService sharedInstance] getUpdatedTasksForProject:self.projectForTasksUpdate.projectId
+        [self.tasksService getUpdatedTasksForProject:self.projectForTasksUpdate.projectId
                                                   withModifiedDate:self.lastTasksUpdate
                                                    completionBlock:^(NSDictionary *records) {
                                                        NSDictionary * results=[records objectForKey:@"results"];

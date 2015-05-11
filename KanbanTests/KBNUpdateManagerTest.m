@@ -33,9 +33,13 @@
     self.expectation = [self expectationWithDescription:@"testRealTime ok"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
-    [[KBNUpdateManager sharedInstance] startUpdatingProjects];
+    KBNUpdateManager* um = [[KBNUpdateManager alloc]init];
     
-    KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
+    
+    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
+    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
+    um.projectService = serviceOrig;
+    [um startUpdatingProjects];
     [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser: [KBNUserUtils getUsername]
                completionBlock:^{
                }
@@ -43,7 +47,7 @@
                         XCTFail();
                         [self.expectation fulfill];
                     }];
-    [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
     }];
 }
 
@@ -60,7 +64,7 @@
         XCTAssertTrue(true);
 
     }else{
-        XCTAssertTrue(false);
+       XCTFail();
     }
     [self.expectation fulfill];
     [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
