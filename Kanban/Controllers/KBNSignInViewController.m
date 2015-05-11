@@ -33,7 +33,7 @@
     [[KBNUserService sharedInstance] createUser:username withPasword:password  completionBlock:^{
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
             UIViewController *vc = [storyboard instantiateInitialViewController];            [self presentViewController:vc animated:YES completion:nil];
-            
+            [KBNUserUtils saveUsername:username];
         } errorBlock:^(NSError *error) {
             [KBNAlertUtils showAlertView:[KBNErrorUtils getErrorMessage:[error code]] andType:ERROR_ALERT ];
                     }];
