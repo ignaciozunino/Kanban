@@ -12,6 +12,7 @@
 #import "KBNTaskServiceOld.h"
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
+#import "KBNUpdateManager.h"
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
 #define SEGUE_PROJECT_DETAIL @"projectDetail"
@@ -20,22 +21,41 @@
 @interface KBNMyProjectsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *projects;
+@property (strong, nonatomic) NSMutableArray *projects;
 
 @end
 
 @implementation KBNMyProjectsViewController
 
+- (void)listenUpdateManager {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsInitialUpdate object:nil];
+    [[KBNUpdateManager sharedInstance] startUpdatingProjects];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //Do any additional setup after loading the view.
+    self.projects=[NSMutableArray new];
+    [self listenUpdateManager];
+}
+
+- (void)stopListeningUpdateManager
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
+}
+
+- (void) dealloc
+{
+    [self stopListeningUpdateManager];
+}
+
+-(void)onProjectsUpdate:(NSNotification *)noti{
     
-   
+    [self getProjects:noti];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-
-   [self getProjects];
     
 }
 
@@ -51,22 +71,16 @@
 
 #pragma mark - Private methods
 
-- (void)getProjects {
-
-    __weak typeof(self) weakself = self;
-    [KBNAppDelegate activateActivityIndicator:YES];
+- (void)getProjects:(NSNotification *)noti {
+    [KBNUpdateUtils updateExistingProjectsFromArray:(NSArray*)noti.object inArray:self.projects];
     
-    [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
-        weakself.projects = records;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakself.tableView reloadData];
-            
-            [KBNAppDelegate activateActivityIndicator:NO];
-        });
-    } errorBlock:^(NSError *error) {
+    __weak typeof(self) weakself = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [KBNAppDelegate activateActivityIndicator:YES];
+        [weakself.tableView reloadData];
+        
         [KBNAppDelegate activateActivityIndicator:NO];
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-    }];
+    });
 }
 
 #pragma mark - Table View Data Source
@@ -84,7 +98,7 @@
     cell.textLabel.text = project.name;
     cell.textLabel.font = [UIFont getTableFont];
     cell.textLabel.textColor = [UIColor whiteColor];
-
+    
     return cell;
 }
 

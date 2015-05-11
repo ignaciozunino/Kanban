@@ -11,14 +11,18 @@
 #import "KBNTaskListUtils.h"
 #import "KBNTaskUtils.h"
 #import "KBNAlertUtils.h"
+#import "KBNUpdateManager.h"
+#import "KBNUpdateUtils.h"
+
 #define KBNEDIT_VC @"KBNEditProjectViewController"
 
 
 @interface KBNProjectPageViewController ()
 
 @property (strong, nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) NSArray* projectTasks;
+@property (strong, nonatomic) NSMutableArray* projectTasks;
 @property (strong, nonatomic) NSArray* projectLists;
+
 
 @end
 
@@ -27,14 +31,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view.
-    
     self.title = self.project.name;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
+    self.projectTasks = [NSMutableArray new ];
     
+    
+    [KBNAppDelegate activateActivityIndicator:YES];
     [self getProjectLists];
-    
 }
+
+- (void)stopListeningUpdateManager
+{
+    [[KBNUpdateManager sharedInstance] stopUpdatingTasks];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) dealloc
+{
+    [self stopListeningUpdateManager];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -42,6 +58,24 @@
 }
 
 #pragma mark - Data methods
+-(void)onTasksUpdate:(NSNotification *)noti{
+    
+    [self getProjectTasks:noti];
+    
+}
+
+-(void)onCurrentProjectUpdate:(NSNotification *)noti{
+    
+    self.project = (KBNProject*)noti.object;
+    self.title = self.project.name;
+}
+
+- (void)listenUpdateManager {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksInitialUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
+    [[KBNUpdateManager sharedInstance] startUpdatingTasksForProject:self.project];
+}
 
 - (void)getProjectLists {
     __weak typeof(self) weakself = self;
@@ -55,43 +89,18 @@
         }
         
         weakself.projectLists = taskLists;
-        [weakself getProjectTasks];
+        [self listenUpdateManager];
         
     } errorBlock:^(NSError *error) {
         NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
     }];
 }
 
-- (void)getProjectTasks {
-    __weak typeof(self) weakself = self;
+- (void)getProjectTasks:(NSNotification *)noti {
     
-    [[KBNTaskService sharedInstance] getTasksForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
-        
-        NSMutableArray *tasks = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* params in [response objectForKey:@"results"]) {
-            NSString* taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-            KBNTaskList *taskList;
-            BOOL isactive = ((NSNumber*)[params objectForKey:PARSE_TASK_ACTIVE_COLUMN]).boolValue;
-            if (isactive){
-                
-                for (KBNTaskList* list in weakself.projectLists) {
-                    if ([list.taskListId isEqualToString:taskListId]) {
-                        taskList = list;
-                         [tasks addObject:[KBNTaskUtils taskForProject:weakself.project taskList:taskList params:params]];
-                        break;
-                    }
-                }
-               
-            }
-        }
-        
-        weakself.projectTasks = tasks;
-        [weakself createPageViewController];
-        
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Error getting Tasks: %@",error.localizedDescription);
-    }];
+    [KBNUpdateUtils updateExistingTasksFromDictionary:(NSDictionary*)noti.object inArray:self.projectTasks forProject:self.project];
+    [self createPageViewController];
+    
 }
 
 #pragma mark - Controller methods
@@ -275,17 +284,85 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     KBNEditProjectViewController *vc = [storyboard instantiateViewControllerWithIdentifier:KBNEDIT_VC];
     vc.project = self.project;
+    vc.projectId = self.project.projectId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 /*
- #pragma mark - Navigation
+ //
+ //  PRSurveyMenuButtonView.m
+ //  Briefcase
+ //
+ //  Created by Luciano Castro  on 6/16/14.
+ //  Copyright (c) 2014 Pernod Ricard. All rights reserved.
+ //
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+ #import "PRSurveyMenuButtonView.h"
+ #import "PRSurveyUploadsViewController.h"
+ #import "PRSurveyManager.h"
  
+ @implementation PRSurveyMenuButtonView
+ 
+ - (id)initWithFrame:(CGRect)frame
+ {
+ self = [super initWithFrame:frame];
+ if (self) {
+ // Initialization code
+ }
+ return self;
+ }
+ 
+ 
+ - (id)initWithCoder:(NSCoder *)aDecoder
+ {
+ self = [super initWithCoder:aDecoder];
+ if (self)
+ {
+ //Add update manager notifications to handle UI feedback
+ [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSurveyManagerDidStartUpdate) name:PRSurveyManagerDidStartSubmittingSurveyNotification object:nil];
+ [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSurveyManagerDidEndUpdate) name:PRSurveyManagerDidFinishSubmittingAllSurveysNotification object:nil];
+ [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSurveyManagerDidStopUpdating) name:PRSurveyMAnagerDidStopNotification object:nil];
+ }
+ return self;
+ }
+ 
+ - (void) onSurveyManagerDidStartUpdate
+ {
+ [self.activityIndicator startAnimating];
+ }
+ 
+ - (void) onSurveyManagerDidEndUpdate
+ {
+ [self.activityIndicator stopAnimating];
+ }
+ 
+ - (void) onSurveyManagerDidStopUpdating
+ {
+ [self.activityIndicator stopAnimating];
+ }
+ 
+ - (IBAction)onShowPopup:(id)sender
+ {
+ if (self.popOver != nil)
+ {
+ [self.popOver dismissPopoverAnimated:NO];
+ }
+ 
+ PRSurveyUploadsViewController *surveyList = [[PRSurveyUploadsViewController alloc] initWithNibName:nil bundle:nil];
+ 
+ surveyList.contentSizeForViewInPopover = surveyList.view.size;
+ 
+ UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:surveyList];
+ 
+ self.popOver = popover;
+ 
+ [self.popOver presentPopoverFromRect:self.bounds inView:self permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+ }
+ 
+ - (void) dealloc
+ {
+ [[NSNotificationCenter defaultCenter] removeObserver:self];
  }
  */
 
 @end
+

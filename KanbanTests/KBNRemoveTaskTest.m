@@ -33,7 +33,6 @@
 ///test that we can logical remove tasks
 ///we create a task, we remove it and then we prove that is actually removed
 - (void)testRemoveTask {
-    
   
     XCTestExpectation *expectation = [self expectationWithDescription:@"settings for testRemoveTask "];
     NSDate *currDate = [NSDate date];

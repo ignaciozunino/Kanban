@@ -64,6 +64,32 @@
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
     
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", PARSE_TASK_ORDER_COLUMN, @"order",nil];
+    
+    [self.afManager GET:PARSE_TASKS
+             parameters:params
+                success:^(AFHTTPRequestOperation *operation, id responseObject){
+                    onCompletion(responseObject);
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    onError(error);
+                }];
+}
+
+- (void)getTasksUpdatedForProject:(NSString*)projectId fromDate:(NSString*)lastModifiedDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+    NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:2];
+    NSMutableDictionary *whereGT = [NSMutableDictionary dictionaryWithCapacity:1];
+ 
+    NSMutableDictionary *whereDate = [NSMutableDictionary dictionaryWithCapacity:2];
+    [whereDate setObject:@"Date" forKey:@"__type"];
+    [whereDate setObject:lastModifiedDate forKey:@"iso"];
+    
+    [whereGT setObject:whereDate forKey:@"$gt"];
+    
+    [where setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
+    [where setObject:whereGT forKey:PARSE_TASK_UPDATED_COLUMN];
+
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:where, @"where", PARSE_TASK_ORDER_COLUMN, @"order",nil];
     
     [self.afManager GET:PARSE_TASKS
