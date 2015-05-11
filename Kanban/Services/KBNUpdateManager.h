@@ -16,6 +16,8 @@
 #import "KBNUpdateUtils.h"
 
 #define KBNProjectsUpdated @"KBNProjectsUpdated"
+#define KBNProjectsInitialUpdate @"KBNProjectsInitialUpdate"
+#define KBNTasksInitialUpdate @"KBNTasksInitialUpdate"
 #define KBNTasksUpdated @"KBNTasksUpdated"
 #define KBNCurrentProjectUpdated @"KBNCurrentProjectUpdated"
 

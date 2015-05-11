@@ -46,7 +46,7 @@
                                                 onSuccessBlock:^(NSArray *records) {
                                                     
                                                     self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
-                                                    [self postNotification:KBNProjectsUpdated withObject:records];
+                                                    [self postNotification:KBNProjectsInitialUpdate withObject:records];
                                                     self.shouldUpdateProjects = YES;
                                                     self.projectTimer = [NSTimer scheduledTimerWithTimeInterval:KBNTimeBetweenUpdates
                                                                                                          target:self
@@ -66,7 +66,7 @@
     [self.tasksService getTasksForProject:project.projectId
                                         completionBlock:^(NSDictionary *records) {
                                             
-                                            [self postNotification:KBNTasksUpdated withObject:[records objectForKey:@"results"]];
+                                            [self postNotification:KBNTasksInitialUpdate withObject:[records objectForKey:@"results"]];
                                             self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
                                             self.shouldUpdateTasks = YES;
                                             self.taskTimer =  [NSTimer scheduledTimerWithTimeInterval:KBNTimeBetweenUpdates

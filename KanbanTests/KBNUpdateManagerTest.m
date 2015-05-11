@@ -56,22 +56,22 @@
 -(void)onProjectsUpdate:(NSNotification *)noti{
     NSArray *projects = (NSArray*)noti.object;
     BOOL projectFound = NO;
-    if(projects.count>0){
-        for (KBNProject *project in projects) {
-            if ([project.name isEqualToString:ProjectTest]){
-                projectFound = YES;
-                break;
-            }
+    
+    for (KBNProject *project in projects) {
+        if ([project.name isEqualToString:ProjectTest]){
+            projectFound = YES;
+            break;
         }
-        if (projectFound) {
-            XCTAssertTrue(true);
-            
-        }else{
-            XCTFail();
-        }
-        [self.expectation fulfill];
-        [self.um stopUpdatingProjects];
     }
+    if (projectFound) {
+        XCTAssertTrue(true);
+        
+    }else{
+        XCTFail();
+    }
+    [self.expectation fulfill];
+    [self.um stopUpdatingProjects];
+    
 }
 
 @end

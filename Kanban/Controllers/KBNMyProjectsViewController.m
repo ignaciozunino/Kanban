@@ -29,6 +29,7 @@
 
 - (void)listenUpdateManager {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsInitialUpdate object:nil];
     [[KBNUpdateManager sharedInstance] startUpdatingProjects];
 }
 

@@ -71,6 +71,7 @@
 }
 
 - (void)listenUpdateManager {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksInitialUpdate object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksUpdated object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
     [[KBNUpdateManager sharedInstance] startUpdatingTasksForProject:self.project];
