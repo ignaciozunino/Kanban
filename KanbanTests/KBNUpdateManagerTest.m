@@ -62,10 +62,9 @@
             
             [self.expectation fulfill];
             
-            break;
+            return;
         }
     }
-   
     XCTFail();
     
     [self.expectation fulfill];
