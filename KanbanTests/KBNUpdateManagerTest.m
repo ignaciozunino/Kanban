@@ -15,6 +15,7 @@
 #define ProjectTest @"TestProject"
 @interface KBNUpdateManagerTest : XCTestCase
 @property XCTestExpectation *expectation;
+@property  KBNUpdateManager* um ;
 @end
 
 @implementation KBNUpdateManagerTest
@@ -33,13 +34,12 @@
     self.expectation = [self expectationWithDescription:@"testRealTime ok"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
-    KBNUpdateManager* um = [[KBNUpdateManager alloc]init];
+    self.um= [[KBNUpdateManager alloc]init];
     
     
     KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
     serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
-    um.projectService = serviceOrig;
-    [um startUpdatingProjects];
+    self.um.projectService = serviceOrig;
     [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser: [KBNUserUtils getUsername]
                completionBlock:^{
                }
@@ -47,6 +47,8 @@
                         XCTFail();
                         [self.expectation fulfill];
                     }];
+    [self.um startUpdatingProjects];
+    
     [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
     }];
 }
@@ -54,20 +56,22 @@
 -(void)onProjectsUpdate:(NSNotification *)noti{
     NSArray *projects = (NSArray*)noti.object;
     BOOL projectFound = NO;
-    for (KBNProject *project in projects) {
-        if ([project.name isEqualToString:ProjectTest]){
-            projectFound = YES;
-            break;
+    if(projects.count>0){
+        for (KBNProject *project in projects) {
+            if ([project.name isEqualToString:ProjectTest]){
+                projectFound = YES;
+                break;
+            }
         }
+        if (projectFound) {
+            XCTAssertTrue(true);
+            
+        }else{
+            XCTFail();
+        }
+        [self.expectation fulfill];
+        [self.um stopUpdatingProjects];
     }
-    if (projectFound) {
-        XCTAssertTrue(true);
-
-    }else{
-       XCTFail();
-    }
-    [self.expectation fulfill];
-    [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
 }
 
 @end
