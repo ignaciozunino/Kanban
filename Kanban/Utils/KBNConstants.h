@@ -46,6 +46,8 @@
 #define CREATING_TASK_OFFLINE_ERROR @"The connection to the server has timed out"
 #define CREATING_TASK_TASKLIST_FULL @"The task list cannot hold any more items"
 #define EDIT_PROJECT_WITHOUTNAME_ERROR @"Project must have a name"
+#define USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
+
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
 #define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"
