@@ -21,7 +21,7 @@
 #define KBNTasksUpdated @"KBNTasksUpdated"
 #define KBNCurrentProjectUpdated @"KBNCurrentProjectUpdated"
 
-#define KBNTimeBetweenUpdates 2.0
+#define KBNTimeBetweenUpdates 20.0
 
 @interface KBNUpdateManager : NSObject
 

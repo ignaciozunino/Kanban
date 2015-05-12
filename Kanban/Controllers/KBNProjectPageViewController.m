@@ -109,6 +109,7 @@
 - (void)getProjectTasks:(NSNotification *)noti {
     
     [KBNUpdateUtils updateExistingTasksFromDictionary:(NSDictionary*)noti.object inArray:self.projectTasks forProject:self.project];
+    [self buildDetailViewControllers];
     [self createPageViewController];
     
 }
