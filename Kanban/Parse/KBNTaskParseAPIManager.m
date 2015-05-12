@@ -7,6 +7,9 @@
 //
 
 #import "KBNTaskParseAPIManager.h"
+#import "KBNTask.h"
+#import "KBNTaskList.h"
+#import "KBNProject.h"
 
 @implementation KBNTaskParseAPIManager
 
@@ -38,24 +41,6 @@
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
                  }
-     ];
-}
-
--(void)moveTask:(NSString *)taskId toList:(NSString *)taskListId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
-    [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
-    
-    NSString *stringURL = [NSString stringWithFormat:@"%@/%@", PARSE_TASKS, taskId];
-    
-    [self.afManager PUT:stringURL
-             parameters:params
-                success:^(AFHTTPRequestOperation *operation, id responseObject){
-                    onCompletion(responseObject);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    onError(error);
-                }
      ];
 }
 
@@ -102,20 +87,26 @@
                 }];
 }
 
-- (void)incrementOrderToTaskIds:(NSArray*)taskIds by:(NSNumber*)amount completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
-    NSMutableDictionary *operation = [NSMutableDictionary dictionaryWithCapacity:1];
-    [operation setObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Increment", @"__op", amount, @"amount", nil]
-                  forKey:PARSE_TASK_ORDER_COLUMN];
+// This method will receive an array of tasks to update
+- (void)updateTasks:(NSArray*)tasks completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     NSMutableArray *requests = [[NSMutableArray alloc] init];
     NSMutableDictionary *record;
     
-    for (NSString *taskId in taskIds) {
+    for (KBNTask *task in tasks) {
+        
+        NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithCapacity:6];
+        [updates setObject:task.name forKey:PARSE_TASK_NAME_COLUMN];
+        [updates setObject:task.taskDescription forKey:PARSE_TASK_DESCRIPTION_COLUMN];
+        [updates setObject:task.taskList.taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+        [updates setObject:task.project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
+        [updates setObject:task.order forKey:PARSE_TASK_ORDER_COLUMN];
+        [updates setObject:[NSNumber numberWithBool:[task.active boolValue]] forKey:PARSE_TASK_ACTIVE_COLUMN];
+
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"PUT" forKey:@"method"];
-        [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", taskId] forKey:@"path"];
-        [record setObject:operation forKey:@"body"];
+        [record setObject:[NSString stringWithFormat:@"/1/classes/Task/%@", task.taskId] forKey:@"path"];
+        [record setObject:updates forKey:@"body"];
         
         [requests addObject:record];
     }
@@ -130,22 +121,43 @@
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
                  }];
-    
 }
 
-
-
--(void)removeTask:(NSString*)taskId onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
-    NSDictionary *params = @{PARSE_TASK_ACTIVE_COLUMN: @NO};
-    NSString * url =[NSString stringWithFormat:@"%@/%@",PARSE_TASKS,taskId];
-    [self.afManager PUT:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        onSuccess();
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        onError(error);
-    }];
+// This method will receive an array of tasks to create
+- (void)createTasks:(NSArray*)tasks
+    completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
+    NSMutableDictionary *record;
+    
+    for (KBNTask *task in tasks) {
+        
+        NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:6];
+        [data setObject:task.name forKey:PARSE_TASK_NAME_COLUMN];
+        [data setObject:task.taskDescription forKey:PARSE_TASK_DESCRIPTION_COLUMN];
+        [data setObject:task.taskList.taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
+        [data setObject:task.project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
+        [data setObject:task.order forKey:PARSE_TASK_ORDER_COLUMN];
+        [data setObject:[NSNumber numberWithBool:@YES] forKey:PARSE_TASK_ACTIVE_COLUMN];
+        
+        record = [NSMutableDictionary dictionaryWithCapacity:3];
+        [record setObject:@"POST" forKey:@"method"];
+        [record setObject:@"/1/classes/Task" forKey:@"path"];
+        [record setObject:data forKey:@"body"];
+        
+        [requests addObject:record];
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
+    
+    [self.afManager POST:PARSE_BATCH
+              parameters:params
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     onCompletion(responseObject);
+                 }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     onError(error);
+                 }];
 }
 
 @end

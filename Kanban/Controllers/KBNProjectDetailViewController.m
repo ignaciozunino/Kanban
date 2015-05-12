@@ -16,12 +16,10 @@
 #define SEGUE_TASK_DETAIL @"taskDetail"
 #define SEGUE_ADD_TASK @"addTask"
 #define TASK_SWIPE_THRESHOLD 50
-#define RegularTitle @"Delete Tasks"
-#define EditingTitle @"Done"
+#define REGULAR_TITLE @"Delete Tasks"
+#define EDITING_TITLE @"Done"
 
 @interface KBNProjectDetailViewController () <UIGestureRecognizerDelegate>
-
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 
@@ -29,17 +27,9 @@
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *doubleTap;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tap;
 
-@property (assign, nonatomic) BOOL cellSelected;
-
-
-@property CGPoint beginPoint, endPoint;
-@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
-@property (strong, nonatomic) KBNTask *selectedTask;
 @end
 
-@implementation KBNProjectDetailViewController{
-    
-}
+@implementation KBNProjectDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,7 +37,7 @@
     
     self.title = self.project.name;
     self.labelState.text = self.taskList.name;
-    [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
+    [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
     [self.editButton sizeToFit];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
@@ -87,10 +77,72 @@
     
 }
 
+#pragma mark - Table View Delegate
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //for now all the task are editable
+    return YES;
+    
+}
+
+- (IBAction)enterEditMode:(id)sender {
+    
+    if ([self.tableView isEditing]) {
+        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
+        [self.tableView setEditing:NO animated:YES];
+        
+        [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+        [self.editButton sizeToFit];
+        
+    }
+    else {
+        [self.editButton setTitle:EDITING_TITLE forState:UIControlStateNormal];
+        [self.editButton sizeToFit];
+        
+        // Turn on edit mode
+        [self.tableView setEditing:YES animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
+        
+        //First remove it from data source
+        [self.taskListTasks removeObjectAtIndex:indexPath.row];
+        
+        // Then ask the service to remove it from the taskList
+        [[KBNTaskService sharedInstance] removeTask:task
+                                    completionBlock:^{
+                                        // Task removed
+                                    } errorBlock:^(NSError *error) {
+                                        // Re-insert task at its original position
+                                        __weak typeof(self) weakself = self;
+                                        [weakself.taskListTasks insertObject:task atIndex:indexPath.row];
+                                        [weakself.tableView reloadData];
+                                        
+                                        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+                                    }];
+        
+        [self.tableView reloadData];
+        
+        // Additional code to configure the Edit Button, if any
+        if (self.taskListTasks.count == 0) {
+            [self.tableView setEditing:NO animated:YES];
+            [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+            [self.editButton sizeToFit];
+        }
+    }
+    
+}
+
 #pragma mark - Gestures Handlers
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
     if ([self.tableView isEditing]) {
         
         // Don't let selections of auto-complete entries fire the
@@ -104,69 +156,204 @@
 // Tap (Long Press) and Swipe to move a task to the previous/next list
 - (IBAction)handleLongPress:(UILongPressGestureRecognizer *)sender {
     
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        _beginPoint = [sender locationInView:self.tableView.superview];
-        _selectedIndexPath = [self indexPathForSender:sender];
-        _selectedTask = [self.taskListTasks objectAtIndex:_selectedIndexPath.row];
+    UIGestureRecognizerState state = sender.state;
+    
+    CGPoint location = [self.longPress locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    
+    static UIView *snapshot = nil;               // A snapshot of the row user is moving.
+    static NSIndexPath *sourceIndexPath = nil;   // Initial index path, where gesture begins.
+    static CGPoint sourceLocation;
+    static KBNTask *selectedTask = nil;
+    
+    if (state == UIGestureRecognizerStateBegan) {
         
-        [self toggleSelectedStatus:sender];
-        [self.delegate toggleScrollStatus];
-    } else if (sender.state == UIGestureRecognizerStateEnded) {
-        _endPoint = [sender locationInView:self.tableView.superview];
-        if (_selectedTask) {
-            if (_endPoint.x > _beginPoint.x + TASK_SWIPE_THRESHOLD) {
+        if (indexPath) {
+            sourceIndexPath = indexPath;
+            sourceLocation = location;
+            selectedTask = [self.taskListTasks objectAtIndex:sourceIndexPath.row];
+            
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            
+            // Take a snapshot of the selected row using helper method.
+            snapshot = [self customSnapshoFromView:cell];
+            
+            // Add the snapshot as subview, centered at cell's center...
+            __block CGPoint center = cell.center;
+            snapshot.center = center;
+            snapshot.alpha = 0.0;
+            [self.tableView addSubview:snapshot];
+            [UIView animateWithDuration:0.25 animations:^{
+                
+                // Offset for gesture location.
+                center.y = location.y;
+                snapshot.center = center;
+                snapshot.transform = CGAffineTransformMakeScale(1.05, 1.05);
+                snapshot.alpha = 0.98;
+                cell.alpha = 0.0;
+                
+            } completion:^(BOOL finished) {
+                
+                cell.hidden = YES;
+                
+            }];
+        }
+        
+    } else if (state == UIGestureRecognizerStateChanged) {
+        CGPoint center = snapshot.center;
+        center.y = location.y;
+        snapshot.center = center;
+        
+        // Is destination valid and is it different from source?
+        if (indexPath && ![indexPath isEqual:sourceIndexPath]) {
+            
+            // ... update data source.
+            [self.taskListTasks exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
+            
+            // ... move the rows.
+            [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
+            
+            // ... and update source so it is in sync with UI changes.
+            sourceIndexPath = indexPath;
+        }
+        
+    } else if (state == UIGestureRecognizerStateEnded) {
+        
+        NSIndexPath *originIndexPath = [NSIndexPath indexPathForRow:[selectedTask.order integerValue] inSection:0];
+        
+        CGPoint endPoint;
+        BOOL swipeDetected = NO;
+        
+        if (sourceIndexPath.row != originIndexPath.row) {
+            
+            [[KBNTaskService sharedInstance] moveTask:selectedTask
+                                               toList:selectedTask.taskList
+                                              inOrder:[NSNumber numberWithUnsignedLong:sourceIndexPath.row]
+                                      completionBlock:^{
+                                          // Tasks reordered within the list
+                                      } errorBlock:^(NSError *error) {
+                                          __weak typeof(self) weakself = self;
+                                          [weakself.taskListTasks removeObject:selectedTask];
+                                          [weakself.taskListTasks insertObject:selectedTask atIndex:originIndexPath.row];
+                                          
+                                          [weakself.tableView reloadData];
+                                          
+                                          [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+                                      }];
+            
+        } else {
+            
+            if (location.x > sourceLocation.x + TASK_SWIPE_THRESHOLD) {
                 // Swipe Right
-                [self.delegate moveToRightTask:_selectedTask from:self];
+                [self.delegate moveToRightTask:selectedTask from:self];
+                
+                // Prepare for animation
                 if (self.pageIndex < self.totalPages -1) {
-                    [self removeTask:_selectedTask];
+                    endPoint = CGPointMake(9999, location.y);
+                    swipeDetected = YES;
                 }
-            } else if (_endPoint.x < _beginPoint.x - TASK_SWIPE_THRESHOLD) {
+            } else if (location.x < sourceLocation.x - TASK_SWIPE_THRESHOLD) {
                 // Swipe Left
-                [self.delegate moveToLeftTask:_selectedTask from:self];
+                [self.delegate moveToLeftTask:selectedTask from:self];
+                
+                // Prepare for animation
                 if (self.pageIndex > 0) {
-                    [self removeTask:_selectedTask];
+                    endPoint = CGPointMake(-9999, location.y);
+                    swipeDetected = YES;
                 }
             }
         }
         
-        [self toggleSelectedStatus:sender];
-        [self.delegate toggleScrollStatus];
+        // Clean up.
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
+        cell.hidden = NO;
+        cell.alpha = 0.0;
+        
+        NSTimeInterval duration;
+        
+        if (swipeDetected) {
+            duration = 2.5;
+        } else {
+            duration = 0.25;
+        }
+        
+        [UIView animateWithDuration:duration animations:^{
+            
+            snapshot.center = CGPointMake(cell.center.x + endPoint.x, cell.center.y);
+            snapshot.transform = CGAffineTransformIdentity;
+            snapshot.alpha = 0.0;
+            cell.alpha = 1.0;
+            
+        } completion:^(BOOL finished) {
+            
+            sourceIndexPath = nil;
+            [snapshot removeFromSuperview];
+            snapshot = nil;
+            
+        }];
     }
 }
 
 // Double Tap to move a task to the next list
 - (IBAction)handleDoubleTap:(UITapGestureRecognizer *)sender {
     
-    NSIndexPath *indexPath = [self indexPathForSender:sender];
-    KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
-    [self.delegate moveToRightTask:task from:self];
-    [self removeTask:task];
-    
+    if (self.pageIndex < self.totalPages -1) {
+        
+        CGPoint location = [self.doubleTap locationInView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+        
+        //Prepare for animation
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        // Take a snapshot of the selected row using helper method.
+        UIView *snapshot = [self customSnapshoFromView:cell];
+        
+        // Add the snapshot as subview, centered at cell's center...
+        __block CGPoint center = cell.center;
+        snapshot.center = center;
+        [self.tableView addSubview:snapshot];
+        
+        // Move the task to the next list
+        KBNTask *task = [self.taskListTasks objectAtIndex:indexPath.row];
+        [self.delegate moveToRightTask:task from:self];
+        
+        // Animate the movement
+        [UIView animateWithDuration:2.5 animations:^{
+            snapshot.center = CGPointMake(9999, cell.center.y);
+        } completion:^(BOOL finished) {
+            [snapshot removeFromSuperview];
+        }];
+    }
 }
 
 // Tap to display task details
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender {
     
-    if (self.cellSelected) {
-        [self toggleSelectedStatus:sender];
-    } else {
-        
-        [self performSegueWithIdentifier:SEGUE_TASK_DETAIL sender:sender];
-        [self.tableView deselectRowAtIndexPath:[self indexPathForSender:sender] animated:YES];
-    }
+    [self performSegueWithIdentifier:SEGUE_TASK_DETAIL sender:sender];
+    [self.tableView deselectRowAtIndexPath:[self indexPathForSender:sender] animated:YES];
+    
 }
 
 #pragma mark - Helper methods
 
-- (void)toggleSelectedStatus:(UIGestureRecognizer *)sender {
+// Returns a customized snapshot of a given view
+- (UIView *)customSnapshoFromView:(UIView *)inputView {
     
-    if (self.cellSelected) {
-        [self.tableView deselectRowAtIndexPath:[self indexPathForSender:sender] animated:NO];
-    } else {
-        [self.tableView selectRowAtIndexPath:[self indexPathForSender:sender] animated:NO scrollPosition:UITableViewScrollPositionNone];
-    }
+    // Make an image from the input view
+    UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, NO, 0);
+    [inputView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     
-    self.cellSelected = !self.cellSelected;
+    // Create an image view
+    UIView *snapshot = [[UIImageView alloc] initWithImage:image];
+    snapshot.layer.masksToBounds = NO;
+    snapshot.layer.cornerRadius = 0.0;
+    snapshot.layer.shadowOffset = CGSizeMake(-5.0, 0.0);
+    snapshot.layer.shadowRadius = 5.0;
+    snapshot.layer.shadowOpacity = 0.4;
+    
+    return snapshot;
 }
 
 - (NSIndexPath *)indexPathForSender:(UIGestureRecognizer *)sender {
@@ -175,38 +362,10 @@
     return [self.tableView indexPathForRowAtPoint:point];
 }
 
-// Removes task from the the current list array when it´s moved to another list and reload data
-- (void)removeTask:(KBNTask*)task {
-    
-    // Get the index of the task to be removed
-    NSUInteger index = [self.taskListTasks indexOfObject:task];
-    
-    // Remove the task from the list
-    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.taskListTasks];
-    [temp removeObject:task];
-    self.taskListTasks = temp;
-    
-    [self.tableView reloadData];
-    
-    // Compress orders in the taskList
-    NSMutableArray* tasksToBeUpdated = [[NSMutableArray alloc] init];
-    for (int i = (int)index; i < self.taskListTasks.count; i++) {
-        [tasksToBeUpdated addObject:[self.taskListTasks[i] taskId]];
-    }
-    [[KBNTaskService sharedInstance] incrementOrderToTaskIds:tasksToBeUpdated by:[NSNumber numberWithInt:-1] completionBlock:^{
-        //
-    } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-    }];
-}
-
 #pragma mark - Add Task View Controller delegate
 
 -(void)didCreateTask:(KBNTask *)task {
-    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.taskListTasks];
-    [temp addObject:task];
-    self.taskListTasks = temp;
-    [self.delegate didCreateTask:task];
+    [self.taskListTasks addObject:task];
 }
 
 - (NSNumber*)nextOrderNumber {
@@ -231,11 +390,10 @@
         if ([[KBNTaskListService sharedInstance] hasCountLimitBeenReached:self.taskList]){
             [KBNAlertUtils showAlertView:CREATING_TASK_TASKLIST_FULL andType:ERROR_ALERT];
         } else {
-        [self goToAddTaskScreen:[segue destinationViewController]];
+            [self goToAddTaskScreen:[segue destinationViewController]];
         }
     }
 }
-
 
 -(void)goToAddTaskScreen:(UINavigationController*)navController{
     KBNAddTaskViewController *addTaskViewController = (KBNAddTaskViewController*)navController.topViewController;
@@ -247,63 +405,4 @@
     addTaskViewController.delegate = self;
 }
 
-#pragma mark - TableView edit
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //for now all the task are editable
-    return YES;
-    
-}
-
-- (IBAction)enterEditMode:(id)sender {
-    
-    if ([self.tableView isEditing]) {
-        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
-        [self.tableView setEditing:NO animated:YES];
-        
-        [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
-        [self.editButton sizeToFit];
-        
-    }
-    else {
-        [self.editButton setTitle:EditingTitle forState:UIControlStateNormal];
-        [self.editButton sizeToFit];
-        
-        // Turn on edit mode
-        [self.tableView setEditing:YES animated:YES];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Get the managedObjectContext from the AppDelegate (for use in CoreData Applications)
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [KBNAppDelegate activateActivityIndicator:YES];
-        KBNTask *object = [self.taskListTasks objectAtIndex:indexPath.row];
-        [[KBNTaskService sharedInstance] removeTask:object.taskId onSuccess:^{
-            // Animate the deletion
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
-                [self removeTask:object];
-                [KBNAppDelegate activateActivityIndicator:NO];
-            });
-        } failure:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-            [KBNAppDelegate activateActivityIndicator:NO];
-        }];
-        
-        
-        // Additional code to configure the Edit Button, if any
-        if (self.taskListTasks.count == 0) {
-            [self.tableView setEditing:NO animated:YES];
-            [self.editButton setTitle:RegularTitle forState:UIControlStateNormal];
-            [self.editButton sizeToFit];
-        }
-    }
-    
-}
 @end

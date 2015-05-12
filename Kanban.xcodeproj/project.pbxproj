@@ -25,7 +25,6 @@
 		3A0CCD381AEFC1780039F629 /* KBNUserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD331AEFC1780039F629 /* KBNUserUtils.m */; };
 		3A0CCD391AEFC1780039F629 /* UIFont+CustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD351AEFC1780039F629 /* UIFont+CustomFonts.m */; };
 		3A0CCD3C1AEFD2740039F629 /* KBNTaskUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD3B1AEFD2740039F629 /* KBNTaskUtils.m */; };
-		3A0CCD421AEFEDCC0039F629 /* KBNTaskServiceOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD411AEFEDCC0039F629 /* KBNTaskServiceOld.m */; };
 		3A312A9C1AEE8408005837A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9A1AEE8408005837A5 /* Main.storyboard */; };
 		3A312A9D1AEE8408005837A5 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9B1AEE8408005837A5 /* Signin.storyboard */; };
 		3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */; };
@@ -42,8 +41,9 @@
 		3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */; };
 		3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */; };
 		3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */; };
+		3A6B09631B0244E200C75EF3 /* KBNEditProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */; };
 		3A9509A21AF7C5AD00849FF0 /* KBNProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A11AF7C5AD00849FF0 /* KBNProject.m */; };
-		541A5EB41AF144E300C571CC /* KBNEditProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 541A5EB31AF144E300C571CC /* KBNEditProjectViewController.m */; };
+		3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */; };
 		541A5EB61AF144FC00C571CC /* KBNEditProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */; };
 		543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */; };
 		54505C531AFD3BA3000A30B8 /* KBNUpdateManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */; };
@@ -115,8 +115,6 @@
 		3A0CCD351AEFC1780039F629 /* UIFont+CustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+CustomFonts.m"; path = "Utils/UIFont+CustomFonts.m"; sourceTree = "<group>"; };
 		3A0CCD3A1AEFD2740039F629 /* KBNTaskUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskUtils.h; path = Utils/KBNTaskUtils.h; sourceTree = "<group>"; };
 		3A0CCD3B1AEFD2740039F629 /* KBNTaskUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskUtils.m; path = Utils/KBNTaskUtils.m; sourceTree = "<group>"; };
-		3A0CCD401AEFEDCC0039F629 /* KBNTaskServiceOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskServiceOld.h; path = Services/KBNTaskServiceOld.h; sourceTree = "<group>"; };
-		3A0CCD411AEFEDCC0039F629 /* KBNTaskServiceOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskServiceOld.m; path = Services/KBNTaskServiceOld.m; sourceTree = "<group>"; };
 		3A312A9A1AEE8408005837A5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Storyboards/Main.storyboard; sourceTree = "<group>"; };
 		3A312A9B1AEE8408005837A5 /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Signin.storyboard; path = Storyboards/Signin.storyboard; sourceTree = "<group>"; };
 		3A312A9E1AEE8420005837A5 /* KBNSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSignInViewController.h; path = Controllers/KBNSignInViewController.h; sourceTree = "<group>"; };
@@ -147,10 +145,11 @@
 		3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectPageViewController.m; path = Controllers/KBNProjectPageViewController.m; sourceTree = "<group>"; };
 		3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskDetailViewController.h; path = Controllers/KBNTaskDetailViewController.h; sourceTree = "<group>"; };
 		3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskDetailViewController.m; path = Controllers/KBNTaskDetailViewController.m; sourceTree = "<group>"; };
+		3A6B09611B0244E200C75EF3 /* KBNEditProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNEditProjectViewController.h; path = Controllers/KBNEditProjectViewController.h; sourceTree = "<group>"; };
+		3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNEditProjectViewController.m; path = Controllers/KBNEditProjectViewController.m; sourceTree = "<group>"; };
 		3A9509A01AF7C5AD00849FF0 /* KBNProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProject.h; path = Domain/KBNProject.h; sourceTree = "<group>"; };
 		3A9509A11AF7C5AD00849FF0 /* KBNProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProject.m; path = Domain/KBNProject.m; sourceTree = "<group>"; };
-		541A5EB21AF144E300C571CC /* KBNEditProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNEditProjectViewController.h; sourceTree = "<group>"; };
-		541A5EB31AF144E300C571CC /* KBNEditProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNEditProjectViewController.m; sourceTree = "<group>"; };
+		3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNMoveTaskTest.m; sourceTree = "<group>"; };
 		541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNEditProjectTest.m; sourceTree = "<group>"; };
 		543FFAF51AFBD23C0020AD28 /* KBNInitialSetupTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNInitialSetupTest.h; sourceTree = "<group>"; };
 		543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNInitialSetupTest.m; sourceTree = "<group>"; };
@@ -260,8 +259,6 @@
 			children = (
 				E2AC8A351AF90312008A44B5 /* KBNUpdateManager.h */,
 				E2AC8A361AF90312008A44B5 /* KBNUpdateManager.m */,
-				3A0CCD401AEFEDCC0039F629 /* KBNTaskServiceOld.h */,
-				3A0CCD411AEFEDCC0039F629 /* KBNTaskServiceOld.m */,
 				A0C8A7011AEED4640069E236 /* KBNTaskListService.h */,
 				A0C8A7021AEED4640069E236 /* KBNTaskListService.m */,
 				3A0CCD221AEEB7B50039F629 /* KBNTaskService.h */,
@@ -303,8 +300,8 @@
 		3A4840261AE5435E00C70739 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				541A5EB21AF144E300C571CC /* KBNEditProjectViewController.h */,
-				541A5EB31AF144E300C571CC /* KBNEditProjectViewController.m */,
+				3A6B09611B0244E200C75EF3 /* KBNEditProjectViewController.h */,
+				3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */,
 				3A312A9E1AEE8420005837A5 /* KBNSignInViewController.h */,
 				3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */,
 				3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */,
@@ -374,6 +371,7 @@
 		CCA1A2771ADEA3D900CC98B5 /* KanbanTests */ = {
 			isa = PBXGroup;
 			children = (
+				3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */,
 				CCA1A27A1ADEA3D900CC98B5 /* KBNCreateProjectTests.m */,
 				A079744B1AF023810030696F /* KBNCreateTaskTests.m */,
 				541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */,
@@ -616,6 +614,7 @@
 			files = (
 				3A0CCD381AEFC1780039F629 /* KBNUserUtils.m in Sources */,
 				18CB2DBC1AEAE40700F5F390 /* (null) in Sources */,
+				3A6B09631B0244E200C75EF3 /* KBNEditProjectViewController.m in Sources */,
 				3A312AAE1AEE8473005837A5 /* KBNProjectService.m in Sources */,
 				032EF2921AF0259400F27846 /* KBNErrorUtils.m in Sources */,
 				E2AC8A341AF902D9008A44B5 /* NSDate+Utils.m in Sources */,
@@ -631,7 +630,6 @@
 				E228B8421AEFD65D00753750 /* (null) in Sources */,
 				3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */,
 				187EC9AE1AFD23DB0028E9FE /* KBNUpdateUtils.m in Sources */,
-				3A0CCD421AEFEDCC0039F629 /* KBNTaskServiceOld.m in Sources */,
 				3A312AA81AEE845E005837A5 /* KBNProjectParseAPIManager.m in Sources */,
 				3A0CCD371AEFC1780039F629 /* KBNProjectUtils.m in Sources */,
 				3A9509A21AF7C5AD00849FF0 /* KBNProject.m in Sources */,
@@ -640,7 +638,6 @@
 				CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */,
 				CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */,
 				3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */,
-				541A5EB41AF144E300C571CC /* KBNEditProjectViewController.m in Sources */,
 				3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */,
 				3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */,
 				3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */,
@@ -665,6 +662,7 @@
 				CCA1A27B1ADEA3D900CC98B5 /* KBNCreateProjectTests.m in Sources */,
 				18D88D3F1AEEC4BB00D9BDE1 /* KBNGetProjectsTest.m in Sources */,
 				18368D341AF2647F006557C6 /* KBNRemoveTaskTest.m in Sources */,
+				3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */,
 				18BE0FAD1AEE755500B2B0C2 /* KBNLoginTest.m in Sources */,
 				543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */,
 			);
@@ -775,6 +773,8 @@
 			baseConfigurationReference = C8E27ED1C549693279A34999 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -792,6 +792,8 @@
 			baseConfigurationReference = 26271C345D16C540A1C1CE66 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

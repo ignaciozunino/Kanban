@@ -10,6 +10,10 @@
 #import <XCTest/XCTest.h>
 #import <UIKit/UIKit.h>
 #import "KBNTaskService.h"
+#import "KBNTaskUtils.h"
+#import "KBNTaskListUtils.h"
+#import "KBNProjectUtils.h"
+
 @interface KBNRemoveTaskTest : XCTestCase
 
 @end
@@ -40,16 +44,16 @@
     [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
     NSString *dateString = [dateFormatter stringFromDate:currDate];
     
-    //we put the date in the name so we always have diferent project,tasklist and service
+    //we put the date in the name so we always have different project, tasklist and service
     NSString * project = [NSString stringWithFormat:@"test_project_%@",dateString];
     NSString * tasklist = [NSString stringWithFormat:@"test_task_List%@",dateString];
     NSString * taskDesc = [NSString stringWithFormat:@"testing remove on:%@",dateString];
     NSString * taskName = [NSString stringWithFormat:@"Task%@",dateString];
-    NSNumber * order = [NSNumber numberWithInt:51];
     
     //*************************Preparation to the test ***************************
     //first we create a project to be sure we have at least one project to bring
     KBNProject* projectObj = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    projectObj.projectId = project;
     
     KBNTaskList* taskListObj = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK_LIST inManagedObjectContext:[self managedObjectContext]];
     taskListObj.taskListId = tasklist;
@@ -60,7 +64,7 @@
     service.dataService =[[KBNTaskParseAPIManager alloc]init];
     __block NSString* taskId;
     
-    //first we creaTE THE TASK
+    //first we create the task
     KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
     addTask.name = taskName;
     addTask.taskDescription = taskDesc;
@@ -92,10 +96,23 @@
     }];
     
     ////************************the test itself**********************************************
-    XCTestExpectation *finalexpectation = [self expectationWithDescription:@"testRemoveTask  completed"];
+    XCTestExpectation *finalexpectation = [self expectationWithDescription:@"testRemoveTask completed"];
+    
+    // Create a task object to pass to the remove method
+    KBNProject *testProject = projectObj;
+    KBNTaskList *testTaskList = taskListObj;
+    
+    KBNTask *task = [KBNTaskUtils taskForProject:testProject
+                                        taskList:testTaskList
+                                          params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                  taskId, PARSE_OBJECTID,
+                                                  taskName, PARSE_TASK_NAME_COLUMN,
+                                                  taskDesc, PARSE_TASK_DESCRIPTION_COLUMN,
+                                                  @0, PARSE_TASKLIST_ORDER_COLUMN,
+                                                  [NSNumber numberWithBool:@YES], PARSE_TASK_ACTIVE_COLUMN, nil]];
+    
     //we actually remove the task
-    [service removeTask:taskId onSuccess:^{
-        //we verify that was removed
+    [service removeTask:task completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
             if (records.count==0) {//we bring no recors error geting the task
                 XCTAssertTrue(false);
@@ -117,10 +134,13 @@
             [finalexpectation fulfill];
             
         }];
-    } failure:^(NSError *error) {
+        
+    } errorBlock:^(NSError *error) {
         XCTAssertTrue(false);
         [finalexpectation fulfill];
+        
     }];
+    
     [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
     }];
 }
