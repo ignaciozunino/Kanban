@@ -19,6 +19,8 @@
 
 - (void)updateTasks:(NSArray*)tasks completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
+- (void)getTasksUpdatedForProject:(NSString*)projectId fromDate:(NSString*)lastModifiedDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
 - (void)createTasks:(NSArray*)tasks completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 @end

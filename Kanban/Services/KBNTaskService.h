@@ -28,6 +28,8 @@
 
 - (void) moveTask:(KBNTask *)task toList:(KBNTaskList*)destinationList inOrder:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
+- (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
 - (void)createTasks:(NSArray*)tasks completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 @end

@@ -73,6 +73,8 @@
 #define PARSE_TASK_TASK_LIST_COLUMN @"taskList"
 #define PARSE_TASK_ORDER_COLUMN @"order"
 #define PARSE_TASK_ACTIVE_COLUMN @"active"
+#define PARSE_TASK_UPDATED_COLUMN @"updatedAt"
+
 
 #define PARSE_USER_NAME_COLUMN @"username"
 

@@ -121,4 +121,37 @@
                     onError(error);
                 }];
 }
+- (void)getProjectsFromUsername:(NSString*) username updatedAfter:(NSString*) lastUpdate onSuccessBlock:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError{
+    
+    NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:2];
+    NSMutableDictionary *whereGT = [NSMutableDictionary dictionaryWithCapacity:1];
+    
+    NSMutableDictionary *whereDate = [NSMutableDictionary dictionaryWithCapacity:2];
+    [whereDate setObject:@"Date" forKey:@"__type"];
+    [whereDate setObject:lastUpdate forKey:@"iso"];
+    
+    [whereGT setObject:whereDate forKey:@"$gt"];
+    
+    
+    [where setObject:whereGT forKey:PARSE_TASK_UPDATED_COLUMN];
+  
+    [where setObject:username forKey:PARSE_PROJECT_USER_COLUMN];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:2];
+    [params setObject:@"-createdAt" forKey:@"order"];
+    [params setObject:where forKey:@"where"];
+    
+    [self.afManager GET:PARSE_PROJECTS
+             parameters:params
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    NSDictionary *projectList = [responseObject objectForKey:@"results"];
+                    
+                    onSuccess(projectList);
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    onError(error);
+                }];
+
+
+}
 @end
