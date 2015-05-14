@@ -34,7 +34,6 @@
 - (void)loadProjectAttributes {
     self.nameTextField.text = self.project.name;
     self.descriptionTextField.text = self.project.projectDescription;
-    self.projectId = self.project.projectId;
 }
 
 #pragma mark - IBActions
@@ -43,16 +42,23 @@
     [self.view endEditing:YES];
 }
 
+- (IBAction)onCancelPressed:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
 - (IBAction)onSavePressed:(id)sender {
     [KBNAppDelegate activateActivityIndicator:YES];
-    [[KBNProjectService sharedInstance] editProject:self.projectId withNewName:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
+    [[KBNProjectService sharedInstance] editProject:self.project.projectId withNewName:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_EDIT_SUCCESS andType:SUCCESS_ALERT];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
 
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 

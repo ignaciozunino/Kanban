@@ -41,13 +41,15 @@
 
 - (IBAction)save:(UIBarButtonItem *)sender {
     [KBNAppDelegate activateActivityIndicator:YES];
+    __weak typeof(self) weakself = self;
     [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text forUser:[KBNUserUtils getUsername] completionBlock:^{
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCESS andType:SUCCESS_ALERT];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 

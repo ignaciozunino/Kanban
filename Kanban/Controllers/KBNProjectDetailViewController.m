@@ -9,19 +9,25 @@
 #import "KBNProjectDetailViewController.h"
 #import "KBNAppDelegate.h"
 #import "KBNTaskDetailViewController.h"
+#import "KBNEditProjectViewController.h"
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
 #define SEGUE_ADD_TASK @"addTask"
+#define SEGUE_EDIT_PROJECT @"editProject"
 #define TASK_SWIPE_THRESHOLD 50
-#define REGULAR_TITLE @"Delete Tasks"
+#define REGULAR_TITLE @"Delete"
 #define EDITING_TITLE @"Done"
+
+#define TASK_ROW_HEIGHT 80
 
 @interface KBNProjectDetailViewController () <UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *editButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
+
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 
 @property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *longPress;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *doubleTap;
@@ -37,18 +43,30 @@
     
     self.title = self.project.name;
     self.labelState.text = self.taskList.name;
-    [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
-    [self.editButton sizeToFit];
+    [self.deleteButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+    [self.deleteButton sizeToFit];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
     self.tap.delegate = self;
     self.doubleTap.delegate=self;
     self.longPress.delegate = self;
+    
+    [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
     [self.tableView reloadData];
+    
+    if (!self.taskListTasks.count) {
+        [self.deleteButton setHidden:YES];
+        [self.deleteButton setEnabled:NO];
+    } else {
+        [self.deleteButton setHidden:NO];
+        [self.deleteButton setEnabled:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,13 +110,13 @@
         // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
         [self.tableView setEditing:NO animated:YES];
         
-        [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
-        [self.editButton sizeToFit];
+        [self.deleteButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+        [self.deleteButton sizeToFit];
         
     }
     else {
-        [self.editButton setTitle:EDITING_TITLE forState:UIControlStateNormal];
-        [self.editButton sizeToFit];
+        [self.deleteButton setTitle:EDITING_TITLE forState:UIControlStateNormal];
+        [self.deleteButton sizeToFit];
         
         // Turn on edit mode
         [self.tableView setEditing:YES animated:YES];
@@ -132,12 +150,36 @@
         // Additional code to configure the Edit Button, if any
         if (self.taskListTasks.count == 0) {
             [self.tableView setEditing:NO animated:YES];
-            [self.editButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
-            [self.editButton sizeToFit];
+            [self.deleteButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
+            [self.deleteButton sizeToFit];
         }
     }
     
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return TASK_ROW_HEIGHT;
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    cell.contentView.backgroundColor = [UIColor clearColor];
+    CGRect frame = cell.frame;
+    frame.origin = CGPointMake(8, 8);
+    frame.size.height = cell.frame.size.height - 8;
+    frame.size.width = cell.frame.size.width - 16;
+    UIView *whiteRoundedCornerView = [[UIView alloc] initWithFrame:frame];
+    
+    whiteRoundedCornerView.backgroundColor = [UIColor whiteColor];
+    whiteRoundedCornerView.layer.masksToBounds = NO;
+    whiteRoundedCornerView.layer.cornerRadius = 3.0;
+    whiteRoundedCornerView.layer.shadowOffset = CGSizeMake(-1, 1);
+    whiteRoundedCornerView.layer.shadowOpacity = 0.5;
+    [cell.contentView addSubview:whiteRoundedCornerView];
+    [cell.contentView sendSubviewToBack:whiteRoundedCornerView];
+    
+}
+
 
 #pragma mark - Gestures Handlers
 
@@ -392,7 +434,12 @@
         } else {
             [self goToAddTaskScreen:[segue destinationViewController]];
         }
+    } else if ([segue.identifier isEqualToString:SEGUE_EDIT_PROJECT]) {
+        UINavigationController *navController = [segue destinationViewController];
+        KBNEditProjectViewController *editProjectViewController = (KBNEditProjectViewController*) navController.topViewController;
+        editProjectViewController.project = self.project;
     }
+
 }
 
 -(void)goToAddTaskScreen:(UINavigationController*)navController{

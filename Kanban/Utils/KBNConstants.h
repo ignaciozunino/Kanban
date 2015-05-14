@@ -95,6 +95,13 @@ typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
 //Colors
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
+#define GREEN_GLOBANT 0xb6cf48
+#define LIGHT_GRAY 0xefeff0
+#define LIGHT_RED 0xff6060
+#define LIGHT_BLUE 0x2f9dc4
+#define DARK_BLUE 0x125066
+#define DEFAULT_BLUE 0x007AFF
+
 @interface KBNConstants : NSObject
 
 @end
