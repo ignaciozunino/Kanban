@@ -9,7 +9,6 @@
 #import "KBNProjectDetailViewController.h"
 #import "KBNAppDelegate.h"
 #import "KBNTaskDetailViewController.h"
-#import "KBNEditProjectViewController.h"
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
 
@@ -24,8 +23,6 @@
 #define TASK_ROW_HEIGHT 80
 
 @interface KBNProjectDetailViewController () <UIGestureRecognizerDelegate>
-
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 
@@ -52,7 +49,6 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -423,6 +419,7 @@
     
     if ([[segue identifier] isEqualToString:SEGUE_TASK_DETAIL]) {
         KBNTaskDetailViewController *taskDetailViewController = [segue destinationViewController];
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
         
         NSIndexPath *indexPath = [self indexPathForSender:sender];
         taskDetailViewController.task = [self.taskListTasks objectAtIndex:indexPath.row];
@@ -434,12 +431,7 @@
         } else {
             [self goToAddTaskScreen:[segue destinationViewController]];
         }
-    } else if ([segue.identifier isEqualToString:SEGUE_EDIT_PROJECT]) {
-        UINavigationController *navController = [segue destinationViewController];
-        KBNEditProjectViewController *editProjectViewController = (KBNEditProjectViewController*) navController.topViewController;
-        editProjectViewController.project = self.project;
     }
-
 }
 
 -(void)goToAddTaskScreen:(UINavigationController*)navController{

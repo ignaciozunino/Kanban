@@ -30,7 +30,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kanban" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
-                    <rect key="frame" x="8" y="104" width="464" height="43"/>
+                    <rect key="frame" x="8" y="91" width="464" height="43"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="43" id="b9Q-6N-p27"/>
                     </constraints>
@@ -41,13 +41,13 @@
                     <size key="shadowOffset" width="2" height="2"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" red="0.69666032639999997" green="0.88522077389999998" blue="0.1846250462" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.71372549019999998" green="0.81176470590000005" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="p9C-tl-4f1" secondAttribute="centerX" id="1HD-QK-HQQ"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="41B-FW-Bed"/>
                 <constraint firstAttribute="trailing" secondItem="kId-c2-rCX" secondAttribute="trailing" constant="8" id="Hzy-tn-qKb"/>
                 <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="PI0-Vi-Cel"/>
-                <constraint firstItem="p9C-tl-4f1" firstAttribute="top" secondItem="kId-c2-rCX" secondAttribute="bottom" constant="17" id="lxt-lO-JYT"/>
+                <constraint firstItem="p9C-tl-4f1" firstAttribute="top" secondItem="kId-c2-rCX" secondAttribute="bottom" constant="30" id="lxt-lO-JYT"/>
                 <constraint firstAttribute="trailing" secondItem="8ie-xW-0ye" secondAttribute="trailing" constant="8" id="o0m-cA-Qe9"/>
                 <constraint firstAttribute="centerY" secondItem="p9C-tl-4f1" secondAttribute="centerY" id="rDg-Rf-0v6"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="uKL-lT-NgT"/>

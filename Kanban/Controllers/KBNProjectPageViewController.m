@@ -7,12 +7,16 @@
 //
 
 #import "KBNProjectPageViewController.h"
+#import "KBNEditProjectViewController.h"
 #import "KBNAppDelegate.h"
 #import "KBNTaskListUtils.h"
 #import "KBNTaskUtils.h"
 #import "KBNAlertUtils.h"
 #import "KBNUpdateManager.h"
 #import "KBNUpdateUtils.h"
+
+#define KBNEDIT_VC @"KBNEditProjectViewController"
+#define KBNEDIT_PROJECT_NAV_CONTROLLER @"KBNEditProjectNavigationController"
 
 @interface KBNProjectPageViewController ()
 
@@ -31,7 +35,9 @@
     
     self.title = self.project.name;
 
-    self.projectTasks = [NSMutableArray new ];
+    self.projectTasks = [NSMutableArray new];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
     
     [self getProjectLists];
 }
@@ -291,6 +297,17 @@
 
 - (void)toggleScrollStatus {
     self.scrollView.scrollEnabled = !self.scrollView.scrollEnabled;
+}
+
+#pragma mark - Navigation
+
+- (void)setupEdit {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    KBNEditProjectViewController *editProjectViewController = [storyboard instantiateViewControllerWithIdentifier:KBNEDIT_VC];
+    editProjectViewController.project = self.project;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editProjectViewController];
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
 @end

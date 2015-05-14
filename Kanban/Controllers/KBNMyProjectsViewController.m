@@ -140,6 +140,8 @@
     
     if ([segue.identifier isEqualToString:SEGUE_PROJECT_DETAIL]) {
         KBNProjectPageViewController *controller = [segue destinationViewController];
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+        
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.project = [self.projects objectAtIndex:indexPath.row];
     }

@@ -138,7 +138,7 @@
         [data setObject:task.taskList.taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
         [data setObject:task.project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
         [data setObject:task.order forKey:PARSE_TASK_ORDER_COLUMN];
-        [data setObject:[NSNumber numberWithBool:@YES] forKey:PARSE_TASK_ACTIVE_COLUMN];
+        [data setObject:@YES forKey:PARSE_TASK_ACTIVE_COLUMN];
         
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"POST" forKey:@"method"];

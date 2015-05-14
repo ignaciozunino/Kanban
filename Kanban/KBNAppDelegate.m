@@ -33,6 +33,7 @@
     UIBarButtonItem *barButtonItem = [UIBarButtonItem appearance];
     [barButtonItem setTintColor:UIColorFromRGB(DEFAULT_BLUE)];
     
+    
     UITableView *tableView = [UITableView appearance];
     [tableView setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
     
