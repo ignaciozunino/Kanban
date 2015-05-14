@@ -18,7 +18,7 @@
 @end
 
 
-@interface KBNAddTaskViewController : UIViewController
+@interface KBNAddTaskViewController : UIViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) KBNTask *addTask;
 

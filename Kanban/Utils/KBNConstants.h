@@ -100,7 +100,8 @@ typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
 #define LIGHT_RED 0xff6060
 #define LIGHT_BLUE 0x2f9dc4
 #define DARK_BLUE 0x125066
-#define DEFAULT_BLUE 0x007AFF
+#define DEFAULT_BLUE 0x007aff
+#define BORDER_GRAY 0xc7c7c7
 
 @interface KBNConstants : NSObject
 

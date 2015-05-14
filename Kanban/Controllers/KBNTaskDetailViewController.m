@@ -7,6 +7,7 @@
 //
 
 #import "KBNTaskDetailViewController.h"
+#import "KBNConstants.h"
 
 @interface KBNTaskDetailViewController ()
 
@@ -23,6 +24,8 @@
     
     self.title = self.task.project.name;
     
+    [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+
     self.labelTaskName.text = self.task.name;
     self.labelTaskDescription.text = self.task.taskDescription;
 }

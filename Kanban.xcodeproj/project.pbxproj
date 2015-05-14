@@ -35,6 +35,7 @@
 		3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AAD1AEE8473005837A5 /* KBNUserService.m */; };
 		3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC31AEE8BEF005837A5 /* KBNTask.m */; };
 		3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC61AEE8BEF005837A5 /* KBNTaskList.m */; };
+		3A427E611B04F88900348F24 /* UITextView+Border.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A427E601B04F88900348F24 /* UITextView+Border.m */; };
 		3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */; };
 		3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */; };
 		3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */; };
@@ -133,6 +134,8 @@
 		3A312AC31AEE8BEF005837A5 /* KBNTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTask.m; path = Domain/KBNTask.m; sourceTree = "<group>"; };
 		3A312AC51AEE8BEF005837A5 /* KBNTaskList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskList.h; path = Domain/KBNTaskList.h; sourceTree = "<group>"; };
 		3A312AC61AEE8BEF005837A5 /* KBNTaskList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskList.m; path = Domain/KBNTaskList.m; sourceTree = "<group>"; };
+		3A427E5F1B04F88900348F24 /* UITextView+Border.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextView+Border.h"; path = "Utils/UITextView+Border.h"; sourceTree = "<group>"; };
+		3A427E601B04F88900348F24 /* UITextView+Border.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextView+Border.m"; path = "Utils/UITextView+Border.m"; sourceTree = "<group>"; };
 		3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddProjectViewController.h; path = Controllers/KBNAddProjectViewController.h; sourceTree = "<group>"; };
 		3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAddProjectViewController.m; path = Controllers/KBNAddProjectViewController.m; sourceTree = "<group>"; };
 		3A4840471AE545CA00C70739 /* KBNAddTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddTaskViewController.h; path = Controllers/KBNAddTaskViewController.h; sourceTree = "<group>"; };
@@ -416,6 +419,8 @@
 				032EF2911AF0259400F27846 /* KBNErrorUtils.m */,
 				187EC9AC1AFD23DB0028E9FE /* KBNUpdateUtils.h */,
 				187EC9AD1AFD23DB0028E9FE /* KBNUpdateUtils.m */,
+				3A427E5F1B04F88900348F24 /* UITextView+Border.h */,
+				3A427E601B04F88900348F24 /* UITextView+Border.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -645,6 +650,7 @@
 				3A0CCD261AEEB7B50039F629 /* KBNTaskService.m in Sources */,
 				3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */,
 				3A0CCD391AEFC1780039F629 /* UIFont+CustomFonts.m in Sources */,
+				3A427E611B04F88900348F24 /* UITextView+Border.m in Sources */,
 				3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */,
 				3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */,
 				3A0CCD361AEFC1780039F629 /* KBNAlertUtils.m in Sources */,

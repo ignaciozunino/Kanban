@@ -7,12 +7,14 @@
 //
 
 #import "KBNEditProjectViewController.h"
+#import "UITextView+Border.h"
+
 #define TABLEVIEW_TASKLIST_CELL @"stateCell"
 
 @interface KBNEditProjectViewController()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 
 @end
 
@@ -22,6 +24,10 @@
     [super viewDidLoad];
     [self loadProjectAttributes];
     self.navigationItem.title = @"Edit Project";
+    
+    [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,7 +39,7 @@
 
 - (void)loadProjectAttributes {
     self.nameTextField.text = self.project.name;
-    self.descriptionTextField.text = self.project.projectDescription;
+    self.descriptionTextView.text = self.project.projectDescription;
 }
 
 #pragma mark - IBActions
@@ -50,7 +56,7 @@
 
 - (IBAction)onSavePressed:(id)sender {
     [KBNAppDelegate activateActivityIndicator:YES];
-    [[KBNProjectService sharedInstance] editProject:self.project.projectId withNewName:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
+    [[KBNProjectService sharedInstance] editProject:self.project.projectId withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_EDIT_SUCCESS andType:SUCCESS_ALERT];
         [self dismissViewControllerAnimated:YES completion:nil];
