@@ -48,6 +48,8 @@
     [[KBNProjectService sharedInstance] editProject:self.projectId withNewName:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_EDIT_SUCCESS andType:SUCCESS_ALERT];
+        self.project.name=self.nameTextField.text;
+        self.project.projectDescription = self.descriptionTextField.text;
         [self.navigationController popViewControllerAnimated:YES];
 
     } errorBlock:^(NSError *error) {
