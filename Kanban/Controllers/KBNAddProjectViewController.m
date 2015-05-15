@@ -7,7 +7,7 @@
 //
 
 #import "KBNAddProjectViewController.h"
-#import "UITextView+Border.h"
+#import "UITextView+CustomTextView.h"
 
 @interface KBNAddProjectViewController ()
 

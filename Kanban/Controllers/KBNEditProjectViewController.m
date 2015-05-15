@@ -7,7 +7,7 @@
 //
 
 #import "KBNEditProjectViewController.h"
-#import "UITextView+Border.h"
+#import "UITextView+CustomTextView.h"
 
 #define TABLEVIEW_TASKLIST_CELL @"stateCell"
 

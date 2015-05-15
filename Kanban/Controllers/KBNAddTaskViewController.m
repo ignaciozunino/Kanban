@@ -10,7 +10,7 @@
 #import "KBNConstants.h"
 #import "KBNAlertUtils.h"
 #import "KBNTaskService.h"
-#import "UITextView+Border.h"
+#import "UITextView+CustomTextView.h"
 
 @interface KBNAddTaskViewController ()
 
@@ -27,7 +27,7 @@
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
     [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
-
+    
 }
 
 - (void)didReceiveMemoryWarning {

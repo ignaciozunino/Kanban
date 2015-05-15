@@ -1,14 +1,14 @@
 //
-//  UITextView+Border.m
-//  MyMoviesApp
+//  UITextView+CustomTextView.m
+//  Kanban
 //
-//  Created by Marcelo Dessal on 3/11/15.
-//  Copyright (c) 2015 Marcelo Dessal. All rights reserved.
+//  Created by Marcelo Dessal on 5/15/15.
+//  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#import "UITextView+Border.h"
+#import "UITextView+CustomTextView.h"
 
-@implementation UITextView (Border)
+@implementation UITextView (CustomTextView)
 
 - (void)setBorder {
     self.layer.borderWidth = 0.5f;
@@ -20,5 +20,7 @@
     [self setBorder];
     self.layer.borderColor = color;
 }
+
+
 
 @end
