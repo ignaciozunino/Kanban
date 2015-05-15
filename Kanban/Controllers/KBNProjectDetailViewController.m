@@ -49,6 +49,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    self.title = self.project.name;
 }
 
 - (void)didReceiveMemoryWarning {
