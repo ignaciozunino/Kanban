@@ -28,6 +28,7 @@
 @property KBNProjectService* projectService;
 @property KBNTaskService * tasksService;
 @property KBNProject * projectForTasksUpdate;
+@property NSString * lastProjectsUpdate;
 
 + (KBNUpdateManager *)sharedInstance;
 -(void)startUpdatingProjects;

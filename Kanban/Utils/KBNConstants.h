@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "KBNProject.h"
 //Parse constants
 #define PARSE_APP_ID        @"2LDJ8L7aB9iO9QTGyG4UxGjUSFxxTCUFxM05nOJx"
 #define PARSE_CLIENT_ID     @"3ChxbtSTeoblQgtu5bNZCw1v6L158u2eGsiYuvrs"
@@ -90,6 +90,7 @@
 typedef void (^KBNConnectionErrorBlock) (NSError *error);
 typedef void (^KBNConnectionSuccessBlock)() ;
 typedef void (^KBNConnectionSuccessArrayBlock) (NSArray *records);
+typedef void (^KBNConnectionSuccessProjectBlock) (KBNProject * project);
 typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
 
 //Colors

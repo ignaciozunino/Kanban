@@ -63,6 +63,8 @@
         [self.deleteButton setHidden:NO];
         [self.deleteButton setEnabled:YES];
     }
+
+    self.title = self.project.name;
 }
 
 - (void)didReceiveMemoryWarning {

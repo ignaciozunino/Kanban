@@ -43,7 +43,7 @@
     [service createProject:name
            withDescription:@"created with automatic test"
                    forUser: [KBNUserUtils getUsername]
-           completionBlock:^{
+           completionBlock:^(KBNProject* aProject){
                ///on the complete block we get all the projects
                
                [service getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
@@ -65,9 +65,6 @@
                XCTAssertTrue(false);
                [expectation fulfill];
            }];
-    
-    
-    
     
     [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
     }];
