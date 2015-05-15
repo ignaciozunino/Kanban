@@ -35,7 +35,7 @@
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
     serviceOrig.dataService = projectAPIManager;
     [serviceOrig createProject:@"" withDescription:OCMOCK_ANY forUser: OCMOCK_ANY
-               completionBlock:^{
+               completionBlock:^(KBNProject* aProject){
          XCTAssertFalse(true);
      }
                     errorBlock:^(NSError *error)
@@ -54,7 +54,7 @@
     [[projectAPIManager stub] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
     serviceOrig.dataService = projectAPIManager;
     [serviceOrig createProject:@"test" withDescription:@"desc" forUser: [KBNUserUtils getUsername]
-               completionBlock:^{
+               completionBlock:^(KBNProject* aProject){
          XCTAssertTrue(true);
      }
                     errorBlock:^(NSError *error)
@@ -97,7 +97,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"testOfflineCreateProject"];
     serviceOrig.dataService = projectAPIManager;
     [serviceOrig createProject:@"test" withDescription:@"desc" forUser: [KBNUserUtils getUsername]
-               completionBlock:^ {
+               completionBlock:^(KBNProject* aProject){
          XCTAssertTrue(false);
          [expectation fulfill];
      }

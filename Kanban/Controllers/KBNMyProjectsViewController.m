@@ -123,7 +123,14 @@
         UINavigationController *navController = [segue destinationViewController];
         KBNAddProjectViewController *controller   = (KBNAddProjectViewController*) navController.topViewController;
         controller.projectService = [KBNProjectService sharedInstance];
+        controller.delegate = self;
     }
 }
 
+#pragma mark - KBNAddProject Delegate
+-(void) didCreateProject:(KBNProject *)project{
+    [self.projects addObject:project];
+    [KBNUpdateManager sharedInstance].lastProjectsUpdate = [NSDate getUTCNowWithParseFormat];
+    [self.tableView reloadData];
+}
 @end

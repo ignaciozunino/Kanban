@@ -11,7 +11,6 @@
 @interface KBNUpdateManager ()
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateTasks;
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateProjects;
-@property NSString * lastProjectsUpdate;
 @property NSString * lastTasksUpdate;
 @property NSTimer * projectTimer;
 @property NSTimer * taskTimer;

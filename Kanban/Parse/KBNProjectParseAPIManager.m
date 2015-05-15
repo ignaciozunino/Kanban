@@ -23,7 +23,7 @@
 #pragma mark - project methods
 
 
-- (void)createTasksListForProject:(id)responseObject tasks:(NSArray *)tasks onError:(KBNConnectionErrorBlock)onError onCompletion:(KBNConnectionSuccessBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
+- (void)createTasksListForProject:(id)responseObject forProject:(KBNProject*) project tasks:(NSArray *)tasks onError:(KBNConnectionErrorBlock)onError onCompletion:(KBNConnectionSuccessProjectBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
     
     __block NSError *error = nil;
     dispatch_group_t serviceGroup = dispatch_group_create();
@@ -47,18 +47,18 @@
         if (error) {
             onError(error);
         } else {
-            onCompletion();
+            onCompletion(project);
         }
     });
 }
 
-- (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+- (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: [project.users objectAtIndex:0]};
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                      
                      NSArray * tasks = DEFAULT_TASK_LISTS;
-                     [self createTasksListForProject:responseObject tasks:tasks onError:onError onCompletion:onCompletion manager:self.afManager];
+                     [self createTasksListForProject:responseObject forProject:project tasks:tasks onError:onError onCompletion:onCompletion manager:self.afManager];
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);

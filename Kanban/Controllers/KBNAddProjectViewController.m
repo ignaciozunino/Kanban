@@ -17,6 +17,8 @@
 
 @implementation KBNAddProjectViewController
 
+@synthesize delegate;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -41,10 +43,14 @@
 
 - (IBAction)save:(UIBarButtonItem *)sender {
     [KBNAppDelegate activateActivityIndicator:YES];
-    [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text forUser:[KBNUserUtils getUsername] completionBlock:^{
+    
+    [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCESS andType:SUCCESS_ALERT];
+        
+        [self.delegate didCreateProject:project];
         [self dismissViewControllerAnimated:YES completion:nil];
+        
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
@@ -52,20 +58,7 @@
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
-    
     [self dismissViewControllerAnimated:YES completion:nil];
-    
 }
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
