@@ -23,7 +23,7 @@
 #pragma mark - project methods
 
 
-- (void)createTasksListForProject:(id)responseObject forProject:(KBNProject*) project tasks:(NSArray *)tasks onError:(KBNConnectionErrorBlock)onError onCompletion:(KBNConnectionSuccessArrayBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
+- (void)createTasksListForProject:(id)responseObject forProject:(KBNProject*) project tasks:(NSArray *)tasks onError:(KBNConnectionErrorBlock)onError onCompletion:(KBNConnectionSuccessProjectBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
     
     __block NSError *error = nil;
     dispatch_group_t serviceGroup = dispatch_group_create();
@@ -47,12 +47,12 @@
         if (error) {
             onError(error);
         } else {
-            onCompletion([NSArray arrayWithObject:project]);
+            onCompletion(project);
         }
     });
 }
 
-- (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+- (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: [project.users objectAtIndex:0]};
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {

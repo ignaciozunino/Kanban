@@ -130,6 +130,7 @@
 #pragma mark - KBNAddProject Delegate
 -(void) didCreateProject:(KBNProject *)project{
     [self.projects addObject:project];
+    [KBNUpdateManager sharedInstance].lastProjectsUpdate = [NSDate getUTCNowWithParseFormat];
     [self.tableView reloadData];
 }
 @end

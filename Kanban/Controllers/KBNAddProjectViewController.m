@@ -44,12 +44,11 @@
 - (IBAction)save:(UIBarButtonItem *)sender {
     [KBNAppDelegate activateActivityIndicator:YES];
     
-    [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text forUser:[KBNUserUtils getUsername] completionBlock:^(NSArray *records) {
-        KBNProject *newProject = [records firstObject];
+    [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCESS andType:SUCCESS_ALERT];
         
-        [self.delegate didCreateProject:newProject];
+        [self.delegate didCreateProject:project];
         [self dismissViewControllerAnimated:YES completion:nil];
         
     } errorBlock:^(NSError *error) {

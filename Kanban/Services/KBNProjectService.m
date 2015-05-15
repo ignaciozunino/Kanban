@@ -29,7 +29,7 @@
 }
 
 
--(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription forUser:(NSString*) username completionBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+-(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription forUser:(NSString*) username completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     if ([name isEqualToString:@""] || !name) {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_WITHOUTNAME_ERROR};
@@ -43,8 +43,8 @@
         project.users = [NSMutableArray new];
         [project.users addObject:username];
         
-        [self.dataService createProject:project completionBlock:^(NSArray *records) {
-            onCompletion(records);
+        [self.dataService createProject:project completionBlock:^(KBNProject *newProject) {
+            onCompletion(newProject);
         } errorBlock:onError];
     }
 }
