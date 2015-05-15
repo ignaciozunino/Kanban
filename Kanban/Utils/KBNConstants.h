@@ -9,9 +9,15 @@
 #import <Foundation/Foundation.h>
 
 //Parse constants
+//Development environment values
 #define PARSE_APP_ID        @"2LDJ8L7aB9iO9QTGyG4UxGjUSFxxTCUFxM05nOJx"
 #define PARSE_CLIENT_ID     @"3ChxbtSTeoblQgtu5bNZCw1v6L158u2eGsiYuvrs"
 #define PARSE_REST_API_KEY @"oiD6BSxTMx8xKjyZFgP6S4IHmHsybxLF1DKGtuTm"
+
+//Production environment values
+//#define PARSE_APP_ID        @"64CkJJ6FLtZ3Tnl8VE7cSUDiazsBxgPHNKNCHopP"
+//#define PARSE_CLIENT_ID     @"ByBaCQtSmmeVh4s1bCUywJ8qTcSGUlkly4TBZnJg"
+//#define PARSE_REST_API_KEY  @"HeXimJkf3NQAfbehujVPcvNiBP40HtKMyPiVp4Bf"
 
 //Project constants
 #define USERNAME_KEY @"username"
