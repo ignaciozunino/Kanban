@@ -12,7 +12,7 @@
 
 - (void)setBorder {
     self.layer.borderWidth = 0.5f;
-    self.layer.cornerRadius = 8.0f;
+    self.layer.cornerRadius = 6.0f;
     self.layer.masksToBounds = YES;
 }
 
