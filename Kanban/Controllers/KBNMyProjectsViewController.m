@@ -17,6 +17,8 @@
 #define SEGUE_PROJECT_DETAIL @"projectDetail"
 #define SEGUE_ADD_PROJECT @"addProject"
 
+#define PROJECT_ROW_HEIGHT 80
+
 @interface KBNMyProjectsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -34,6 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.projects=[NSMutableArray new];
     [self listenUpdateManager];
 }
@@ -95,8 +98,6 @@
     KBNProject *project = [self.projects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = project.name;
-    cell.textLabel.font = [UIFont getTableFont];
-    cell.textLabel.textColor = [UIColor whiteColor];
     
     return cell;
 }
@@ -105,6 +106,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return PROJECT_ROW_HEIGHT;
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    cell.contentView.backgroundColor = [UIColor clearColor];
+    CGRect frame = cell.frame;
+    frame.origin = CGPointMake(8, 8);
+    frame.size.height = cell.frame.size.height - 8;
+    frame.size.width = cell.frame.size.width - 16;
+    UIView *whiteRoundedCornerView = [[UIView alloc] initWithFrame:frame];
+    
+    whiteRoundedCornerView.backgroundColor = [UIColor whiteColor];
+    whiteRoundedCornerView.layer.masksToBounds = NO;
+    whiteRoundedCornerView.layer.cornerRadius = 3.0;
+    whiteRoundedCornerView.layer.shadowOffset = CGSizeMake(-1, 1);
+    whiteRoundedCornerView.layer.shadowOpacity = 0.5;
+    [cell.contentView addSubview:whiteRoundedCornerView];
+    [cell.contentView sendSubviewToBack:whiteRoundedCornerView];
+    
 }
 
 #pragma mark - Navigation
@@ -116,6 +140,8 @@
     
     if ([segue.identifier isEqualToString:SEGUE_PROJECT_DETAIL]) {
         KBNProjectPageViewController *controller = [segue destinationViewController];
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+        
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.project = [self.projects objectAtIndex:indexPath.row];
     }

@@ -7,11 +7,12 @@
 //
 
 #import "KBNAddProjectViewController.h"
+#import "UITextView+CustomTextView.h"
 
 @interface KBNAddProjectViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 
 @end
 
@@ -22,6 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,17 +47,18 @@
 
 - (IBAction)save:(UIBarButtonItem *)sender {
     [KBNAppDelegate activateActivityIndicator:YES];
-    
-    [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextField.text forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
+    __weak typeof(self) weakself = self;
+    [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextView.text forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCESS andType:SUCCESS_ALERT];
         
-        [self.delegate didCreateProject:project];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [weakself.delegate didCreateProject:project];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
         
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 

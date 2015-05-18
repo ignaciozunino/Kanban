@@ -10,7 +10,9 @@
 
 
 @interface UIFont (KBNCustomFonts)
+
 +(NSDictionary*)getKBNNavigationBarFont;
+
 +(UIFont*)getTableFont;
 
 @end

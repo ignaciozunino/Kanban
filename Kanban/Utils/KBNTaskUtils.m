@@ -46,8 +46,8 @@
         
         task = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
 
-        [task setValue:[NSString stringWithFormat:@"Task%lu", i] forKey:@"taskId"];
-        [task setValue:[NSString stringWithFormat:@"Task%lu", i] forKey:@"name"];
+        [task setValue:[NSString stringWithFormat:@"Task%lu", (unsigned long)i] forKey:@"taskId"];
+        [task setValue:[NSString stringWithFormat:@"Task%lu", (unsigned long)i] forKey:@"name"];
         [task setValue:@"Mock task for testing purposes" forKey:@"taskDescription"];
         [task setValue:[NSNumber numberWithUnsignedLong:i] forKey:@"order"];
         [task setValue:@YES forKey:@"active"];

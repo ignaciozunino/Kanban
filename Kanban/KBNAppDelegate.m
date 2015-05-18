@@ -24,11 +24,22 @@
 
 }
 
-- (void)setUpNavigationBarTitle {
+- (void)lookAndFeelSetup {
     
     UINavigationBar *navigationBar = [UINavigationBar appearance];
+    [navigationBar setBarTintColor:UIColorFromRGB(GREEN_GLOBANT)];
     [navigationBar setTitleTextAttributes: [UIFont getKBNNavigationBarFont]];
-
+    
+    UIBarButtonItem *barButtonItem = [UIBarButtonItem appearance];
+    [barButtonItem setTintColor:UIColorFromRGB(DEFAULT_BLUE)];
+    
+    
+    UITableView *tableView = [UITableView appearance];
+    [tableView setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    
+    UITableViewCell *tableViewCell = [UITableViewCell appearance];
+    [tableViewCell setBackgroundColor:[UIColor clearColor]];
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -40,7 +51,8 @@
     
     [self.window setRootViewController:initViewController];
     
-    [self setUpNavigationBarTitle];
+    [self lookAndFeelSetup];
+    
     return YES;
 }
 

@@ -56,6 +56,7 @@
     NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: [project.users objectAtIndex:0]};
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                     project.projectId = [responseObject objectForKey:PARSE_OBJECTID];
                      
                      NSArray * tasks = DEFAULT_TASK_LISTS;
                      [self createTasksListForProject:responseObject forProject:project tasks:tasks onError:onError onCompletion:onCompletion manager:self.afManager];

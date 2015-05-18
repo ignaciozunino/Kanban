@@ -10,11 +10,12 @@
 #import "KBNConstants.h"
 #import "KBNAlertUtils.h"
 #import "KBNTaskService.h"
+#import "UITextView+CustomTextView.h"
 
 @interface KBNAddTaskViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 
 @end
 
@@ -23,6 +24,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,7 +40,7 @@
 - (IBAction)save:(UIBarButtonItem *)sender {
     
     self.addTask.name = self.nameTextField.text;
-    self.addTask.taskDescription = self.descriptionTextField.text;
+    self.addTask.taskDescription = self.descriptionTextView.text;
     
     __weak typeof(self) weakself = self;
     
@@ -49,20 +54,6 @@
         [weakself dismissViewControllerAnimated:YES completion:nil];
         
     }];
-    
-    /*
-    [[KBNTaskService sharedInstance] createTaskWithName:self.addTask.name taskDescription:self.addTask.taskDescription order:[self getOrderNumber] projectId:self.addTask.project.projectId taskListId:self.addTask.taskList.taskListId completionBlock:^(NSDictionary *response) {
-        
-        weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
-        [weakself.delegate didCreateTask:weakself.addTask];
-        [weakself dismissViewControllerAnimated:YES completion:nil];
-        
-    } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
-        [weakself dismissViewControllerAnimated:YES completion:nil];
-        
-    }];
-     */
 }
 
 - (NSNumber*)getOrderNumber {

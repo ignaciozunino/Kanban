@@ -17,5 +17,5 @@
 @interface KBNEditProjectViewController : UIViewController
 
 @property KBNProject* project;
-@property NSString* projectId;
+
 @end

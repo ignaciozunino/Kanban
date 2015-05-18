@@ -7,12 +7,14 @@
 //
 
 #import "KBNEditProjectViewController.h"
+#import "UITextView+CustomTextView.h"
+
 #define TABLEVIEW_TASKLIST_CELL @"stateCell"
 
 @interface KBNEditProjectViewController()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 
 @end
 
@@ -22,6 +24,10 @@
     [super viewDidLoad];
     [self loadProjectAttributes];
     self.navigationItem.title = @"Edit Project";
+    
+    [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,8 +39,7 @@
 
 - (void)loadProjectAttributes {
     self.nameTextField.text = self.project.name;
-    self.descriptionTextField.text = self.project.projectDescription;
-    self.projectId = self.project.projectId;
+    self.descriptionTextView.text = self.project.projectDescription;
 }
 
 #pragma mark - IBActions
@@ -43,18 +48,23 @@
     [self.view endEditing:YES];
 }
 
+- (IBAction)onCancelPressed:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
 - (IBAction)onSavePressed:(id)sender {
     [KBNAppDelegate activateActivityIndicator:YES];
-    [[KBNProjectService sharedInstance] editProject:self.projectId withNewName:self.nameTextField.text withDescription:self.descriptionTextField.text completionBlock:^{
+    [[KBNProjectService sharedInstance] editProject:self.project.projectId withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_EDIT_SUCCESS andType:SUCCESS_ALERT];
-        self.project.name=self.nameTextField.text;
-        self.project.projectDescription = self.descriptionTextField.text;
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
 
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
