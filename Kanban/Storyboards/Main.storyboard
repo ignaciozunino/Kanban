@@ -525,7 +525,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoH-2X-1D9">
-                                <rect key="frame" x="16" y="155" width="150" height="21"/>
+                                <rect key="frame" x="24" y="155" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="49A-hx-zpa"/>
                                     <constraint firstAttribute="height" constant="21" id="4vI-Xk-Kgw"/>
@@ -547,7 +547,7 @@
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="FoH-2X-1D9" firstAttribute="leading" secondItem="Epk-Gm-AQG" secondAttribute="leading" constant="16" id="3q1-wX-FZk"/>
+                            <constraint firstItem="FoH-2X-1D9" firstAttribute="leading" secondItem="Epk-Gm-AQG" secondAttribute="leading" constant="24" id="3q1-wX-FZk"/>
                             <constraint firstAttribute="trailing" secondItem="2UC-Lc-B7x" secondAttribute="trailing" constant="16" id="7lf-K2-ts8"/>
                             <constraint firstItem="dwf-DJ-4yh" firstAttribute="top" secondItem="FoH-2X-1D9" secondAttribute="bottom" constant="3" id="Bw7-NQ-Ibb"/>
                             <constraint firstItem="FoH-2X-1D9" firstAttribute="top" secondItem="2UC-Lc-B7x" secondAttribute="bottom" constant="16" id="GSo-2v-Rb2"/>
