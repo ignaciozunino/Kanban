@@ -48,7 +48,7 @@
 //Succes messages
 #define PROJECT_CREATION_SUCCESS @"Project created successfully!"
 #define PROJECT_EDIT_SUCCESS @"Project modified successfully!"
-
+#define TASK_EDIT_SUCCESS @"Task modified successfully!"
 //Error messages
 #define ERROR_DOMAIN @"globant.kanban.Kanban.ErrorDomain";
 #define SIGNIN_ERROR @"Please verify the username is a valid email and the password has at least 6 characters, one letter and one number."
@@ -60,7 +60,7 @@
 #define CREATING_TASK_TASKLIST_FULL @"The task list cannot hold any more items"
 #define EDIT_PROJECT_WITHOUTNAME_ERROR @"Project must have a name"
 #define USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
-
+#define EDIT_TASK_WITHOUTNAME_ERROR @"Task must have a name"
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
 #define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"
