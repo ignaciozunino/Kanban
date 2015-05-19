@@ -37,11 +37,29 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ProjectCell" id="b80-EJ-qFU">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProjectCell" id="b80-EJ-qFU">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b80-EJ-qFU" id="tQT-RA-KH3">
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WJh-dM-Vzq">
+                                                    <rect key="frame" x="8" y="8" width="584" height="92"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="WJh-dM-Vzq" firstAttribute="top" secondItem="tQT-RA-KH3" secondAttribute="top" constant="8" id="6Jo-tu-TdH"/>
+                                                <constraint firstItem="WJh-dM-Vzq" firstAttribute="leading" secondItem="tQT-RA-KH3" secondAttribute="leading" constant="8" id="Eqa-6y-aAL"/>
+                                                <constraint firstAttribute="trailing" secondItem="WJh-dM-Vzq" secondAttribute="trailing" constant="8" id="HpP-zq-b0s"/>
+                                                <constraint firstAttribute="bottom" secondItem="WJh-dM-Vzq" secondAttribute="bottom" id="sIX-jQ-Ga4"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="25S-QU-ubf" kind="show" identifier="projectDetail" id="JDd-Jo-dph"/>
@@ -135,6 +153,24 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oZ9-bJ-qgx" id="GWQ-Qw-k04">
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DWs-pb-mtt">
+                                                    <rect key="frame" x="4" y="8" width="576" height="92"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="DWs-pb-mtt" firstAttribute="leading" secondItem="GWQ-Qw-k04" secondAttribute="leading" constant="4" id="16X-Ba-YO2"/>
+                                                <constraint firstAttribute="bottom" secondItem="DWs-pb-mtt" secondAttribute="bottom" id="9Ae-Xg-dwY"/>
+                                                <constraint firstAttribute="trailing" secondItem="DWs-pb-mtt" secondAttribute="trailing" constant="4" id="UpM-Zj-6Oo"/>
+                                                <constraint firstItem="DWs-pb-mtt" firstAttribute="top" secondItem="GWQ-Qw-k04" secondAttribute="top" constant="8" id="zup-WS-MpH"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
                                         <connections>

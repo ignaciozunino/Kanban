@@ -159,25 +159,6 @@
     return TASK_ROW_HEIGHT;
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    cell.contentView.backgroundColor = [UIColor clearColor];
-    CGRect frame = cell.frame;
-    frame.origin = CGPointMake(8, 8);
-    frame.size.height = cell.frame.size.height - 8;
-    frame.size.width = cell.frame.size.width - 16;
-    UIView *whiteRoundedCornerView = [[UIView alloc] initWithFrame:frame];
-    
-    whiteRoundedCornerView.backgroundColor = [UIColor whiteColor];
-    whiteRoundedCornerView.layer.masksToBounds = NO;
-    whiteRoundedCornerView.layer.cornerRadius = 3.0;
-    whiteRoundedCornerView.layer.shadowOffset = CGSizeMake(-1, 1);
-    whiteRoundedCornerView.layer.shadowOpacity = 0.5;
-    [cell.contentView addSubview:whiteRoundedCornerView];
-    [cell.contentView sendSubviewToBack:whiteRoundedCornerView];
-    
-}
-
 
 #pragma mark - Gestures Handlers
 

@@ -40,6 +40,9 @@
     UITableViewCell *tableViewCell = [UITableViewCell appearance];
     [tableViewCell setBackgroundColor:[UIColor clearColor]];
     
+    UIImageView *imageView = [UIImageView appearanceWhenContainedIn:[UITableViewCell class], nil];
+    imageView.backgroundColor = [UIColor whiteColor];
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
