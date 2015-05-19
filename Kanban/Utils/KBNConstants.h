@@ -97,6 +97,9 @@
 #define ERROR_ALERT @"ERROR"
 #define WARNING_ALERT @"WARNING"
 #define SUCCESS_ALERT @"SUCCESS"
+#define CANCEL_TITLE @"Cancel"
+#define DELETE_TITLE @"Delete"
+
 
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
 
