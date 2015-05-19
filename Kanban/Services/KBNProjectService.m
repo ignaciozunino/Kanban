@@ -42,6 +42,7 @@
         project.projectDescription = projectDescription;
         project.users = [NSMutableArray new];
         [project.users addObject:username];
+        project.active = @YES;
         
         [self.dataService createProject:project completionBlock:^(KBNProject *newProject) {
             onCompletion(newProject);
@@ -62,8 +63,10 @@
 }
 
 
--(void)removeProject:(NSString*)name completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+-(void)removeProject:(KBNProject*)project completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
+    project.active = @NO;
+    [self.dataService updateProjects:@[project] completionBlock:onCompletion errorBlock:onError];
     
 }
 
@@ -87,6 +90,7 @@
             newProject.name = [item objectForKey:PARSE_PROJECT_NAME_COLUMN];
             newProject.projectDescription = [item objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
             newProject.projectId = [item objectForKey:PARSE_OBJECTID];
+            newProject.active = [item objectForKey:PARSE_TASK_ACTIVE_COLUMN];
             newProject.users = [NSMutableArray new];
             [newProject.users addObject:[item objectForKey:PARSE_PROJECT_USER_COLUMN]];
             [projectsArray addObject:newProject];
