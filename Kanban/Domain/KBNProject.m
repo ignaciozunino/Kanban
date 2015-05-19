@@ -21,4 +21,9 @@
 @dynamic taskLists;
 @dynamic tasks;
 
+
+- (BOOL)isActive {
+    return self.active.boolValue;
+}
+
 @end

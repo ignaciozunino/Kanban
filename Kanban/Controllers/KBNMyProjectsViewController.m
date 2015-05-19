@@ -73,8 +73,8 @@
 
 #pragma mark - Private methods
 
-- (void)getProjects:(NSNotification *)noti {
-    [KBNUpdateUtils updateExistingProjectsFromArray:(NSArray*)noti.object inArray:self.projects];
+- (void)getProjects:(NSNotification *)notification {
+    [KBNUpdateUtils updateExistingProjectsFromArray:(NSArray*)notification.object inArray:self.projects];
     
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -106,6 +106,32 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        KBNProject *projectToDelete = [self.projects objectAtIndex:indexPath.row];
+        
+        //First remove it from data source
+        [self.projects removeObjectAtIndex:indexPath.row];
+        
+        // Then ask the service to remove it from the storage
+        [[KBNProjectService sharedInstance] removeProject:projectToDelete
+                                          completionBlock:^{
+                                              // Project removed
+                                          } errorBlock:^(NSError *error) {
+                                              // Re-insert project at its original position
+                                              __weak typeof(self) weakself = self;
+                                              [weakself.projects insertObject:projectToDelete atIndex:indexPath.row];
+                                              [weakself.tableView reloadData];
+                                              
+                                              [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+                                          }];
+        
+        [self.tableView reloadData];
+        
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

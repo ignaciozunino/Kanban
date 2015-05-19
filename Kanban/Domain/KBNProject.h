@@ -44,4 +44,7 @@
 - (void)removeTasksObject:(KBNTask *)value;
 - (void)addTasks:(NSOrderedSet *)values;
 - (void)removeTasks:(NSOrderedSet *)values;
+
+- (BOOL)isActive;
+
 @end
