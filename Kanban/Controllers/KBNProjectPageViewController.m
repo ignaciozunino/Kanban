@@ -37,8 +37,9 @@
 
     self.projectTasks = [NSMutableArray new];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStylePlain target:self action:@selector(setupEdit)];
-    
+    self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                                                          target:self
+                                                                                          action:@selector(setupEdit)];
     [self getProjectLists];
 }
 

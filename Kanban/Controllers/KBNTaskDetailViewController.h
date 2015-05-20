@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "KBNTask.h"
 #import "KBNProject.h"
+#import "KBNAppDelegate.h"
+#import "KBNTaskService.h"
+#import "KBNAlertUtils.h"
 
 @interface KBNTaskDetailViewController : UIViewController
 

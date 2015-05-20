@@ -305,20 +305,20 @@
 		3A4840261AE5435E00C70739 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3A6B09611B0244E200C75EF3 /* KBNEditProjectViewController.h */,
-				3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */,
-				3A312A9E1AEE8420005837A5 /* KBNSignInViewController.h */,
-				3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */,
 				3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */,
 				3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */,
 				3A4840471AE545CA00C70739 /* KBNAddTaskViewController.h */,
 				3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */,
+				3A6B09611B0244E200C75EF3 /* KBNEditProjectViewController.h */,
+				3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */,
 				3A4840491AE545CA00C70739 /* KBNMyProjectsViewController.h */,
 				3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */,
 				3A48404B1AE545CA00C70739 /* KBNProjectDetailViewController.h */,
 				3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */,
 				3A48404D1AE545CA00C70739 /* KBNProjectPageViewController.h */,
 				3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */,
+				3A312A9E1AEE8420005837A5 /* KBNSignInViewController.h */,
+				3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */,
 				3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */,
 				3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */,
 			);
