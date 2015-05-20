@@ -99,6 +99,8 @@
     KBNProject *project = [self.projects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = project.name;
+    cell.layer.shadowOffset = CGSizeMake(-1, 1);
+    cell.layer.shadowOpacity = 0.5;
     
     return cell;
 }
