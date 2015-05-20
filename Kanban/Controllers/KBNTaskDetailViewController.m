@@ -11,7 +11,8 @@
 @interface KBNTaskDetailViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
-@property (weak, nonatomic) IBOutlet UIButton *saveButton;
+@property UIBarButtonItem *editButton;
+@property UIBarButtonItem *saveButton;
 
 @property BOOL isEditing;
 
@@ -22,7 +23,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpView];
-    self.saveButton.hidden = YES;
+    self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                                    target:self
+                                                                    action:@selector(onEditPressed:)];
+    self.saveButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"save.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onSavePressed:)];
+    self.navigationItem.rightBarButtonItem = self.editButton;
 }
 
 - (void)setUpView {
@@ -36,11 +41,12 @@
     if (self.isEditing) {
         self.nameTextField.enabled = YES;
         self.descriptionTextField.editable = YES;
-        self.saveButton.hidden = NO;
+        self.navigationItem.rightBarButtonItem = self.saveButton;
+        [self.nameTextField becomeFirstResponder];
     }else{
         self.nameTextField.enabled = NO;
         self.descriptionTextField.editable = NO;
-        self.saveButton.hidden = YES;
+        self.navigationItem.rightBarButtonItem = self.editButton;
     }
 }
 

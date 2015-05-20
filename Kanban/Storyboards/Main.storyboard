@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -360,20 +360,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NF8-FA-cxQ">
-                                <rect key="frame" x="281" y="280" width="39" height="39"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="39" id="GBs-0L-4jU"/>
-                                    <constraint firstAttribute="height" constant="39" id="bzG-aN-o7o"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="39" id="eFb-7G-nW6"/>
-                                </constraints>
-                                <state key="normal" backgroundImage="save">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onSavePressed:" destination="eKh-vB-Cg9" eventType="touchUpInside" id="z8F-xg-f6N"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
@@ -382,9 +368,7 @@
                             <constraint firstItem="FFe-17-E06" firstAttribute="leading" secondItem="eUQ-gc-8Ij" secondAttribute="leadingMargin" id="4I5-eC-NSk"/>
                             <constraint firstItem="Iot-KB-TK0" firstAttribute="trailing" secondItem="zzi-P0-fKJ" secondAttribute="trailing" id="At2-KO-SvX"/>
                             <constraint firstItem="dJw-vx-d0K" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="345" id="Edt-dA-mkO"/>
-                            <constraint firstItem="NF8-FA-cxQ" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="25" id="Fdw-sN-YmU"/>
                             <constraint firstItem="Iot-KB-TK0" firstAttribute="top" secondItem="enn-RC-T8c" secondAttribute="bottom" constant="16" id="Ksh-Fa-ASx"/>
-                            <constraint firstItem="NF8-FA-cxQ" firstAttribute="centerX" secondItem="FFe-17-E06" secondAttribute="centerX" id="NQd-x1-vTt"/>
                             <constraint firstItem="Iot-KB-TK0" firstAttribute="leading" secondItem="zzi-P0-fKJ" secondAttribute="leading" id="VnV-vf-Wlb"/>
                             <constraint firstItem="zzi-P0-fKJ" firstAttribute="top" secondItem="r49-a8-1Kr" secondAttribute="bottom" constant="22" id="WLS-EQ-3gT"/>
                             <constraint firstItem="enn-RC-T8c" firstAttribute="top" secondItem="zzi-P0-fKJ" secondAttribute="bottom" constant="3" id="Xrt-9a-eD2"/>
@@ -397,17 +381,10 @@
                             <outletCollection property="gestureRecognizers" destination="8DR-kN-1iX" appends="YES" id="cig-xX-63r"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Task Detail" id="0We-Sd-5e8">
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="hN5-M0-Qzv">
-                            <connections>
-                                <action selector="onEditPressed:" destination="eKh-vB-Cg9" id="mDt-1N-ZVP"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Task Detail" id="0We-Sd-5e8"/>
                     <connections>
                         <outlet property="descriptionTextField" destination="FFe-17-E06" id="g4I-O7-ADD"/>
                         <outlet property="nameTextField" destination="enn-RC-T8c" id="vrt-w3-iFP"/>
-                        <outlet property="saveButton" destination="NF8-FA-cxQ" id="VEQ-tZ-Zur"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ytY-Ey-27N" userLabel="First Responder" sceneMemberID="firstResponder"/>
