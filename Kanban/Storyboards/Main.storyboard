@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -326,50 +327,72 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYh-Q5-STf">
-                                <rect key="frame" x="16" y="94" width="568" height="200"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbd-Yl-OJ0">
-                                        <rect key="frame" x="0.0" y="0.0" width="568" height="35"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="5XQ-HL-kaX"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w0h-5E-hTC">
-                                        <rect key="frame" x="0.0" y="53" width="568" height="139"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="enn-RC-T8c">
+                                <rect key="frame" x="16" y="110" width="568" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="w0h-5E-hTC" secondAttribute="trailing" id="AQ4-jR-zLU"/>
-                                    <constraint firstItem="sbd-Yl-OJ0" firstAttribute="leading" secondItem="IYh-Q5-STf" secondAttribute="leading" id="BbS-GF-IVs"/>
-                                    <constraint firstItem="w0h-5E-hTC" firstAttribute="top" secondItem="sbd-Yl-OJ0" secondAttribute="bottom" constant="18" id="Ftx-Zu-Xia"/>
-                                    <constraint firstItem="w0h-5E-hTC" firstAttribute="leading" secondItem="IYh-Q5-STf" secondAttribute="leading" id="OhQ-Jl-kcs"/>
-                                    <constraint firstAttribute="trailing" secondItem="sbd-Yl-OJ0" secondAttribute="trailing" id="WRE-Kt-mre"/>
-                                    <constraint firstItem="sbd-Yl-OJ0" firstAttribute="top" secondItem="IYh-Q5-STf" secondAttribute="top" id="Y9Z-g9-eK4"/>
-                                    <constraint firstAttribute="height" constant="200" id="YHO-KW-8Lk"/>
-                                    <constraint firstAttribute="bottom" secondItem="w0h-5E-hTC" secondAttribute="bottom" constant="8" id="ea8-gn-Jjf"/>
+                                    <constraint firstAttribute="height" constant="35" id="7EJ-qd-PcT"/>
                                 </constraints>
-                            </view>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzi-P0-fKJ">
+                                <rect key="frame" x="24" y="86" width="150" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="BCL-Mx-8nR"/>
+                                    <constraint firstAttribute="width" constant="150" id="WlD-dT-dva"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iot-KB-TK0">
+                                <rect key="frame" x="24" y="161" width="150" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Tnv-Fn-UIG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FFe-17-E06">
+                                <rect key="frame" x="16" y="185" width="568" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="IYh-Q5-STf" secondAttribute="trailing" constant="16" id="Aq2-C8-t5q"/>
-                            <constraint firstItem="IYh-Q5-STf" firstAttribute="leading" secondItem="eUQ-gc-8Ij" secondAttribute="leading" constant="16" id="DJw-XY-tZi"/>
-                            <constraint firstItem="IYh-Q5-STf" firstAttribute="top" secondItem="r49-a8-1Kr" secondAttribute="bottom" constant="30" id="LnP-rH-kma"/>
+                            <constraint firstItem="enn-RC-T8c" firstAttribute="leading" secondItem="FFe-17-E06" secondAttribute="leading" id="3nS-0d-C6k"/>
+                            <constraint firstItem="FFe-17-E06" firstAttribute="leading" secondItem="eUQ-gc-8Ij" secondAttribute="leadingMargin" id="4I5-eC-NSk"/>
+                            <constraint firstItem="Iot-KB-TK0" firstAttribute="trailing" secondItem="zzi-P0-fKJ" secondAttribute="trailing" id="At2-KO-SvX"/>
+                            <constraint firstItem="dJw-vx-d0K" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="345" id="Edt-dA-mkO"/>
+                            <constraint firstItem="Iot-KB-TK0" firstAttribute="top" secondItem="enn-RC-T8c" secondAttribute="bottom" constant="16" id="Ksh-Fa-ASx"/>
+                            <constraint firstItem="Iot-KB-TK0" firstAttribute="leading" secondItem="zzi-P0-fKJ" secondAttribute="leading" id="VnV-vf-Wlb"/>
+                            <constraint firstItem="zzi-P0-fKJ" firstAttribute="top" secondItem="r49-a8-1Kr" secondAttribute="bottom" constant="22" id="WLS-EQ-3gT"/>
+                            <constraint firstItem="enn-RC-T8c" firstAttribute="top" secondItem="zzi-P0-fKJ" secondAttribute="bottom" constant="3" id="Xrt-9a-eD2"/>
+                            <constraint firstItem="FFe-17-E06" firstAttribute="trailing" secondItem="eUQ-gc-8Ij" secondAttribute="trailingMargin" id="Zud-pg-rg5"/>
+                            <constraint firstItem="enn-RC-T8c" firstAttribute="trailing" secondItem="FFe-17-E06" secondAttribute="trailing" id="fZn-LT-PYg"/>
+                            <constraint firstItem="FFe-17-E06" firstAttribute="top" secondItem="Iot-KB-TK0" secondAttribute="bottom" constant="3" id="mBy-RF-0Gf"/>
+                            <constraint firstItem="zzi-P0-fKJ" firstAttribute="leading" secondItem="eUQ-gc-8Ij" secondAttribute="leadingMargin" constant="8" id="rg6-IK-KBd"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="8DR-kN-1iX" appends="YES" id="cig-xX-63r"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Task Detail" id="0We-Sd-5e8"/>
                     <connections>
-                        <outlet property="labelTaskDescription" destination="w0h-5E-hTC" id="Lu6-FT-mWl"/>
-                        <outlet property="labelTaskName" destination="sbd-Yl-OJ0" id="oOq-Ed-gHA"/>
+                        <outlet property="descriptionTextField" destination="FFe-17-E06" id="g4I-O7-ADD"/>
+                        <outlet property="nameTextField" destination="enn-RC-T8c" id="vrt-w3-iFP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ytY-Ey-27N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="8DR-kN-1iX">
+                    <connections>
+                        <action selector="onTap:" destination="eKh-vB-Cg9" id="LQz-ui-WJJ"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2392" y="365"/>
         </scene>
