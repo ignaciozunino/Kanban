@@ -24,6 +24,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *projects;
+@property (strong, nonatomic) NSIndexPath *selectedIndexPath;
 
 @end
 
@@ -114,12 +115,13 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
+        self.selectedIndexPath = indexPath;
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
                                                         message:DELETE_WARNING_MESSAGE
                                                        delegate:self
                                               cancelButtonTitle:CANCEL_TITLE
                                               otherButtonTitles:DELETE_TITLE, nil];
-        [alert setTag:indexPath.row];
         [alert show];
     }
 }
@@ -162,21 +164,24 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (buttonIndex) {
-        [self removeProjectAtIndex:alertView.tag];
+        [self removeProject];
     } else {
         [self.tableView setEditing:NO];
     }
 }
-
-
 #pragma mark - Helper methods
 
-- (void)removeProjectAtIndex:(NSUInteger)index {
+- (void)removeProject {
+    
+    NSUInteger index = self.selectedIndexPath.row;
     
     KBNProject *projectToDelete = [self.projects objectAtIndex:index];
     
     //First remove it from data source
     [self.projects removeObjectAtIndex:index];
+    
+    //Animate deletion
+    [self.tableView deleteRowsAtIndexPaths:@[self.selectedIndexPath] withRowAnimation:YES];
     
     // Then ask the service to remove it from the storage
     [[KBNProjectService sharedInstance] removeProject:projectToDelete
@@ -186,12 +191,10 @@
                                           // Re-insert project at its original position
                                           __weak typeof(self) weakself = self;
                                           [weakself.projects insertObject:projectToDelete atIndex:index];
-                                          [weakself.tableView reloadData];
+                                          [weakself.tableView insertRowsAtIndexPaths:@[weakself.selectedIndexPath] withRowAnimation:YES];
                                           
                                           [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
                                       }];
-    
-    [self.tableView reloadData];
     
 }
 
