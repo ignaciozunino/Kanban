@@ -41,6 +41,7 @@
             NSError *errorPtr = [NSError errorWithDomain:domain code:-105 userInfo:info];
             onError(errorPtr);
         } else {
+            aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:onCompletion errorBlock:onError];
         }
     }
