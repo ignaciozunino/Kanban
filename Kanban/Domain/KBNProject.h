@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString * projectDescription;
 @property (nonatomic, strong) NSString * projectId;
 @property (nonatomic, strong) id users;
+@property (nonatomic, strong) NSNumber *active;
 @property (nonatomic, strong) NSOrderedSet *taskLists;
 @property (nonatomic, strong) NSOrderedSet *tasks;
 @end
@@ -43,4 +44,7 @@
 - (void)removeTasksObject:(KBNTask *)value;
 - (void)addTasks:(NSOrderedSet *)values;
 - (void)removeTasks:(NSOrderedSet *)values;
+
+- (BOOL)isActive;
+
 @end
