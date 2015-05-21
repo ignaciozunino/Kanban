@@ -50,6 +50,8 @@
 		543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */; };
 		54505C531AFD3BA3000A30B8 /* KBNUpdateManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */; };
 		846FA57D1AE6F0B900AB91C1 /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */; };
+		A07653481B0E209C009A8550 /* KBNEmailUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A07653471B0E209C009A8550 /* KBNEmailUtils.m */; };
+		A076534B1B0E2204009A8550 /* KBNArrayToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */; };
 		A079744C1AF023810030696F /* KBNCreateTaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A079744B1AF023810030696F /* KBNCreateTaskTests.m */; };
 		A0C8A7001AEED4560069E236 /* KBNTaskListParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8A6FF1AEED4560069E236 /* KBNTaskListParseAPIManager.m */; };
 		A0C8A7031AEED4640069E236 /* KBNTaskListService.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C8A7021AEED4640069E236 /* KBNTaskListService.m */; };
@@ -160,6 +162,10 @@
 		543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNInitialSetupTest.m; sourceTree = "<group>"; };
 		54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUpdateManagerTest.m; sourceTree = "<group>"; };
 		846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
+		A07653461B0E209C009A8550 /* KBNEmailUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNEmailUtils.h; path = Utils/KBNEmailUtils.h; sourceTree = "<group>"; };
+		A07653471B0E209C009A8550 /* KBNEmailUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNEmailUtils.m; path = Utils/KBNEmailUtils.m; sourceTree = "<group>"; };
+		A07653491B0E2204009A8550 /* KBNArrayToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNArrayToDataTransformer.h; path = Utils/KBNArrayToDataTransformer.h; sourceTree = "<group>"; };
+		A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNArrayToDataTransformer.m; path = Utils/KBNArrayToDataTransformer.m; sourceTree = "<group>"; };
 		A079744B1AF023810030696F /* KBNCreateTaskTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCreateTaskTests.m; sourceTree = "<group>"; };
 		A0C8A6FE1AEED4560069E236 /* KBNTaskListParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskListParseAPIManager.h; path = Parse/KBNTaskListParseAPIManager.h; sourceTree = "<group>"; };
 		A0C8A6FF1AEED4560069E236 /* KBNTaskListParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskListParseAPIManager.m; path = Parse/KBNTaskListParseAPIManager.m; sourceTree = "<group>"; };
@@ -424,6 +430,10 @@
 				187EC9AD1AFD23DB0028E9FE /* KBNUpdateUtils.m */,
 				3A427E6B1B06630B00348F24 /* UITextView+CustomTextView.h */,
 				3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */,
+				A07653461B0E209C009A8550 /* KBNEmailUtils.h */,
+				A07653471B0E209C009A8550 /* KBNEmailUtils.m */,
+				A07653491B0E2204009A8550 /* KBNArrayToDataTransformer.h */,
+				A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -620,6 +630,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A076534B1B0E2204009A8550 /* KBNArrayToDataTransformer.m in Sources */,
 				3A0CCD381AEFC1780039F629 /* KBNUserUtils.m in Sources */,
 				18CB2DBC1AEAE40700F5F390 /* (null) in Sources */,
 				3A6B09631B0244E200C75EF3 /* KBNEditProjectViewController.m in Sources */,
@@ -632,6 +643,7 @@
 				E2AC8A371AF90312008A44B5 /* KBNUpdateManager.m in Sources */,
 				3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */,
 				3A312AA31AEE8442005837A5 /* KBNUser.m in Sources */,
+				A07653481B0E209C009A8550 /* KBNEmailUtils.m in Sources */,
 				3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */,
 				3A0CCD3C1AEFD2740039F629 /* KBNTaskUtils.m in Sources */,
 				3A0CCD211AEEB7A40039F629 /* KBNTaskParseAPIManager.m in Sources */,

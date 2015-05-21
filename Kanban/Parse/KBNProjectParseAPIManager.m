@@ -54,7 +54,9 @@
 
 - (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
-    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: [project.users objectAtIndex:0], PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES]};
+    NSArray* projectUsers = project.users;
+    
+    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: [project.users objectAtIndex:0], PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
     
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -68,6 +70,24 @@
                      
                  }
      ];
+}
+
+
+
+-(void)setUsersList:(NSArray*)emailAddresses
+        toProjectId:(NSString*)aProjectId
+    completionBlock:(KBNConnectionSuccessBlock)onSuccess
+         errorBlock:(KBNConnectionErrorBlock)onError
+{
+    NSDictionary *data = @{PARSE_PROJECT_USERSLIST_COLUMN: emailAddresses};
+    [self.afManager PUT:[NSString stringWithFormat:@"%@/%@", PARSE_PROJECTS, aProjectId]
+             parameters:data
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    onSuccess();
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    onError(error);
+                }];
 }
 
 

@@ -62,6 +62,54 @@
 }
 
 
+
+//Adds a email address to the participants list of a given project.
+-(void)addUser:(NSString*)emailAddress
+     toProject:(KBNProject*)aProject
+completionBlock:(KBNConnectionSuccessBlock)onSuccess
+    errorBlock:(KBNConnectionErrorBlock)onError
+{
+    if ([aProject.projectId isEqualToString:@""])
+    {
+        NSString *domain = ERROR_DOMAIN;
+        NSDictionary * info = @{@"NSLocalizedDescriptionKey": EDIT_PROJECT_WITHOUTNAME_ERROR};
+        NSError *errorPtr = [NSError errorWithDomain:domain code:-102
+                                            userInfo:info];
+        onError(errorPtr);
+    }
+    else
+    {
+        if (![self project:aProject hasUser:emailAddress])
+        {
+            //Add the user email at the top
+            NSMutableArray* usersMutableArray = [[NSMutableArray alloc]init];
+            [usersMutableArray addObject:emailAddress];
+            [usersMutableArray addObjectsFromArray:aProject.users];
+            
+            NSArray* newUsersArray = [NSArray arrayWithArray:usersMutableArray];
+            [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(){
+                aProject.users = newUsersArray;
+                onSuccess();
+            } errorBlock:onError];
+        }
+    }
+}
+
+
+
+-(BOOL)project:(KBNProject*)project hasUser:(NSString*)emailAddress{
+    BOOL result = NO;
+    NSArray* users = (NSArray*)project.users;
+    for (NSString* emailAddressInArray in users) {
+        if ([emailAddressInArray isEqualToString:emailAddress]){
+            result = YES;
+            break;
+        }
+    }
+    return result;
+}
+
+
 -(void)removeProject:(KBNProject*)project completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     
     project.active = @NO;
@@ -90,8 +138,8 @@
             newProject.projectDescription = [item objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
             newProject.projectId = [item objectForKey:PARSE_OBJECTID];
             newProject.active = [item objectForKey:PARSE_TASK_ACTIVE_COLUMN];
-            newProject.users = [NSMutableArray new];
-            [newProject.users addObject:[item objectForKey:PARSE_PROJECT_USER_COLUMN]];
+            newProject.users = [item objectForKey:PARSE_PROJECT_USERSLIST_COLUMN];
+
             
             if ([newProject isActive]) {
                 [projectsArray addObject:newProject];
