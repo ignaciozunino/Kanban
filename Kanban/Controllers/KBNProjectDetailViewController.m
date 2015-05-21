@@ -76,6 +76,42 @@
     return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
+#pragma mark - IBActions
+
+- (IBAction)addTaskList:(UIBarButtonItem *)sender {
+    
+    NSString *currentList = [@" " stringByAppendingString:self.labelState.text];
+    NSString *beforeTitle = [BEFORE_TITLE stringByAppendingString:currentList];
+    NSString *afterTitle = [AFTER_TITLE stringByAppendingString:currentList];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ADD_LIST_TITLE
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:CANCEL_TITLE
+                                          otherButtonTitles:beforeTitle, afterTitle, nil];
+    
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+#pragma mark - Alert View Delegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (buttonIndex) {
+        case 0: //Cancel
+            break;
+        case 1: //Before
+            [self.delegate insertTaskListBefore:self];
+            break;
+        case 2: //After
+            [self.delegate insertTaskListAfter:self];
+            break;
+        default:
+            break;
+    }
+}
+
 #pragma mark - Table View Data Source
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -389,10 +425,6 @@
 
 -(void)didCreateTask:(KBNTask *)task {
     [self.taskListTasks addObject:task];
-}
-
-- (NSNumber*)nextOrderNumber {
-    return [NSNumber numberWithLong:self.taskListTasks.count];
 }
 
 #pragma mark - Navigation

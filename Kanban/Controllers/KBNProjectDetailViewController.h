@@ -22,11 +22,15 @@
 
 - (void)moveToLeftTask:(KBNTask*)task from:(KBNProjectDetailViewController*)viewController;
 
+- (void)insertTaskListBefore:(KBNProjectDetailViewController*)viewController;
+
+- (void)insertTaskListAfter:(KBNProjectDetailViewController*)viewController;
+
 - (void)toggleScrollStatus;
 
 @end
 
-@interface KBNProjectDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, KBNAddTaskViewControllerDelegate>
+@interface KBNProjectDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, KBNAddTaskViewControllerDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) KBNProject *project;
 

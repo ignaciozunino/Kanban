@@ -99,6 +99,9 @@
 #define SUCCESS_ALERT @"SUCCESS"
 #define CANCEL_TITLE @"Cancel"
 #define DELETE_TITLE @"Delete"
+#define BEFORE_TITLE @"Before"
+#define AFTER_TITLE @"After"
+#define ADD_LIST_TITLE @"Add list"
 
 
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]

@@ -40,6 +40,9 @@
     UITableViewCell *tableViewCell = [UITableViewCell appearance];
     [tableViewCell setBackgroundColor:[UIColor clearColor]];
     
+    UIToolbar *toolBar = [UIToolbar appearance];
+    [toolBar setBarTintColor:UIColorFromRGB(LIGHT_GRAY)];
+    [toolBar setClipsToBounds:YES];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

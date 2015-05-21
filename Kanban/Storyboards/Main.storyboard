@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -137,7 +137,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGD-ko-F2l">
-                                <rect key="frame" x="16" y="80" width="568" height="21"/>
+                                <rect key="frame" x="66" y="80" width="468" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ucn-B3-Kt3"/>
                                 </constraints>
@@ -212,19 +212,35 @@
                                     <segue destination="hjl-Bb-AFN" kind="presentation" identifier="addTask" id="bkN-Rd-Yff"/>
                                 </connections>
                             </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPf-9E-3qG">
+                                <rect key="frame" x="542" y="69" width="50" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="I9E-Lj-FZR"/>
+                                    <constraint firstAttribute="width" constant="50" id="zNH-h7-jWj"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem systemItem="add" id="tcq-Xc-r3Y">
+                                        <connections>
+                                            <action selector="addTaskList:" destination="m2D-kq-531" id="Mp8-LU-mMU"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dPf-9E-3qG" secondAttribute="trailing" constant="8" id="0mE-sA-xtb"/>
                             <constraint firstItem="7VO-1U-4sy" firstAttribute="leading" secondItem="ffK-Mz-TY4" secondAttribute="leading" id="5CO-Cf-p2D"/>
                             <constraint firstItem="h91-NS-eFL" firstAttribute="top" secondItem="ffK-Mz-TY4" secondAttribute="bottom" constant="8" id="71b-U8-b6W"/>
                             <constraint firstItem="ffK-Mz-TY4" firstAttribute="top" secondItem="TIH-5r-WaZ" secondAttribute="top" constant="117" id="AH0-6x-XwU"/>
-                            <constraint firstAttribute="trailing" secondItem="VGD-ko-F2l" secondAttribute="trailing" constant="16" id="Ene-iP-wYg"/>
                             <constraint firstItem="ffK-Mz-TY4" firstAttribute="leading" secondItem="TIH-5r-WaZ" secondAttribute="leading" constant="8" id="HeV-tD-sSx"/>
                             <constraint firstAttribute="trailing" secondItem="h91-NS-eFL" secondAttribute="trailing" constant="16" id="MyW-WM-asL"/>
                             <constraint firstItem="VGD-ko-F2l" firstAttribute="top" secondItem="TIH-5r-WaZ" secondAttribute="top" constant="80" id="SWZ-xP-XCy"/>
+                            <constraint firstItem="dPf-9E-3qG" firstAttribute="leading" secondItem="VGD-ko-F2l" secondAttribute="trailing" constant="8" id="X6a-zX-KoK"/>
                             <constraint firstItem="7VO-1U-4sy" firstAttribute="top" secondItem="ffK-Mz-TY4" secondAttribute="bottom" constant="8" id="XrK-ea-OD6"/>
-                            <constraint firstItem="VGD-ko-F2l" firstAttribute="leading" secondItem="TIH-5r-WaZ" secondAttribute="leading" constant="16" id="egQ-rO-OX1"/>
+                            <constraint firstItem="VGD-ko-F2l" firstAttribute="leading" secondItem="TIH-5r-WaZ" secondAttribute="leading" constant="66" id="egQ-rO-OX1"/>
+                            <constraint firstItem="ffK-Mz-TY4" firstAttribute="top" secondItem="dPf-9E-3qG" secondAttribute="bottom" constant="4" id="lgn-hP-qem"/>
                             <constraint firstItem="sTc-GV-xcg" firstAttribute="top" secondItem="h91-NS-eFL" secondAttribute="bottom" constant="8" id="ulP-k0-am5"/>
                             <constraint firstAttribute="trailing" secondItem="ffK-Mz-TY4" secondAttribute="trailing" constant="8" id="vGf-R3-cCn"/>
                         </constraints>
