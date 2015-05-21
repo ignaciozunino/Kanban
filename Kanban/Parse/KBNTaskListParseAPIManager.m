@@ -7,6 +7,7 @@
 //
 
 #import "KBNTaskListParseAPIManager.h"
+#import "KBNTaskListUtils.h"
 
 @implementation KBNTaskListParseAPIManager
 
@@ -54,6 +55,38 @@
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     onError(error);
                 }];
+}
+
+- (void)updateTaskLists:(NSArray*)taskLists completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
+    NSMutableDictionary *record;
+    
+    for (KBNTaskList *taskList in taskLists) {
+        
+        NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithCapacity:3];
+        [updates setObject:taskList.name forKey:PARSE_TASKLIST_NAME_COLUMN];
+        [updates setObject:taskList.project.projectId forKey:PARSE_TASKLIST_PROJECT_COLUMN];
+        [updates setObject:taskList.order forKey:PARSE_TASKLIST_ORDER_COLUMN];
+        
+        record = [NSMutableDictionary dictionaryWithCapacity:3];
+        [record setObject:@"PUT" forKey:@"method"];
+        [record setObject:[NSString stringWithFormat:@"/1/classes/TaskList/%@", taskList.taskListId] forKey:@"path"];
+        [record setObject:updates forKey:@"body"];
+        
+        [requests addObject:record];
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
+    
+    [self.afManager POST:PARSE_BATCH
+              parameters:params
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     onCompletion(responseObject);
+                 }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     onError(error);
+                 }];
 }
 
 @end

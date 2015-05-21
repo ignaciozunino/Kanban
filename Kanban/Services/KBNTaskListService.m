@@ -42,9 +42,34 @@
     
 }
 
--(BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList
-{
+- (BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList {
     return ([taskList.tasks count] > LIMIT_TASKLIST_ITEMS);
+}
+
+- (void)moveTaskList:(KBNTaskList *)taskList toOrder:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    
+    
+}
+
+- (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    if (!order) {
+        order = [NSNumber numberWithUnsignedLong:project.taskLists.count];
+    } else {
+        [self updateTaskListOrdersInSet:project.taskLists];
+    }
+    
+    [self createTaskListWithName:taskList.name order:order projectId:project.projectId completionBlock:onCompletion errorBlock:onError];
+    
+}
+
+- (void)updateTaskListOrdersInSet:(NSMutableOrderedSet*)set {
+    
+    for (NSUInteger index = 0; index < set.count; index++) {
+        KBNTaskList *taskListToReorder = [set objectAtIndex:index];
+        taskListToReorder.order = [NSNumber numberWithInteger:index];
+    }
 }
 
 @end

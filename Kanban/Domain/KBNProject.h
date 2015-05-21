@@ -18,8 +18,8 @@
 @property (nonatomic, strong) NSString * projectId;
 @property (nonatomic, strong) id users;
 @property (nonatomic, strong) NSNumber *active;
-@property (nonatomic, strong) NSOrderedSet *taskLists;
-@property (nonatomic, strong) NSOrderedSet *tasks;
+@property (nonatomic, strong) NSMutableOrderedSet *taskLists;
+@property (nonatomic, strong) NSMutableOrderedSet *tasks;
 @end
 
 @interface KBNProject (CoreDataGeneratedAccessors)
