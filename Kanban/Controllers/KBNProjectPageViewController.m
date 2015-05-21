@@ -296,6 +296,17 @@
     }
 }
 
+- (void)insertTaskListBefore:(KBNProjectDetailViewController *)viewController {
+    
+    
+    
+}
+
+- (void)insertTaskListAfter:(KBNProjectDetailViewController *)viewController {
+    
+    
+}
+
 - (void)toggleScrollStatus {
     self.scrollView.scrollEnabled = !self.scrollView.scrollEnabled;
 }

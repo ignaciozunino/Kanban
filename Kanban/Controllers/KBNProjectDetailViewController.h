@@ -40,7 +40,7 @@
 @property (strong, nonatomic) NSMutableArray* taskListTasks;
 @property (strong, nonatomic) KBNTaskList *taskList;
 
-@property (strong, nonatomic) IBOutlet UILabel *labelState;
+@property (strong, nonatomic) IBOutlet UILabel *labelTaskListName;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

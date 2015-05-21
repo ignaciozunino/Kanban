@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -250,7 +249,7 @@
                     <connections>
                         <outlet property="deleteButton" destination="h91-NS-eFL" id="hhp-qv-fVI"/>
                         <outlet property="doubleTap" destination="t0p-JV-okQ" id="dQL-4T-TQy"/>
-                        <outlet property="labelState" destination="VGD-ko-F2l" id="aAs-fM-OTN"/>
+                        <outlet property="labelTaskListName" destination="VGD-ko-F2l" id="buP-qD-pI8"/>
                         <outlet property="longPress" destination="KBZ-j3-w0h" id="RC0-HG-MuT"/>
                         <outlet property="tableView" destination="ffK-Mz-TY4" id="FGr-rf-2pI"/>
                         <outlet property="tap" destination="cik-EW-rmh" id="Xd4-bz-8ua"/>

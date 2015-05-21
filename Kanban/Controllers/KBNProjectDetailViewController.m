@@ -39,7 +39,7 @@
     // Do any additional setup after loading the view.
     
     self.title = self.project.name;
-    self.labelState.text = self.taskList.name;
+    self.labelTaskListName.text = self.taskList.name;
     [self.deleteButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
     [self.deleteButton sizeToFit];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
@@ -78,14 +78,19 @@
 
 #pragma mark - IBActions
 
-- (IBAction)addTaskList:(UIBarButtonItem *)sender {
+- (IBAction)addTaskList:(id)sender {
     
-    NSString *currentList = [@" " stringByAppendingString:self.labelState.text];
+    NSString *currentList = [@" " stringByAppendingString:self.labelTaskListName.text];
     NSString *beforeTitle = [BEFORE_TITLE stringByAppendingString:currentList];
     NSString *afterTitle = [AFTER_TITLE stringByAppendingString:currentList];
     
+    NSString *message = nil;
+    if ([sender isKindOfClass:[NSError class]]) {
+        message = CREATING_TASKLIST_WITHOUT_NAME_ERROR;
+    }
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ADD_LIST_TITLE
-                                                    message:nil
+                                                    message:message
                                                    delegate:self
                                           cancelButtonTitle:CANCEL_TITLE
                                           otherButtonTitles:beforeTitle, afterTitle, nil];
@@ -98,17 +103,25 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-    switch (buttonIndex) {
-        case 0: //Cancel
-            break;
-        case 1: //Before
-            [self.delegate insertTaskListBefore:self];
-            break;
-        case 2: //After
-            [self.delegate insertTaskListAfter:self];
-            break;
-        default:
-            break;
+    if (!buttonIndex) {
+        return;
+    }
+    
+    if ([[[alertView textFieldAtIndex:0] text] length]) {
+        switch (buttonIndex) {
+            case 1: //Before
+                if ([[[alertView textFieldAtIndex:0] text] length]) {
+                    [self.delegate insertTaskListBefore:self];
+                }
+                break;
+            case 2: //After
+                if ([[[alertView textFieldAtIndex:0] text] length]) {
+                    [self.delegate insertTaskListAfter:self];
+                }
+                break;
+        }
+    } else {
+        [self addTaskList:[NSError new]];
     }
 }
 
