@@ -22,9 +22,9 @@
 
 - (void)moveToLeftTask:(KBNTask*)task from:(KBNProjectDetailViewController*)viewController;
 
-- (void)insertTaskListBefore:(KBNProjectDetailViewController*)viewController;
+- (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController*)viewController;
 
-- (void)insertTaskListAfter:(KBNProjectDetailViewController*)viewController;
+- (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController*)viewController;
 
 - (void)toggleScrollStatus;
 

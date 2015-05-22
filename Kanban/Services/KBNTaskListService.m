@@ -54,17 +54,16 @@
 
 - (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    if (!order) {
-        order = [NSNumber numberWithUnsignedLong:project.taskLists.count];
-    } else {
-        [self updateTaskListOrdersInSet:project.taskLists];
-    }
+    taskList.project = project;
+    taskList.order = order;
     
-    [self createTaskListWithName:taskList.name order:order projectId:project.projectId completionBlock:onCompletion errorBlock:onError];
+    [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
+    [self updateTaskListOrdersInSet:project.taskLists];
     
+    [self.dataService updateTaskLists:project.taskLists.array completionBlock:onCompletion errorBlock:onError];
 }
 
-- (void)updateTaskListOrdersInSet:(NSMutableOrderedSet*)set {
+- (void)updateTaskListOrdersInSet:(NSOrderedSet*)set {
     
     for (NSUInteger index = 0; index < set.count; index++) {
         KBNTaskList *taskListToReorder = [set objectAtIndex:index];

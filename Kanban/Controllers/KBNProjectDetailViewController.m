@@ -10,6 +10,7 @@
 #import "KBNAppDelegate.h"
 #import "KBNTaskDetailViewController.h"
 #import "KBNTaskService.h"
+#import "KBNTaskListUtils.h"
 #import "KBNAlertUtils.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
@@ -107,16 +108,21 @@
         return;
     }
     
-    if ([[[alertView textFieldAtIndex:0] text] length]) {
+    NSString *taskListName = [[alertView textFieldAtIndex:0] text];
+    
+    if (taskListName.length) {
+        
+        KBNTaskList *taskList = [KBNTaskListUtils taskListWithName:taskListName];
+        
         switch (buttonIndex) {
             case 1: //Before
                 if ([[[alertView textFieldAtIndex:0] text] length]) {
-                    [self.delegate insertTaskListBefore:self];
+                    [self.delegate insertTaskList:taskList before:self];
                 }
                 break;
             case 2: //After
                 if ([[[alertView textFieldAtIndex:0] text] length]) {
-                    [self.delegate insertTaskListAfter:self];
+                    [self.delegate insertTaskList:taskList after:self];
                 }
                 break;
         }

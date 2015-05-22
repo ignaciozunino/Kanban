@@ -22,6 +22,12 @@
 @dynamic tasks;
 
 
+- (void)insertObject:(KBNTaskList *)value inTaskListsAtIndex:(NSUInteger)idx {
+    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.taskLists.array];
+    [temp insertObject:value atIndex:idx];
+    self.taskLists = [NSOrderedSet orderedSetWithArray:temp];
+}
+
 - (BOOL)isActive {
     return self.active.boolValue;
 }

@@ -70,8 +70,15 @@
         [updates setObject:taskList.order forKey:PARSE_TASKLIST_ORDER_COLUMN];
         
         record = [NSMutableDictionary dictionaryWithCapacity:3];
-        [record setObject:@"PUT" forKey:@"method"];
-        [record setObject:[NSString stringWithFormat:@"/1/classes/TaskList/%@", taskList.taskListId] forKey:@"path"];
+        
+        if (taskList.taskListId) {
+            [record setObject:@"PUT" forKey:@"method"];
+            [record setObject:[NSString stringWithFormat:@"/1/classes/TaskList/%@", taskList.taskListId] forKey:@"path"];
+        }
+        else { //Task to add does not have taskId
+            [record setObject:@"POST" forKey:@"method"];
+            [record setObject:@"/1/classes/TaskList" forKey:@"path"];
+        }
         [record setObject:updates forKey:@"body"];
         
         [requests addObject:record];

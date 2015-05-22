@@ -22,8 +22,8 @@
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) NSMutableArray* projectTasks;
-@property (strong, nonatomic) NSArray* projectLists;
-@property (strong, nonatomic) NSArray* detailViewControllers; //An array of view controllers built once. Then, every time the user goes to the next/previous page, the corresponding KBNProjectDetailViewController is obtained immediatly from the array, at no cost.
+@property (strong, nonatomic) NSMutableArray* projectLists;
+@property (strong, nonatomic) NSMutableArray* detailViewControllers; //An array of view controllers built once. Then, every time the user goes to the next/previous page, the corresponding KBNProjectDetailViewController is obtained immediatly from the array, at no cost.
 
 
 @end
@@ -34,7 +34,7 @@
     [super viewDidLoad];
     
     self.title = self.project.name;
-
+    
     self.projectTasks = [NSMutableArray new];
     
     self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
@@ -93,13 +93,12 @@
     
     [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
         
-        NSMutableArray *taskLists = [[NSMutableArray alloc] init];
+        weakself.projectLists = [[NSMutableArray alloc] init];
         
         for (NSDictionary* params in [response objectForKey:@"results"]) {
-            [taskLists addObject:[KBNTaskListUtils taskListForProject:self.project params:params]];
+            [weakself.projectLists addObject:[KBNTaskListUtils taskListForProject:self.project params:params]];
         }
         
-        weakself.projectLists = taskLists;
         [self listenUpdateManager];
         
     } errorBlock:^(NSError *error) {
@@ -118,19 +117,19 @@
 
 #pragma mark - Controller methods
 
--(void)buildDetailViewControllers
-{
-    NSMutableArray* viewControllers = [[NSMutableArray alloc] init];
+-(void)buildDetailViewControllers {
+    
+    self.detailViewControllers = [[NSMutableArray alloc] init];
+    
     int i = 0;
-    for (KBNTaskList* taskList in self.projectLists)
-    {
+    for (KBNTaskList* taskList in self.projectLists) {
+        
         //Add all detail view controllers to the pageViewController, each one having its own TaskList and array of Lists.
-        [viewControllers addObject:[self createViewControllerWithIndex:i
-                                                           andTaskList:taskList
-                                                              andTasks:[self tasksForList:taskList]]];
+        [self.detailViewControllers addObject:[self createViewControllerWithIndex:i
+                                                                      andTaskList:taskList
+                                                                         andTasks:[self tasksForList:taskList]]];
         i++;
     }
-    self.detailViewControllers = [NSArray arrayWithArray:viewControllers];
 }
 
 - (void)createPageViewController {
@@ -170,7 +169,7 @@
 }
 
 -(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index {
-
+    
     //Check if it is out of bounds
     if (([self.detailViewControllers count] == 0) || (index >= [self.detailViewControllers count]))
     {
@@ -180,7 +179,7 @@
     
     //Just return the view controller at the given index
     return [self.detailViewControllers objectAtIndex:index];
-
+    
 }
 
 
@@ -267,7 +266,7 @@
 }
 
 - (void)moveTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController to:(KBNProjectDetailViewController *)destinationViewController {
-
+    
     __block NSMutableArray *senderTasks = viewController.taskListTasks;
     __block NSMutableArray *receiverTasks = destinationViewController.taskListTasks;
     
@@ -296,14 +295,38 @@
     }
 }
 
-- (void)insertTaskListBefore:(KBNProjectDetailViewController *)viewController {
-    
-    
-    
+- (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController *)viewController {
+    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex];
 }
 
-- (void)insertTaskListAfter:(KBNProjectDetailViewController *)viewController {
+- (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController *)viewController {
+    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex + 1];
+}
+
+- (void)insertTaskList:(KBNTaskList*)taskList atIndex:(NSUInteger)index {
+    // This view controller handles two arrays:
+    // 1. projectLists
+    // 2. detailViewControllers
+    // We have to insert in new objects both arrays
     
+    [self.projectLists insertObject:taskList atIndex:index];
+    
+    KBNProjectDetailViewController *newProjectDetailViewController = [self createViewControllerWithIndex:index andTaskList:taskList andTasks:nil];
+    
+    [self.detailViewControllers insertObject:newProjectDetailViewController atIndex:index];
+    
+    NSUInteger i = 0;
+    for (KBNProjectDetailViewController *vc in self.detailViewControllers) {
+        vc.pageIndex = i;
+        vc.totalPages++;
+        i++;
+    }
+    
+    [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^{
+        // Task list created
+    } errorBlock:^(NSError *error) {
+        // Handle error
+    }];
     
 }
 
