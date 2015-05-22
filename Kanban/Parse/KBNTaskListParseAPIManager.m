@@ -57,7 +57,7 @@
                 }];
 }
 
-- (void)updateTaskLists:(NSArray*)taskLists completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)updateTaskLists:(NSArray*)taskLists completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
     NSMutableArray *requests = [[NSMutableArray alloc] init];
     NSMutableDictionary *record;
@@ -89,7 +89,12 @@
     [self.afManager POST:PARSE_BATCH
               parameters:params
                  success:^(AFHTTPRequestOperation *operation, id responseObject){
-                     onCompletion(responseObject);
+                     for (NSDictionary *record in responseObject) {
+                         NSDictionary *result = [record objectForKey:@"success"];
+                         if ([result objectForKey:PARSE_OBJECTID]) {
+                             onCompletion(result);
+                         }
+                     }
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);

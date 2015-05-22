@@ -60,7 +60,9 @@
     [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
     [self updateTaskListOrdersInSet:project.taskLists];
     
-    [self.dataService updateTaskLists:project.taskLists.array completionBlock:onCompletion errorBlock:onError];
+    [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
+        taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
+    } errorBlock:onError];
 }
 
 - (void)updateTaskListOrdersInSet:(NSOrderedSet*)set {
