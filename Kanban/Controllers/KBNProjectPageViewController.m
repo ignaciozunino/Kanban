@@ -307,7 +307,7 @@
     // This view controller handles two arrays:
     // 1. projectLists
     // 2. detailViewControllers
-    // We have to insert in new objects both arrays
+    // We have to insert new objects in both arrays
     
     [self.projectLists insertObject:taskList atIndex:index];
     
@@ -315,19 +315,29 @@
     
     [self.detailViewControllers insertObject:newProjectDetailViewController atIndex:index];
     
+    [self updateViewControllersArray];
+    
+    __weak typeof(self) weakself = self;
+    [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^{
+        // Enable edition on new task list
+    
+    } errorBlock:^(NSError *error) {
+        [weakself.projectLists removeObject:taskList];
+        [weakself.detailViewControllers removeObject:newProjectDetailViewController];
+        [weakself updateViewControllersArray];
+        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+    }];
+    
+}
+
+- (void)updateViewControllersArray {
+    
     NSUInteger i = 0;
     for (KBNProjectDetailViewController *vc in self.detailViewControllers) {
         vc.pageIndex = i;
-        vc.totalPages++;
+        vc.totalPages = self.detailViewControllers.count;
         i++;
     }
-    
-    [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^{
-        // Task list created
-    } errorBlock:^(NSError *error) {
-        // Handle error
-    }];
-    
 }
 
 - (void)toggleScrollStatus {

@@ -71,11 +71,13 @@
         
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         
+        // TaskList to add does not have taskListId.
+        // Update taskLists with taskListId and post taskList with no taskListId to be created.
         if (taskList.taskListId) {
             [record setObject:@"PUT" forKey:@"method"];
             [record setObject:[NSString stringWithFormat:@"/1/classes/TaskList/%@", taskList.taskListId] forKey:@"path"];
         }
-        else { //Task to add does not have taskId
+        else {
             [record setObject:@"POST" forKey:@"method"];
             [record setObject:@"/1/classes/TaskList" forKey:@"path"];
         }
@@ -89,6 +91,7 @@
     [self.afManager POST:PARSE_BATCH
               parameters:params
                  success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     // Parse response to get the item with the id of the taskList created and return it.
                      for (NSDictionary *record in responseObject) {
                          NSDictionary *result = [record objectForKey:@"success"];
                          if ([result objectForKey:PARSE_OBJECTID]) {

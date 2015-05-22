@@ -48,8 +48,14 @@
 
 - (void)moveTaskList:(KBNTaskList *)taskList toOrder:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
+    KBNProject *project = taskList.project;
     
+    [project removeTaskListsObject:taskList];
+    [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
     
+    [self updateTaskListOrdersInSet:project.taskLists];
+    
+    [self.dataService updateTaskLists:project.taskLists.array completionBlock:onCompletion errorBlock:onError];
 }
 
 - (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
@@ -62,7 +68,11 @@
     
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
         taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
-    } errorBlock:onError];
+    } errorBlock:^(NSError *error){
+        [project removeTaskListsObject:taskList];
+        [self updateTaskListOrdersInSet:project.taskLists];
+        onError(error);
+    }];
 }
 
 - (void)updateTaskListOrdersInSet:(NSOrderedSet*)set {

@@ -28,6 +28,12 @@
     self.taskLists = [NSOrderedSet orderedSetWithArray:temp];
 }
 
+- (void)removeTaskListsObject:(KBNTaskList *)value {
+    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.taskLists.array];
+    [temp removeObject:value];
+    self.taskLists = [NSOrderedSet orderedSetWithArray:temp];
+}
+
 - (BOOL)isActive {
     return self.active.boolValue;
 }
