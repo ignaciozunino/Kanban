@@ -12,6 +12,8 @@
 #import "KBNTaskList.h"
 #import "KBNTaskUtils.h"
 #import "KBNConstants.h"
+#import "KBNUserUtils.h"
+#import <Firebase/Firebase.h>
 
 @interface KBNUpdateUtils : NSObject
 
@@ -19,5 +21,7 @@
 +(void) updateExistingProjectsFromArray:(NSArray *) updatedProjects inArray:(NSArray *)array;
 +(void) updateExistingTasksFromDictionary:(NSDictionary *) updatedTasks inArray:(NSMutableArray *)array forProject:(KBNProject*)project;
 +(NSInteger) indexOfTask:(NSString*)taskid inArray:(NSArray *)array;
++(NSString *)generateFirebaseURL;
++(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withType:(NSString*) type andUserListArray:(NSArray*)users;
 
 @end

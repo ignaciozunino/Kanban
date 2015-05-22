@@ -14,6 +14,7 @@
 #import "KBNUserUtils.h"
 #import "KBNProjectService.h"
 #import "KBNUpdateUtils.h"
+#import <Firebase/Firebase.h>
 
 #define KBNProjectsUpdated @"KBNProjectsUpdated"
 #define KBNProjectsInitialUpdate @"KBNProjectsInitialUpdate"
@@ -29,6 +30,7 @@
 @property KBNTaskService * tasksService;
 @property KBNProject * projectForTasksUpdate;
 @property NSString * lastProjectsUpdate;
+@property (nonatomic, strong) Firebase *fireBaseRootReference;
 
 + (KBNUpdateManager *)sharedInstance;
 -(void)startUpdatingProjects;

@@ -76,4 +76,12 @@
     }
     return -1;
 }
+
++(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withType:(NSString*) type andUserListArray:(NSArray*)users{
+    for (NSString* username in users) {
+        [rootReference childByAppendingPath:[KBNUserUtils getUsernameForURLFromParse:username]];
+        NSDictionary * dataToPass = @{FIREBASE_TYPE_OF_CHANGE:type};
+        [rootReference setValue:dataToPass];
+    }
+}
 @end

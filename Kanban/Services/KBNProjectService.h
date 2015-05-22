@@ -10,13 +10,15 @@
 #import "KBNProjectParseAPIManager.h"
 #import "KBNProjectUtils.h"
 #import "KBNAppDelegate.h"
+#import <Firebase/Firebase.h>
+#import "KBNUpdateUtils.h"
 
 @interface KBNProjectService : NSObject
 +(KBNProjectService *) sharedInstance;
 
 -(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription forUser:(NSString*) username completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
--(void)editProject: (NSString*)projectID withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+-(void)editProject: (KBNProject*)project withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 -(void)addUser:(NSString*)emailAddress
      toProject:(KBNProject*)aProject
@@ -32,5 +34,5 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
 -(void)getProjectsForUser: (NSString*) username updatedAfter:(NSString*) lastUpdate  onSuccessBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 @property KBNProjectParseAPIManager* dataService;
-
+@property Firebase* fireBaseRootReference;
 @end

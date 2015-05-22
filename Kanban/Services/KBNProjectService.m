@@ -19,6 +19,7 @@
         if (!inst) {
             inst = [[self alloc] init];
             inst.dataService = [[KBNProjectParseAPIManager alloc]init];
+            inst.fireBaseRootReference = [[Firebase alloc] initWithUrl:FIREBASE_BASE_URL];
         }
     }
     return inst;
@@ -27,7 +28,6 @@
 - (NSManagedObjectContext*) managedObjectContext {
     return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
-
 
 -(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription forUser:(NSString*) username completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     if ([name isEqualToString:@""] || !name) {
@@ -44,20 +44,24 @@
         [project.users addObject:username];
         
         [self.dataService createProject:project completionBlock:^(KBNProject *newProject) {
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withType:FIREBASE_PROJECT_ADD andUserListArray:project.users];
             onCompletion(newProject);
         } errorBlock:onError];
     }
 }
 
--(void)editProject: (NSString*)projectID withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    if ([projectID isEqualToString:@""] || [newName isEqualToString:@""] ) {
+-(void)editProject: (KBNProject*)project withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+    if ([project.projectId isEqualToString:@""] || [newName isEqualToString:@""] ) {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": EDIT_PROJECT_WITHOUTNAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-102
                                             userInfo:info];
         onError(errorPtr);
     }else{
-        [self.dataService editProject:projectID withNewName:newName withNewDesc:newDescription completionBlock:onCompletion errorBlock:onError];
+        [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withType:FIREBASE_PROJECT_CHANGE andUserListArray:project.users];
+            onCompletion();
+        } errorBlock:onError];
     }
 }
 
@@ -103,8 +107,6 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
     }
 }
 
-
-
 -(BOOL)project:(KBNProject*)project hasUser:(NSString*)emailAddress{
     BOOL result = NO;
     NSArray* users = (NSArray*)project.users;
@@ -117,12 +119,12 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
     return result;
 }
 
-
 -(void)removeProject:(KBNProject*)project completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    
     project.active = @NO;
-    [self.dataService updateProjects:@[project] completionBlock:onCompletion errorBlock:onError];
-    
+    [self.dataService updateProjects:@[project] completionBlock:^{
+        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withType:FIREBASE_PROJECT_REMOVE andUserListArray:project.users];
+        onCompletion();
+    } errorBlock:onError];
 }
 
 -(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError{
@@ -183,8 +185,6 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
         }
         onCompletion(projectsArray);
     } errorBlock:onError];
-    
-    
 }
 
 @end

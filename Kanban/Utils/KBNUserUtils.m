@@ -44,4 +44,17 @@
     return [password length]>5;
 }
 
++ (NSString*)getUsernameForURL{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *username = [defaults stringForKey:USERNAME_KEY];
+    NSString * withoutAtSign = [username stringByReplacingOccurrencesOfString:@"@" withString:@"AT"];
+    NSString * finalString=[withoutAtSign stringByReplacingOccurrencesOfString:@"." withString:@"DOT"];
+    return finalString;
+}
+
++ (NSString*)getUsernameForURLFromParse: (NSString*) username{
+    NSString * withoutAtSign = [username stringByReplacingOccurrencesOfString:@"@" withString:@"AT"];
+    NSString * finalString=[withoutAtSign stringByReplacingOccurrencesOfString:@"." withString:@"DOT"];
+    return finalString;
+}
 @end

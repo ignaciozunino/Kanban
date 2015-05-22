@@ -9,11 +9,12 @@
 #import "KBNUpdateManager.h"
 
 @interface KBNUpdateManager ()
+
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateTasks;
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateProjects;
+@property (nonatomic,unsafe_unretained) BOOL listeningToFirebase;
 @property NSString * lastTasksUpdate;
-@property NSTimer * projectTimer;
-@property NSTimer * taskTimer;
+
 @end
 
 @implementation KBNUpdateManager
@@ -26,6 +27,8 @@
             inst = [[KBNUpdateManager alloc] init];
             inst.projectService = [KBNProjectService sharedInstance];
             inst.tasksService = [KBNTaskService sharedInstance];
+            NSString * urlString = [[NSString alloc] initWithFormat:@"%@/%@", FIREBASE_BASE_URL,[KBNUserUtils getUsernameForURL]];
+            inst.fireBaseRootReference =[[Firebase alloc] initWithUrl:urlString];
         }
     }
     return inst;
@@ -40,102 +43,81 @@
 }
 
 -(void)startUpdatingProjects{
-    if (!self.projectTimer) {
-        [self.projectService getProjectsForUser:[KBNUserUtils getUsername]
-                                                onSuccessBlock:^(NSArray *records) {
-                                                    
-                                                    self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
-                                                    [self postNotification:KBNProjectsInitialUpdate withObject:records];
-                                                    self.shouldUpdateProjects = YES;
-                                                    self.projectTimer = [NSTimer scheduledTimerWithTimeInterval:KBNTimeBetweenUpdates
-                                                                                                         target:self
-                                                                                                       selector:@selector(updateProjects)
-                                                                                                       userInfo:nil
-                                                                                                        repeats:YES];
-                                                }
-                                                    errorBlock:^(NSError *error) {
-                                                        
-                                                    }];
-    }
+    [self.projectService getProjectsForUser:[KBNUserUtils getUsername]
+                             onSuccessBlock:^(NSArray *records) {
+                                 self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
+                                 [self postNotification:KBNProjectsInitialUpdate withObject:records];
+                                 self.shouldUpdateProjects = YES;
+                                 [self listeningToFirebase];
+                             }
+                                 errorBlock:^(NSError *error) {
+                                     
+                                 }];
 }
 
 -(void)startUpdatingTasksForProject:(KBNProject*)project{
     self.projectForTasksUpdate =project;
     
     [self.tasksService getTasksForProject:project.projectId
-                                        completionBlock:^(NSDictionary *records) {
-                                            
-                                            [self postNotification:KBNTasksInitialUpdate withObject:[records objectForKey:@"results"]];
-                                            self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-                                            self.shouldUpdateTasks = YES;
-                                            self.taskTimer =  [NSTimer scheduledTimerWithTimeInterval:KBNTimeBetweenUpdates
-                                                                                               target:self
-                                                                                             selector:@selector(updateTasks)
-                                                                                             userInfo:nil
-                                                                                              repeats:YES];
-                                        }
-                                             errorBlock:^(NSError *error) {
-                                                 
-                                             }];
+                          completionBlock:^(NSDictionary *records) {
+                              
+                              [self postNotification:KBNTasksInitialUpdate withObject:[records objectForKey:@"results"]];
+                              self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+                              self.shouldUpdateTasks = YES;
+                              ///we supouse to be listening but we try just in case
+                              [self listeningToFirebase];
+                          }
+                               errorBlock:^(NSError *error) {
+                                   
+                               }];
 }
 
 -(void)stopUpdatingProjects{
     self.shouldUpdateProjects = NO;
-    [self.taskTimer invalidate];
-    
 }
 
 -(void)stopUpdatingTasks{
     self.shouldUpdateTasks= NO;
-    [self.taskTimer invalidate];
-    
 }
 
 -(void)updateProjects{
-    
     if (self.shouldUpdateProjects) {
         [self.projectService getProjectsForUser:[KBNUserUtils getUsername]
-                                                 updatedAfter:self.lastProjectsUpdate
-                                               onSuccessBlock:^(NSArray *records) {
-                                                   if (records.count>0) {
-                                                       
-                                                       [self postNotification:KBNProjectsUpdated withObject:records];
-                                                   }
-                                                   for (KBNProject *project in records) {
-                                                       
-                                                       //if we update the current project we notify
-                                                       if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
-                                                           self.projectForTasksUpdate= project;
-                                                           [self postNotification:KBNCurrentProjectUpdated withObject:project];
-                                                       }
-                                                       
-                                                       
-                                                   }
-                                                   self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-                                               }
-                                                   errorBlock:^(NSError *error) {
-                                                       
-                                                   }];
+                                   updatedAfter:self.lastProjectsUpdate
+                                 onSuccessBlock:^(NSArray *records) {
+                                     if (records.count>0) {
+                                         
+                                         [self postNotification:KBNProjectsUpdated withObject:records];
+                                     }
+                                     for (KBNProject *project in records) {
+                                         //if we update the current project we notify
+                                         if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
+                                             self.projectForTasksUpdate= project;
+                                             [self postNotification:KBNCurrentProjectUpdated withObject:project];
+                                         }
+                                     }
+                                     self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+                                 }
+                                     errorBlock:^(NSError *error) {
+                                         
+                                     }];
     }
 }
 
 -(void)updateTasks{
     if (self.shouldUpdateTasks) {
-        
         [self.tasksService getUpdatedTasksForProject:self.projectForTasksUpdate.projectId
-                                                  withModifiedDate:self.lastTasksUpdate
-                                                   completionBlock:^(NSDictionary *records) {
-                                                       NSDictionary * results=[records objectForKey:@"results"];
-                                                       if(results.count > 0 ){
-                                                           
-                                                           [self postNotification:KBNTasksUpdated withObject:results];
-                                                       }
-                                                       self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-                                                       
-                                                   }
-                                                        errorBlock:^(NSError *error) {
-                                                            
-                                                        }];
+                                    withModifiedDate:self.lastTasksUpdate
+                                     completionBlock:^(NSDictionary *records) {
+                                         NSDictionary * results=[records objectForKey:@"results"];
+                                         if(results.count > 0 ){
+                                             [self postNotification:KBNTasksUpdated withObject:results];
+                                             self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+                                         }
+                                     }
+                                          errorBlock:^(NSError *error) {
+                                              
+                                          }];
     }
 }
 
@@ -147,5 +129,20 @@
 - (void)dealloc
 {
     
+}
+
+- (void) startListening
+{
+    if (! self.listeningToFirebase) {//if we are not listening start listen
+        self.listeningToFirebase = YES;
+        [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+            NSString * type = [((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TYPE_OF_CHANGE];
+            if ([type isEqualToString:FIREBASE_PROJECT_CHANGE]) {
+                [self updateProjects];
+            }else if ([type isEqualToString:FIREBASE_TASK_CHANGE]){
+                [self updateTasks];
+            }
+        }];
+    }
 }
 @end
