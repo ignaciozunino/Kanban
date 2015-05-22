@@ -145,6 +145,7 @@ typedef void (^KBNConnectionSuccessIdBlock) (NSString *objectId);
 #define DARK_BLUE 0x125066
 #define DEFAULT_BLUE 0x007aff
 #define BORDER_GRAY 0xc7c7c7
+#define DISABLE_GRAY 0x8f8f90
 
 @interface KBNConstants : NSObject
 
