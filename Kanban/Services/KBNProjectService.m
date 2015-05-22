@@ -92,6 +92,14 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
                 onSuccess();
             } errorBlock:onError];
         }
+        else
+        {
+            NSDictionary * info = @{@"NSLocalizedDescriptionKey": INVITE_USERS_USER_EXISTS_ERROR};
+            NSString* domain = ERROR_DOMAIN;
+            NSError *errorPtr = [NSError errorWithDomain:domain code:-108 userInfo:info];
+            onError(errorPtr);
+            
+        }
     }
 }
 

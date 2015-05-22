@@ -19,7 +19,8 @@
 #define ALERT_MESSAGE_INVITE_FAILED @"Sorry, the invite could not be sent at this time. Try again later"
 #define ALERT_MESSAGE_INVITE_PROMPT_TITLE @"Invite User"
 #define ALERT_MESSAGE_INVITE_PROMPT_MESSAGE @"Enter the email address"
-#define ALERT_MESSAGE_INVITE_PROMPT_CANCELBUTTONTITLE @"Invite"
+#define ALERT_MESSAGE_INVITE_PROMPT_INVITEBUTTONTITLE @"Invite"
+#define ALERT_MESSAGE_INVITE_PROMPT_CANCELBUTTONTITLE @"Cancel"
 
 
 @interface KBNEditProjectViewController()
@@ -85,13 +86,16 @@
 
 - (IBAction)onInviteUserPressed:(id)sender {
     //Show a simple UIAlertView with a text box.
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:ALERT_MESSAGE_INVITE_PROMPT_TITLE message:ALERT_MESSAGE_INVITE_PROMPT_MESSAGE delegate:self cancelButtonTitle:ALERT_MESSAGE_INVITE_PROMPT_CANCELBUTTONTITLE otherButtonTitles:nil,nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:ALERT_MESSAGE_INVITE_PROMPT_TITLE message:ALERT_MESSAGE_INVITE_PROMPT_MESSAGE delegate:self cancelButtonTitle:ALERT_MESSAGE_INVITE_PROMPT_CANCELBUTTONTITLE otherButtonTitles:ALERT_MESSAGE_INVITE_PROMPT_INVITEBUTTONTITLE,nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
 }
 
 #pragma mark - UIAlertView delegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (!buttonIndex){
+        return;
+    }
     NSString* title = [alertView buttonTitleAtIndex:buttonIndex];
     if ([title isEqualToString:@"Invite"]){
         UITextField * emailTextField = [alertView textFieldAtIndex:0];
@@ -115,7 +119,7 @@
                                     [KBNEmailUtils sendEmailTo:emailAddress
                                                           from:[KBNUserUtils getUsername]
                                                        subject:EMAIL_INVITE_SUBJECT
-                                                          body:[NSString stringWithFormat:@"%@ Link: %@/%@",EMAIL_INVITE_BODY,WEBSITE_BASE_URL,self.project.projectId]
+                                                          body:[NSString stringWithFormat:@"%@ Link: %@%@",EMAIL_INVITE_BODY,WEBSITE_BASE_URL,self.project.projectId]
                                                      onSuccess:^(){
                                                          //Refresh the table view
                                                          [weakSelf.usersTableView reloadData];
@@ -129,6 +133,7 @@
                                                        }];
                                 }
                                      errorBlock:^(NSError *error) {
+                                         [KBNAlertUtils showAlertView:[error.userInfo objectForKey:@"NSLocalizedDescriptionKey"] andType:ERROR_ALERT];
                                          [weakSelf disableActivityIndicator];
                                      }];
 }
