@@ -49,6 +49,8 @@
 #define PROJECT_CREATION_SUCCESS @"Project created successfully!"
 #define PROJECT_EDIT_SUCCESS @"Project modified successfully!"
 #define TASK_EDIT_SUCCESS @"Task modified successfully!"
+
+
 //Error messages
 #define ERROR_DOMAIN @"globant.kanban.Kanban.ErrorDomain";
 #define SIGNIN_ERROR @"Please verify the username is a valid email and the password has at least 6 characters, one letter and one number."
@@ -61,6 +63,8 @@
 #define EDIT_PROJECT_WITHOUTNAME_ERROR @"Project must have a name"
 #define USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
 #define EDIT_TASK_WITHOUTNAME_ERROR @"Task must have a name"
+#define INVITE_USERS_USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
+
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
 #define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"
@@ -91,6 +95,23 @@
 
 
 #define PARSE_USER_NAME_COLUMN @"username"
+
+
+//Mailgun constants
+#define MAILGUN_URL_SANDBOX @"https://api.mailgun.net/v3/sandbox92aeacae0c604dfe9bdf32b0d17e3cf4.mailgun.org/messages"
+#define MAILGUN_API_KEY_USER @"api"
+#define MAILGUN_API_KEY_PASSWORD @"key-aa16f88cfd7050161fbd5f43ed8a071e"
+#define MAILGUN_FIELD_TO @"to"
+#define MAILGUN_FIELD_FROM @"from"
+#define MAILGUN_FIELD_SUBJECT @"subject"
+#define MAILGUN_FIELD_BODY @"text"
+
+//Email communications
+#define EMAIL_INVITE_SUBJECT @"Invitation to my project"
+#define EMAIL_INVITE_BODY @"I've just invited you to my Simple Kanban project. Sign in to the Kanban App with your email address and check it out!"
+
+//Base URL of the web site - make sure to include the trailing slash:
+#define WEBSITE_BASE_URL @"https://www.simplekanban.com/"
 
 
 //alert titles
