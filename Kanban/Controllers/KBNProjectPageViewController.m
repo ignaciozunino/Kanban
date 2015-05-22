@@ -307,7 +307,7 @@
     // This view controller handles two arrays:
     // 1. projectLists
     // 2. detailViewControllers
-    // We have to insert new objects in both arrays
+    // We have to insert new objects (task list and detail view controller) in the corresponding array.
     
     [self.projectLists insertObject:taskList atIndex:index];
     
@@ -338,6 +338,26 @@
         vc.totalPages = self.detailViewControllers.count;
         i++;
     }
+}
+
+- (void)moveBackwardFrom:(KBNProjectDetailViewController *)viewController {
+    
+    KBNProjectDetailViewController* destinationViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerBeforeViewController:viewController];
+    
+    [self.pageViewController setViewControllers:@[destinationViewController]
+                                      direction:UIPageViewControllerNavigationDirectionReverse
+                                       animated:YES
+                                     completion:nil];
+}
+
+- (void)moveForwardFrom:(KBNProjectDetailViewController *)viewController {
+    
+    KBNProjectDetailViewController* destinationViewController = (KBNProjectDetailViewController*)[self pageViewController:self.pageViewController viewControllerAfterViewController:viewController];
+    
+    [self.pageViewController setViewControllers:@[destinationViewController]
+                                      direction:UIPageViewControllerNavigationDirectionForward
+                                       animated:YES
+                                     completion:nil];
 }
 
 - (void)toggleScrollStatus {

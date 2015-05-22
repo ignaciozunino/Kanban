@@ -26,6 +26,10 @@
 
 - (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController*)viewController;
 
+- (void)moveBackwardFrom:(KBNProjectDetailViewController*)viewController;
+
+- (void)moveForwardFrom:(KBNProjectDetailViewController*)viewController;
+
 - (void)toggleScrollStatus;
 
 @end

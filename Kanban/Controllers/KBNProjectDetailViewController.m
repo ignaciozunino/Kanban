@@ -118,11 +118,13 @@
             case 1: //Before
                 if ([[[alertView textFieldAtIndex:0] text] length]) {
                     [self.delegate insertTaskList:taskList before:self];
+                    [self.delegate moveBackwardFrom:self];
                 }
                 break;
             case 2: //After
                 if ([[[alertView textFieldAtIndex:0] text] length]) {
                     [self.delegate insertTaskList:taskList after:self];
+                    [self.delegate moveForwardFrom:self];
                 }
                 break;
         }
