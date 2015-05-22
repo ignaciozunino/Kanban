@@ -85,6 +85,7 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
     {
         if (![self project:aProject hasUser:emailAddress])
         {
+            __weak typeof(self) weakself = self;
             //Add the user email at the top
             NSMutableArray* usersMutableArray = [[NSMutableArray alloc]init];
             [usersMutableArray addObject:emailAddress];
@@ -93,6 +94,7 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
             NSArray* newUsersArray = [NSArray arrayWithArray:usersMutableArray];
             [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(){
                 aProject.users = newUsersArray;
+                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withType:FIREBASE_PROJECT_ADD andUserListArray:aProject.users];
                 onSuccess();
             } errorBlock:onError];
         }
