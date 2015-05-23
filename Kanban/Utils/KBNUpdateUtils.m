@@ -24,15 +24,13 @@
                 if ([list.taskListId isEqualToString:taskListId]) {
                     taskList = list;
                     KBNTask *t = [KBNTaskUtils taskForProject:project taskList:taskList params:params];
-                    if ([t.active isEqualToNumber:@1] ) {
-                        NSInteger index = [self indexOfTask:[params objectForKey:PARSE_OBJECTID]inArray:array];
-                        if (index!= -1) {
-                            [array replaceObjectAtIndex:index withObject:t];
-                        }else{
-                            [array addObject:t];
-                        }
-                        break;
+                    NSInteger index = [self indexOfTask:[params objectForKey:PARSE_OBJECTID]inArray:array];
+                    if (index!= -1) {
+                        [array replaceObjectAtIndex:index withObject:t];
+                    }else{
+                        [array addObject:t];
                     }
+                    break;
                 }
             }
             

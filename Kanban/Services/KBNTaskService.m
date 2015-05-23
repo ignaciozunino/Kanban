@@ -49,8 +49,25 @@
 
 - (void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     
-    [self.dataService getTasksForProject:projectId completionBlock:onCompletion errorBlock:onError];
+    [self.dataService getTasksForProject:projectId completionBlock:^(NSDictionary *records) {
+        onCompletion([self activeRecordsFromDictionary:records]);
+    } errorBlock:onError];
     
+}
+
+- (NSDictionary*)activeRecordsFromDictionary:(NSDictionary*)records {
+    
+    NSArray *results = [records objectForKey:@"results"];
+    NSMutableArray *activeTasks = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *params in results) {
+        if ([[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] boolValue]) {
+            [activeTasks addObject:params];
+        };
+    }
+    
+    return [NSDictionary dictionaryWithObject:activeTasks forKey:@"results"];
+
 }
 
 - (void)removeTask:(KBNTask*)task completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
@@ -123,7 +140,9 @@
 }
 
 - (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    [self.dataService getTasksUpdatedForProject:projectId fromDate:lastDate completionBlock:onCompletion errorBlock:onError];
+    [self.dataService getTasksUpdatedForProject:projectId fromDate:lastDate completionBlock:^(NSDictionary *records) {
+        onCompletion([self activeRecordsFromDictionary:records]);
+    } errorBlock:onError];
 }
 
 -(void)updateTask:(KBNTask*)task onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
