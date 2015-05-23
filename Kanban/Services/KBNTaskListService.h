@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KBNAppDelegate.h"
 #import "KBNTaskListParseAPIManager.h"
-#import "KBNTaskList.h"
+#import "KBNTaskListUtils.h"
 
 @interface KBNTaskListService : NSObject
 
