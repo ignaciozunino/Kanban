@@ -68,6 +68,7 @@
     
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
         taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
+        onCompletion(onCompletion);
     } errorBlock:^(NSError *error){
         [project removeTaskListsObject:taskList];
         [self updateTaskListOrdersInSet:project.taskLists];

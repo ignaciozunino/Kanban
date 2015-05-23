@@ -226,7 +226,7 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCh-uY-tqv" userLabel="DisableView">
+                            <view hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCh-uY-tqv" userLabel="ActivityIndicatorView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="d5X-Mv-4N4">
@@ -265,6 +265,8 @@
                     <navigationItem key="navigationItem" title="Project Detail" id="Asi-r5-KaZ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="d5X-Mv-4N4" id="I6M-Jt-iVl"/>
+                        <outlet property="activityIndicatorBackground" destination="mCh-uY-tqv" id="3aj-PU-wx6"/>
                         <outlet property="deleteButton" destination="h91-NS-eFL" id="hhp-qv-fVI"/>
                         <outlet property="doubleTap" destination="t0p-JV-okQ" id="dQL-4T-TQy"/>
                         <outlet property="labelTaskListName" destination="VGD-ko-F2l" id="buP-qD-pI8"/>

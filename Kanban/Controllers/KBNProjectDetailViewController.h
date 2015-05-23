@@ -14,6 +14,8 @@
 #import "KBNAddTaskViewController.h"
 #import "KBNTaskListService.h"
 
+#define ENABLE_VIEW @"enable view"
+
 @class KBNProjectDetailViewController;
 
 @protocol KBNProjectDetailViewControllerDelegate <NSObject>
@@ -40,6 +42,7 @@
 
 @property (assign, nonatomic) NSUInteger pageIndex;
 @property (assign, nonatomic) NSUInteger totalPages;
+@property (assign, nonatomic) BOOL enable;
 
 @property (strong, nonatomic) NSMutableArray* taskListTasks;
 @property (strong, nonatomic) KBNTaskList *taskList;

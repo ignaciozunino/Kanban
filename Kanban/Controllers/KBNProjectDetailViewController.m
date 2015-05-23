@@ -31,6 +31,9 @@
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *doubleTap;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tap;
 
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) IBOutlet UIView *activityIndicatorBackground;
+
 @end
 
 @implementation KBNProjectDetailViewController
@@ -54,6 +57,8 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableActivityIndicator) name:ENABLE_VIEW object:nil];
 
     [self.tableView reloadData];
     
@@ -64,8 +69,17 @@
         [self.deleteButton setHidden:NO];
         [self.deleteButton setEnabled:YES];
     }
+    
+    if (!self.enable) {
+        [self enableActivityIndicator];
+    }
 
     self.title = self.project.name;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ENABLE_VIEW object:nil];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -131,6 +145,20 @@
     } else {
         [self addTaskList:[NSError new]];
     }
+}
+
+#pragma mark - Activity Indicator Methods
+
+- (void)enableActivityIndicator {
+    [self.activityIndicatorBackground setHidden:NO];
+    [self.activityIndicator setHidden:NO];
+    [self.activityIndicator startAnimating];
+}
+
+- (void)disableActivityIndicator {
+    [self.activityIndicator stopAnimating];
+    [self.activityIndicator setHidden:YES];
+    [self.activityIndicatorBackground setHidden:YES];
 }
 
 #pragma mark - Table View Data Source

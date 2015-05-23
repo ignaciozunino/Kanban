@@ -192,6 +192,7 @@
     projectDetailViewController.pageIndex = index;
     projectDetailViewController.totalPages = self.projectLists.count;
     projectDetailViewController.project = self.project;
+    projectDetailViewController.enable = YES;
     
     projectDetailViewController.taskListTasks = [NSMutableArray arrayWithArray:tasks];
     projectDetailViewController.taskList = taskList;
@@ -313,13 +314,18 @@
     
     KBNProjectDetailViewController *newProjectDetailViewController = [self createViewControllerWithIndex:index andTaskList:taskList andTasks:nil];
     
+    [newProjectDetailViewController setEnable:NO];
+    
     [self.detailViewControllers insertObject:newProjectDetailViewController atIndex:index];
     
     [self updateViewControllersArray];
     
     __weak typeof(self) weakself = self;
+    
     [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^{
         // Enable edition on new task list
+        [newProjectDetailViewController setEnable:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];
     
     } errorBlock:^(NSError *error) {
         [weakself.projectLists removeObject:taskList];
