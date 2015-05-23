@@ -13,9 +13,12 @@
 #import "KBNAlertUtils.h"
 #import "KBNAppDelegate.h"
 #import "UIFont+CustomFonts.h"
+#import "KBNEmailUtils.h"
+#import "KBNUserUtils.h"
 
-@interface KBNEditProjectViewController : UIViewController
+@interface KBNEditProjectViewController : UIViewController<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @property KBNProject* project;
+
 
 @end

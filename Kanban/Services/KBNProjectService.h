@@ -18,6 +18,11 @@
 
 -(void)editProject: (NSString*)projectID withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
+-(void)addUser:(NSString*)emailAddress
+     toProject:(KBNProject*)aProject
+completionBlock:(KBNConnectionSuccessBlock)onSuccess
+    errorBlock:(KBNConnectionErrorBlock)onError;
+
 -(void)removeProject:(KBNProject*)project completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 -(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError;
