@@ -43,7 +43,7 @@
             onError(errorPtr);
         } else {
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
-                [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withType:FIREBASE_TASK_ADD andUserListArray:aTask.project.users];
+                [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD andUserListArray:aTask.project.users];
                 onCompletion(records);
             } errorBlock:onError];
         }
@@ -70,7 +70,7 @@
     
     //Send updates to the data service
     [self.dataService updateTasks:tasksToUpdate completionBlock:^{
-        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withType:FIREBASE_TASK_REMOVE andUserListArray:task.project.users];
+        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_REMOVE andUserListArray:task.project.users];
         onCompletion();
     } errorBlock:onError];
 }
@@ -106,7 +106,7 @@
     //Send updates to the data service
     [self.dataService updateTasks:tasksToUpdate
                   completionBlock:^{
-                      [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference
+                      [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
                                                         withType:FIREBASE_TASK_CHANGE
                                                 andUserListArray:task.project.users];
                       onCompletion();
@@ -125,7 +125,7 @@
     completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     [self.dataService createTasks:tasks completionBlock:^(NSDictionary *records) {
         if (tasks.count >0) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withType:FIREBASE_TASK_ADD andUserListArray:((KBNTask *)tasks[0]).project.users];
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD andUserListArray:((KBNTask *)tasks[0]).project.users];
         }
         onCompletion(records);
     } errorBlock:onError ];
@@ -138,8 +138,14 @@
 -(void)updateTask:(KBNTask*)task onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
     
     if (task.name.length) {
-        [self.dataService updateTasks:@[task] completionBlock:onSuccess errorBlock:onError];
-        
+        [self.dataService updateTasks:@[task]
+                      completionBlock:^{
+                          [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
+                                                            withType:FIREBASE_TASK_CHANGE
+                                                    andUserListArray:task.project.users];
+                          onSuccess();
+                      }
+                           errorBlock:onError];
     } else {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": EDIT_TASK_WITHOUTNAME_ERROR};

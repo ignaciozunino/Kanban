@@ -48,7 +48,7 @@
                                  self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
                                  [self postNotification:KBNProjectsInitialUpdate withObject:records];
                                  self.shouldUpdateProjects = YES;
-                                 [self listeningToFirebase];
+                                 [self startListening];
                              }
                                  errorBlock:^(NSError *error) {
                                      
@@ -65,7 +65,7 @@
                               self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
                               self.shouldUpdateTasks = YES;
                               ///we supouse to be listening but we try just in case
-                              [self listeningToFirebase];
+                              [self startListening];
                           }
                                errorBlock:^(NSError *error) {
                                    
@@ -126,23 +126,28 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:object];
 }
 
-- (void)dealloc
-{
-    
-}
-
 - (void) startListening
 {
     if (! self.listeningToFirebase) {//if we are not listening start listen
         self.listeningToFirebase = YES;
         [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-            NSString * type = [((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TYPE_OF_CHANGE];
-            if ([type isEqualToString:FIREBASE_PROJECT_CHANGE]) {
+            NSDictionary * projectChanges = [((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT];
+            NSDictionary * taskChanges = [((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK];
+            NSString *projectType =[projectChanges objectForKey:FIREBASE_TYPE_OF_CHANGE];
+            NSString *taskType =[taskChanges objectForKey:FIREBASE_TYPE_OF_CHANGE];
+            if ([projectType isEqualToString:FIREBASE_PROJECT_CHANGE]) {
                 [self updateProjects];
-            }else if ([type isEqualToString:FIREBASE_TASK_CHANGE]){
+            }
+            if ([taskType isEqualToString:FIREBASE_TASK_CHANGE]){
                 [self updateTasks];
             }
         }];
     }
 }
+
+- (void)dealloc
+{
+    
+}
+
 @end

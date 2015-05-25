@@ -77,9 +77,9 @@
     return -1;
 }
 
-+(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withType:(NSString*) type andUserListArray:(NSArray*)users{
++(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*) objectName withType:(NSString*) type andUserListArray:(NSArray*)users{
     for (NSString* username in users) {
-        NSString* path = [NSString stringWithFormat:@"%@/%@", [KBNUserUtils getUsernameForURLFromParse:username], type];
+        NSString* path = [NSString stringWithFormat:@"%@/%@", [KBNUserUtils getUsernameForURLFromParse:username], objectName];
         id rootRef = [rootReference childByAppendingPath:path];
         NSDictionary * dataToPass = @{FIREBASE_TYPE_OF_CHANGE:type};
         [rootRef setValue:dataToPass];
