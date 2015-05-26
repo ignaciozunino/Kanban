@@ -44,7 +44,7 @@
         [project.users addObject:username];
         
         [self.dataService createProject:project completionBlock:^(KBNProject *newProject) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD andUserListArray:project.users];
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:project.projectId];
             onCompletion(newProject);
         } errorBlock:onError];
     }
@@ -59,7 +59,7 @@
         onError(errorPtr);
     }else{
         [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_CHANGE andUserListArray:project.users];
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_CHANGE projectID:project.projectId];
             onCompletion();
         } errorBlock:onError];
     }
@@ -94,7 +94,7 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
             NSArray* newUsersArray = [NSArray arrayWithArray:usersMutableArray];
             [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(){
                 aProject.users = newUsersArray;
-                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD andUserListArray:aProject.users];
+                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:aProject.projectId];
                 onSuccess();
             } errorBlock:onError];
         }
@@ -124,7 +124,7 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
 -(void)removeProject:(KBNProject*)project completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     project.active = @NO;
     [self.dataService updateProjects:@[project] completionBlock:^{
-        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_REMOVE andUserListArray:project.users];
+        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_REMOVE projectID:project.projectId];
         onCompletion();
     } errorBlock:onError];
 }

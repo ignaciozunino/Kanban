@@ -22,5 +22,5 @@
 +(void) updateExistingTasksFromDictionary:(NSDictionary *) updatedTasks inArray:(NSMutableArray *)array forProject:(KBNProject*)project;
 +(NSInteger) indexOfTask:(NSString*)taskid inArray:(NSArray *)array;
 +(NSString *)generateFirebaseURL;
-+(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*) objectName withType:(NSString*) type andUserListArray:(NSArray*)users;
++(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*) objectName withType:(NSString*) type projectID:(NSString*)projectID;
 @end

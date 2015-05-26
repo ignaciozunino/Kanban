@@ -43,7 +43,7 @@
             onError(errorPtr);
         } else {
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
-                [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD andUserListArray:aTask.project.users];
+                [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:aTask.project.projectId];
                 onCompletion(records);
             } errorBlock:onError];
         }
@@ -70,7 +70,7 @@
     
     //Send updates to the data service
     [self.dataService updateTasks:tasksToUpdate completionBlock:^{
-        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_REMOVE andUserListArray:task.project.users];
+        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_REMOVE projectID:task.project.projectId];
         onCompletion();
     } errorBlock:onError];
 }
@@ -108,7 +108,7 @@
                   completionBlock:^{
                       [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
                                                         withType:FIREBASE_TASK_CHANGE
-                                                andUserListArray:task.project.users];
+                                                projectID:task.project.projectId];
                       onCompletion();
                   }
                        errorBlock:onError];
@@ -125,7 +125,7 @@
     completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
     [self.dataService createTasks:tasks completionBlock:^(NSDictionary *records) {
         if (tasks.count >0) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD andUserListArray:((KBNTask *)tasks[0]).project.users];
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:((KBNTask *)tasks[0]).project.projectId];
         }
         onCompletion(records);
     } errorBlock:onError ];
@@ -142,7 +142,7 @@
                       completionBlock:^{
                           [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
                                                             withType:FIREBASE_TASK_CHANGE
-                                                    andUserListArray:task.project.users];
+                                                    projectID:task.project.projectId];
                           onSuccess();
                       }
                            errorBlock:onError];
