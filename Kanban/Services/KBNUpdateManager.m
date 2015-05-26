@@ -128,10 +128,11 @@
 - (void) startListening: (NSArray*) projects
 {
     for (KBNProject* project in projects) {
+        self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL, project.projectId]];
         [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-            NSDictionary * projectChanges = [((NSDictionary *) snapshot.value) objectForKey:project.projectId];
-            NSString * projectChange = [[projectChanges objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
-            NSString * taskChange = [[projectChanges objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+
+            NSString * projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+            NSString * taskChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_TYPE_OF_CHANGE];
             if ([self isProjectChangeValid:projectChange]) {
                 [self updateProjects];
             }
