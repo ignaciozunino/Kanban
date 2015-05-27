@@ -39,6 +39,7 @@
 #define ENTITY_TASK @"KBNTask"
 #define ENTITY_PROJECT @"KBNProject"
 #define ENTITY_TASK_LIST @"KBNTaskList"
+#define ENTITY_PROJECT_TEMPLATE @"KBNProjectTemplate"
 
 //View controllers identifiers
 #define PROJECT_DETAIL_VC @"KBNProjectDetailViewController"
@@ -70,6 +71,7 @@
 #define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"
 #define PARSE_TASKLISTS @"https://api.parse.com/1/classes/TaskList"
 #define PARSE_TASKS @"https://api.parse.com/1/classes/Task"
+#define PARSE_PROJECT_TEMPLATES @"https://api.parse.com/1/classes/ProjectTemplate"
 #define PARSE_BATCH @"https://api.parse.com/1/batch"
 
 //PARSE TABLE COLUMNS
@@ -93,6 +95,8 @@
 #define PARSE_TASK_ACTIVE_COLUMN @"active"
 #define PARSE_TASK_UPDATED_COLUMN @"updatedAt"
 
+#define PARSE_PROJECT_TEMPLATE_NAME @"name"
+#define PARSE_PROJECT_TEMPLATE_LISTS @"lists"
 
 #define PARSE_USER_NAME_COLUMN @"username"
 
@@ -123,6 +127,7 @@
 
 
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
+
 
 //Blocks 
 typedef void (^KBNConnectionErrorBlock) (NSError *error);

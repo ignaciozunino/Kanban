@@ -18,7 +18,7 @@
 
 @end
 
-@interface KBNAddProjectViewController : UIViewController
+@interface KBNAddProjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 - (instancetype)initWithService:(KBNProjectService *) projectService;
 

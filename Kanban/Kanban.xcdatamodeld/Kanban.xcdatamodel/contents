@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="KBNProject" representedClassName="KBNProject" syncable="YES">
         <attribute name="active" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -8,6 +8,11 @@
         <attribute name="users" optional="YES" attributeType="Transformable" valueTransformerName="KBNArrayToDataTransformer" syncable="YES"/>
         <relationship name="taskLists" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTaskList" inverseName="project" inverseEntity="KBNTaskList" syncable="YES"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTask" inverseName="project" inverseEntity="KBNTask" syncable="YES"/>
+    </entity>
+    <entity name="KBNProjectTemplate" representedClassName="KBNProjectTemplate" syncable="YES">
+        <attribute name="lists" optional="YES" attributeType="Transformable" valueTransformerName="KBNArrayToDataTransformer" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="projectTemplateId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="KBNTask" representedClassName="KBNTask" syncable="YES">
         <attribute name="active" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
@@ -27,6 +32,7 @@
     </entity>
     <elements>
         <element name="KBNProject" positionX="-218" positionY="-378" width="128" height="150"/>
+        <element name="KBNProjectTemplate" positionX="-117" positionY="-225" width="128" height="90"/>
         <element name="KBNTask" positionX="115" positionY="-130" width="128" height="150"/>
         <element name="KBNTaskList" positionX="-324" positionY="-84" width="128" height="120"/>
     </elements>
