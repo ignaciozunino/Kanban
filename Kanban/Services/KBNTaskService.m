@@ -140,8 +140,8 @@
     if (task.name.length) {
         [self.dataService updateTasks:@[task]
                       completionBlock:^{
-                          [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
-                                                            withType:FIREBASE_TASK_CHANGE
+                          [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_TASK
+                                                            withName:task.name
                                                     projectID:task.project.projectId];
                           onSuccess();
                       }

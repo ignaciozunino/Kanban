@@ -47,7 +47,7 @@
                                  self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
                                  [self postNotification:KBNProjectsInitialUpdate withObject:records];
                                  self.shouldUpdateProjects = YES;
-                                 [self startListening:records];
+                                 [self startListeningProjects:records];
                              }
                                  errorBlock:^(NSError *error) {
                                      
@@ -64,7 +64,7 @@
                               self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
                               self.shouldUpdateTasks = YES;
                               ///we supouse to be listening but we try just in case
-                              [self startListening:[records objectForKey:@"results"]];
+                              [self startListeningTasks:[records objectForKey:@"results"]];
                           }
                                errorBlock:^(NSError *error) {
                                    
@@ -120,24 +120,41 @@
     }
 }
 
-- (void)postNotification:(NSString *)notificationName withObject:(id)object
-{
+- (void)postNotification:(NSString *)notificationName withObject:(id)object {
     [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:object];
 }
 
-- (void) startListening: (NSArray*) projects
-{
+- (void) startListeningProjects: (NSArray*) projects {
     for (KBNProject* project in projects) {
         self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL, project.projectId]];
         [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
 
             NSString * projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
-            NSString * taskChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+            NSString * projectEdit = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
             if ([self isProjectChangeValid:projectChange]) {
                 [self updateProjects];
             }
-            if ([self isTaskChangeValid:taskChange]){
+            if (projectEdit) {
+                project.name = projectEdit;
+                [self postNotification:KBNProjectUpdate withObject:project];
+            }
+        }];
+    }
+}
+
+- (void) startListeningTasks: (NSArray*) tasks {
+    for (NSMutableDictionary* task in tasks) {
+        self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL,[task objectForKey:PARSE_TASK_PROJECT_COLUMN]]];
+        [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+            
+            NSString * taskChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+            NSString * taskEdit = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
+            if ([self isTaskChangeValid:taskChange]) {
                 [self updateTasks];
+            }
+            if (taskEdit) {
+                [task setValue:taskEdit forKey:PARSE_TASK_NAME_COLUMN];
+                [self postNotification:KBNTasksUpdated withObject:task];
             }
         }];
     }

@@ -11,6 +11,7 @@
 #import "KBNTaskDetailViewController.h"
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
+#import "KBNUpdateManager.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
@@ -49,11 +50,12 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+    
     [self.tableView reloadData];
     
     if (!self.taskListTasks.count) {
@@ -63,8 +65,21 @@
         [self.deleteButton setHidden:NO];
         [self.deleteButton setEnabled:YES];
     }
-
+    
     self.title = self.project.name;
+    [[KBNUpdateManager sharedInstance] startListeningProjects:@[self.project]];
+
+}
+
+-(void)onProjectUpdate:(NSNotification *)notification{
+    
+    KBNProject *projectUpdated = (KBNProject*)notification.object;
+    if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
+        self.project.name = projectUpdated.name;
+        UILabel *title = [[UILabel alloc] init];
+        title.text = self.project.name;
+        self.navigationItem.titleView = title;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

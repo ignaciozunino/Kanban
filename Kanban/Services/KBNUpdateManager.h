@@ -19,7 +19,9 @@
 #define KBNProjectsUpdated @"KBNProjectsUpdated"
 #define KBNProjectsInitialUpdate @"KBNProjectsInitialUpdate"
 #define KBNTasksInitialUpdate @"KBNTasksInitialUpdate"
+#define KBNProjectUpdate @"KBNProjectUpdate"
 #define KBNTasksUpdated @"KBNTasksUpdated"
+#define KBNTaskUpdated @"KBNTaskUpdated"
 #define KBNCurrentProjectUpdated @"KBNCurrentProjectUpdated"
 
 #define KBNTimeBetweenUpdates 20.0
@@ -37,5 +39,8 @@
 -(void)startUpdatingTasksForProject:(KBNProject*)project;
 -(void)stopUpdatingProjects;
 -(void)stopUpdatingTasks;
+
+- (void) startListeningProjects: (NSArray*) projects;
+- (void) startListeningTasks: (NSArray*) tasks;
 
 @end

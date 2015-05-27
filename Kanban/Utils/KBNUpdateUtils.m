@@ -83,4 +83,11 @@
     NSDictionary * dataToPass = @{FIREBASE_TYPE_OF_CHANGE:type};
     [rootRef setValue:dataToPass];
 }
+
++(void) firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*) objectName withName:(NSString*) name projectID:(NSString*)projectID{
+    NSString* path = [NSString stringWithFormat:@"%@/%@", projectID, objectName];
+    id rootRef = [rootReference childByAppendingPath:path];
+    NSDictionary * dataToPass = @{FIREBASE_EDIT_NAME_CHANGE:name};
+    [rootRef setValue:dataToPass];
+}
 @end

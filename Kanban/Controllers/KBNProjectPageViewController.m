@@ -34,13 +34,14 @@
     [super viewDidLoad];
     
     self.title = self.project.name;
-
+    
     self.projectTasks = [NSMutableArray new];
     
     self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                           target:self
                                                                                           action:@selector(setupEdit)];
     [self getProjectLists];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
 }
 
 - (void)stopListeningUpdateManager
@@ -54,6 +55,13 @@
     [self stopListeningUpdateManager];
 }
 
+-(void)onProjectUpdate:(NSNotification *)notification{
+    KBNProject *projectUpdated = (KBNProject*)notification.object;
+    if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
+        self.project.name = projectUpdated.name;
+        self.title = self.project.name;
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -62,9 +70,17 @@
 
 #pragma mark - Data methods
 -(void)onTasksUpdate:(NSNotification *)noti{
-    
     [self getProjectTasks:noti];
-    
+}
+
+-(void)onTaskUpdate:(NSNotification *)notification{
+    NSDictionary *notifiedTask =(NSDictionary*)notification.object;
+    for (KBNTask * task in self.projectTasks) {
+        if ([task.taskId isEqualToString: [notifiedTask objectForKey:PARSE_OBJECTID]]) {
+            task.name = [notifiedTask objectForKey:PARSE_TASK_NAME_COLUMN];
+            break;
+        }
+    }
 }
 
 -(void)onCurrentProjectUpdate:(NSNotification *)noti{
@@ -76,6 +92,7 @@
 - (void)listenUpdateManager {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksInitialUpdate object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:KBNTaskUpdated object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
     [[KBNUpdateManager sharedInstance] startUpdatingTasksForProject:self.project];
 }
@@ -170,7 +187,7 @@
 }
 
 -(KBNProjectDetailViewController*)viewControllerAtIndex:(NSUInteger)index {
-
+    
     //Check if it is out of bounds
     if (([self.detailViewControllers count] == 0) || (index >= [self.detailViewControllers count]))
     {
@@ -180,7 +197,7 @@
     
     //Just return the view controller at the given index
     return [self.detailViewControllers objectAtIndex:index];
-
+    
 }
 
 
@@ -267,7 +284,7 @@
 }
 
 - (void)moveTask:(KBNTask *)task from:(KBNProjectDetailViewController *)viewController to:(KBNProjectDetailViewController *)destinationViewController {
-
+    
     __block NSMutableArray *senderTasks = viewController.taskListTasks;
     __block NSMutableArray *receiverTasks = destinationViewController.taskListTasks;
     

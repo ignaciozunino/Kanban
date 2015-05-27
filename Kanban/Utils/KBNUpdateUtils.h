@@ -23,4 +23,6 @@
 +(NSInteger) indexOfTask:(NSString*)taskid inArray:(NSArray *)array;
 +(NSString *)generateFirebaseURL;
 +(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*) objectName withType:(NSString*) type projectID:(NSString*)projectID;
++(void) firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*) objectName withName:(NSString*) name projectID:(NSString*)projectID;
+
 @end

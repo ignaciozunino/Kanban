@@ -126,6 +126,8 @@
 
 //FIREBASE KEYS
 #define FIREBASE_TYPE_OF_CHANGE @"typeOfChange"
+#define FIREBASE_EDIT_NAME_CHANGE @"objectName"
+
 #define FIREBASE_PROJECT @"Project"
 #define FIREBASE_TASK @"Task"
 #define FIREBASE_USER @"User"
