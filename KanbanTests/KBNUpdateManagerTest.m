@@ -32,24 +32,24 @@
 //Feature tested: Update manager
 //Description: In this test we will verify that the app is updating in real time
 -(void) testCreateProjectAndReloaded{
-//    self.expectation = [self expectationWithDescription:@"testRealTime ok"];
-//    
-//    self.updateManager= [KBNUpdateManager new];
-//    
-//    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
-//    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
-//    self.updateManager.projectService = serviceOrig;
-//    [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
-//        
-//    } errorBlock:^(NSError *error) {
-//        XCTFail();
-//        [self.expectation fulfill];
-//    }];
-//    [self.updateManager startUpdatingProjects];
-//    
-//    [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
-//        [self.updateManager stopUpdatingProjects];
-//    }];
+    self.expectation = [self expectationWithDescription:@"testRealTime ok"];
+    
+    self.updateManager= [KBNUpdateManager new];
+    
+    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
+    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
+    self.updateManager.projectService = serviceOrig;
+    [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
+        [self.expectation fulfill];
+    } errorBlock:^(NSError *error) {
+        XCTFail();
+        [self.expectation fulfill];
+    }];
+    [self.updateManager startUpdatingProjects];
+    
+    [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
+        [self.updateManager stopUpdatingProjects];
+    }];
 }
 
 -(void)onProjectsUpdate:(NSNotification *)noti{
