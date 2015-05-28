@@ -56,10 +56,6 @@
     }];
 }
 
-- (NSNumber*)getOrderNumber {
-    return [self.delegate nextOrderNumber];
-}
-
 - (IBAction)cancel:(UIBarButtonItem *)sender {
 
     [self dismissViewControllerAnimated:YES completion:nil];
