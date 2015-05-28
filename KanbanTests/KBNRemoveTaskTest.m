@@ -120,13 +120,17 @@
                 
             }
             NSArray* tasksforverif=[records objectForKey:@"results"];
-            NSDictionary * taskdictfoverif = tasksforverif[0];
             
-            if (!((NSNumber*)[taskdictfoverif objectForKey:PARSE_TASK_ACTIVE_COLUMN  ]).boolValue ) {
-                XCTAssertTrue(true);
-                [finalexpectation fulfill];
-            } else {
-                XCTAssertTrue(false);
+            if (tasksforverif.count) {
+                NSDictionary * taskdictfoverif = tasksforverif[0];
+                
+                if (!((NSNumber*)[taskdictfoverif objectForKey:PARSE_TASK_ACTIVE_COLUMN]).boolValue ) {
+                    [finalexpectation fulfill];
+                } else {
+                    XCTAssertTrue(false);
+                    [finalexpectation fulfill];
+                }
+            } else { // If the array is empty, the task was removed successfully
                 [finalexpectation fulfill];
             }
         } errorBlock:^(NSError *error) {
