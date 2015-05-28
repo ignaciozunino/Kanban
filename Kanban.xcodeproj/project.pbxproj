@@ -48,6 +48,7 @@
 		3AA0C9751B0B601000030630 /* KBNRemoveProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */; };
 		3AE7FBD01B16442C0037809A /* KBNProjectTemplateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBCF1B16442C0037809A /* KBNProjectTemplateService.m */; };
 		3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */; };
+		3AE7FBD51B1781280037809A /* KBNCreateProjectFromTemplateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */; };
 		3AF8F0D51B152B9F0092A6BD /* KBNProjectTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */; };
 		3AF8F0D81B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF8F0D71B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m */; };
 		541A5EB61AF144FC00C571CC /* KBNEditProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */; };
@@ -165,6 +166,7 @@
 		3AE7FBCF1B16442C0037809A /* KBNProjectTemplateService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateService.m; path = Services/KBNProjectTemplateService.m; sourceTree = "<group>"; };
 		3AE7FBD11B1658030037809A /* KBNProjectTemplateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateUtils.h; path = Utils/KBNProjectTemplateUtils.h; sourceTree = "<group>"; };
 		3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateUtils.m; path = Utils/KBNProjectTemplateUtils.m; sourceTree = "<group>"; };
+		3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCreateProjectFromTemplateTest.m; sourceTree = "<group>"; };
 		3AF8F0D31B152B9F0092A6BD /* KBNProjectTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplate.h; path = Domain/KBNProjectTemplate.h; sourceTree = "<group>"; };
 		3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplate.m; path = Domain/KBNProjectTemplate.m; sourceTree = "<group>"; };
 		3AF8F0D61B1615400092A6BD /* KBNProjectTemplateParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateParseAPIManager.h; path = Parse/KBNProjectTemplateParseAPIManager.h; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 				18368D331AF2647F006557C6 /* KBNRemoveTaskTest.m */,
 				54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */,
 				3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */,
+				3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */,
 				CCA1A2781ADEA3D900CC98B5 /* Supporting Files */,
 			);
 			path = KanbanTests;
@@ -709,6 +712,7 @@
 				18D88D3F1AEEC4BB00D9BDE1 /* KBNGetProjectsTest.m in Sources */,
 				18368D341AF2647F006557C6 /* KBNRemoveTaskTest.m in Sources */,
 				3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */,
+				3AE7FBD51B1781280037809A /* KBNCreateProjectFromTemplateTest.m in Sources */,
 				18BE0FAD1AEE755500B2B0C2 /* KBNLoginTest.m in Sources */,
 				543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */,
 			);
