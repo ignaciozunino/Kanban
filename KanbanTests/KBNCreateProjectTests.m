@@ -51,7 +51,7 @@
 -(void) testCreateProjectOK{
     KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
-    [[projectAPIManager stub] createProject:OCMOCK_ANY withLists:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
+    [[projectAPIManager stub] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
     serviceOrig.dataService = projectAPIManager;
     [serviceOrig createProject:@"test" withDescription:@"desc" forUser: [KBNUserUtils getUsername]
                completionBlock:^(KBNProject* aProject){
@@ -75,7 +75,6 @@
     
     //This is to redefine the createProject method from the ParseAPIManager class
     OCMStub([projectAPIManager createProject:OCMOCK_ANY
-                                   withLists:OCMOCK_ANY
                              completionBlock:OCMOCK_ANY
                                   errorBlock:OCMOCK_ANY]).
     andDo(^(NSInvocation *invocation)

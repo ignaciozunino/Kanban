@@ -44,7 +44,7 @@
         project.users = [NSMutableArray new];
         [project.users addObject:username];
         
-        [self.dataService createProject:project withLists:nil completionBlock:^(KBNProject *newProject) {
+        [self.dataService createProject:project completionBlock:^(KBNProject *newProject) {
             onCompletion(newProject);
         } errorBlock:onError];
     }
