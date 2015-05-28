@@ -128,7 +128,7 @@
     for (KBNProject* project in projects) {
         self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL, project.projectId]];
         [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-
+            
             NSString * projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
             NSString * projectEdit = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
             if ([self isProjectChangeValid:projectChange]) {
@@ -153,8 +153,9 @@
                 [self updateTasks];
             }
             if (taskEdit) {
-                [task setValue:taskEdit forKey:PARSE_TASK_NAME_COLUMN];
-                [self postNotification:KBNTasksUpdated withObject:task];
+                [self postNotification:KBNTaskUpdated withObject:@{
+                                                                    PARSE_TASK_NAME_COLUMN: taskEdit,
+                                                                    PARSE_OBJECTID: [task objectForKey:PARSE_OBJECTID] }];
             }
         }];
     }
