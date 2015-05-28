@@ -406,10 +406,6 @@
     [self.taskListTasks addObject:task];
 }
 
-- (NSNumber*)nextOrderNumber {
-    return [NSNumber numberWithLong:self.taskListTasks.count];
-}
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

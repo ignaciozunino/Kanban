@@ -42,6 +42,7 @@
             NSError *errorPtr = [NSError errorWithDomain:domain code:-105 userInfo:info];
             onError(errorPtr);
         } else {
+            aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
                 [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:aTask.project.projectId];
                 onCompletion(records);
@@ -51,8 +52,24 @@
 }
 
 - (void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    [self.dataService getTasksForProject:projectId completionBlock:^(NSDictionary *records) {
+        onCompletion([self activeRecordsFromDictionary:records]);
+    } errorBlock:onError];
+}
+
+- (NSDictionary*)activeRecordsFromDictionary:(NSDictionary*)records {
     
-    [self.dataService getTasksForProject:projectId completionBlock:onCompletion errorBlock:onError];
+    NSArray *results = [records objectForKey:@"results"];
+    NSMutableArray *activeTasks = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *params in results) {
+        if ([[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] boolValue]) {
+            [activeTasks addObject:params];
+        };
+    }
+    
+    return [NSDictionary dictionaryWithObject:activeTasks forKey:@"results"];
+
 }
 
 - (void)removeTask:(KBNTask*)task completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
@@ -132,7 +149,9 @@
 }
 
 - (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    [self.dataService getTasksUpdatedForProject:projectId fromDate:lastDate completionBlock:onCompletion errorBlock:onError];
+    [self.dataService getTasksUpdatedForProject:projectId fromDate:lastDate completionBlock:^(NSDictionary *records) {
+        onCompletion([self activeRecordsFromDictionary:records]);
+    } errorBlock:onError];
 }
 
 -(void)updateTask:(KBNTask*)task onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
