@@ -72,6 +72,8 @@
 #define PARSE_TASKS @"https://api.parse.com/1/classes/Task"
 #define PARSE_BATCH @"https://api.parse.com/1/batch"
 
+#define FIREBASE_BASE_URL @"https://kanbanglb.firebaseio.com/"
+
 //PARSE TABLE COLUMNS
 #define PARSE_OBJECTID @"objectId"
 
@@ -123,6 +125,22 @@
 #define BEFORE_TITLE @"Before"
 #define AFTER_TITLE @"After"
 #define ADD_LIST_TITLE @"Add list"
+
+
+//FIREBASE KEYS
+#define FIREBASE_TYPE_OF_CHANGE @"typeOfChange"
+#define FIREBASE_EDIT_NAME_CHANGE @"objectName"
+
+#define FIREBASE_PROJECT @"Project"
+#define FIREBASE_TASK @"Task"
+#define FIREBASE_USER @"User"
+
+#define FIREBASE_PROJECT_CHANGE @"projectChange"
+#define FIREBASE_PROJECT_ADD @"projectAdd"
+#define FIREBASE_PROJECT_REMOVE @"projectRemove"
+#define FIREBASE_TASK_ADD @"taskAdd"
+#define FIREBASE_TASK_CHANGE @"taskChange"
+#define FIREBASE_TASK_REMOVE @"taskRemove"
 
 
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]

@@ -15,13 +15,14 @@
 #define ProjectTest @"TestProject"
 @interface KBNUpdateManagerTest : XCTestCase
 @property XCTestExpectation *expectation;
-@property  KBNUpdateManager* um ;
+@property  KBNUpdateManager* updateManager ;
 @end
 
 @implementation KBNUpdateManagerTest
 
 + (void)setUp {
     [[KBNInitialSetupTest new] testCreateUser];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
 }
 
 + (void)tearDown {
@@ -31,44 +32,36 @@
 //Feature tested: Update manager
 //Description: In this test we will verify that the app is updating in real time
 -(void) testCreateProjectAndReloaded{
-//    self.expectation = [self expectationWithDescription:@"testRealTime ok"];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
-//    self.um= [[KBNUpdateManager alloc]init];
-//    
-//    
-//    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
-//    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
-//    self.um.projectService = serviceOrig;
-//    [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser: [KBNUserUtils getUsername]
-//               completionBlock:^{
-//               }
-//                    errorBlock:^(NSError *error) {
-//                        XCTFail();
-//                        [self.expectation fulfill];
-//                    }];
-//    [self.um startUpdatingProjects];
-//    
-//    [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
-//        [self.um stopUpdatingProjects];
-//    }];
+    self.expectation = [self expectationWithDescription:@"testRealTime ok"];
+    
+    self.updateManager= [KBNUpdateManager new];
+    
+    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
+    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
+    self.updateManager.projectService = serviceOrig;
+    [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
+        [self.expectation fulfill];
+    } errorBlock:^(NSError *error) {
+        XCTFail();
+        [self.expectation fulfill];
+    }];
+    [self.updateManager startUpdatingProjects];
+    
+    [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
+        [self.updateManager stopUpdatingProjects];
+    }];
 }
 
 -(void)onProjectsUpdate:(NSNotification *)noti{
     NSArray *projects = (NSArray*)noti.object;
-    
     for (KBNProject *project in projects) {
         if ([project.name isEqualToString:ProjectTest]){
-            
             [self.expectation fulfill];
-            
             return;
         }
     }
     XCTFail();
-    
     [self.expectation fulfill];
-    
 }
 
 @end

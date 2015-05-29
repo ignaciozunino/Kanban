@@ -71,7 +71,7 @@
 
 - (IBAction)onSavePressed:(id)sender {
     [KBNAppDelegate activateActivityIndicator:YES];
-    [[KBNProjectService sharedInstance] editProject:self.project.projectId withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
+    [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:PROJECT_EDIT_SUCCESS andType:SUCCESS_ALERT];
         [self dismissViewControllerAnimated:YES completion:nil];

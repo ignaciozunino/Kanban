@@ -14,11 +14,14 @@
 #import "KBNUserUtils.h"
 #import "KBNProjectService.h"
 #import "KBNUpdateUtils.h"
+#import <Firebase/Firebase.h>
 
 #define KBNProjectsUpdated @"KBNProjectsUpdated"
 #define KBNProjectsInitialUpdate @"KBNProjectsInitialUpdate"
 #define KBNTasksInitialUpdate @"KBNTasksInitialUpdate"
+#define KBNProjectUpdate @"KBNProjectUpdate"
 #define KBNTasksUpdated @"KBNTasksUpdated"
+#define KBNTaskUpdated @"KBNTaskUpdated"
 #define KBNCurrentProjectUpdated @"KBNCurrentProjectUpdated"
 
 #define KBNTimeBetweenUpdates 20.0
@@ -29,11 +32,15 @@
 @property KBNTaskService * tasksService;
 @property KBNProject * projectForTasksUpdate;
 @property NSString * lastProjectsUpdate;
+@property (nonatomic, strong) Firebase *fireBaseRootReference;
 
 + (KBNUpdateManager *)sharedInstance;
 -(void)startUpdatingProjects;
 -(void)startUpdatingTasksForProject:(KBNProject*)project;
 -(void)stopUpdatingProjects;
 -(void)stopUpdatingTasks;
+
+- (void) startListeningProjects: (NSArray*) projects;
+- (void) startListeningTasks: (NSArray*) tasks;
 
 @end

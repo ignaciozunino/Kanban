@@ -1,6 +1,7 @@
+FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/Firebase"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/OCMock"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AFNetworking" -isystem "${PODS_ROOT}/Headers/Public/OCMock"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"Pods-AFNetworking" -l"Pods-OCMock" -framework "CoreGraphics" -framework "MobileCoreServices" -framework "Security" -framework "SystemConfiguration"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/Firebase" "${PODS_ROOT}/Headers/Public/OCMock"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AFNetworking" -isystem "${PODS_ROOT}/Headers/Public/Firebase" -isystem "${PODS_ROOT}/Headers/Public/OCMock"
+OTHER_LDFLAGS = -ObjC -l"Pods-AFNetworking" -l"Pods-Firebase" -l"Pods-OCMock" -l"c++" -l"icucore" -framework "CFNetwork" -framework "CoreGraphics" -framework "Firebase" -framework "MobileCoreServices" -framework "Security" -framework "SystemConfiguration"
 OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
 PODS_ROOT = ${SRCROOT}/Pods

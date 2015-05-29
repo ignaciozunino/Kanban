@@ -12,6 +12,7 @@
 #import "KBNTaskService.h"
 #import "KBNTaskListUtils.h"
 #import "KBNAlertUtils.h"
+#import "KBNUpdateManager.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
@@ -53,13 +54,14 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableActivityIndicator) name:ENABLE_VIEW object:nil];
-
+    
     [self.tableView reloadData];
     
     if (!self.taskListTasks.count) {
@@ -73,12 +75,24 @@
     if (!self.enable) {
         [self enableActivityIndicator];
     }
-
+    [[KBNUpdateManager sharedInstance] startListeningProjects:@[self.project]];
     self.title = self.project.name;
+}
+
+-(void)onProjectUpdate:(NSNotification *)notification{
+    
+    KBNProject *projectUpdated = (KBNProject*)notification.object;
+    if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
+        self.project.name = projectUpdated.name;
+        UILabel *title = [[UILabel alloc] init];
+        title.text = self.project.name;
+        self.navigationItem.titleView = title;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:ENABLE_VIEW object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:KBNProjectUpdate object:nil];
     [super viewWillDisappear:animated];
 }
 

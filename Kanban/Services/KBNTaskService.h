@@ -13,10 +13,13 @@
 #import "KBNTask.h"
 #import "KBNTaskList.h"
 #import "KBNTaskListService.h"
+#import "KBNUpdateUtils.h"
+#import <Firebase/Firebase.h>
 
 @interface KBNTaskService : NSObject
 
 @property (strong, nonatomic) KBNTaskParseAPIManager* dataService;
+@property (nonatomic, strong) Firebase *fireBaseRootReference;
 
 +(KBNTaskService *) sharedInstance;
 

@@ -16,4 +16,7 @@
 +(BOOL) isValidUsername:(NSString*) username;
 +(BOOL) isValidPassword:(NSString*) password;
 + (NSString*)getUsername;
++ (NSString*)getUsernameForURL;
++ (NSString*)getUsernameForURLFromParse: (NSString*) username;
+
 @end
