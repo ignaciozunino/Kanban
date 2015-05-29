@@ -92,6 +92,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:ENABLE_VIEW object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:KBNProjectUpdate object:nil];
     [super viewWillDisappear:animated];
 }
 

@@ -63,7 +63,7 @@
                               [self postNotification:KBNTasksInitialUpdate withObject:[records objectForKey:@"results"]];
                               self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
                               self.shouldUpdateTasks = YES;
-                              ///we supouse to be listening but we try just in case
+                              //we suppouse to be listening but we try just in case
                               [self startListeningTasks:[records objectForKey:@"results"]];
                           }
                                errorBlock:^(NSError *error) {
