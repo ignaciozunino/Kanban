@@ -42,32 +42,31 @@
 }
 
 -(void)startUpdatingProjects{
+    __weak typeof(self) weakself = self;
     [self.projectService getProjectsForUser:[KBNUserUtils getUsername]
                              onSuccessBlock:^(NSArray *records) {
-                                 self.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
-                                 [self postNotification:KBNProjectsInitialUpdate withObject:records];
-                                 self.shouldUpdateProjects = YES;
-                                 [self startListeningProjects:records];
+                                 weakself.lastProjectsUpdate =[NSDate getUTCNowWithParseFormat];
+                                 [weakself postNotification:KBNProjectsInitialUpdate withObject:records];
+                                 weakself.shouldUpdateProjects = YES;
+                                 [weakself startListeningProjects:records];
                              }
                                  errorBlock:^(NSError *error) {
-                                     
                                  }];
 }
 
 -(void)startUpdatingTasksForProject:(KBNProject*)project{
     self.projectForTasksUpdate =project;
-    
+    __weak typeof(self) weakself = self;
     [self.tasksService getTasksForProject:project.projectId
                           completionBlock:^(NSDictionary *records) {
                               
-                              [self postNotification:KBNTasksInitialUpdate withObject:[records objectForKey:@"results"]];
-                              self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-                              self.shouldUpdateTasks = YES;
+                              [weakself postNotification:KBNTasksInitialUpdate withObject:[records objectForKey:@"results"]];
+                              weakself.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
+                              weakself.shouldUpdateTasks = YES;
                               //we suppouse to be listening but we try just in case
-                              [self startListeningTasks:[records objectForKey:@"results"]];
+                              [weakself startListeningTasks:[records objectForKey:@"results"]];
                           }
                                errorBlock:^(NSError *error) {
-                                   
                                }];
 }
 
