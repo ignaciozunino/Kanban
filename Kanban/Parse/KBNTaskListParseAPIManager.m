@@ -7,6 +7,7 @@
 //
 
 #import "KBNTaskListParseAPIManager.h"
+#import "KBNTaskListUtils.h"
 
 @implementation KBNTaskListParseAPIManager
 
@@ -54,6 +55,53 @@
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     onError(error);
                 }];
+}
+
+- (void)updateTaskLists:(NSArray*)taskLists completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
+    NSMutableDictionary *record;
+    
+    for (KBNTaskList *taskList in taskLists) {
+        
+        NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithCapacity:3];
+        [updates setObject:taskList.name forKey:PARSE_TASKLIST_NAME_COLUMN];
+        [updates setObject:taskList.project.projectId forKey:PARSE_TASKLIST_PROJECT_COLUMN];
+        [updates setObject:taskList.order forKey:PARSE_TASKLIST_ORDER_COLUMN];
+        
+        record = [NSMutableDictionary dictionaryWithCapacity:3];
+        
+        // TaskList to add does not have taskListId.
+        // Update taskLists with taskListId and post taskList with no taskListId to be created.
+        if (taskList.taskListId) {
+            [record setObject:@"PUT" forKey:@"method"];
+            [record setObject:[NSString stringWithFormat:@"/1/classes/TaskList/%@", taskList.taskListId] forKey:@"path"];
+        }
+        else {
+            [record setObject:@"POST" forKey:@"method"];
+            [record setObject:@"/1/classes/TaskList" forKey:@"path"];
+        }
+        [record setObject:updates forKey:@"body"];
+        
+        [requests addObject:record];
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:requests, @"requests", nil];
+    
+    [self.afManager POST:PARSE_BATCH
+              parameters:params
+                 success:^(AFHTTPRequestOperation *operation, id responseObject){
+                     // Parse response to get the item with the id of the taskList created and return it.
+                     for (NSDictionary *record in responseObject) {
+                         NSDictionary *result = [record objectForKey:@"success"];
+                         if ([result objectForKey:PARSE_OBJECTID]) {
+                             onCompletion(result);
+                         }
+                     }
+                 }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     onError(error);
+                 }];
 }
 
 @end

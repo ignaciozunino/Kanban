@@ -21,5 +21,4 @@
 @dynamic project;
 @dynamic taskList;
 
-
 @end
