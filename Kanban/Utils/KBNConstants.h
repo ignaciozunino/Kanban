@@ -122,6 +122,9 @@
 #define SUCCESS_ALERT @"SUCCESS"
 #define CANCEL_TITLE @"Cancel"
 #define DELETE_TITLE @"Delete"
+#define BEFORE_TITLE @"Before"
+#define AFTER_TITLE @"After"
+#define ADD_LIST_TITLE @"Add list"
 
 
 //FIREBASE KEYS
@@ -148,6 +151,7 @@ typedef void (^KBNConnectionSuccessBlock)() ;
 typedef void (^KBNConnectionSuccessArrayBlock) (NSArray *records);
 typedef void (^KBNConnectionSuccessProjectBlock) (KBNProject * project);
 typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
+typedef void (^KBNConnectionSuccessIdBlock) (NSString *objectId);
 
 //Colors
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -159,6 +163,7 @@ typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
 #define DARK_BLUE 0x125066
 #define DEFAULT_BLUE 0x007aff
 #define BORDER_GRAY 0xc7c7c7
+#define DISABLE_GRAY 0x8f8f90
 
 @interface KBNConstants : NSObject
 

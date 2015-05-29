@@ -42,9 +42,46 @@
     
 }
 
--(BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList
-{
+- (BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList {
     return ([taskList.tasks count] > LIMIT_TASKLIST_ITEMS);
+}
+
+- (void)moveTaskList:(KBNTaskList *)taskList toOrder:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    KBNProject *project = taskList.project;
+    
+    [project removeTaskListsObject:taskList];
+    [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
+    
+    [self updateTaskListOrdersInSet:project.taskLists];
+    
+    [self.dataService updateTaskLists:project.taskLists.array completionBlock:onCompletion errorBlock:onError];
+}
+
+- (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    taskList.project = project;
+    taskList.order = order;
+    
+    [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
+    [self updateTaskListOrdersInSet:project.taskLists];
+    
+    [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
+        taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
+        onCompletion();
+    } errorBlock:^(NSError *error){
+        [project removeTaskListsObject:taskList];
+        [self updateTaskListOrdersInSet:project.taskLists];
+        onError(error);
+    }];
+}
+
+- (void)updateTaskListOrdersInSet:(NSOrderedSet*)set {
+    
+    for (NSUInteger index = 0; index < set.count; index++) {
+        KBNTaskList *taskListToReorder = [set objectAtIndex:index];
+        taskListToReorder.order = [NSNumber numberWithInteger:index];
+    }
 }
 
 @end
