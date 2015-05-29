@@ -128,15 +128,17 @@
     for (KBNProject* project in projects) {
         self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL, project.projectId]];
         [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-            
-            NSString * projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
-            NSString * projectEdit = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
-            if ([self isProjectChangeValid:projectChange]) {
-                [self updateProjects];
-            }
-            if (projectEdit) {
-                project.name = projectEdit;
-                [self postNotification:KBNProjectUpdate withObject:project];
+            NSString* user = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:@"User"];
+            if (![user isEqualToString:[KBNUserUtils getUsername]]) {
+                NSString * projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+                NSString * projectEdit = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
+                if ([self isProjectChangeValid:projectChange]) {
+                    [self updateProjects];
+                }
+                if (projectEdit) {
+                    project.name = projectEdit;
+                    [self postNotification:KBNProjectUpdate withObject:project];
+                }
             }
         }];
     }
@@ -146,16 +148,18 @@
     for (NSMutableDictionary* task in tasks) {
         self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL,[task objectForKey:PARSE_TASK_PROJECT_COLUMN]]];
         [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-            
-            NSString * taskChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_TYPE_OF_CHANGE];
-            NSString * taskEdit = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
-            if ([self isTaskChangeValid:taskChange]) {
-                [self updateTasks];
-            }
-            if (taskEdit) {
-                [self postNotification:KBNTaskUpdated withObject:@{
-                                                                    PARSE_TASK_NAME_COLUMN: taskEdit,
-                                                                    PARSE_OBJECTID: [task objectForKey:PARSE_OBJECTID] }];
+            NSString* user = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:@"User"];
+            if (![user isEqualToString:[KBNUserUtils getUsername]]) {
+                NSString * taskChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+                NSString * taskEdit = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
+                if ([self isTaskChangeValid:taskChange]) {
+                    [self updateTasks];
+                }
+                if (taskEdit) {
+                    [self postNotification:KBNTaskUpdated withObject:@{
+                                                                       PARSE_TASK_NAME_COLUMN: taskEdit,
+                                                                       PARSE_OBJECTID: [task objectForKey:PARSE_OBJECTID] }];
+                }
             }
         }];
     }

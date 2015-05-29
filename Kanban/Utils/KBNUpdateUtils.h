@@ -14,6 +14,7 @@
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
 #import <Firebase/Firebase.h>
+#import "KBNUserUtils.h"
 
 @interface KBNUpdateUtils : NSObject
 

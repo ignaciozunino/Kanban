@@ -80,14 +80,14 @@
 +(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*) objectName withType:(NSString*) type projectID:(NSString*)projectID{
     NSString* path = [NSString stringWithFormat:@"%@/%@", projectID, objectName];
     id rootRef = [rootReference childByAppendingPath:path];
-    NSDictionary * dataToPass = @{FIREBASE_TYPE_OF_CHANGE:type};
+    NSDictionary * dataToPass = @{FIREBASE_TYPE_OF_CHANGE:type, @"User":[KBNUserUtils getUsername]};
     [rootRef setValue:dataToPass];
 }
 
 +(void) firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*) objectName withName:(NSString*) name projectID:(NSString*)projectID{
     NSString* path = [NSString stringWithFormat:@"%@/%@", projectID, objectName];
     id rootRef = [rootReference childByAppendingPath:path];
-    NSDictionary * dataToPass = @{FIREBASE_EDIT_NAME_CHANGE:name};
+    NSDictionary * dataToPass = @{FIREBASE_EDIT_NAME_CHANGE:name, @"User":[KBNUserUtils getUsername]};
     [rootRef setValue:dataToPass];
 }
 @end
