@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSNumber *active;
 @property (nonatomic, strong) NSOrderedSet *taskLists;
 @property (nonatomic, strong) NSOrderedSet *tasks;
+
 @end
 
 @interface KBNProject (CoreDataGeneratedAccessors)

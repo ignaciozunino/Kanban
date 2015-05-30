@@ -34,4 +34,8 @@
     return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
++ (KBNTaskList*)taskListWithName:(NSString *)name {
+    return [self taskListForProject:nil params:[NSDictionary dictionaryWithObjectsAndKeys:name, PARSE_TASKLIST_NAME_COLUMN, nil]];
+}
+
 @end

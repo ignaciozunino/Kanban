@@ -19,6 +19,7 @@
         if (!inst) {
             inst = [[self alloc] init];
             inst.dataService = [[KBNProjectParseAPIManager alloc]init];
+            inst.fireBaseRootReference = [[Firebase alloc] initWithUrl:FIREBASE_BASE_URL];
         }
     }
     return inst;
@@ -28,9 +29,7 @@
     return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
-
-- (void)createProject:(NSString *)name withDescription:(NSString *)projectDescription forUser:(NSString *)username completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
+-(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription forUser:(NSString*) username completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     if ([name isEqualToString:@""] || !name) {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_WITHOUTNAME_ERROR};
@@ -45,6 +44,7 @@
         [project.users addObject:username];
         
         [self.dataService createProject:project completionBlock:^(KBNProject *newProject) {
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:project.projectId];
             onCompletion(newProject);
         } errorBlock:onError];
     }
@@ -72,15 +72,18 @@
     }
 }
 
--(void)editProject: (NSString*)projectID withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    if ([projectID isEqualToString:@""] || [newName isEqualToString:@""] ) {
+-(void)editProject: (KBNProject*)project withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+    if ([project.projectId isEqualToString:@""] || [newName isEqualToString:@""] ) {
         NSString *domain = ERROR_DOMAIN;
         NSDictionary * info = @{@"NSLocalizedDescriptionKey": EDIT_PROJECT_WITHOUTNAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-102
                                             userInfo:info];
         onError(errorPtr);
     }else{
-        [self.dataService editProject:projectID withNewName:newName withNewDesc:newDescription completionBlock:onCompletion errorBlock:onError];
+        [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
+            [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName projectID:project.projectId];
+            onCompletion();
+        } errorBlock:onError];
     }
 }
 
@@ -104,6 +107,7 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
     {
         if (![self project:aProject hasUser:emailAddress])
         {
+            __weak typeof(self) weakself = self;
             //Add the user email at the top
             NSMutableArray* usersMutableArray = [[NSMutableArray alloc]init];
             [usersMutableArray addObject:emailAddress];
@@ -112,6 +116,7 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
             NSArray* newUsersArray = [NSArray arrayWithArray:usersMutableArray];
             [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(){
                 aProject.users = newUsersArray;
+                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:aProject.projectId];
                 onSuccess();
             } errorBlock:onError];
         }
@@ -126,8 +131,6 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
     }
 }
 
-
-
 -(BOOL)project:(KBNProject*)project hasUser:(NSString*)emailAddress{
     BOOL result = NO;
     NSArray* users = (NSArray*)project.users;
@@ -140,12 +143,12 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
     return result;
 }
 
-
 -(void)removeProject:(KBNProject*)project completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    
     project.active = @NO;
-    [self.dataService updateProjects:@[project] completionBlock:onCompletion errorBlock:onError];
-    
+    [self.dataService updateProjects:@[project] completionBlock:^{
+        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_REMOVE projectID:project.projectId];
+        onCompletion();
+    } errorBlock:onError];
 }
 
 -(KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError{
@@ -206,8 +209,6 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
         }
         onCompletion(projectsArray);
     } errorBlock:onError];
-    
-    
 }
 
 @end

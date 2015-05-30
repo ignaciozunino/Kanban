@@ -13,4 +13,6 @@
 
 + (KBNTaskList*)taskListForProject:(KBNProject*)project params:(NSDictionary*)params;
 
++ (KBNTaskList*)taskListWithName:(NSString*)name;
+
 @end

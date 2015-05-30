@@ -33,6 +33,8 @@
 - (void)listenUpdateManager {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsInitialUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
+
     [[KBNUpdateManager sharedInstance] startUpdatingProjects];
 }
 
@@ -41,6 +43,12 @@
     
     self.projects=[NSMutableArray new];
     [self listenUpdateManager];
+}
+
+-(void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[KBNUpdateManager sharedInstance] startListeningProjects:self.projects];
+    [self.tableView reloadData];
 }
 
 - (void)stopListeningUpdateManager
@@ -59,8 +67,15 @@
     [self getProjects:noti];
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)onProjectUpdate:(NSNotification *)notification{
     
+    KBNProject *projectUpdated = (KBNProject*)notification.object;
+    for (KBNProject* project in self.projects) {
+        if ([project.projectId isEqualToString:projectUpdated.projectId]) {
+            project.name = projectUpdated.name;
+            break;
+        }
+    }
 }
 
 - (NSManagedObjectContext*) managedObjectContext {

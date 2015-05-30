@@ -10,7 +10,9 @@
 #import "KBNAppDelegate.h"
 #import "KBNTaskDetailViewController.h"
 #import "KBNTaskService.h"
+#import "KBNTaskListUtils.h"
 #import "KBNAlertUtils.h"
+#import "KBNUpdateManager.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
@@ -30,6 +32,9 @@
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *doubleTap;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tap;
 
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) IBOutlet UIView *activityIndicatorBackground;
+
 @end
 
 @implementation KBNProjectDetailViewController
@@ -39,7 +44,7 @@
     // Do any additional setup after loading the view.
     
     self.title = self.project.name;
-    self.labelState.text = self.taskList.name;
+    self.labelTaskListName.text = self.taskList.name;
     [self.deleteButton setTitle:REGULAR_TITLE forState:UIControlStateNormal];
     [self.deleteButton sizeToFit];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
@@ -49,11 +54,14 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableActivityIndicator) name:ENABLE_VIEW object:nil];
+    
     [self.tableView reloadData];
     
     if (!self.taskListTasks.count) {
@@ -63,8 +71,29 @@
         [self.deleteButton setHidden:NO];
         [self.deleteButton setEnabled:YES];
     }
-
+    
+    if (!self.enable) {
+        [self enableActivityIndicator];
+    }
+    [[KBNUpdateManager sharedInstance] startListeningProjects:@[self.project]];
     self.title = self.project.name;
+}
+
+-(void)onProjectUpdate:(NSNotification *)notification{
+    
+    KBNProject *projectUpdated = (KBNProject*)notification.object;
+    if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
+        self.project.name = projectUpdated.name;
+        UILabel *title = [[UILabel alloc] init];
+        title.text = self.project.name;
+        self.navigationItem.titleView = title;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ENABLE_VIEW object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:KBNProjectUpdate object:nil];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,6 +103,76 @@
 
 - (NSManagedObjectContext*) managedObjectContext {
     return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+}
+
+#pragma mark - IBActions
+
+- (IBAction)addTaskList:(id)sender {
+    
+    NSString *currentList = [@" " stringByAppendingString:self.labelTaskListName.text];
+    NSString *beforeTitle = [BEFORE_TITLE stringByAppendingString:currentList];
+    NSString *afterTitle = [AFTER_TITLE stringByAppendingString:currentList];
+    
+    NSString *message = nil;
+    if ([sender isKindOfClass:[NSError class]]) {
+        message = CREATING_TASKLIST_WITHOUT_NAME_ERROR;
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ADD_LIST_TITLE
+                                                    message:message
+                                                   delegate:self
+                                          cancelButtonTitle:CANCEL_TITLE
+                                          otherButtonTitles:beforeTitle, afterTitle, nil];
+    
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+#pragma mark - Alert View Delegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (!buttonIndex) {
+        return;
+    }
+    
+    NSString *taskListName = [[alertView textFieldAtIndex:0] text];
+    
+    if (taskListName.length) {
+        
+        KBNTaskList *taskList = [KBNTaskListUtils taskListWithName:taskListName];
+        
+        switch (buttonIndex) {
+            case 1: //Before
+                if ([[[alertView textFieldAtIndex:0] text] length]) {
+                    [self.delegate insertTaskList:taskList before:self];
+                    [self.delegate moveBackwardFrom:self];
+                }
+                break;
+            case 2: //After
+                if ([[[alertView textFieldAtIndex:0] text] length]) {
+                    [self.delegate insertTaskList:taskList after:self];
+                    [self.delegate moveForwardFrom:self];
+                }
+                break;
+        }
+    } else {
+        [self addTaskList:[NSError new]];
+    }
+}
+
+#pragma mark - Activity Indicator Methods
+
+- (void)enableActivityIndicator {
+    [self.activityIndicatorBackground setHidden:NO];
+    [self.activityIndicator setHidden:NO];
+    [self.activityIndicator startAnimating];
+}
+
+- (void)disableActivityIndicator {
+    [self.activityIndicator stopAnimating];
+    [self.activityIndicator setHidden:YES];
+    [self.activityIndicatorBackground setHidden:YES];
 }
 
 #pragma mark - Table View Data Source

@@ -6,43 +6,43 @@
 	<dict>
 		<key>Pods-AFNetworking.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Firebase.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-OCMock.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0D01A5B4454AF94D42884EEA</key>
+		<key>345DA596BAC373F24E9A7D19</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5F1F3775973584922C9B64DA</key>
+		<key>84CA570EAF3DA11DB63036B4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6149237E51BB3294588C9C08</key>
+		<key>87F24A3CD370562AA39A2124</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>651986FD47614489205F2D9A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E264A83E3B7DFA3F00628152</key>
+		<key>D993DDF895CB1481367A8605</key>
 		<dict>
 			<key>primary</key>
 			<true/>
