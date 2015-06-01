@@ -46,12 +46,13 @@
 		3A9509A21AF7C5AD00849FF0 /* KBNProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A11AF7C5AD00849FF0 /* KBNProject.m */; };
 		3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */; };
 		3AA0C9751B0B601000030630 /* KBNRemoveProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */; };
+		3AA0C9771B10B79600030630 /* KBNCreateTaskListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0C9761B10B79600030630 /* KBNCreateTaskListTest.m */; };
 		3AE7FBD01B16442C0037809A /* KBNProjectTemplateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBCF1B16442C0037809A /* KBNProjectTemplateService.m */; };
 		3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */; };
 		3AE7FBD51B1781280037809A /* KBNCreateProjectFromTemplateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */; };
+		3AEE57BA1B1CB73A0005013D /* KBNSelectTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */; };
 		3AF8F0D51B152B9F0092A6BD /* KBNProjectTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */; };
 		3AF8F0D81B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF8F0D71B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m */; };
-		3AA0C9771B10B79600030630 /* KBNCreateTaskListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0C9761B10B79600030630 /* KBNCreateTaskListTest.m */; };
 		541A5EB61AF144FC00C571CC /* KBNEditProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */; };
 		543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */; };
 		54505C531AFD3BA3000A30B8 /* KBNUpdateManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */; };
@@ -163,16 +164,18 @@
 		3A9509A11AF7C5AD00849FF0 /* KBNProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProject.m; path = Domain/KBNProject.m; sourceTree = "<group>"; };
 		3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNMoveTaskTest.m; sourceTree = "<group>"; };
 		3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNRemoveProjectTest.m; sourceTree = "<group>"; };
+		3AA0C9761B10B79600030630 /* KBNCreateTaskListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCreateTaskListTest.m; sourceTree = "<group>"; };
 		3AE7FBCE1B16442C0037809A /* KBNProjectTemplateService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateService.h; path = Services/KBNProjectTemplateService.h; sourceTree = "<group>"; };
 		3AE7FBCF1B16442C0037809A /* KBNProjectTemplateService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateService.m; path = Services/KBNProjectTemplateService.m; sourceTree = "<group>"; };
 		3AE7FBD11B1658030037809A /* KBNProjectTemplateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateUtils.h; path = Utils/KBNProjectTemplateUtils.h; sourceTree = "<group>"; };
 		3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateUtils.m; path = Utils/KBNProjectTemplateUtils.m; sourceTree = "<group>"; };
 		3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCreateProjectFromTemplateTest.m; sourceTree = "<group>"; };
+		3AEE57B81B1CB73A0005013D /* KBNSelectTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSelectTemplateViewController.h; path = Controllers/KBNSelectTemplateViewController.h; sourceTree = "<group>"; };
+		3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNSelectTemplateViewController.m; path = Controllers/KBNSelectTemplateViewController.m; sourceTree = "<group>"; };
 		3AF8F0D31B152B9F0092A6BD /* KBNProjectTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplate.h; path = Domain/KBNProjectTemplate.h; sourceTree = "<group>"; };
 		3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplate.m; path = Domain/KBNProjectTemplate.m; sourceTree = "<group>"; };
 		3AF8F0D61B1615400092A6BD /* KBNProjectTemplateParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateParseAPIManager.h; path = Parse/KBNProjectTemplateParseAPIManager.h; sourceTree = "<group>"; };
 		3AF8F0D71B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateParseAPIManager.m; path = Parse/KBNProjectTemplateParseAPIManager.m; sourceTree = "<group>"; };
-		3AA0C9761B10B79600030630 /* KBNCreateTaskListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCreateTaskListTest.m; sourceTree = "<group>"; };
 		541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNEditProjectTest.m; sourceTree = "<group>"; };
 		543FFAF51AFBD23C0020AD28 /* KBNInitialSetupTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNInitialSetupTest.h; sourceTree = "<group>"; };
 		543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNInitialSetupTest.m; sourceTree = "<group>"; };
@@ -349,6 +352,8 @@
 				3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */,
 				3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */,
 				3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */,
+				3AEE57B81B1CB73A0005013D /* KBNSelectTemplateViewController.h */,
+				3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -435,11 +440,7 @@
 			children = (
 				3A0CCD2D1AEFC1780039F629 /* KBNAlertUtils.h */,
 				3A0CCD2E1AEFC1780039F629 /* KBNAlertUtils.m */,
-				A07653491B0E2204009A8550 /* KBNArrayToDataTransformer.h */,
-				A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */,
 				3A0CCD2F1AEFC1780039F629 /* KBNConstants.h */,
-				A07653461B0E209C009A8550 /* KBNEmailUtils.h */,
-				A07653471B0E209C009A8550 /* KBNEmailUtils.m */,
 				032EF2901AF0259400F27846 /* KBNErrorUtils.h */,
 				032EF2911AF0259400F27846 /* KBNErrorUtils.m */,
 				3A0CCD301AEFC1780039F629 /* KBNProjectUtils.h */,
@@ -670,6 +671,7 @@
 				3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */,
 				3A427E6D1B06630B00348F24 /* UITextView+CustomTextView.m in Sources */,
 				18CB2DBD1AEAE40700F5F390 /* (null) in Sources */,
+				3AEE57BA1B1CB73A0005013D /* KBNSelectTemplateViewController.m in Sources */,
 				3A0CCD2C1AEFC1270039F629 /* KBNTaskListUtils.m in Sources */,
 				E2AC8A371AF90312008A44B5 /* KBNUpdateManager.m in Sources */,
 				3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */,

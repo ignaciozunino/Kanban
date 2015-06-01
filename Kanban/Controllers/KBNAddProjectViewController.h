@@ -12,18 +12,10 @@
 #import "KBNAppDelegate.h"
 #import "KBNUserUtils.h"
 
-@protocol KBNAddProjectViewControllerDelegate <NSObject>
+#define PROJECT_ADDED @"project added"
 
-- (void)didCreateProject:(KBNProject*) project;
+@interface KBNAddProjectViewController : UIViewController
 
-@end
-
-@interface KBNAddProjectViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-
-- (instancetype)initWithService:(KBNProjectService *) projectService;
-
-@property  (nonatomic, strong) KBNProjectService* projectService;
-
-@property (weak, nonatomic) id <KBNAddProjectViewControllerDelegate> delegate;
+@property (strong, nonatomic) KBNProjectTemplate *selectedTemplate;
 
 @end
