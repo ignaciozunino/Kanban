@@ -10,6 +10,7 @@
 #import "KBNProjectParseAPIManager.h"
 #import "KBNProjectUtils.h"
 #import "KBNAppDelegate.h"
+#import "KBNProjectTemplate.h"
 #import <Firebase/Firebase.h>
 #import "KBNUpdateUtils.h"
 
@@ -17,6 +18,8 @@
 +(KBNProjectService *) sharedInstance;
 
 -(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription forUser:(NSString*) username completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
+-(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription forUser:(NSString*) username withTemplate:(KBNProjectTemplate*)projectTemplate completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
 -(void)editProject: (KBNProject*)project withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 

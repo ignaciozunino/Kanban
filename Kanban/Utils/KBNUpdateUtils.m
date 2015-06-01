@@ -53,7 +53,7 @@
     }
     return -1;
 }
-//update the projects retrieved in the dictionary or if is not previusly exists add the new task
+//update the projects retrieved in the dictionary or if not previously exists add the new task
 +(void) updateExistingProjectsFromArray:(NSArray *) updatedProjects inArray:(NSMutableArray *)array
 {
     for (KBNProject *project in updatedProjects) {
@@ -67,7 +67,7 @@
     }
 }
 
-//returns the index of the projrct in the updatedTask array or -1 if is not in the array
+//returns the index of the project in the updatedTask array or -1 if is not in the array
 +(NSInteger) indexOfProject:(NSString*)projectid inArray:(NSArray *)array{
     for (int i = 0; i<array.count; i++) {
         if([projectid isEqualToString:((KBNProject*)[array objectAtIndex:i]).projectId ]){

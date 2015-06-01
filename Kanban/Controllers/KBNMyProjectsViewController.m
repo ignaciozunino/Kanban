@@ -15,7 +15,7 @@
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
 #define SEGUE_PROJECT_DETAIL @"projectDetail"
-#define SEGUE_ADD_PROJECT @"addProject"
+#define SEGUE_SELECT_PROJECT_TEMPLATE @"selectProjectTemplate"
 #define DELETE_WARNING_MESSAGE @"The selected project will be deleted"
 
 #define PROJECT_ROW_HEIGHT 80
@@ -42,7 +42,14 @@
     [super viewDidLoad];
     
     self.projects=[NSMutableArray new];
+    [self subscribeToNotifications];
+}
+
+- (void)subscribeToNotifications {
+    
     [self listenUpdateManager];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCreateProject:) name:PROJECT_ADDED object:nil];
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated{
@@ -57,9 +64,11 @@
     [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
+    
     [self stopListeningUpdateManager];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PROJECT_ADDED object:nil];
+
 }
 
 -(void)onProjectsUpdate:(NSNotification *)noti{
@@ -159,16 +168,11 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.project = [self.projects objectAtIndex:indexPath.row];
     }
-    if ([segue.identifier isEqualToString:SEGUE_ADD_PROJECT]) {
-        UINavigationController *navController = [segue destinationViewController];
-        KBNAddProjectViewController *controller   = (KBNAddProjectViewController*) navController.topViewController;
-        controller.projectService = [KBNProjectService sharedInstance];
-        controller.delegate = self;
-    }
 }
 
-#pragma mark - KBNAddProject Delegate
--(void) didCreateProject:(KBNProject *)project{
+#pragma mark - Add Project Notification
+-(void) didCreateProject:(NSNotification *)notification {
+    KBNProject *project = (KBNProject*)notification.object;
     [self.projects addObject:project];
     [KBNUpdateManager sharedInstance].lastProjectsUpdate = [NSDate getUTCNowWithParseFormat];
     [self.tableView reloadData];
