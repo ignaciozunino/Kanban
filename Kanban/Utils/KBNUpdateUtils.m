@@ -53,7 +53,7 @@
     }
     return -1;
 }
-//update the projects retrieved in the dictionary or if is not previusly exists add the new task
+//update the projects retrieved in the dictionary or if not previously exists add the new task
 +(void) updateExistingProjectsFromArray:(NSArray *) updatedProjects inArray:(NSMutableArray *)array
 {
     for (KBNProject *project in updatedProjects) {

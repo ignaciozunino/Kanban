@@ -44,7 +44,7 @@
         [project.users addObject:username];
         
         [self.dataService createProject:project completionBlock:^(KBNProject *newProject) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:project.projectId];
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:newProject.projectId];
             onCompletion(newProject);
         } errorBlock:onError];
     }
@@ -67,6 +67,7 @@
         
         NSArray *lists = (NSArray*)projectTemplate.lists;
         [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:newProject.projectId];
             onCompletion(newProject);
         } errorBlock:onError];
     }
