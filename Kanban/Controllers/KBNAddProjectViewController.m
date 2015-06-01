@@ -42,17 +42,18 @@
         [KBNAlertUtils showAlertView:PROJECT_CREATION_SUCCESS andType:SUCCESS_ALERT];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:PROJECT_ADDED object:project];
-        [weakself dismissViewControllerAnimated:YES completion:nil];
+        [weakself.navigationController popToRootViewControllerAnimated:YES];
 
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
-        [weakself dismissViewControllerAnimated:YES completion:nil];
+        [weakself.navigationController popToRootViewControllerAnimated:YES];
     }];
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+
 }
 
 @end

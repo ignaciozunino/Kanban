@@ -53,7 +53,7 @@
 #pragma mark - IBActions
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma  mark - Table View Data Source
