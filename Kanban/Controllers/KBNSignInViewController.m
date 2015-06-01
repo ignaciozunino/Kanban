@@ -40,18 +40,18 @@
 }
 
 - (IBAction)onSignInPressed:(UIButton *)sender {
+    [self.view endEditing:YES];
     [self startHUD];
-    
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;
     [[KBNUserService sharedInstance] createUser:username withPasword:password  completionBlock:^{
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
-            UIViewController *vc = [storyboard instantiateInitialViewController];            [self presentViewController:vc animated:YES completion:nil];
-            [KBNUserUtils saveUsername:username];
-        } errorBlock:^(NSError *error) {
-            [KBNAlertUtils showAlertView:[KBNErrorUtils getErrorMessage:[error code]] andType:ERROR_ALERT ];
-                    }];
-
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
+        UIViewController *vc = [storyboard instantiateInitialViewController];
+        [self presentViewController:vc animated:YES completion:nil];
+        [KBNUserUtils saveUsername:username];
+    } errorBlock:^(NSError *error) {
+        [KBNAlertUtils showAlertView:[KBNErrorUtils getErrorMessage:[error code]] andType:ERROR_ALERT ];
+    }];
 }
 
 //This method is to dismiss keyboard

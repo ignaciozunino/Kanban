@@ -43,7 +43,7 @@
     self.HUD.dimBackground = YES;
     self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
     
-    self.HUD.labelText = @"Creating the task";
+    self.HUD.labelText = ADD_TASK_LOADING;
     [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
     self.HUD.delegate = self;
 }
@@ -62,11 +62,6 @@
     [[KBNTaskService sharedInstance] createTask:self.addTask inList:self.addTask.taskList completionBlock:^(NSDictionary *response) {
         weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
         [weakself.delegate didCreateTask:weakself.addTask];
-        self.HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-        self.HUD.mode = MBProgressHUDModeCustomView;
-        
-        [weakself dismissViewControllerAnimated:YES completion:nil];
-        
     } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
         [weakself dismissViewControllerAnimated:YES completion:nil];
@@ -89,14 +84,25 @@
     [self.view endEditing:YES];
 }
 
+
 - (void)myProgressTask {
     // This just increases the progress indicator in a loop
     float progress = 0.0f;
     while (progress < 1.0f) {
-        progress += 0.08f;
+        progress += 0.05f;
         self.HUD.progress = progress;
         usleep(50000);
     }
+    __block UIImageView *imageView;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
+        imageView = [[UIImageView alloc] initWithImage:image];
+    });
+    sleep(0.5);
+    self.HUD.customView = imageView;
+    self.HUD.mode = MBProgressHUDModeCustomView;
+    self.HUD.labelText = TASK_CREATION_SUCCESS;
+    sleep(1);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 @end

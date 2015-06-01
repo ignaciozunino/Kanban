@@ -51,7 +51,7 @@
     self.HUD.dimBackground = YES;
     self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
     
-    self.HUD.labelText = @"Creating the project";
+    self.HUD.labelText = ADD_PROJECT_LOADING;
     [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
     self.HUD.delegate = self;
 }
@@ -65,13 +65,7 @@
     __weak typeof(self) weakself = self;
     [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextView.text forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
         [KBNAppDelegate activateActivityIndicator:NO];
-        self.HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-        self.HUD.mode = MBProgressHUDModeCustomView;
-
         [weakself.delegate didCreateProject:project];
-        sleep(1);
-        [weakself dismissViewControllerAnimated:YES completion:nil];
-        
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
@@ -91,6 +85,17 @@
         self.HUD.progress = progress;
         usleep(50000);
     }
+    sleep(0.8);
+    __block UIImageView *imageView;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
+        imageView = [[UIImageView alloc] initWithImage:image];
+    });
+    self.HUD.customView = imageView;
+    self.HUD.mode = MBProgressHUDModeCustomView;
+    self.HUD.labelText = PROJECT_CREATION_SUCCESS;
+    sleep(1);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

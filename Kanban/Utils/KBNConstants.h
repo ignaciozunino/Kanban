@@ -44,10 +44,14 @@
 #define PROJECT_DETAIL_VC @"KBNProjectDetailViewController"
 #define PAGE_VC @"KBNPageViewController"
 
+//Loading messages
+#define ADD_PROJECT_LOADING @"Creating the project"
+#define ADD_TASK_LOADING @"Creating the task"
 
 //Succes messages
 #define PROJECT_CREATION_SUCCESS @"Project created successfully!"
 #define PROJECT_EDIT_SUCCESS @"Project modified successfully!"
+#define TASK_CREATION_SUCCESS @"Task created successfully!"
 #define TASK_EDIT_SUCCESS @"Task modified successfully!"
 
 
