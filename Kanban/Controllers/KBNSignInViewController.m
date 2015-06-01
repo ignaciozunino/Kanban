@@ -7,11 +7,11 @@
 //
 #import "KBNSignInViewController.h"
 
-@interface KBNSignInViewController () <UIAlertViewDelegate>
+@interface KBNSignInViewController () <UIAlertViewDelegate, MBProgressHUDDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
-
+@property MBProgressHUD* HUD;
 @end
 
 @implementation KBNSignInViewController
@@ -27,7 +27,21 @@
 }
 
 #pragma mark - IBActions
+- (void)startHUD {
+    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:self.HUD];
+    
+    self.HUD.dimBackground = YES;
+    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
+    
+    self.HUD.labelText = @"Connecting";
+    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+    self.HUD.delegate = self;
+}
+
 - (IBAction)onSignInPressed:(UIButton *)sender {
+    [self startHUD];
+    
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;
     [[KBNUserService sharedInstance] createUser:username withPasword:password  completionBlock:^{
@@ -54,4 +68,13 @@
     self.passwordTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: color}];
 }
 
+- (void)myProgressTask {
+    // This just increases the progress indicator in a loop
+    float progress = 0.0f;
+    while (progress < 1.0f) {
+        progress += 0.05f;
+        self.HUD.progress = progress;
+        usleep(50000);
+    }
+}
 @end

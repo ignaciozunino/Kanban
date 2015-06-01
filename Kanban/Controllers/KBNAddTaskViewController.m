@@ -12,10 +12,11 @@
 #import "KBNTaskService.h"
 #import "UITextView+CustomTextView.h"
 
-@interface KBNAddTaskViewController ()
+@interface KBNAddTaskViewController () <MBProgressHUDDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property MBProgressHUD* HUD;
 
 @end
 
@@ -35,10 +36,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)startHUD {
+    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:self.HUD];
+    
+    self.HUD.dimBackground = YES;
+    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
+    
+    self.HUD.labelText = @"Creating the task";
+    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+    self.HUD.delegate = self;
+}
+
+
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
-    
+    [self.view endEditing:YES];
+    [self startHUD];
     self.addTask.name = self.nameTextField.text;
     self.addTask.taskDescription = self.descriptionTextView.text;
     
@@ -47,6 +62,9 @@
     [[KBNTaskService sharedInstance] createTask:self.addTask inList:self.addTask.taskList completionBlock:^(NSDictionary *response) {
         weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
         [weakself.delegate didCreateTask:weakself.addTask];
+        self.HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+        self.HUD.mode = MBProgressHUDModeCustomView;
+        
         [weakself dismissViewControllerAnimated:YES completion:nil];
         
     } errorBlock:^(NSError *error) {
@@ -70,17 +88,15 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
 }
-     
-    
-     
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)myProgressTask {
+    // This just increases the progress indicator in a loop
+    float progress = 0.0f;
+    while (progress < 1.0f) {
+        progress += 0.08f;
+        self.HUD.progress = progress;
+        usleep(50000);
+    }
 }
-*/
 
 @end

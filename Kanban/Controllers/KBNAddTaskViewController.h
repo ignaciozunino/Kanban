@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "KBNTask.h"
+#import "MBProgressHUD.h"
 
 @protocol KBNAddTaskViewControllerDelegate <NSObject>
 

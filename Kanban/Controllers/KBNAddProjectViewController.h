@@ -11,6 +11,7 @@
 #import "KBNAlertUtils.h"
 #import "KBNAppDelegate.h"
 #import "KBNUserUtils.h"
+#import "MBProgressHUD.h"
 
 @protocol KBNAddProjectViewControllerDelegate <NSObject>
 
