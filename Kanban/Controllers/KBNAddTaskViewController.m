@@ -49,10 +49,10 @@
     [[KBNTaskService sharedInstance] createTask:self.addTask inList:self.addTask.taskList completionBlock:^(NSDictionary *response) {
         weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
         [weakself.delegate didCreateTask:weakself.addTask];
+        [self dismissViewControllerAnimated:YES completion:nil];
     } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
         [weakself dismissViewControllerAnimated:YES completion:nil];
-        
     }];
 }
 
@@ -91,17 +91,6 @@
         self.HUD.progress = progress;
         usleep(50000);
     }
-    __block UIImageView *imageView;
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
-        imageView = [[UIImageView alloc] initWithImage:image];
-    });
-    sleep(0.5);
-    self.HUD.customView = imageView;
-    self.HUD.mode = MBProgressHUDModeCustomView;
-    self.HUD.labelText = TASK_CREATION_SUCCESS;
-    sleep(1);
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
