@@ -27,17 +27,6 @@
 }
 
 #pragma mark - IBActions
-- (void)startHUD {
-    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:self.HUD];
-    
-    self.HUD.dimBackground = YES;
-    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
-    
-    self.HUD.labelText = @"Connecting";
-    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
-    self.HUD.delegate = self;
-}
 
 - (IBAction)onSignInPressed:(UIButton *)sender {
     [self.view endEditing:YES];
@@ -68,6 +57,20 @@
     self.passwordTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: color}];
 }
 
+#pragma mark - HUD
+
+- (void)startHUD {
+    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:self.HUD];
+    
+    self.HUD.dimBackground = YES;
+    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
+    
+    self.HUD.labelText = @"Connecting";
+    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+    self.HUD.delegate = self;
+}
+
 - (void)myProgressTask {
     // This just increases the progress indicator in a loop
     float progress = 0.0f;
@@ -77,4 +80,5 @@
         usleep(50000);
     }
 }
+
 @end

@@ -44,18 +44,6 @@
     return self;
 }
 
-- (void)startHUD {
-    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:self.HUD];
-    
-    self.HUD.dimBackground = YES;
-    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
-    
-    self.HUD.labelText = ADD_PROJECT_LOADING;
-    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
-    self.HUD.delegate = self;
-}
-
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
@@ -75,6 +63,20 @@
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - HUD
+
+- (void)startHUD {
+    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:self.HUD];
+    
+    self.HUD.dimBackground = YES;
+    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
+    
+    self.HUD.labelText = ADD_PROJECT_LOADING;
+    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+    self.HUD.delegate = self;
 }
 
 - (void)myProgressTask {

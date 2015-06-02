@@ -36,19 +36,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)startHUD {
-    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:self.HUD];
-    
-    self.HUD.dimBackground = YES;
-    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
-    
-    self.HUD.labelText = ADD_TASK_LOADING;
-    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
-    self.HUD.delegate = self;
-}
-
-
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
@@ -84,6 +71,19 @@
     [self.view endEditing:YES];
 }
 
+#pragma mark - HUD
+
+- (void)startHUD {
+    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:self.HUD];
+    
+    self.HUD.dimBackground = YES;
+    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
+    
+    self.HUD.labelText = ADD_TASK_LOADING;
+    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+    self.HUD.delegate = self;
+}
 
 - (void)myProgressTask {
     // This just increases the progress indicator in a loop
