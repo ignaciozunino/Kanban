@@ -39,6 +39,7 @@
 #define ENTITY_TASK @"KBNTask"
 #define ENTITY_PROJECT @"KBNProject"
 #define ENTITY_TASK_LIST @"KBNTaskList"
+#define ENTITY_PROJECT_TEMPLATE @"KBNProjectTemplate"
 
 //View controllers identifiers
 #define PROJECT_DETAIL_VC @"KBNProjectDetailViewController"
@@ -74,6 +75,7 @@
 #define PARSE_PROJECTS @"https://api.parse.com/1/classes/Project"
 #define PARSE_TASKLISTS @"https://api.parse.com/1/classes/TaskList"
 #define PARSE_TASKS @"https://api.parse.com/1/classes/Task"
+#define PARSE_PROJECT_TEMPLATES @"https://api.parse.com/1/classes/ProjectTemplate"
 #define PARSE_BATCH @"https://api.parse.com/1/batch"
 
 #define FIREBASE_BASE_URL @"https://kanbanglb.firebaseio.com/"
@@ -99,6 +101,8 @@
 #define PARSE_TASK_ACTIVE_COLUMN @"active"
 #define PARSE_TASK_UPDATED_COLUMN @"updatedAt"
 
+#define PARSE_PROJECT_TEMPLATE_NAME @"name"
+#define PARSE_PROJECT_TEMPLATE_LISTS @"lists"
 
 #define PARSE_USER_NAME_COLUMN @"username"
 
@@ -134,6 +138,7 @@
 //FIREBASE KEYS
 #define FIREBASE_TYPE_OF_CHANGE @"typeOfChange"
 #define FIREBASE_EDIT_NAME_CHANGE @"objectName"
+#define FIREBASE_EDIT_DESC_CHANGE @"objectDescription"
 
 #define FIREBASE_PROJECT @"Project"
 #define FIREBASE_TASK @"Task"
@@ -148,6 +153,7 @@
 
 
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
+
 
 //Blocks 
 typedef void (^KBNConnectionErrorBlock) (NSError *error);

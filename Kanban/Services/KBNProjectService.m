@@ -44,7 +44,30 @@
         [project.users addObject:username];
         
         [self.dataService createProject:project completionBlock:^(KBNProject *newProject) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:project.projectId];
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:newProject.projectId];
+            onCompletion(newProject);
+        } errorBlock:onError];
+    }
+}
+
+- (void)createProject:(NSString *)name withDescription:(NSString *)projectDescription forUser:(NSString *)username withTemplate:(KBNProjectTemplate *)projectTemplate completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    
+    if ([name isEqualToString:@""] || !name) {
+        NSString *domain = ERROR_DOMAIN;
+        NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_WITHOUTNAME_ERROR};
+        NSError *errorPtr = [NSError errorWithDomain:domain code:-102
+                                            userInfo:info];
+        onError(errorPtr);
+    }else{
+        KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
+        project.name = name;
+        project.projectDescription = projectDescription;
+        project.users = [NSMutableArray new];
+        [project.users addObject:username];
+        
+        NSArray *lists = (NSArray*)projectTemplate.lists;
+        [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:newProject.projectId];
             onCompletion(newProject);
         } errorBlock:onError];
     }
@@ -59,7 +82,7 @@
         onError(errorPtr);
     }else{
         [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
-            [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName projectID:project.projectId];
+            [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName withDescription:newDescription projectID:project.projectId];
             onCompletion();
         } errorBlock:onError];
     }

@@ -78,6 +78,7 @@
     for (KBNTask * task in self.projectTasks) {
         if ([task.taskId isEqualToString: [notifiedTask objectForKey:PARSE_OBJECTID]]) {
             task.name = [notifiedTask objectForKey:PARSE_TASK_NAME_COLUMN];
+            task.taskDescription = [notifiedTask objectForKey:PARSE_TASK_DESCRIPTION_COLUMN];
             break;
         }
     }

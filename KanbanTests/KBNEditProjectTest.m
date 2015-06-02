@@ -55,7 +55,14 @@
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
     [[projectAPIManager stub] editProject:OCMOCK_ANY withNewName:OCMOCK_ANY withNewDesc:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY ];
     serviceOrig.dataService = projectAPIManager;
-    KBNProject *project = [KBNProject new];
+    
+    NSString *name = @"test_project";
+    NSString *projectDescription = @"To be edited";
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            name, PARSE_PROJECT_NAME_COLUMN,
+                            projectDescription, PARSE_PROJECT_DESCRIPTION_COLUMN, nil];
+    KBNProject *project = [KBNProjectUtils projectWithParams:params];
+    
     [serviceOrig editProject:project withNewName:@"" withDescription:@"TEST-Desc" completionBlock:^{
         XCTAssertTrue(false);
     } errorBlock:^(NSError *error) {

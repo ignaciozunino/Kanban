@@ -47,6 +47,12 @@
 		3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */; };
 		3AA0C9751B0B601000030630 /* KBNRemoveProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */; };
 		3AA0C9771B10B79600030630 /* KBNCreateTaskListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0C9761B10B79600030630 /* KBNCreateTaskListTest.m */; };
+		3AE7FBD01B16442C0037809A /* KBNProjectTemplateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBCF1B16442C0037809A /* KBNProjectTemplateService.m */; };
+		3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */; };
+		3AE7FBD51B1781280037809A /* KBNCreateProjectFromTemplateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */; };
+		3AEE57BA1B1CB73A0005013D /* KBNSelectTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */; };
+		3AF8F0D51B152B9F0092A6BD /* KBNProjectTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */; };
+		3AF8F0D81B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF8F0D71B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m */; };
 		541A5EB61AF144FC00C571CC /* KBNEditProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */; };
 		543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */; };
 		54505C531AFD3BA3000A30B8 /* KBNUpdateManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */; };
@@ -159,6 +165,17 @@
 		3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNMoveTaskTest.m; sourceTree = "<group>"; };
 		3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNRemoveProjectTest.m; sourceTree = "<group>"; };
 		3AA0C9761B10B79600030630 /* KBNCreateTaskListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCreateTaskListTest.m; sourceTree = "<group>"; };
+		3AE7FBCE1B16442C0037809A /* KBNProjectTemplateService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateService.h; path = Services/KBNProjectTemplateService.h; sourceTree = "<group>"; };
+		3AE7FBCF1B16442C0037809A /* KBNProjectTemplateService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateService.m; path = Services/KBNProjectTemplateService.m; sourceTree = "<group>"; };
+		3AE7FBD11B1658030037809A /* KBNProjectTemplateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateUtils.h; path = Utils/KBNProjectTemplateUtils.h; sourceTree = "<group>"; };
+		3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateUtils.m; path = Utils/KBNProjectTemplateUtils.m; sourceTree = "<group>"; };
+		3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCreateProjectFromTemplateTest.m; sourceTree = "<group>"; };
+		3AEE57B81B1CB73A0005013D /* KBNSelectTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSelectTemplateViewController.h; path = Controllers/KBNSelectTemplateViewController.h; sourceTree = "<group>"; };
+		3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNSelectTemplateViewController.m; path = Controllers/KBNSelectTemplateViewController.m; sourceTree = "<group>"; };
+		3AF8F0D31B152B9F0092A6BD /* KBNProjectTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplate.h; path = Domain/KBNProjectTemplate.h; sourceTree = "<group>"; };
+		3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplate.m; path = Domain/KBNProjectTemplate.m; sourceTree = "<group>"; };
+		3AF8F0D61B1615400092A6BD /* KBNProjectTemplateParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateParseAPIManager.h; path = Parse/KBNProjectTemplateParseAPIManager.h; sourceTree = "<group>"; };
+		3AF8F0D71B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateParseAPIManager.m; path = Parse/KBNProjectTemplateParseAPIManager.m; sourceTree = "<group>"; };
 		541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNEditProjectTest.m; sourceTree = "<group>"; };
 		543FFAF51AFBD23C0020AD28 /* KBNInitialSetupTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNInitialSetupTest.h; sourceTree = "<group>"; };
 		543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNInitialSetupTest.m; sourceTree = "<group>"; };
@@ -263,6 +280,8 @@
 				3A312AC31AEE8BEF005837A5 /* KBNTask.m */,
 				3A9509A01AF7C5AD00849FF0 /* KBNProject.h */,
 				3A9509A11AF7C5AD00849FF0 /* KBNProject.m */,
+				3AF8F0D31B152B9F0092A6BD /* KBNProjectTemplate.h */,
+				3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */,
 			);
 			name = Domain;
 			sourceTree = "<group>";
@@ -280,6 +299,8 @@
 				E2AC8A361AF90312008A44B5 /* KBNUpdateManager.m */,
 				3A312AAC1AEE8473005837A5 /* KBNUserService.h */,
 				3A312AAD1AEE8473005837A5 /* KBNUserService.m */,
+				3AE7FBCE1B16442C0037809A /* KBNProjectTemplateService.h */,
+				3AE7FBCF1B16442C0037809A /* KBNProjectTemplateService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -297,6 +318,8 @@
 				3A312AA71AEE845E005837A5 /* KBNUserParseAPIManager.m */,
 				18D88D3B1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.h */,
 				18D88D3C1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.m */,
+				3AF8F0D61B1615400092A6BD /* KBNProjectTemplateParseAPIManager.h */,
+				3AF8F0D71B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m */,
 			);
 			name = Parse;
 			sourceTree = "<group>";
@@ -329,6 +352,8 @@
 				3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */,
 				3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */,
 				3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */,
+				3AEE57B81B1CB73A0005013D /* KBNSelectTemplateViewController.h */,
+				3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -395,6 +420,7 @@
 				18368D331AF2647F006557C6 /* KBNRemoveTaskTest.m */,
 				54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */,
 				3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */,
+				3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */,
 				3AA0C9761B10B79600030630 /* KBNCreateTaskListTest.m */,
 				CCA1A2781ADEA3D900CC98B5 /* Supporting Files */,
 			);
@@ -414,11 +440,7 @@
 			children = (
 				3A0CCD2D1AEFC1780039F629 /* KBNAlertUtils.h */,
 				3A0CCD2E1AEFC1780039F629 /* KBNAlertUtils.m */,
-				A07653491B0E2204009A8550 /* KBNArrayToDataTransformer.h */,
-				A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */,
 				3A0CCD2F1AEFC1780039F629 /* KBNConstants.h */,
-				A07653461B0E209C009A8550 /* KBNEmailUtils.h */,
-				A07653471B0E209C009A8550 /* KBNEmailUtils.m */,
 				032EF2901AF0259400F27846 /* KBNErrorUtils.h */,
 				032EF2911AF0259400F27846 /* KBNErrorUtils.m */,
 				3A0CCD301AEFC1780039F629 /* KBNProjectUtils.h */,
@@ -437,6 +459,12 @@
 				3A0CCD351AEFC1780039F629 /* UIFont+CustomFonts.m */,
 				3A427E6B1B06630B00348F24 /* UITextView+CustomTextView.h */,
 				3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */,
+				A07653461B0E209C009A8550 /* KBNEmailUtils.h */,
+				A07653471B0E209C009A8550 /* KBNEmailUtils.m */,
+				A07653491B0E2204009A8550 /* KBNArrayToDataTransformer.h */,
+				A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */,
+				3AE7FBD11B1658030037809A /* KBNProjectTemplateUtils.h */,
+				3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -640,8 +668,10 @@
 				3A312AAE1AEE8473005837A5 /* KBNProjectService.m in Sources */,
 				032EF2921AF0259400F27846 /* KBNErrorUtils.m in Sources */,
 				E2AC8A341AF902D9008A44B5 /* NSDate+Utils.m in Sources */,
+				3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */,
 				3A427E6D1B06630B00348F24 /* UITextView+CustomTextView.m in Sources */,
 				18CB2DBD1AEAE40700F5F390 /* (null) in Sources */,
+				3AEE57BA1B1CB73A0005013D /* KBNSelectTemplateViewController.m in Sources */,
 				3A0CCD2C1AEFC1270039F629 /* KBNTaskListUtils.m in Sources */,
 				E2AC8A371AF90312008A44B5 /* KBNUpdateManager.m in Sources */,
 				3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */,
@@ -649,7 +679,9 @@
 				A07653481B0E209C009A8550 /* KBNEmailUtils.m in Sources */,
 				3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */,
 				3A0CCD3C1AEFD2740039F629 /* KBNTaskUtils.m in Sources */,
+				3AF8F0D81B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m in Sources */,
 				3A0CCD211AEEB7A40039F629 /* KBNTaskParseAPIManager.m in Sources */,
+				3AE7FBD01B16442C0037809A /* KBNProjectTemplateService.m in Sources */,
 				3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */,
 				E228B8421AEFD65D00753750 /* (null) in Sources */,
 				3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */,
@@ -662,6 +694,7 @@
 				CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */,
 				CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */,
 				3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */,
+				3AF8F0D51B152B9F0092A6BD /* KBNProjectTemplate.m in Sources */,
 				3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */,
 				3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */,
 				3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */,
@@ -689,6 +722,7 @@
 				18D88D3F1AEEC4BB00D9BDE1 /* KBNGetProjectsTest.m in Sources */,
 				18368D341AF2647F006557C6 /* KBNRemoveTaskTest.m in Sources */,
 				3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */,
+				3AE7FBD51B1781280037809A /* KBNCreateProjectFromTemplateTest.m in Sources */,
 				18BE0FAD1AEE755500B2B0C2 /* KBNLoginTest.m in Sources */,
 				543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */,
 			);

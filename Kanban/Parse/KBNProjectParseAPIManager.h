@@ -15,6 +15,8 @@
 //Projects Functions
 - (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
 
+- (void) createProject: (KBNProject *) project withLists:(NSArray*)lists completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+
 -(void)setUsersList:(NSArray*)emailAddresses
         toProjectId:(NSString*)aProjectId
     completionBlock:(KBNConnectionSuccessBlock)onSuccess

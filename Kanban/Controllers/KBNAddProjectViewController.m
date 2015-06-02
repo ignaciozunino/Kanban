@@ -7,6 +7,7 @@
 //
 
 #import "KBNAddProjectViewController.h"
+#import "KBNProjectTemplate.h"
 #import "UITextView+CustomTextView.h"
 
 @interface KBNAddProjectViewController () <MBProgressHUDDelegate>
@@ -19,29 +20,17 @@
 
 @implementation KBNAddProjectViewController
 
-@synthesize delegate;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
     [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
-
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (instancetype)initWithService:(KBNProjectService *) projectService{
-    
-    self = [super init];
-    
-    if (self) {
-        _projectService = projectService;
-    }
-    return self;
 }
 
 #pragma mark - IBActions
@@ -51,18 +40,18 @@
     [self startHUD];
     [KBNAppDelegate activateActivityIndicator:YES];
     __weak typeof(self) weakself = self;
-    [self.projectService createProject:self.nameTextField.text withDescription:self.descriptionTextView.text forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
+    [[KBNProjectService sharedInstance] createProject:self.nameTextField.text withDescription:self.descriptionTextView.text forUser:[KBNUserUtils getUsername] withTemplate:self.selectedTemplate completionBlock:^(KBNProject *project) {
         [KBNAppDelegate activateActivityIndicator:NO];
-        [weakself.delegate didCreateProject:project];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PROJECT_ADDED object:project];
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
-        [weakself dismissViewControllerAnimated:YES completion:nil];
+        [weakself.navigationController popToRootViewControllerAnimated:YES];
     }];
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - HUD
@@ -87,7 +76,7 @@
         self.HUD.progress = progress;
         usleep(50000);
     }
-    sleep(0.8);
+    sleep(0.7);
     __block UIImageView *imageView;
     dispatch_sync(dispatch_get_main_queue(), ^{
         UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
@@ -97,7 +86,7 @@
     self.HUD.mode = MBProgressHUDModeCustomView;
     self.HUD.labelText = PROJECT_CREATION_SUCCESS;
     sleep(1);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

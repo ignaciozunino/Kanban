@@ -53,7 +53,7 @@
     }
     return -1;
 }
-//update the projects retrieved in the dictionary or if is not previusly exists add the new task
+//update the projects retrieved in the dictionary or if not previously exists add the new task
 +(void) updateExistingProjectsFromArray:(NSArray *) updatedProjects inArray:(NSMutableArray *)array
 {
     for (KBNProject *project in updatedProjects) {
@@ -67,7 +67,7 @@
     }
 }
 
-//returns the index of the projrct in the updatedTask array or -1 if is not in the array
+//returns the index of the project in the updatedTask array or -1 if is not in the array
 +(NSInteger) indexOfProject:(NSString*)projectid inArray:(NSArray *)array{
     for (int i = 0; i<array.count; i++) {
         if([projectid isEqualToString:((KBNProject*)[array objectAtIndex:i]).projectId ]){
@@ -84,10 +84,10 @@
     [rootRef setValue:dataToPass];
 }
 
-+(void) firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*) objectName withName:(NSString*) name projectID:(NSString*)projectID{
++(void) firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*) objectName withName:(NSString*)name withDescription:(NSString*)description projectID:(NSString*)projectID{
     NSString* path = [NSString stringWithFormat:@"%@/%@", projectID, objectName];
     id rootRef = [rootReference childByAppendingPath:path];
-    NSDictionary * dataToPass = @{FIREBASE_EDIT_NAME_CHANGE:name, @"User":[KBNUserUtils getUsername]};
+    NSDictionary * dataToPass = @{FIREBASE_EDIT_NAME_CHANGE:name, FIREBASE_EDIT_DESC_CHANGE:description, @"User":[KBNUserUtils getUsername]};
     [rootRef setValue:dataToPass];
 }
 @end

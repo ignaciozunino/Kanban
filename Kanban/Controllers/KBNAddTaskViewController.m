@@ -57,9 +57,7 @@
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender {
-
     [self dismissViewControllerAnimated:YES completion:nil];
-
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -105,4 +103,5 @@
     sleep(1);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 @end
