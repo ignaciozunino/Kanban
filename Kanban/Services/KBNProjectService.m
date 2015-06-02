@@ -82,7 +82,7 @@
         onError(errorPtr);
     }else{
         [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
-            [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName projectID:project.projectId];
+            [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName withDescription:newDescription projectID:project.projectId];
             onCompletion();
         } errorBlock:onError];
     }

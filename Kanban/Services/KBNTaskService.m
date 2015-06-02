@@ -161,6 +161,7 @@
                       completionBlock:^{
                           [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_TASK
                                                             withName:task.name
+                                                             withDescription:task.taskDescription
                                                     projectID:task.project.projectId];
                           onSuccess();
                       }
