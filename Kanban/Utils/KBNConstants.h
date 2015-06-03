@@ -65,6 +65,7 @@
 #define USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
 #define EDIT_TASK_WITHOUTNAME_ERROR @"Task must have a name"
 #define INVITE_USERS_USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
+#define OFFLINE_WARNING @"Connection appears to be offline."
 
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
@@ -124,6 +125,7 @@
 #define ERROR_ALERT @"ERROR"
 #define WARNING_ALERT @"WARNING"
 #define SUCCESS_ALERT @"SUCCESS"
+#define OK_TITLE @"Ok"
 #define CANCEL_TITLE @"Cancel"
 #define DELETE_TITLE @"Delete"
 #define BEFORE_TITLE @"Before"

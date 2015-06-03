@@ -11,6 +11,8 @@
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
 #import "UIFont+CustomFonts.h"
+#import "AFNetworkReachabilityManager.h"
+#import "KBNReachabilityView.h"
 
 @interface KBNAppDelegate ()
 
@@ -45,6 +47,27 @@
     [toolBar setClipsToBounds:YES];
 }
 
+- (void)reachabilitySetup {
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
+    KBNReachabilityView *reachabilityAlert = [[KBNReachabilityView alloc] initWithFrame:CGRectMake(screenWidth / 2 - 150, screenHeight - 54, 300, 46)];
+    
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        if (status == AFNetworkReachabilityStatusNotReachable) {
+            [reachabilityAlert setHidden:NO];
+            UIView *container = self.window.rootViewController.view;
+            [container addSubview:reachabilityAlert];
+        } else {
+            [reachabilityAlert setHidden:YES];
+        }
+    }];
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     BOOL isLoggedIn = [KBNUserUtils hasUserBeenCreated];
     
@@ -55,6 +78,7 @@
     [self.window setRootViewController:initViewController];
     
     [self lookAndFeelSetup];
+    [self reachabilitySetup];
     
     return YES;
 }
