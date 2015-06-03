@@ -48,6 +48,10 @@
 //Loading messages
 #define ADD_PROJECT_LOADING @"Creating the project"
 #define ADD_TASK_LOADING @"Creating the task"
+#define EDIT_PROJECT_LOADING @"Editing the project"
+#define EDIT_TASK_LOADING @"Editing the task"
+#define EDIT_PROJECT_INVITING @"Inviting to the project"
+
 
 //Succes messages
 #define PROJECT_CREATION_SUCCESS @"Project created successfully!"
