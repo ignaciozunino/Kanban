@@ -10,4 +10,7 @@
 
 @interface KBNReachabilityView : UIView
 
++ (instancetype)sharedView;
+- (void)setHidden:(BOOL)hidden animated:(BOOL)animated;
+
 @end

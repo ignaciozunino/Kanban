@@ -133,7 +133,7 @@
                                                        }];
                                 }
                                      errorBlock:^(NSError *error) {
-                                         [KBNAlertUtils showAlertView:[error.userInfo objectForKey:@"NSLocalizedDescriptionKey"] andType:ERROR_ALERT];
+                                         [KBNAlertUtils showAlertView:[error.userInfo objectForKey:NSLocalizedDescriptionKey] andType:ERROR_ALERT];
                                          [weakSelf disableActivityIndicator];
                                      }];
 }

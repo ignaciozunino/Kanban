@@ -11,7 +11,7 @@
 
 @interface KBNTaskListParseAPIManager : NSObject
 
-@property AFHTTPRequestOperationManager* afManager;
+@property KBNParseRequestOperationManager* afManager;
 
 - (void)createTaskListWithName:(NSString*)name order:(NSNumber*)order projectId:(NSString*)projectId
                completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;

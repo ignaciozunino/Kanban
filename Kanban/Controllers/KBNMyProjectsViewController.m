@@ -12,10 +12,11 @@
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
 #import "KBNUpdateManager.h"
+#import "KBNReachabilityUtils.h"
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
 #define SEGUE_PROJECT_DETAIL @"projectDetail"
-#define SEGUE_SELECT_PROJECT_TEMPLATE @"selectProjectTemplate"
+#define SEGUE_SELECT_PROJECT_TEMPLATE @"selectTemplate"
 #define DELETE_WARNING_MESSAGE @"The selected project will be deleted"
 
 #define PROJECT_ROW_HEIGHT 80
@@ -152,6 +153,18 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return PROJECT_ROW_HEIGHT;
+}
+
+#pragma mark - IBActions
+- (IBAction)addProject:(UIBarButtonItem *)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        KBNReachabilityView *alert = [KBNReachabilityView sharedView];
+        [self.view addSubview:alert];
+        [alert setHidden:NO animated:YES];
+    } else {
+        [self performSegueWithIdentifier:SEGUE_SELECT_PROJECT_TEMPLATE sender:sender];
+    }
 }
 
 #pragma mark - Navigation

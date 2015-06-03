@@ -32,13 +32,13 @@
     
     if ([aTask.name isEqualToString:@""] || !aTask.name) {
         NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_TASK_WITHOUT_NAME_ERROR};
+        NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_TASK_WITHOUT_NAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-104 userInfo:info];
         onError(errorPtr);
     } else {
         if ([[KBNTaskListService sharedInstance] hasCountLimitBeenReached:aTaskList]){
             NSString *domain = ERROR_DOMAIN;
-            NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_TASK_TASKLIST_FULL};
+            NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_TASK_TASKLIST_FULL};
             NSError *errorPtr = [NSError errorWithDomain:domain code:-105 userInfo:info];
             onError(errorPtr);
         } else {
@@ -168,7 +168,7 @@
                            errorBlock:onError];
     } else {
         NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": EDIT_TASK_WITHOUTNAME_ERROR};
+        NSDictionary * info = @{NSLocalizedDescriptionKey: EDIT_TASK_WITHOUTNAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-106 userInfo:info];
         onError(errorPtr);
     }

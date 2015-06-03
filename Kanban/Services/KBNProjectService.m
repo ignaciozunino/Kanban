@@ -32,9 +32,8 @@
 -(void)createProject:(NSString*)name withDescription:(NSString*)projectDescription forUser:(NSString*) username completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     if ([name isEqualToString:@""] || !name) {
         NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_WITHOUTNAME_ERROR};
-        NSError *errorPtr = [NSError errorWithDomain:domain code:-102
-                                            userInfo:info];
+        NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_PROJECT_WITHOUTNAME_ERROR};
+        NSError *errorPtr = [NSError errorWithDomain:domain code:-102 userInfo:info];
         onError(errorPtr);
     }else{
         KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
@@ -54,7 +53,7 @@
     
     if ([name isEqualToString:@""] || !name) {
         NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_WITHOUTNAME_ERROR};
+        NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_PROJECT_WITHOUTNAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-102
                                             userInfo:info];
         onError(errorPtr);
@@ -76,7 +75,7 @@
 -(void)editProject: (KBNProject*)project withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
     if ([project.projectId isEqualToString:@""] || [newName isEqualToString:@""] ) {
         NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": EDIT_PROJECT_WITHOUTNAME_ERROR};
+        NSDictionary * info = @{NSLocalizedDescriptionKey: EDIT_PROJECT_WITHOUTNAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-102
                                             userInfo:info];
         onError(errorPtr);
@@ -99,7 +98,7 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
     if ([aProject.projectId isEqualToString:@""])
     {
         NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": EDIT_PROJECT_WITHOUTNAME_ERROR};
+        NSDictionary * info = @{NSLocalizedDescriptionKey: EDIT_PROJECT_WITHOUTNAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-102
                                             userInfo:info];
         onError(errorPtr);
@@ -123,7 +122,7 @@ completionBlock:(KBNConnectionSuccessBlock)onSuccess
         }
         else
         {
-            NSDictionary * info = @{@"NSLocalizedDescriptionKey": INVITE_USERS_USER_EXISTS_ERROR};
+            NSDictionary * info = @{NSLocalizedDescriptionKey: INVITE_USERS_USER_EXISTS_ERROR};
             NSString* domain = ERROR_DOMAIN;
             NSError *errorPtr = [NSError errorWithDomain:domain code:-108 userInfo:info];
             onError(errorPtr);

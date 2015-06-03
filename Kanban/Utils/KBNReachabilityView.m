@@ -12,12 +12,24 @@
 
 @implementation KBNReachabilityView
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self baseInit];
-    }
-    return self;
++ (instancetype) sharedView {
+    static dispatch_once_t onceToken = 0;
+    __strong static id _sharedObject = nil;
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
+    CGRect frame = CGRectMake(screenWidth / 2 - 150, screenHeight - 54, 300, 46);
+    
+    dispatch_once(&onceToken, ^{
+        if (!_sharedObject) {
+            _sharedObject = [[self alloc] initWithFrame:frame];
+            [_sharedObject baseInit];
+        }
+    });
+    
+    return _sharedObject;
 }
 
 - (void)baseInit {
@@ -50,16 +62,30 @@
     [self addSubview:button];
     
     [self setBackgroundColor:[UIColor clearColor]];
+    [self setAlpha:0];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancel:) name:ONLINE object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)cancel:(id)sender {
-    [self setHidden:YES];
+    [self setHidden:YES animated:YES];
 }
 
-- (void)setHidden:(BOOL)hidden {
-    [super setHidden:hidden];
-    if (hidden) {
-        [self removeFromSuperview];
+- (void)setHidden:(BOOL)hidden animated:(BOOL)animated {
+    
+    if (animated) {
+        __weak typeof(self) weakself = self;
+        [UIView animateWithDuration:0.5 animations:^{
+            hidden?[weakself setAlpha:0]:[weakself setAlpha:1];
+        } completion:^(BOOL finished) {
+            if (hidden) {
+                [weakself removeFromSuperview];
+            }
+        }];
     }
 }
 

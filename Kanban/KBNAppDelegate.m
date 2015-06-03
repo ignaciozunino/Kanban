@@ -49,19 +49,12 @@
 
 - (void)reachabilitySetup {
     
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    CGFloat screenHeight = screenRect.size.height;
-    
-    KBNReachabilityView *reachabilityAlert = [[KBNReachabilityView alloc] initWithFrame:CGRectMake(screenWidth / 2 - 150, screenHeight - 54, 300, 46)];
-    
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (status == AFNetworkReachabilityStatusNotReachable) {
-            [reachabilityAlert setHidden:NO];
-            UIView *container = self.window.rootViewController.view;
-            [container addSubview:reachabilityAlert];
+            self.networkAvailable = NO;
         } else {
-            [reachabilityAlert setHidden:YES];
+            self.networkAvailable = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:ONLINE object:nil];
         }
     }];
     

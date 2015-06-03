@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -85,13 +84,14 @@
                     <navigationItem key="navigationItem" title="My Projects" id="fDN-zB-ecP">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="a4x-5T-Tkv">
                             <connections>
-                                <segue destination="r3z-YY-l5P" kind="show" identifier="selectTemplate" id="lRa-AG-XJm"/>
+                                <action selector="addProject:" destination="UsA-ZU-Bqt" id="csU-ae-RFg"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="Nsk-4K-lr7" id="mXq-qC-8Ou"/>
+                        <segue destination="r3z-YY-l5P" kind="show" identifier="selectTemplate" id="Nlp-lQ-lXv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvQ-wq-fgJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

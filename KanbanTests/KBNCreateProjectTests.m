@@ -40,7 +40,7 @@
      }
                     errorBlock:^(NSError *error)
      {
-         NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
+         NSString *errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
          XCTAssertEqualObjects(errorMessage, CREATING_PROJECT_WITHOUTNAME_ERROR);
      }];
     [[projectAPIManager reject] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
@@ -87,7 +87,7 @@
               
               //Error creation
               NSString *domain = ERROR_DOMAIN;
-              NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_PROJECT_OFFLINE_ERROR};
+              NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_PROJECT_OFFLINE_ERROR};
               NSError *errorConnection = [NSError errorWithDomain:domain code:-102 userInfo:info];
               
               //Call the block with the error created
@@ -104,7 +104,7 @@
                     errorBlock:^(NSError *error)
      {
          if (error) {
-             NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
+             NSString *errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
              XCTAssertEqualObjects(errorMessage, CREATING_PROJECT_OFFLINE_ERROR);
              [expectation fulfill];
          }
