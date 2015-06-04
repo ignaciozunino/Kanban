@@ -43,6 +43,11 @@
     UIToolbar *toolBar = [UIToolbar appearance];
     [toolBar setBarTintColor:UIColorFromRGB(LIGHT_GRAY)];
     [toolBar setClipsToBounds:YES];
+    
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = UIColorFromRGB(LIGHT_GRAY);
+    pageControl.currentPageIndicatorTintColor = UIColorFromRGB(DEFAULT_BLUE);
+    pageControl.backgroundColor = [UIColor clearColor];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -51,7 +56,6 @@
     NSString *storyboardId = isLoggedIn ? MAIN_STORYBOARD : SIGNIN_STORYBOARD;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardId bundle:nil];
     UIViewController *initViewController = [storyboard instantiateInitialViewController];
-    
     [self.window setRootViewController:initViewController];
     
     [self lookAndFeelSetup];

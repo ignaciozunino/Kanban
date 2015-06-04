@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,6 +11,9 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signIn-bkg" translatesAutoresizingMaskIntoConstraints="NO" id="xmK-TT-eHQ">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2015 Globant. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
                     <rect key="frame" x="8" y="439" width="464" height="21"/>
                     <constraints>
@@ -30,26 +33,29 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kanban" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
-                    <rect key="frame" x="8" y="91" width="464" height="43"/>
+                    <rect key="frame" x="8" y="74" width="464" height="60"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="43" id="b9Q-6N-p27"/>
+                        <constraint firstAttribute="height" constant="60" id="b9Q-6N-p27"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="60"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="2" height="2"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" red="0.71372549019999998" green="0.81176470590000005" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="p9C-tl-4f1" secondAttribute="centerX" id="1HD-QK-HQQ"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="41B-FW-Bed"/>
                 <constraint firstAttribute="trailing" secondItem="kId-c2-rCX" secondAttribute="trailing" constant="8" id="Hzy-tn-qKb"/>
                 <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="PI0-Vi-Cel"/>
+                <constraint firstItem="xmK-TT-eHQ" firstAttribute="centerY" secondItem="p9C-tl-4f1" secondAttribute="centerY" id="aUF-lN-CMl"/>
                 <constraint firstItem="p9C-tl-4f1" firstAttribute="top" secondItem="kId-c2-rCX" secondAttribute="bottom" constant="30" id="lxt-lO-JYT"/>
+                <constraint firstItem="xmK-TT-eHQ" firstAttribute="centerX" secondItem="p9C-tl-4f1" secondAttribute="centerX" id="mLg-T5-eA1"/>
+                <constraint firstItem="xmK-TT-eHQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="nhV-RB-Q2N"/>
                 <constraint firstAttribute="trailing" secondItem="8ie-xW-0ye" secondAttribute="trailing" constant="8" id="o0m-cA-Qe9"/>
                 <constraint firstAttribute="centerY" secondItem="p9C-tl-4f1" secondAttribute="centerY" id="rDg-Rf-0v6"/>
+                <constraint firstItem="xmK-TT-eHQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="tc9-Ix-Zp0"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="uKL-lT-NgT"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -59,5 +65,6 @@
     </objects>
     <resources>
         <image name="kanban_ipad" width="170" height="170"/>
+        <image name="signIn-bkg" width="792" height="1224"/>
     </resources>
 </document>
