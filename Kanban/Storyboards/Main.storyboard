@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -71,12 +72,21 @@
                                     <outlet property="delegate" destination="UsA-ZU-Bqt" id="NEj-xS-RZf"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f2x-fo-iQY" customClass="KBNReachabilityWidgetView">
+                                <rect key="frame" x="150" y="546" width="300" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="IAF-ko-u9G"/>
+                                    <constraint firstAttribute="height" constant="46" id="vh5-bZ-ouf"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Nsk-4K-lr7" firstAttribute="top" secondItem="vtU-d3-pop" secondAttribute="top" id="15K-cU-chh"/>
                             <constraint firstAttribute="bottom" secondItem="Nsk-4K-lr7" secondAttribute="bottom" id="4xk-Sg-qAP"/>
+                            <constraint firstAttribute="bottom" secondItem="f2x-fo-iQY" secondAttribute="bottom" constant="8" id="DxK-ZY-WC6"/>
                             <constraint firstAttribute="trailing" secondItem="Nsk-4K-lr7" secondAttribute="trailing" id="E6r-yf-Ctl"/>
+                            <constraint firstAttribute="centerX" secondItem="f2x-fo-iQY" secondAttribute="centerX" id="bjK-d4-yFk"/>
                             <constraint firstItem="Nsk-4K-lr7" firstAttribute="leading" secondItem="vtU-d3-pop" secondAttribute="leading" id="nUG-5T-0iI"/>
                         </constraints>
                     </view>
@@ -90,6 +100,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="reachabilityView" destination="f2x-fo-iQY" id="59X-CR-ADk"/>
                         <outlet property="tableView" destination="Nsk-4K-lr7" id="mXq-qC-8Ou"/>
                         <segue destination="r3z-YY-l5P" kind="show" identifier="selectTemplate" id="Nlp-lQ-lXv"/>
                     </connections>

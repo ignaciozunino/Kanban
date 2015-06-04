@@ -12,6 +12,7 @@
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
 #import "KBNUpdateManager.h"
+#import "KBNReachabilityWidgetView.h"
 #import "KBNReachabilityUtils.h"
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
@@ -26,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *projects;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
 
 @end
 
@@ -44,6 +47,7 @@
     
     self.projects=[NSMutableArray new];
     [self subscribeToNotifications];
+    
 }
 
 - (void)subscribeToNotifications {
@@ -159,16 +163,10 @@
 - (IBAction)addProject:(UIBarButtonItem *)sender {
     
     if ([KBNReachabilityUtils isOffline]) {
-        KBNReachabilityView *alert = [KBNReachabilityView sharedView];
-        [self.view addSubview:alert];
-        [alert setHidden:NO animated:YES];
+        [self.reachabilityView showAnimated:YES];
     } else {
         [self performSegueWithIdentifier:SEGUE_SELECT_PROJECT_TEMPLATE sender:sender];
     }
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [[KBNReachabilityView sharedView] moveOnRotation];
 }
 
 #pragma mark - Navigation
