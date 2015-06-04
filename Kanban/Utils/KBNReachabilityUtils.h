@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "KBNReachabilityView.h"
+#import "AFNetworkReachabilityManager.h"
+
+#define ONLINE @"online"
 
 @interface KBNReachabilityUtils : NSObject
 
 + (BOOL)isOnline;
 + (BOOL)isOffline;
++ (void)reachabilitySetup;
 
 @end

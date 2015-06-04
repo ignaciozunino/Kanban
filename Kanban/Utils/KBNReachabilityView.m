@@ -7,7 +7,7 @@
 //
 
 #import "KBNReachabilityView.h"
-#import "KBNAppDelegate.h"
+#import "KBNReachabilityUtils.h"
 #import "KBNConstants.h"
 
 @implementation KBNReachabilityView
@@ -87,6 +87,15 @@
             }
         }];
     }
+}
+
+- (void)moveOnRotation {
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGRect frame = self.frame;
+    frame.origin.x = (screenRect.size.width - frame.size.width) / 2;
+    frame.origin.y = screenRect.size.height - frame.size.height - 8;
+    [self setFrame:frame];
 }
 
 @end
