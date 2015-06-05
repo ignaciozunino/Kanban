@@ -46,13 +46,6 @@
     
     [self setAlpha:0];
     
-    // Subscribe to online notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:ONLINE object:nil];
-    
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)showAnimated:(BOOL)animated {
@@ -64,6 +57,8 @@
     } else {
         [self setAlpha:1];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:ONLINE object:nil];
 }
 
 - (void)dismissAnimated:(BOOL)animated {
@@ -75,6 +70,8 @@
     } else {
         [self setAlpha:0];
     }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)dismiss {

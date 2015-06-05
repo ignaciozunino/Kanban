@@ -62,9 +62,6 @@
                                                 <constraint firstAttribute="bottom" secondItem="WJh-dM-Vzq" secondAttribute="bottom" id="sIX-jQ-Ga4"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="25S-QU-ubf" kind="show" identifier="projectDetail" id="JDd-Jo-dph"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -103,6 +100,7 @@
                         <outlet property="reachabilityView" destination="f2x-fo-iQY" id="59X-CR-ADk"/>
                         <outlet property="tableView" destination="Nsk-4K-lr7" id="mXq-qC-8Ou"/>
                         <segue destination="r3z-YY-l5P" kind="show" identifier="selectTemplate" id="Nlp-lQ-lXv"/>
+                        <segue destination="25S-QU-ubf" kind="show" identifier="projectDetail" id="y4L-0f-LNy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gvQ-wq-fgJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

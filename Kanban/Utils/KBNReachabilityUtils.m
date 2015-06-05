@@ -13,14 +13,14 @@
 
 @implementation KBNReachabilityUtils
 
-bool online;
+BOOL online;
 
 + (BOOL)isOnline {
     return online;
 }
 
 + (BOOL)isOffline {
-    return ![self isOnline];
+    return !online;
 }
 
 + (void)reachabilitySetup {

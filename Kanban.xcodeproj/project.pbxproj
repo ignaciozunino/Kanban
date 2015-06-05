@@ -462,6 +462,8 @@
 		CCA1A2AD1ADEAABF00CC98B5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3A69EF041B20D537005CDB6D /* KBNReachabilityUtils.h */,
+				3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */,
 				3A0CCD2D1AEFC1780039F629 /* KBNAlertUtils.h */,
 				3A0CCD2E1AEFC1780039F629 /* KBNAlertUtils.m */,
 				3A0CCD2F1AEFC1780039F629 /* KBNConstants.h */,
@@ -489,8 +491,6 @@
 				A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */,
 				3AE7FBD11B1658030037809A /* KBNProjectTemplateUtils.h */,
 				3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */,
-				3A69EF041B20D537005CDB6D /* KBNReachabilityUtils.h */,
-				3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
