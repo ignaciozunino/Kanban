@@ -9,11 +9,14 @@
 #import "KBNAddProjectViewController.h"
 #import "KBNProjectTemplate.h"
 #import "UITextView+CustomTextView.h"
+#import "KBNReachabilityUtils.h"
+#import "KBNReachabilityWidgetView.h"
 
 @interface KBNAddProjectViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
 
 @end
 

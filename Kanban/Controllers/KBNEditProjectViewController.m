@@ -8,6 +8,8 @@
 
 #import "KBNEditProjectViewController.h"
 #import "UITextView+CustomTextView.h"
+#import "KBNReachabilityUtils.h"
+#import "KBNReachabilityWidgetView.h"
 
 #define TABLEVIEW_TASKLIST_CELL @"stateCell"
 
@@ -31,6 +33,8 @@
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) IBOutlet UIView *activityIndicatorBackground;
 @property (strong, nonatomic) IBOutlet UITableView *usersTableView;
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
+
 @end
 
 

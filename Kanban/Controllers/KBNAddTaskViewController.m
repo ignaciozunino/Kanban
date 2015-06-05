@@ -11,11 +11,14 @@
 #import "KBNAlertUtils.h"
 #import "KBNTaskService.h"
 #import "UITextView+CustomTextView.h"
+#import "KBNReachabilityWidgetView.h"
+#import "KBNReachabilityUtils.h"
 
 @interface KBNAddTaskViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
 
 @end
 

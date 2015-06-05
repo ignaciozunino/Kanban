@@ -10,6 +10,8 @@
 #import "KBNProjectTemplateService.h"
 #import "KBNProjectTemplateUtils.h"
 #import "KBNAlertUtils.h"
+#import "KBNReachabilityUtils.h"
+#import "KBNReachabilityWidgetView.h"
 
 #define TEMPLATE_CELL @"TemplateCell"
 #define TEMPLATE_ROW_HEIGHT 80
@@ -17,6 +19,8 @@
 @interface KBNSelectTemplateViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
+
 @property (strong, nonatomic) NSMutableArray *templates;
 
 @end

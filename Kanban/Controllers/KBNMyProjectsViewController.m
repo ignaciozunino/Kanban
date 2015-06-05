@@ -141,7 +141,21 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        [self.tableView setEditing:NO animated:YES];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         self.selectedIndexPath = indexPath;
@@ -164,9 +178,10 @@
     
     if ([KBNReachabilityUtils isOffline]) {
         [self.reachabilityView showAnimated:YES];
-    } else {
-        [self performSegueWithIdentifier:SEGUE_SELECT_PROJECT_TEMPLATE sender:sender];
+        return;
     }
+    
+    [self performSegueWithIdentifier:SEGUE_SELECT_PROJECT_TEMPLATE sender:sender];
 }
 
 #pragma mark - Navigation
