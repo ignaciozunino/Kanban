@@ -16,6 +16,8 @@
 #define TEMPLATE_CELL @"TemplateCell"
 #define TEMPLATE_ROW_HEIGHT 80
 
+#define SEGUE_ADD_PROJECT @"addProject"
+
 @interface KBNSelectTemplateViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -78,6 +80,17 @@
 }
 
 #pragma mark - Table View Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+
+    [self performSegueWithIdentifier:SEGUE_ADD_PROJECT sender:nil];
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return TEMPLATE_ROW_HEIGHT;

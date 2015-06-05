@@ -42,6 +42,11 @@
 
 - (IBAction)save:(UIBarButtonItem *)sender {
     
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
     self.addTask.name = self.nameTextField.text;
     self.addTask.taskDescription = self.descriptionTextView.text;
     

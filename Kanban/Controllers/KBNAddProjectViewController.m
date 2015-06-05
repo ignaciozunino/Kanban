@@ -38,6 +38,12 @@
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+
     [KBNAppDelegate activateActivityIndicator:YES];
     __weak typeof(self) weakself = self;
     [[KBNProjectService sharedInstance] createProject:self.nameTextField.text withDescription:self.descriptionTextView.text forUser:[KBNUserUtils getUsername] withTemplate:self.selectedTemplate completionBlock:^(KBNProject *project) {

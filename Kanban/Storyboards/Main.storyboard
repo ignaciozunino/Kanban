@@ -540,9 +540,6 @@
                                                 <constraint firstAttribute="bottom" secondItem="Gvv-vA-uJG" secondAttribute="bottom" id="yQQ-XZ-hcH"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="aEl-4f-jdp" kind="show" identifier="addProject" id="xOc-7E-E2H"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -578,6 +575,7 @@
                     <connections>
                         <outlet property="reachabilityView" destination="0yB-jI-uMy" id="LrY-hO-WXI"/>
                         <outlet property="tableView" destination="THq-9j-apR" id="Lbn-68-Wzs"/>
+                        <segue destination="aEl-4f-jdp" kind="show" identifier="addProject" id="TcX-sc-WLu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Diq-II-PMW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -663,7 +661,7 @@
                                 <action selector="cancel:" destination="aEl-4f-jdp" id="GFy-gf-Zav"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SNt-GM-vW9">
+                        <barButtonItem key="rightBarButtonItem" image="save" id="SNt-GM-vW9">
                             <connections>
                                 <action selector="save:" destination="aEl-4f-jdp" id="vmc-9Z-B03"/>
                             </connections>

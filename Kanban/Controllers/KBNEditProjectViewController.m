@@ -74,6 +74,12 @@
 }
 
 - (IBAction)onSavePressed:(id)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
     [KBNAppDelegate activateActivityIndicator:YES];
     [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
         [KBNAppDelegate activateActivityIndicator:NO];
@@ -89,6 +95,12 @@
 
 
 - (IBAction)onInviteUserPressed:(id)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+
     //Show a simple UIAlertView with a text box.
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:ALERT_MESSAGE_INVITE_PROMPT_TITLE message:ALERT_MESSAGE_INVITE_PROMPT_MESSAGE delegate:self cancelButtonTitle:ALERT_MESSAGE_INVITE_PROMPT_CANCELBUTTONTITLE otherButtonTitles:ALERT_MESSAGE_INVITE_PROMPT_INVITEBUTTONTITLE,nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -113,6 +125,7 @@
 }
 
 -(void) sendInviteTo:(NSString*)emailAddress{
+    
     //Add the user to the project. If the update goes well then send the email with the invite.
     __weak typeof(self) weakSelf = self;
     [self enableActivityIndicator];
