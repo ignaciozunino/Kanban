@@ -13,6 +13,5 @@
 @property NSUInteger pageIndex;
 @property NSString* imageName;
 @property NSString* actionName;
-@property NSString* actionDescription;
 
 @end

@@ -13,7 +13,6 @@
 
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 @property (strong, nonatomic) NSArray *pageActions;
-@property (strong, nonatomic) NSArray *pageDescriptions;
 @property (strong, nonatomic) NSArray *pageImages;
 
 @end
@@ -43,7 +42,6 @@
 
 - (void)setupTutorialData {
     self.pageActions = @[@"Create Projects", @"Create and move tasks", @"Invite users"];
-    self.pageDescriptions = @[@"You can easily create template or custom projects", @"You can create tasks and move through your lists", @"You can inve users to join your froject at Simple Kanban"];
     self.pageImages = @[@"tutorial1.png", @"tutorial2.png", @"tutorial3.png"];
 }
 
@@ -91,7 +89,6 @@
     KBNTutorialContentViewController *pageContentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"KBNTutorialContentViewController"];
     pageContentViewController.imageName = self.pageImages[index];
     pageContentViewController.actionName = self.pageActions[index];
-    pageContentViewController.actionDescription = self.pageDescriptions[index];
     pageContentViewController.pageIndex = index;
     
     return pageContentViewController;

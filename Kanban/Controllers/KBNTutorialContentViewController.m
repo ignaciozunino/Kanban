@@ -11,7 +11,6 @@
 @interface KBNTutorialContentViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleActionLabel;
-@property (weak, nonatomic) IBOutlet UILabel *actionDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 @end
@@ -23,7 +22,6 @@
 
     self.backgroundImageView.image = [UIImage imageNamed:self.imageName];
     self.titleActionLabel.text = self.actionName;
-    self.actionDescriptionLabel.text = self.actionDescription;
 }
 
 - (void)didReceiveMemoryWarning {
