@@ -22,7 +22,7 @@
 
 #define PROJECT_ROW_HEIGHT 80
 
-@interface KBNMyProjectsViewController ()
+@interface KBNMyProjectsViewController () <MBProgressHUDDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *projects;
