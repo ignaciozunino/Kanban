@@ -11,10 +11,11 @@
 #import "KBNAlertUtils.h"
 #import "KBNAppDelegate.h"
 #import "KBNUserUtils.h"
+#import "MBProgressHUD.h"
 
 #define PROJECT_ADDED @"project added"
 
-@interface KBNAddProjectViewController : UIViewController
+@interface KBNAddProjectViewController : UIViewController <MBProgressHUDDelegate>
 
 @property (strong, nonatomic) KBNProjectTemplate *selectedTemplate;
 

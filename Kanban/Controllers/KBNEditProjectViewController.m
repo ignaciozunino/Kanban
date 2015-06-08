@@ -23,14 +23,16 @@
 #define ALERT_MESSAGE_INVITE_PROMPT_CANCELBUTTONTITLE @"Cancel"
 
 
-@interface KBNEditProjectViewController()
+@interface KBNEditProjectViewController()  <MBProgressHUDDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
-
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) IBOutlet UIView *activityIndicatorBackground;
 @property (strong, nonatomic) IBOutlet UITableView *usersTableView;
+@property MBProgressHUD* HUD;
+@property MBProgressHUD* HUDInvite;
+
 @end
 
 
@@ -64,18 +66,12 @@
 }
 
 - (IBAction)onCancelPressed:(id)sender {
-    
     [self dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 - (IBAction)onSavePressed:(id)sender {
-    [KBNAppDelegate activateActivityIndicator:YES];
+    [self startHUD];
     [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
-        [KBNAppDelegate activateActivityIndicator:NO];
-        [KBNAlertUtils showAlertView:PROJECT_EDIT_SUCCESS andType:SUCCESS_ALERT];
-        [self dismissViewControllerAnimated:YES completion:nil];
-
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
@@ -111,11 +107,10 @@
 -(void) sendInviteTo:(NSString*)emailAddress{
     //Add the user to the project. If the update goes well then send the email with the invite.
     __weak typeof(self) weakSelf = self;
-    [self enableActivityIndicator];
+    [self startHUDInvite];
     [[KBNProjectService sharedInstance] addUser:emailAddress
                                       toProject:self.project
                                 completionBlock:^{
-                                    
                                     [KBNEmailUtils sendEmailTo:emailAddress
                                                           from:[KBNUserUtils getUsername]
                                                        subject:EMAIL_INVITE_SUBJECT
@@ -123,32 +118,14 @@
                                                      onSuccess:^(){
                                                          //Refresh the table view
                                                          [weakSelf.usersTableView reloadData];
-                                                         //Let the user know everything went OK...
-                                                         [KBNAlertUtils showAlertView:ALERT_MESSAGE_INVITE_SENT_SUCCESSFULY andType:SUCCESS_ALERT];
-                                                         [weakSelf disableActivityIndicator];
                                                      }
                                                        onError:^(NSError* error){
-                                                           [weakSelf disableActivityIndicator];
                                                            [KBNAlertUtils showAlertView:ALERT_MESSAGE_INVITE_FAILED andType:ERROR_ALERT];
                                                        }];
                                 }
                                      errorBlock:^(NSError *error) {
                                          [KBNAlertUtils showAlertView:[error.userInfo objectForKey:@"NSLocalizedDescriptionKey"] andType:ERROR_ALERT];
-                                         [weakSelf disableActivityIndicator];
                                      }];
-}
-
-#pragma mark - Activity indicator on/off
--(void) enableActivityIndicator{
-    self.activityIndicatorBackground.hidden = NO;
-    self.activityIndicator.hidden = NO;
-    [self.activityIndicator startAnimating];
-}
-
--(void) disableActivityIndicator{
-    [self.activityIndicator stopAnimating];
-    self.activityIndicator.hidden = YES;
-    self.activityIndicatorBackground.hidden = YES;
 }
 
 #pragma mark - Table View Data Source
@@ -162,8 +139,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_USERSLIST_CELL forIndexPath:indexPath];
     NSString* userEmail = [self.project.users objectAtIndex:indexPath.row];
     cell.textLabel.text = userEmail;
-    //cell.textLabel.font = [UIFont getTableFont];
-    //cell.textLabel.textColor = [UIColor whiteColor];
     
     return cell;
 }
@@ -174,5 +149,68 @@
     //[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark - HUD
 
+- (void)startHUD {
+    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:self.HUD];
+    
+    self.HUD.dimBackground = YES;
+    self.HUD.mode = MBProgressHUDModeAnnularDeterminate;
+    
+    self.HUD.labelText = EDIT_PROJECT_LOADING;
+    [self.HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+    self.HUD.delegate = self;
+}
+
+- (void)myProgressTask {
+    // This just increases the progress indicator in a loop
+    float progress = 0.0f;
+    while (progress < 1.0f) {
+        progress += 0.040f;
+        self.HUD.progress = progress;
+        usleep(50000);
+    }
+    sleep(0.7);
+    __block UIImageView *imageView;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
+        imageView = [[UIImageView alloc] initWithImage:image];
+    });
+    self.HUD.customView = imageView;
+    self.HUD.mode = MBProgressHUDModeCustomView;
+    self.HUD.labelText = PROJECT_EDIT_SUCCESS;
+    sleep(1);
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)startHUDInvite {
+    self.HUDInvite = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:self.HUDInvite];
+    self.HUDInvite.dimBackground = YES;
+    self.HUDInvite.mode = MBProgressHUDModeAnnularDeterminate;
+    self.HUDInvite.labelText = EDIT_PROJECT_INVITING;
+    [self.HUDInvite showWhileExecuting:@selector(myProgressTaskInvite) onTarget:self withObject:nil animated:YES];
+    self.HUDInvite.delegate = self;
+}
+
+- (void)myProgressTaskInvite {
+    // This just increases the progress indicator in a loop
+    float progress = 0.0f;
+    while (progress < 1.0f) {
+        progress += 0.040f;
+        self.HUDInvite.progress = progress;
+        usleep(50000);
+    }
+    sleep(0.7);
+    __block UIImageView *imageView;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
+        imageView = [[UIImageView alloc] initWithImage:image];
+    });
+    self.HUDInvite.customView = imageView;
+    self.HUDInvite.mode = MBProgressHUDModeCustomView;
+    self.HUDInvite.labelText = ALERT_MESSAGE_INVITE_SENT_SUCCESSFULY;
+    sleep(1);
+}
 @end

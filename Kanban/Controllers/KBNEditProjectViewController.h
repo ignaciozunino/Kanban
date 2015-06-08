@@ -15,6 +15,7 @@
 #import "UIFont+CustomFonts.h"
 #import "KBNEmailUtils.h"
 #import "KBNUserUtils.h"
+#import "MBProgressHUD.h"
 
 @interface KBNEditProjectViewController : UIViewController<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate>
 
