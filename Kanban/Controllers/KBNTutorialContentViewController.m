@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.backgroundImageView.frame = self.parentViewController.view.frame;
     self.backgroundImageView.image = [UIImage imageNamed:self.imageName];
     self.titleActionLabel.text = self.actionName;
 }

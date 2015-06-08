@@ -47,7 +47,7 @@
     UIPageControl *pageControl = [UIPageControl appearance];
     pageControl.pageIndicatorTintColor = UIColorFromRGB(LIGHT_GRAY);
     pageControl.currentPageIndicatorTintColor = UIColorFromRGB(DEFAULT_BLUE);
-    pageControl.backgroundColor = [UIColor clearColor];
+    pageControl.backgroundColor = [UIColor grayColor];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
