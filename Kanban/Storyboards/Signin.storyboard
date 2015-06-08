@@ -18,9 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.89999999999999991" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signIn-bkg" translatesAutoresizingMaskIntoConstraints="NO" id="9RR-s6-cPn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uXI-mb-Gfn" userLabel="ContainerView">
                                 <rect key="frame" x="150" y="119" width="300" height="261"/>
                                 <subviews>
@@ -46,7 +43,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="sJm-RK-msz"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="21"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
                                         <state key="normal" title="Sign in" backgroundImage="signin-btn">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -131,13 +128,10 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <color key="backgroundColor" red="0.71372549019999998" green="0.81176470590000005" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="9RR-s6-cPn" firstAttribute="centerX" secondItem="uXI-mb-Gfn" secondAttribute="centerX" id="5cW-eo-wgw"/>
-                            <constraint firstItem="9RR-s6-cPn" firstAttribute="leading" secondItem="zcq-bd-zcU" secondAttribute="leading" id="6nW-Yp-qtz"/>
                             <constraint firstItem="dJr-Cy-Mp1" firstAttribute="top" secondItem="uXI-mb-Gfn" secondAttribute="bottom" constant="220" id="7uX-Vk-Old"/>
-                            <constraint firstItem="9RR-s6-cPn" firstAttribute="top" secondItem="zcq-bd-zcU" secondAttribute="top" id="8zH-Bn-keG"/>
-                            <constraint firstItem="9RR-s6-cPn" firstAttribute="bottom" secondItem="dJr-Cy-Mp1" secondAttribute="top" id="hi3-ty-Rzj"/>
                             <constraint firstAttribute="centerX" secondItem="uXI-mb-Gfn" secondAttribute="centerX" id="lre-Yq-8Ai"/>
                         </constraints>
                         <connections>
@@ -205,7 +199,7 @@
                                     <constraint firstAttribute="width" constant="290" id="BKJ-dT-sgT"/>
                                     <constraint firstAttribute="height" constant="72" id="Vis-2H-oh2"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -215,7 +209,7 @@
                                     <constraint firstAttribute="height" constant="50" id="SFf-AU-s07"/>
                                     <constraint firstAttribute="width" constant="160" id="o2J-cX-6RZ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <state key="normal" title="Sign In" backgroundImage="signin-btn">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -225,7 +219,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lud-K7-ggQ">
                                 <rect key="frame" x="309" y="530" width="160" height="50"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <state key="normal" title="Skip" backgroundImage="skip-btn">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -282,7 +276,6 @@
         <image name="login-bg-textfield" width="427" height="61"/>
         <image name="login-icon-lock" width="22" height="32"/>
         <image name="login-icon-mail" width="32" height="22"/>
-        <image name="signIn-bkg" width="792" height="1224"/>
         <image name="signin-btn" width="427" height="62"/>
         <image name="skip-btn" width="427" height="62"/>
     </resources>
