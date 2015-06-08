@@ -15,7 +15,7 @@
 
 #define PROJECT_ADDED @"project added"
 
-@interface KBNAddProjectViewController : UIViewController
+@interface KBNAddProjectViewController : UIViewController <MBProgressHUDDelegate>
 
 @property (strong, nonatomic) KBNProjectTemplate *selectedTemplate;
 

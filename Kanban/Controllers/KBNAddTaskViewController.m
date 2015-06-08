@@ -12,7 +12,7 @@
 #import "KBNTaskService.h"
 #import "UITextView+CustomTextView.h"
 
-@interface KBNAddTaskViewController () <MBProgressHUDDelegate>
+@interface KBNAddTaskViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;

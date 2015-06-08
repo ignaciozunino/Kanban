@@ -70,10 +70,8 @@
 }
 
 - (IBAction)onSavePressed:(id)sender {
-    [KBNAppDelegate activateActivityIndicator:YES];
     [self startHUD];
     [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
-        [KBNAppDelegate activateActivityIndicator:NO];
     } errorBlock:^(NSError *error) {
         [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
@@ -189,10 +187,8 @@
 - (void)startHUDInvite {
     self.HUDInvite = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:self.HUDInvite];
-    
     self.HUDInvite.dimBackground = YES;
     self.HUDInvite.mode = MBProgressHUDModeAnnularDeterminate;
-    
     self.HUDInvite.labelText = EDIT_PROJECT_INVITING;
     [self.HUDInvite showWhileExecuting:@selector(myProgressTaskInvite) onTarget:self withObject:nil animated:YES];
     self.HUDInvite.delegate = self;

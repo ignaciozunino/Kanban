@@ -10,7 +10,7 @@
 #import "KBNProjectTemplate.h"
 #import "UITextView+CustomTextView.h"
 
-@interface KBNAddProjectViewController () <MBProgressHUDDelegate>
+@interface KBNAddProjectViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
