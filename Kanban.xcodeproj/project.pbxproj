@@ -35,6 +35,7 @@
 		3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AAD1AEE8473005837A5 /* KBNUserService.m */; };
 		3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC31AEE8BEF005837A5 /* KBNTask.m */; };
 		3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC61AEE8BEF005837A5 /* KBNTaskList.m */; };
+		3A3369A81B25CBF9004AE3FA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3369A71B25CBF9004AE3FA /* Reachability.m */; };
 		3A427E6D1B06630B00348F24 /* UITextView+CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */; };
 		3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */; };
 		3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */; };
@@ -148,6 +149,8 @@
 		3A312AC31AEE8BEF005837A5 /* KBNTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTask.m; path = Domain/KBNTask.m; sourceTree = "<group>"; };
 		3A312AC51AEE8BEF005837A5 /* KBNTaskList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskList.h; path = Domain/KBNTaskList.h; sourceTree = "<group>"; };
 		3A312AC61AEE8BEF005837A5 /* KBNTaskList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskList.m; path = Domain/KBNTaskList.m; sourceTree = "<group>"; };
+		3A3369A61B25CBF2004AE3FA /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Libraries/Reachability/Reachability.h; sourceTree = "<group>"; };
+		3A3369A71B25CBF9004AE3FA /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Libraries/Reachability/Reachability.m; sourceTree = "<group>"; };
 		3A427E6B1B06630B00348F24 /* UITextView+CustomTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextView+CustomTextView.h"; path = "Utils/UITextView+CustomTextView.h"; sourceTree = "<group>"; };
 		3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextView+CustomTextView.m"; path = "Utils/UITextView+CustomTextView.m"; sourceTree = "<group>"; };
 		3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddProjectViewController.h; path = Controllers/KBNAddProjectViewController.h; sourceTree = "<group>"; };
@@ -344,6 +347,23 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		3A3369A21B25CB2F004AE3FA /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				3A3369A51B25CBE2004AE3FA /* Reachability */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		3A3369A51B25CBE2004AE3FA /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				3A3369A61B25CBF2004AE3FA /* Reachability.h */,
+				3A3369A71B25CBF9004AE3FA /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		3A4840261AE5435E00C70739 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,6 +437,7 @@
 				CCA1A25B1ADEA3D900CC98B5 /* Supporting Files */,
 				3A69EE8E1B20BABE005CDB6D /* CustomViews */,
 				CCA1A2AD1ADEAABF00CC98B5 /* Utils */,
+				3A3369A21B25CB2F004AE3FA /* Libraries */,
 			);
 			path = Kanban;
 			sourceTree = "<group>";
@@ -733,6 +754,7 @@
 				3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */,
 				3A0CCD391AEFC1780039F629 /* UIFont+CustomFonts.m in Sources */,
 				3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */,
+				3A3369A81B25CBF9004AE3FA /* Reachability.m in Sources */,
 				3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */,
 				3A0CCD361AEFC1780039F629 /* KBNAlertUtils.m in Sources */,
 				CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */,

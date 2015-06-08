@@ -11,7 +11,6 @@
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
 #import "UIFont+CustomFonts.h"
-#import "KBNReachabilityUtils.h"
 
 @interface KBNAppDelegate ()
 
@@ -56,7 +55,6 @@
     [self.window setRootViewController:initViewController];
     
     [self lookAndFeelSetup];
-    [KBNReachabilityUtils reachabilitySetup];
     
     return YES;
 }

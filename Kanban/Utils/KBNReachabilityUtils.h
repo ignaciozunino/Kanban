@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AFNetworkReachabilityManager.h"
+#import "Reachability.h"
 
 #define ONLINE @"online"
 
 @interface KBNReachabilityUtils : NSObject
 
-+ (BOOL)isOnline;
 + (BOOL)isOffline;
-+ (void)reachabilitySetup;
++ (void)startMonitoring;
++ (void)stopMonitoring;
 
 @end

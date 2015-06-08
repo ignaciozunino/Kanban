@@ -58,7 +58,9 @@
         [self setAlpha:1];
     }
     
+    [KBNReachabilityUtils startMonitoring];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:ONLINE object:nil];
+    
 }
 
 - (void)dismissAnimated:(BOOL)animated {
@@ -71,6 +73,7 @@
         [self setAlpha:0];
     }
     
+    [KBNReachabilityUtils stopMonitoring];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

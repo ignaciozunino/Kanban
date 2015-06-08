@@ -7,34 +7,29 @@
 //
 
 #import "KBNReachabilityUtils.h"
-#import "KBNAppDelegate.h"
-#import "KBNConstants.h"
 #import "AFNetworkReachabilityManager.h"
 
 @implementation KBNReachabilityUtils
 
-BOOL online;
-
-+ (BOOL)isOnline {
-    return online;
-}
-
 + (BOOL)isOffline {
-    return !online;
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    return networkStatus == NotReachable;
 }
 
-+ (void)reachabilitySetup {
++ (void)startMonitoring {
     
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        if (status == AFNetworkReachabilityStatusNotReachable) {
-            online = NO;
-        } else {
-            online = YES;
+        if (status != AFNetworkReachabilityStatusNotReachable) {
             [[NSNotificationCenter defaultCenter] postNotificationName:ONLINE object:nil];
         }
     }];
     
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+}
+
++ (void)stopMonitoring {
+    [[AFNetworkReachabilityManager sharedManager] stopMonitoring];
 }
 
 @end
