@@ -7,6 +7,7 @@
 //
 
 #import "KBNUpdateManager.h"
+#import "KBNAlertUtils.h"
 
 @interface KBNUpdateManager ()
 

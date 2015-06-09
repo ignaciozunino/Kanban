@@ -45,10 +45,18 @@
 #define PROJECT_DETAIL_VC @"KBNProjectDetailViewController"
 #define PAGE_VC @"KBNPageViewController"
 
+//Loading messages
+#define ADD_PROJECT_LOADING @"Creating the project"
+#define ADD_TASK_LOADING @"Creating the task"
+#define EDIT_PROJECT_LOADING @"Editing the project"
+#define EDIT_TASK_LOADING @"Editing the task"
+#define EDIT_PROJECT_INVITING @"Inviting to the project"
+
 
 //Succes messages
 #define PROJECT_CREATION_SUCCESS @"Project created successfully!"
 #define PROJECT_EDIT_SUCCESS @"Project modified successfully!"
+#define TASK_CREATION_SUCCESS @"Task created successfully!"
 #define TASK_EDIT_SUCCESS @"Task modified successfully!"
 
 
@@ -65,6 +73,7 @@
 #define USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
 #define EDIT_TASK_WITHOUTNAME_ERROR @"Task must have a name"
 #define INVITE_USERS_USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
+#define OFFLINE_WARNING @"Connection appears to be offline."
 
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
@@ -124,6 +133,7 @@
 #define ERROR_ALERT @"ERROR"
 #define WARNING_ALERT @"WARNING"
 #define SUCCESS_ALERT @"SUCCESS"
+#define OK_TITLE @"Ok"
 #define CANCEL_TITLE @"Cancel"
 #define DELETE_TITLE @"Delete"
 #define BEFORE_TITLE @"Before"

@@ -14,6 +14,8 @@
 #import "KBNAlertUtils.h"
 #import "KBNUpdateManager.h"
 #import "KBNUpdateUtils.h"
+#import "KBNReachabilityUtils.h"
+#import "KBNReachabilityWidgetView.h"
 
 #define KBNEDIT_VC @"KBNEditProjectViewController"
 #define KBNEDIT_PROJECT_NAV_CONTROLLER @"KBNEditProjectNavigationController"
@@ -25,6 +27,7 @@
 @property (strong, nonatomic) NSMutableArray* projectLists;
 @property (strong, nonatomic) NSMutableArray* detailViewControllers; //An array of view controllers built once. Then, every time the user goes to the next/previous page, the corresponding KBNProjectDetailViewController is obtained immediatly from the array, at no cost.
 
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
 
 @end
 
@@ -391,6 +394,12 @@
 #pragma mark - Navigation
 
 - (void)setupEdit {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [[[self.pageViewController.viewControllers firstObject] reachabilityView] showAnimated:YES];
+        return;
+    }
+
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     KBNEditProjectViewController *editProjectViewController = [storyboard instantiateViewControllerWithIdentifier:KBNEDIT_VC];
     editProjectViewController.project = self.project;

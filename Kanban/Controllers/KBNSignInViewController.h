@@ -13,7 +13,8 @@
 #import "KBNUserUtils.h"
 #import "KBNAlertUtils.h"
 #import "KBNErrorUtils.h"
+#import "MBProgressHUD.h"
 
-@interface KBNSignInViewController : UIViewController
+@interface KBNSignInViewController : UIViewController <UIAlertViewDelegate, MBProgressHUDDelegate>
 
 @end
