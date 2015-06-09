@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Reachability.h"
 
-#define ONLINE @"online"
+#define CONNECTION_ONLINE @"online"
 
 @interface KBNReachabilityUtils : NSObject
 

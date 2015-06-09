@@ -21,7 +21,7 @@
     
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (status != AFNetworkReachabilityStatusNotReachable) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ONLINE object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CONNECTION_ONLINE object:nil];
         }
     }];
     

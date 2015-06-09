@@ -59,7 +59,7 @@
     }
     
     [KBNReachabilityUtils startMonitoring];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:ONLINE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:CONNECTION_ONLINE object:nil];
     
 }
 

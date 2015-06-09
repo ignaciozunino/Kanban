@@ -52,7 +52,6 @@
                                  [weakself startListeningProjects:records];
                              }
                                  errorBlock:^(NSError *error) {
-                                     [KBNAlertUtils showAlertView:[error localizedDescription]andType:ERROR_ALERT];
                                  }];
 }
 
@@ -69,7 +68,6 @@
                               [weakself startListeningTasks:[records objectForKey:@"results"]];
                           }
                                errorBlock:^(NSError *error) {
-                                   [KBNAlertUtils showAlertView:[error localizedDescription]andType:ERROR_ALERT];
                                }];
 }
 
