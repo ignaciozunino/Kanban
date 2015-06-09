@@ -13,6 +13,8 @@
 #import "KBNTaskListUtils.h"
 #import "KBNAlertUtils.h"
 #import "KBNUpdateManager.h"
+#import "KBNReachabilityUtils.h"
+#import "KBNReachabilityWidgetView.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
@@ -34,7 +36,7 @@
 
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) IBOutlet UIView *activityIndicatorBackground;
-
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
 @end
 
 @implementation KBNProjectDetailViewController
@@ -106,8 +108,23 @@
 }
 
 #pragma mark - IBActions
+- (IBAction)addTask:(id)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
+    [self performSegueWithIdentifier:SEGUE_ADD_TASK sender:sender];
+
+}
 
 - (IBAction)addTaskList:(id)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
     
     NSString *currentList = [@" " stringByAppendingString:self.labelTaskListName.text];
     NSString *beforeTitle = [BEFORE_TITLE stringByAppendingString:currentList];
@@ -205,6 +222,11 @@
 
 - (IBAction)enterEditMode:(id)sender {
     
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
     if ([self.tableView isEditing]) {
         // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
         [self.tableView setEditing:NO animated:YES];
@@ -264,6 +286,11 @@
 #pragma mark - Gestures Handlers
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return NO;
+    }
     
     if ([self.tableView isEditing]) {
         

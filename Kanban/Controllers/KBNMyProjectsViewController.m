@@ -12,10 +12,12 @@
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
 #import "KBNUpdateManager.h"
+#import "KBNReachabilityWidgetView.h"
+#import "KBNReachabilityUtils.h"
 
 #define TABLEVIEW_PROJECT_CELL @"ProjectCell"
 #define SEGUE_PROJECT_DETAIL @"projectDetail"
-#define SEGUE_SELECT_PROJECT_TEMPLATE @"selectProjectTemplate"
+#define SEGUE_SELECT_PROJECT_TEMPLATE @"selectTemplate"
 #define DELETE_WARNING_MESSAGE @"The selected project will be deleted"
 
 #define PROJECT_ROW_HEIGHT 80
@@ -25,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *projects;
 @property (strong, nonatomic) NSIndexPath *selectedIndexPath;
+
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
 
 @end
 
@@ -43,6 +47,7 @@
     
     self.projects=[NSMutableArray new];
     [self subscribeToNotifications];
+    
 }
 
 - (void)subscribeToNotifications {
@@ -133,10 +138,31 @@
 #pragma mark - Table View Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        return;
+    }
+    
+    [self performSegueWithIdentifier:SEGUE_PROJECT_DETAIL sender:nil];
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        [self.tableView setEditing:NO animated:YES];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         self.selectedIndexPath = indexPath;
@@ -152,6 +178,17 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return PROJECT_ROW_HEIGHT;
+}
+
+#pragma mark - IBActions
+- (IBAction)addProject:(UIBarButtonItem *)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
+    [self performSegueWithIdentifier:SEGUE_SELECT_PROJECT_TEMPLATE sender:sender];
 }
 
 #pragma mark - Navigation

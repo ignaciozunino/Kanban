@@ -11,12 +11,16 @@
 #import "KBNAlertUtils.h"
 #import "KBNTaskService.h"
 #import "UITextView+CustomTextView.h"
+#import "KBNReachabilityWidgetView.h"
+#import "KBNReachabilityUtils.h"
 
 @interface KBNAddTaskViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
-@property MBProgressHUD* HUD;
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
+
+@property (strong, nonatomic) MBProgressHUD* HUD;
 
 @end
 
@@ -39,8 +43,15 @@
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
     [self.view endEditing:YES];
     [self startHUD];
+
     self.addTask.name = self.nameTextField.text;
     self.addTask.taskDescription = self.descriptionTextView.text;
     
@@ -60,12 +71,12 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
 }
 

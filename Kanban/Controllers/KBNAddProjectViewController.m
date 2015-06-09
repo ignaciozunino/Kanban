@@ -9,12 +9,16 @@
 #import "KBNAddProjectViewController.h"
 #import "KBNProjectTemplate.h"
 #import "UITextView+CustomTextView.h"
+#import "KBNReachabilityUtils.h"
+#import "KBNReachabilityWidgetView.h"
 
 @interface KBNAddProjectViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
-@property MBProgressHUD* HUD;
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
+
+@property (strong, nonatomic) MBProgressHUD* HUD;
 
 @end
 
@@ -36,6 +40,12 @@
 #pragma mark - IBActions
 
 - (IBAction)save:(UIBarButtonItem *)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+
     [self.view endEditing:YES];
     [self startHUD];
     [KBNAppDelegate activateActivityIndicator:YES];

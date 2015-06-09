@@ -35,6 +35,7 @@
 		3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AAD1AEE8473005837A5 /* KBNUserService.m */; };
 		3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC31AEE8BEF005837A5 /* KBNTask.m */; };
 		3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC61AEE8BEF005837A5 /* KBNTaskList.m */; };
+		3A3369A81B25CBF9004AE3FA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3369A71B25CBF9004AE3FA /* Reachability.m */; };
 		3A427E6D1B06630B00348F24 /* UITextView+CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */; };
 		3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */; };
 		3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */; };
@@ -42,6 +43,10 @@
 		3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */; };
 		3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */; };
 		3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */; };
+		3A69EE941B20BB35005CDB6D /* KBNCustomViewFromXib.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EE901B20BB35005CDB6D /* KBNCustomViewFromXib.m */; };
+		3A69EE951B20BB35005CDB6D /* KBNReachabilityWidgetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EE921B20BB35005CDB6D /* KBNReachabilityWidgetView.m */; };
+		3A69EE961B20BB35005CDB6D /* KBNReachabilityWidgetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A69EE931B20BB35005CDB6D /* KBNReachabilityWidgetView.xib */; };
+		3A69EF061B20D537005CDB6D /* KBNReachabilityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */; };
 		3A6B09631B0244E200C75EF3 /* KBNEditProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */; };
 		3A9509A21AF7C5AD00849FF0 /* KBNProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A11AF7C5AD00849FF0 /* KBNProject.m */; };
 		3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */; };
@@ -144,6 +149,8 @@
 		3A312AC31AEE8BEF005837A5 /* KBNTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTask.m; path = Domain/KBNTask.m; sourceTree = "<group>"; };
 		3A312AC51AEE8BEF005837A5 /* KBNTaskList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskList.h; path = Domain/KBNTaskList.h; sourceTree = "<group>"; };
 		3A312AC61AEE8BEF005837A5 /* KBNTaskList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskList.m; path = Domain/KBNTaskList.m; sourceTree = "<group>"; };
+		3A3369A61B25CBF2004AE3FA /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Libraries/Reachability/Reachability.h; sourceTree = "<group>"; };
+		3A3369A71B25CBF9004AE3FA /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Libraries/Reachability/Reachability.m; sourceTree = "<group>"; };
 		3A427E6B1B06630B00348F24 /* UITextView+CustomTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextView+CustomTextView.h"; path = "Utils/UITextView+CustomTextView.h"; sourceTree = "<group>"; };
 		3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextView+CustomTextView.m"; path = "Utils/UITextView+CustomTextView.m"; sourceTree = "<group>"; };
 		3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddProjectViewController.h; path = Controllers/KBNAddProjectViewController.h; sourceTree = "<group>"; };
@@ -158,6 +165,13 @@
 		3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectPageViewController.m; path = Controllers/KBNProjectPageViewController.m; sourceTree = "<group>"; };
 		3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskDetailViewController.h; path = Controllers/KBNTaskDetailViewController.h; sourceTree = "<group>"; };
 		3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskDetailViewController.m; path = Controllers/KBNTaskDetailViewController.m; sourceTree = "<group>"; };
+		3A69EE8F1B20BB35005CDB6D /* KBNCustomViewFromXib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNCustomViewFromXib.h; path = CustomViews/KBNCustomViewFromXib.h; sourceTree = "<group>"; };
+		3A69EE901B20BB35005CDB6D /* KBNCustomViewFromXib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNCustomViewFromXib.m; path = CustomViews/KBNCustomViewFromXib.m; sourceTree = "<group>"; };
+		3A69EE911B20BB35005CDB6D /* KBNReachabilityWidgetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNReachabilityWidgetView.h; path = CustomViews/KBNReachabilityWidgetView.h; sourceTree = "<group>"; };
+		3A69EE921B20BB35005CDB6D /* KBNReachabilityWidgetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNReachabilityWidgetView.m; path = CustomViews/KBNReachabilityWidgetView.m; sourceTree = "<group>"; };
+		3A69EE931B20BB35005CDB6D /* KBNReachabilityWidgetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KBNReachabilityWidgetView.xib; path = CustomViews/KBNReachabilityWidgetView.xib; sourceTree = "<group>"; };
+		3A69EF041B20D537005CDB6D /* KBNReachabilityUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNReachabilityUtils.h; path = Utils/KBNReachabilityUtils.h; sourceTree = "<group>"; };
+		3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNReachabilityUtils.m; path = Utils/KBNReachabilityUtils.m; sourceTree = "<group>"; };
 		3A6B09611B0244E200C75EF3 /* KBNEditProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNEditProjectViewController.h; path = Controllers/KBNEditProjectViewController.h; sourceTree = "<group>"; };
 		3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNEditProjectViewController.m; path = Controllers/KBNEditProjectViewController.m; sourceTree = "<group>"; };
 		3A9509A01AF7C5AD00849FF0 /* KBNProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProject.h; path = Domain/KBNProject.h; sourceTree = "<group>"; };
@@ -333,6 +347,23 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		3A3369A21B25CB2F004AE3FA /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				3A3369A51B25CBE2004AE3FA /* Reachability */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		3A3369A51B25CBE2004AE3FA /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				3A3369A61B25CBF2004AE3FA /* Reachability.h */,
+				3A3369A71B25CBF9004AE3FA /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		3A4840261AE5435E00C70739 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +387,18 @@
 				3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3A69EE8E1B20BABE005CDB6D /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				3A69EE8F1B20BB35005CDB6D /* KBNCustomViewFromXib.h */,
+				3A69EE901B20BB35005CDB6D /* KBNCustomViewFromXib.m */,
+				3A69EE911B20BB35005CDB6D /* KBNReachabilityWidgetView.h */,
+				3A69EE921B20BB35005CDB6D /* KBNReachabilityWidgetView.m */,
+				3A69EE931B20BB35005CDB6D /* KBNReachabilityWidgetView.xib */,
+			);
+			name = CustomViews;
 			sourceTree = "<group>";
 		};
 		CCA1A24F1ADEA3D900CC98B5 = {
@@ -392,7 +435,9 @@
 				181FA97E1AE048B4001DD816 /* Parse */,
 				181FA97D1AE04888001DD816 /* Services */,
 				CCA1A25B1ADEA3D900CC98B5 /* Supporting Files */,
+				3A69EE8E1B20BABE005CDB6D /* CustomViews */,
 				CCA1A2AD1ADEAABF00CC98B5 /* Utils */,
+				3A3369A21B25CB2F004AE3FA /* Libraries */,
 			);
 			path = Kanban;
 			sourceTree = "<group>";
@@ -438,6 +483,8 @@
 		CCA1A2AD1ADEAABF00CC98B5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3A69EF041B20D537005CDB6D /* KBNReachabilityUtils.h */,
+				3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */,
 				3A0CCD2D1AEFC1780039F629 /* KBNAlertUtils.h */,
 				3A0CCD2E1AEFC1780039F629 /* KBNAlertUtils.m */,
 				3A0CCD2F1AEFC1780039F629 /* KBNConstants.h */,
@@ -577,6 +624,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A69EE961B20BB35005CDB6D /* KBNReachabilityWidgetView.xib in Resources */,
 				3A312A9D1AEE8408005837A5 /* Signin.storyboard in Resources */,
 				3A312A9C1AEE8408005837A5 /* Main.storyboard in Resources */,
 				CCA1A26F1ADEA3D900CC98B5 /* LaunchScreen.xib in Resources */,
@@ -677,6 +725,7 @@
 				3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */,
 				3A312AA31AEE8442005837A5 /* KBNUser.m in Sources */,
 				A07653481B0E209C009A8550 /* KBNEmailUtils.m in Sources */,
+				3A69EE951B20BB35005CDB6D /* KBNReachabilityWidgetView.m in Sources */,
 				3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */,
 				3A0CCD3C1AEFD2740039F629 /* KBNTaskUtils.m in Sources */,
 				3AF8F0D81B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m in Sources */,
@@ -685,10 +734,12 @@
 				3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */,
 				E228B8421AEFD65D00753750 /* (null) in Sources */,
 				3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */,
+				3A69EE941B20BB35005CDB6D /* KBNCustomViewFromXib.m in Sources */,
 				187EC9AE1AFD23DB0028E9FE /* KBNUpdateUtils.m in Sources */,
 				3A312AA81AEE845E005837A5 /* KBNProjectParseAPIManager.m in Sources */,
 				3A0CCD371AEFC1780039F629 /* KBNProjectUtils.m in Sources */,
 				3A9509A21AF7C5AD00849FF0 /* KBNProject.m in Sources */,
+				3A69EF061B20D537005CDB6D /* KBNReachabilityUtils.m in Sources */,
 				A0C8A7001AEED4560069E236 /* KBNTaskListParseAPIManager.m in Sources */,
 				18D88D3D1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.m in Sources */,
 				CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */,
@@ -703,6 +754,7 @@
 				3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */,
 				3A0CCD391AEFC1780039F629 /* UIFont+CustomFonts.m in Sources */,
 				3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */,
+				3A3369A81B25CBF9004AE3FA /* Reachability.m in Sources */,
 				3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */,
 				3A0CCD361AEFC1780039F629 /* KBNAlertUtils.m in Sources */,
 				CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */,

@@ -7,11 +7,12 @@
 //
 #import "KBNSignInViewController.h"
 
-@interface KBNSignInViewController () <UIAlertViewDelegate, MBProgressHUDDelegate>
+@interface KBNSignInViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
-@property MBProgressHUD* HUD;
+@property (strong, nonatomic) MBProgressHUD* HUD;
+
 @end
 
 @implementation KBNSignInViewController

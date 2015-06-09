@@ -17,7 +17,7 @@
 #import "KBNUserUtils.h"
 #import "MBProgressHUD.h"
 
-@interface KBNEditProjectViewController : UIViewController<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface KBNEditProjectViewController : UIViewController<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate, MBProgressHUDDelegate>
 
 @property KBNProject* project;
 

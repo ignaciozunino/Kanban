@@ -27,7 +27,7 @@
 
     if (!name || [name isEqualToString:@""]) {
         NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{@"NSLocalizedDescriptionKey": CREATING_TASKLIST_WITHOUT_NAME_ERROR};
+        NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_TASKLIST_WITHOUT_NAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-103 userInfo:info];
         onError(errorPtr);
     } else {

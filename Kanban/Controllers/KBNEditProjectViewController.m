@@ -8,6 +8,8 @@
 
 #import "KBNEditProjectViewController.h"
 #import "UITextView+CustomTextView.h"
+#import "KBNReachabilityUtils.h"
+#import "KBNReachabilityWidgetView.h"
 
 #define TABLEVIEW_TASKLIST_CELL @"stateCell"
 
@@ -23,15 +25,15 @@
 #define ALERT_MESSAGE_INVITE_PROMPT_CANCELBUTTONTITLE @"Cancel"
 
 
-@interface KBNEditProjectViewController()  <MBProgressHUDDelegate>
+@interface KBNEditProjectViewController()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
-@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (strong, nonatomic) IBOutlet UIView *activityIndicatorBackground;
 @property (strong, nonatomic) IBOutlet UITableView *usersTableView;
-@property MBProgressHUD* HUD;
-@property MBProgressHUD* HUDInvite;
+@property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
+
+@property (strong, nonatomic) MBProgressHUD* HUD;
+@property (strong, nonatomic) MBProgressHUD* HUDInvite;
 
 @end
 
@@ -70,6 +72,13 @@
 }
 
 - (IBAction)onSavePressed:(id)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+    
+    [KBNAppDelegate activateActivityIndicator:YES];
     [self startHUD];
     [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
     } errorBlock:^(NSError *error) {
@@ -81,6 +90,12 @@
 
 
 - (IBAction)onInviteUserPressed:(id)sender {
+    
+    if ([KBNReachabilityUtils isOffline]) {
+        [self.reachabilityView showAnimated:YES];
+        return;
+    }
+
     //Show a simple UIAlertView with a text box.
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:ALERT_MESSAGE_INVITE_PROMPT_TITLE message:ALERT_MESSAGE_INVITE_PROMPT_MESSAGE delegate:self cancelButtonTitle:ALERT_MESSAGE_INVITE_PROMPT_CANCELBUTTONTITLE otherButtonTitles:ALERT_MESSAGE_INVITE_PROMPT_INVITEBUTTONTITLE,nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -105,6 +120,7 @@
 }
 
 -(void) sendInviteTo:(NSString*)emailAddress{
+    
     //Add the user to the project. If the update goes well then send the email with the invite.
     __weak typeof(self) weakSelf = self;
     [self startHUDInvite];
@@ -124,7 +140,7 @@
                                                        }];
                                 }
                                      errorBlock:^(NSError *error) {
-                                         [KBNAlertUtils showAlertView:[error.userInfo objectForKey:@"NSLocalizedDescriptionKey"] andType:ERROR_ALERT];
+                                         [KBNAlertUtils showAlertView:[error.userInfo objectForKey:NSLocalizedDescriptionKey] andType:ERROR_ALERT];
                                      }];
 }
 

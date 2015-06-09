@@ -77,7 +77,7 @@
                  
              }
                   errorBlock:^(NSError* error){
-                      NSString *errorMessage = [[error userInfo] objectForKey:@"NSLocalizedDescriptionKey"];
+                      NSString *errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
                       XCTAssertEqualObjects(errorMessage, CREATING_TASK_WITHOUT_NAME_ERROR);
                   }];
     
