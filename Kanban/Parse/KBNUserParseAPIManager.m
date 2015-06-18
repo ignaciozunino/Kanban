@@ -19,7 +19,7 @@
 }
 
 #pragma mark - user methods
--(void) createUser: (KBNUser *) user completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+-(void) createUser: (KBNUser *) user completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     
     NSDictionary *data = @{@"username": user.username, @"password": user.password};
     [self.afManager POST:PARSE_USERS parameters: data
@@ -32,7 +32,7 @@
      ];
 }
 
--(void) deleteUser: (NSString *) username completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+-(void) deleteUser: (NSString *) username completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:username forKey:PARSE_USER_NAME_COLUMN];

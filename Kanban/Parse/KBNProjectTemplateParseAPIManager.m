@@ -20,7 +20,7 @@
     return self;
 }
 
-- (void)getTemplatesCompletionBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     [self.afManager GET:PARSE_PROJECT_TEMPLATES
              parameters:nil

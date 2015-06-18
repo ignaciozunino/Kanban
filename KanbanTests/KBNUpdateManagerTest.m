@@ -36,10 +36,10 @@
     
     self.updateManager= [KBNUpdateManager new];
     
-    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
-    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
-    self.updateManager.projectService = serviceOrig;
-    [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
+    KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
+    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc] init];
+    
+    [serviceOrig createProject:ProjectTest withDescription:@"desc" withTemplate:nil completionBlock:^(KBNProject *project) {
         [self.expectation fulfill];
     } errorBlock:^(NSError *error) {
         XCTFail();

@@ -162,12 +162,13 @@
 
 
 //Blocks 
-typedef void (^KBNConnectionErrorBlock) (NSError *error);
-typedef void (^KBNConnectionSuccessBlock)() ;
-typedef void (^KBNConnectionSuccessArrayBlock) (NSArray *records);
-typedef void (^KBNConnectionSuccessProjectBlock) (KBNProject * project);
-typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
-typedef void (^KBNConnectionSuccessIdBlock) (NSString *objectId);
+typedef void (^KBNErrorBlock) (NSError *error);
+typedef void (^KBNSuccessBlock)() ;
+typedef void (^KBNSuccessArrayBlock) (NSArray *records);
+typedef void (^KBNSuccessProjectBlock) (KBNProject *project);
+typedef void (^KBNSuccessTaskBlock) (KBNTask *task);
+typedef void (^KBNSuccessDictionaryBlock) (NSDictionary *records);
+typedef void (^KBNSuccessIdBlock) (NSString *objectId);
 
 //Colors
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]

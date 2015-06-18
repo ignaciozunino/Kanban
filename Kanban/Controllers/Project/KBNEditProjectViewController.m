@@ -78,12 +78,10 @@
         return;
     }
     
-    [KBNAppDelegate activateActivityIndicator:YES];
     [self startHUD];
     [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
     } errorBlock:^(NSError *error) {
-        [KBNAppDelegate activateActivityIndicator:NO];
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }

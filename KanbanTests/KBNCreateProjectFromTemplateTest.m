@@ -49,7 +49,6 @@
     
     NSString *name = [NSString stringWithFormat:@"test_project_%@",dateString];
     NSString *projectDescription = @"Project created from template";
-    NSString *username = [KBNUserUtils getUsername];
     
     __block KBNProject *testProject = [KBNProjectUtils projectWithParams:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                           name, PARSE_PROJECT_NAME_COLUMN,
@@ -69,7 +68,6 @@
     
     [projectService createProject:testProject.name
                   withDescription:testProject.projectDescription
-                          forUser:username
                      withTemplate:template
                   completionBlock:^(KBNProject *project) {
                       [tasklistService getTaskListsForProject:project.projectId

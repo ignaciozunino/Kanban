@@ -23,7 +23,7 @@
     return inst;
 }
 
--(void)createTaskListWithName:(NSString *)name order:(NSNumber *)order projectId:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)createTaskListWithName:(NSString *)name order:(NSNumber *)order projectId:(NSString *)projectId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
 
     if (!name || [name isEqualToString:@""]) {
         NSString *domain = ERROR_DOMAIN;
@@ -36,7 +36,7 @@
     }
 }
 
--(void)getTaskListsForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)getTaskListsForProject:(NSString *)projectId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     [self.dataService getTaskListsForProject:projectId completionBlock:onCompletion errorBlock:onError];
     
@@ -46,7 +46,7 @@
     return ([taskList.tasks count] > LIMIT_TASKLIST_ITEMS);
 }
 
-- (void)moveTaskList:(KBNTaskList *)taskList toOrder:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)moveTaskList:(KBNTaskList *)taskList toOrder:(NSNumber*)order completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     KBNProject *project = taskList.project;
     
@@ -58,7 +58,7 @@
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:onCompletion errorBlock:onError];
 }
 
-- (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     taskList.project = project;
     taskList.order = order;

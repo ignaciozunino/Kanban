@@ -25,9 +25,16 @@
 		3A0CCD381AEFC1780039F629 /* KBNUserUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD331AEFC1780039F629 /* KBNUserUtils.m */; };
 		3A0CCD391AEFC1780039F629 /* UIFont+CustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD351AEFC1780039F629 /* UIFont+CustomFonts.m */; };
 		3A0CCD3C1AEFD2740039F629 /* KBNTaskUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0CCD3B1AEFD2740039F629 /* KBNTaskUtils.m */; };
+		3A2D11F51B334995009EB7A3 /* KBNAddProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D11F01B334995009EB7A3 /* KBNAddProjectViewController.m */; };
+		3A2D11F61B334995009EB7A3 /* KBNEditProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D11F21B334995009EB7A3 /* KBNEditProjectViewController.m */; };
+		3A2D11F71B334995009EB7A3 /* KBNSelectTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D11F41B334995009EB7A3 /* KBNSelectTemplateViewController.m */; };
+		3A2D11FC1B3349AE009EB7A3 /* KBNAddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D11F91B3349AE009EB7A3 /* KBNAddTaskViewController.m */; };
+		3A2D11FD1B3349AE009EB7A3 /* KBNTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D11FB1B3349AE009EB7A3 /* KBNTaskDetailViewController.m */; };
+		3A2D12021B3349F0009EB7A3 /* KBNTutorialContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D11FF1B3349F0009EB7A3 /* KBNTutorialContentViewController.m */; };
+		3A2D12031B3349F0009EB7A3 /* KBNTutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D12011B3349F0009EB7A3 /* KBNTutorialPageViewController.m */; };
+		3A2D12061B334A0B009EB7A3 /* KBNSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D12051B334A0B009EB7A3 /* KBNSignInViewController.m */; };
 		3A312A9C1AEE8408005837A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9A1AEE8408005837A5 /* Main.storyboard */; };
 		3A312A9D1AEE8408005837A5 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9B1AEE8408005837A5 /* Signin.storyboard */; };
-		3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */; };
 		3A312AA31AEE8442005837A5 /* KBNUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AA21AEE8442005837A5 /* KBNUser.m */; };
 		3A312AA81AEE845E005837A5 /* KBNProjectParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AA51AEE845E005837A5 /* KBNProjectParseAPIManager.m */; };
 		3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AA71AEE845E005837A5 /* KBNUserParseAPIManager.m */; };
@@ -37,17 +44,13 @@
 		3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AC61AEE8BEF005837A5 /* KBNTaskList.m */; };
 		3A3369A81B25CBF9004AE3FA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3369A71B25CBF9004AE3FA /* Reachability.m */; };
 		3A427E6D1B06630B00348F24 /* UITextView+CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */; };
-		3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */; };
-		3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */; };
 		3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */; };
 		3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */; };
 		3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */; };
-		3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */; };
 		3A69EE941B20BB35005CDB6D /* KBNCustomViewFromXib.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EE901B20BB35005CDB6D /* KBNCustomViewFromXib.m */; };
 		3A69EE951B20BB35005CDB6D /* KBNReachabilityWidgetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EE921B20BB35005CDB6D /* KBNReachabilityWidgetView.m */; };
 		3A69EE961B20BB35005CDB6D /* KBNReachabilityWidgetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A69EE931B20BB35005CDB6D /* KBNReachabilityWidgetView.xib */; };
 		3A69EF061B20D537005CDB6D /* KBNReachabilityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */; };
-		3A6B09631B0244E200C75EF3 /* KBNEditProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */; };
 		3A9509A21AF7C5AD00849FF0 /* KBNProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A11AF7C5AD00849FF0 /* KBNProject.m */; };
 		3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */; };
 		3AA0C9751B0B601000030630 /* KBNRemoveProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */; };
@@ -55,14 +58,11 @@
 		3AE7FBD01B16442C0037809A /* KBNProjectTemplateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBCF1B16442C0037809A /* KBNProjectTemplateService.m */; };
 		3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */; };
 		3AE7FBD51B1781280037809A /* KBNCreateProjectFromTemplateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */; };
-		3AEE57BA1B1CB73A0005013D /* KBNSelectTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */; };
 		3AF8F0D51B152B9F0092A6BD /* KBNProjectTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */; };
 		3AF8F0D81B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF8F0D71B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m */; };
 		541A5EB61AF144FC00C571CC /* KBNEditProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */; };
 		543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */; };
 		54505C531AFD3BA3000A30B8 /* KBNUpdateManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */; };
-		547280CB1B20910C001E12FA /* KBNTutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 547280CA1B20910C001E12FA /* KBNTutorialPageViewController.m */; };
-		547280CE1B209188001E12FA /* KBNTutorialContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 547280CD1B209188001E12FA /* KBNTutorialContentViewController.m */; };
 		846FA57D1AE6F0B900AB91C1 /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */; };
 		A07653481B0E209C009A8550 /* KBNEmailUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A07653471B0E209C009A8550 /* KBNEmailUtils.m */; };
 		A076534B1B0E2204009A8550 /* KBNArrayToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */; };
@@ -133,10 +133,24 @@
 		3A0CCD351AEFC1780039F629 /* UIFont+CustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+CustomFonts.m"; path = "Utils/UIFont+CustomFonts.m"; sourceTree = "<group>"; };
 		3A0CCD3A1AEFD2740039F629 /* KBNTaskUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskUtils.h; path = Utils/KBNTaskUtils.h; sourceTree = "<group>"; };
 		3A0CCD3B1AEFD2740039F629 /* KBNTaskUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskUtils.m; path = Utils/KBNTaskUtils.m; sourceTree = "<group>"; };
+		3A2D11EF1B334995009EB7A3 /* KBNAddProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddProjectViewController.h; path = Controllers/Project/KBNAddProjectViewController.h; sourceTree = "<group>"; };
+		3A2D11F01B334995009EB7A3 /* KBNAddProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAddProjectViewController.m; path = Controllers/Project/KBNAddProjectViewController.m; sourceTree = "<group>"; };
+		3A2D11F11B334995009EB7A3 /* KBNEditProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNEditProjectViewController.h; path = Controllers/Project/KBNEditProjectViewController.h; sourceTree = "<group>"; };
+		3A2D11F21B334995009EB7A3 /* KBNEditProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNEditProjectViewController.m; path = Controllers/Project/KBNEditProjectViewController.m; sourceTree = "<group>"; };
+		3A2D11F31B334995009EB7A3 /* KBNSelectTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSelectTemplateViewController.h; path = Controllers/Project/KBNSelectTemplateViewController.h; sourceTree = "<group>"; };
+		3A2D11F41B334995009EB7A3 /* KBNSelectTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNSelectTemplateViewController.m; path = Controllers/Project/KBNSelectTemplateViewController.m; sourceTree = "<group>"; };
+		3A2D11F81B3349AE009EB7A3 /* KBNAddTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddTaskViewController.h; path = Controllers/Task/KBNAddTaskViewController.h; sourceTree = "<group>"; };
+		3A2D11F91B3349AE009EB7A3 /* KBNAddTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAddTaskViewController.m; path = Controllers/Task/KBNAddTaskViewController.m; sourceTree = "<group>"; };
+		3A2D11FA1B3349AE009EB7A3 /* KBNTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskDetailViewController.h; path = Controllers/Task/KBNTaskDetailViewController.h; sourceTree = "<group>"; };
+		3A2D11FB1B3349AE009EB7A3 /* KBNTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskDetailViewController.m; path = Controllers/Task/KBNTaskDetailViewController.m; sourceTree = "<group>"; };
+		3A2D11FE1B3349F0009EB7A3 /* KBNTutorialContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTutorialContentViewController.h; path = Controllers/Tutorial/KBNTutorialContentViewController.h; sourceTree = "<group>"; };
+		3A2D11FF1B3349F0009EB7A3 /* KBNTutorialContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTutorialContentViewController.m; path = Controllers/Tutorial/KBNTutorialContentViewController.m; sourceTree = "<group>"; };
+		3A2D12001B3349F0009EB7A3 /* KBNTutorialPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTutorialPageViewController.h; path = Controllers/Tutorial/KBNTutorialPageViewController.h; sourceTree = "<group>"; };
+		3A2D12011B3349F0009EB7A3 /* KBNTutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTutorialPageViewController.m; path = Controllers/Tutorial/KBNTutorialPageViewController.m; sourceTree = "<group>"; };
+		3A2D12041B334A0B009EB7A3 /* KBNSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSignInViewController.h; path = Controllers/SignIn/KBNSignInViewController.h; sourceTree = "<group>"; };
+		3A2D12051B334A0B009EB7A3 /* KBNSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNSignInViewController.m; path = Controllers/SignIn/KBNSignInViewController.m; sourceTree = "<group>"; };
 		3A312A9A1AEE8408005837A5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Storyboards/Main.storyboard; sourceTree = "<group>"; };
 		3A312A9B1AEE8408005837A5 /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Signin.storyboard; path = Storyboards/Signin.storyboard; sourceTree = "<group>"; };
-		3A312A9E1AEE8420005837A5 /* KBNSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSignInViewController.h; path = Controllers/KBNSignInViewController.h; sourceTree = "<group>"; };
-		3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNSignInViewController.m; path = Controllers/KBNSignInViewController.m; sourceTree = "<group>"; };
 		3A312AA11AEE8442005837A5 /* KBNUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNUser.h; path = Domain/KBNUser.h; sourceTree = "<group>"; };
 		3A312AA21AEE8442005837A5 /* KBNUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNUser.m; path = Domain/KBNUser.m; sourceTree = "<group>"; };
 		3A312AA41AEE845E005837A5 /* KBNProjectParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectParseAPIManager.h; path = Parse/KBNProjectParseAPIManager.h; sourceTree = "<group>"; };
@@ -155,18 +169,12 @@
 		3A3369A71B25CBF9004AE3FA /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Libraries/Reachability/Reachability.m; sourceTree = "<group>"; };
 		3A427E6B1B06630B00348F24 /* UITextView+CustomTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextView+CustomTextView.h"; path = "Utils/UITextView+CustomTextView.h"; sourceTree = "<group>"; };
 		3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextView+CustomTextView.m"; path = "Utils/UITextView+CustomTextView.m"; sourceTree = "<group>"; };
-		3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddProjectViewController.h; path = Controllers/KBNAddProjectViewController.h; sourceTree = "<group>"; };
-		3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAddProjectViewController.m; path = Controllers/KBNAddProjectViewController.m; sourceTree = "<group>"; };
-		3A4840471AE545CA00C70739 /* KBNAddTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNAddTaskViewController.h; path = Controllers/KBNAddTaskViewController.h; sourceTree = "<group>"; };
-		3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNAddTaskViewController.m; path = Controllers/KBNAddTaskViewController.m; sourceTree = "<group>"; };
 		3A4840491AE545CA00C70739 /* KBNMyProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNMyProjectsViewController.h; path = Controllers/KBNMyProjectsViewController.h; sourceTree = "<group>"; };
 		3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNMyProjectsViewController.m; path = Controllers/KBNMyProjectsViewController.m; sourceTree = "<group>"; };
 		3A48404B1AE545CA00C70739 /* KBNProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectDetailViewController.h; path = Controllers/KBNProjectDetailViewController.h; sourceTree = "<group>"; };
 		3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectDetailViewController.m; path = Controllers/KBNProjectDetailViewController.m; sourceTree = "<group>"; };
 		3A48404D1AE545CA00C70739 /* KBNProjectPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectPageViewController.h; path = Controllers/KBNProjectPageViewController.h; sourceTree = "<group>"; };
 		3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectPageViewController.m; path = Controllers/KBNProjectPageViewController.m; sourceTree = "<group>"; };
-		3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskDetailViewController.h; path = Controllers/KBNTaskDetailViewController.h; sourceTree = "<group>"; };
-		3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskDetailViewController.m; path = Controllers/KBNTaskDetailViewController.m; sourceTree = "<group>"; };
 		3A69EE8F1B20BB35005CDB6D /* KBNCustomViewFromXib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNCustomViewFromXib.h; path = CustomViews/KBNCustomViewFromXib.h; sourceTree = "<group>"; };
 		3A69EE901B20BB35005CDB6D /* KBNCustomViewFromXib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNCustomViewFromXib.m; path = CustomViews/KBNCustomViewFromXib.m; sourceTree = "<group>"; };
 		3A69EE911B20BB35005CDB6D /* KBNReachabilityWidgetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNReachabilityWidgetView.h; path = CustomViews/KBNReachabilityWidgetView.h; sourceTree = "<group>"; };
@@ -174,8 +182,6 @@
 		3A69EE931B20BB35005CDB6D /* KBNReachabilityWidgetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KBNReachabilityWidgetView.xib; path = CustomViews/KBNReachabilityWidgetView.xib; sourceTree = "<group>"; };
 		3A69EF041B20D537005CDB6D /* KBNReachabilityUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNReachabilityUtils.h; path = Utils/KBNReachabilityUtils.h; sourceTree = "<group>"; };
 		3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNReachabilityUtils.m; path = Utils/KBNReachabilityUtils.m; sourceTree = "<group>"; };
-		3A6B09611B0244E200C75EF3 /* KBNEditProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNEditProjectViewController.h; path = Controllers/KBNEditProjectViewController.h; sourceTree = "<group>"; };
-		3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNEditProjectViewController.m; path = Controllers/KBNEditProjectViewController.m; sourceTree = "<group>"; };
 		3A9509A01AF7C5AD00849FF0 /* KBNProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProject.h; path = Domain/KBNProject.h; sourceTree = "<group>"; };
 		3A9509A11AF7C5AD00849FF0 /* KBNProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProject.m; path = Domain/KBNProject.m; sourceTree = "<group>"; };
 		3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNMoveTaskTest.m; sourceTree = "<group>"; };
@@ -186,8 +192,6 @@
 		3AE7FBD11B1658030037809A /* KBNProjectTemplateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateUtils.h; path = Utils/KBNProjectTemplateUtils.h; sourceTree = "<group>"; };
 		3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplateUtils.m; path = Utils/KBNProjectTemplateUtils.m; sourceTree = "<group>"; };
 		3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCreateProjectFromTemplateTest.m; sourceTree = "<group>"; };
-		3AEE57B81B1CB73A0005013D /* KBNSelectTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSelectTemplateViewController.h; path = Controllers/KBNSelectTemplateViewController.h; sourceTree = "<group>"; };
-		3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNSelectTemplateViewController.m; path = Controllers/KBNSelectTemplateViewController.m; sourceTree = "<group>"; };
 		3AF8F0D31B152B9F0092A6BD /* KBNProjectTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplate.h; path = Domain/KBNProjectTemplate.h; sourceTree = "<group>"; };
 		3AF8F0D41B152B9F0092A6BD /* KBNProjectTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTemplate.m; path = Domain/KBNProjectTemplate.m; sourceTree = "<group>"; };
 		3AF8F0D61B1615400092A6BD /* KBNProjectTemplateParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTemplateParseAPIManager.h; path = Parse/KBNProjectTemplateParseAPIManager.h; sourceTree = "<group>"; };
@@ -196,10 +200,6 @@
 		543FFAF51AFBD23C0020AD28 /* KBNInitialSetupTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNInitialSetupTest.h; sourceTree = "<group>"; };
 		543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNInitialSetupTest.m; sourceTree = "<group>"; };
 		54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUpdateManagerTest.m; sourceTree = "<group>"; };
-		547280C91B20910C001E12FA /* KBNTutorialPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTutorialPageViewController.h; path = Controllers/KBNTutorialPageViewController.h; sourceTree = "<group>"; };
-		547280CA1B20910C001E12FA /* KBNTutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTutorialPageViewController.m; path = Controllers/KBNTutorialPageViewController.m; sourceTree = "<group>"; };
-		547280CC1B209188001E12FA /* KBNTutorialContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTutorialContentViewController.h; path = Controllers/KBNTutorialContentViewController.h; sourceTree = "<group>"; };
-		547280CD1B209188001E12FA /* KBNTutorialContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTutorialContentViewController.m; path = Controllers/KBNTutorialContentViewController.m; sourceTree = "<group>"; };
 		846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		A07653461B0E209C009A8550 /* KBNEmailUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNEmailUtils.h; path = Utils/KBNEmailUtils.h; sourceTree = "<group>"; };
 		A07653471B0E209C009A8550 /* KBNEmailUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNEmailUtils.m; path = Utils/KBNEmailUtils.m; sourceTree = "<group>"; };
@@ -353,6 +353,50 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		3A2D11EB1B33487A009EB7A3 /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				3A2D12041B334A0B009EB7A3 /* KBNSignInViewController.h */,
+				3A2D12051B334A0B009EB7A3 /* KBNSignInViewController.m */,
+			);
+			name = SignIn;
+			sourceTree = "<group>";
+		};
+		3A2D11EC1B334889009EB7A3 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				3A2D11FE1B3349F0009EB7A3 /* KBNTutorialContentViewController.h */,
+				3A2D11FF1B3349F0009EB7A3 /* KBNTutorialContentViewController.m */,
+				3A2D12001B3349F0009EB7A3 /* KBNTutorialPageViewController.h */,
+				3A2D12011B3349F0009EB7A3 /* KBNTutorialPageViewController.m */,
+			);
+			name = Tutorial;
+			sourceTree = "<group>";
+		};
+		3A2D11ED1B33496A009EB7A3 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				3A2D11F81B3349AE009EB7A3 /* KBNAddTaskViewController.h */,
+				3A2D11F91B3349AE009EB7A3 /* KBNAddTaskViewController.m */,
+				3A2D11FA1B3349AE009EB7A3 /* KBNTaskDetailViewController.h */,
+				3A2D11FB1B3349AE009EB7A3 /* KBNTaskDetailViewController.m */,
+			);
+			name = Task;
+			sourceTree = "<group>";
+		};
+		3A2D11EE1B334973009EB7A3 /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				3A2D11EF1B334995009EB7A3 /* KBNAddProjectViewController.h */,
+				3A2D11F01B334995009EB7A3 /* KBNAddProjectViewController.m */,
+				3A2D11F11B334995009EB7A3 /* KBNEditProjectViewController.h */,
+				3A2D11F21B334995009EB7A3 /* KBNEditProjectViewController.m */,
+				3A2D11F31B334995009EB7A3 /* KBNSelectTemplateViewController.h */,
+				3A2D11F41B334995009EB7A3 /* KBNSelectTemplateViewController.m */,
+			);
+			name = Project;
+			sourceTree = "<group>";
+		};
 		3A3369A21B25CB2F004AE3FA /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,28 +417,16 @@
 		3A4840261AE5435E00C70739 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				547280C91B20910C001E12FA /* KBNTutorialPageViewController.h */,
-				547280CA1B20910C001E12FA /* KBNTutorialPageViewController.m */,
-				3A4840451AE545CA00C70739 /* KBNAddProjectViewController.h */,
-				3A4840461AE545CA00C70739 /* KBNAddProjectViewController.m */,
-				3A4840471AE545CA00C70739 /* KBNAddTaskViewController.h */,
-				3A4840481AE545CA00C70739 /* KBNAddTaskViewController.m */,
-				3A6B09611B0244E200C75EF3 /* KBNEditProjectViewController.h */,
-				3A6B09621B0244E200C75EF3 /* KBNEditProjectViewController.m */,
 				3A4840491AE545CA00C70739 /* KBNMyProjectsViewController.h */,
 				3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */,
 				3A48404B1AE545CA00C70739 /* KBNProjectDetailViewController.h */,
 				3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */,
 				3A48404D1AE545CA00C70739 /* KBNProjectPageViewController.h */,
 				3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */,
-				3A312A9E1AEE8420005837A5 /* KBNSignInViewController.h */,
-				3A312A9F1AEE8420005837A5 /* KBNSignInViewController.m */,
-				3A48404F1AE545CA00C70739 /* KBNTaskDetailViewController.h */,
-				3A4840501AE545CA00C70739 /* KBNTaskDetailViewController.m */,
-				3AEE57B81B1CB73A0005013D /* KBNSelectTemplateViewController.h */,
-				3AEE57B91B1CB73A0005013D /* KBNSelectTemplateViewController.m */,
-				547280CC1B209188001E12FA /* KBNTutorialContentViewController.h */,
-				547280CD1B209188001E12FA /* KBNTutorialContentViewController.m */,
+				3A2D11EE1B334973009EB7A3 /* Project */,
+				3A2D11ED1B33496A009EB7A3 /* Task */,
+				3A2D11EC1B334889009EB7A3 /* Tutorial */,
+				3A2D11EB1B33487A009EB7A3 /* SignIn */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -722,29 +754,28 @@
 				A076534B1B0E2204009A8550 /* KBNArrayToDataTransformer.m in Sources */,
 				3A0CCD381AEFC1780039F629 /* KBNUserUtils.m in Sources */,
 				18CB2DBC1AEAE40700F5F390 /* (null) in Sources */,
-				3A6B09631B0244E200C75EF3 /* KBNEditProjectViewController.m in Sources */,
 				3A312AAE1AEE8473005837A5 /* KBNProjectService.m in Sources */,
 				032EF2921AF0259400F27846 /* KBNErrorUtils.m in Sources */,
 				E2AC8A341AF902D9008A44B5 /* NSDate+Utils.m in Sources */,
-				547280CB1B20910C001E12FA /* KBNTutorialPageViewController.m in Sources */,
 				3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */,
 				3A427E6D1B06630B00348F24 /* UITextView+CustomTextView.m in Sources */,
+				3A2D11FC1B3349AE009EB7A3 /* KBNAddTaskViewController.m in Sources */,
+				3A2D11F71B334995009EB7A3 /* KBNSelectTemplateViewController.m in Sources */,
+				3A2D12061B334A0B009EB7A3 /* KBNSignInViewController.m in Sources */,
 				18CB2DBD1AEAE40700F5F390 /* (null) in Sources */,
-				3AEE57BA1B1CB73A0005013D /* KBNSelectTemplateViewController.m in Sources */,
 				3A0CCD2C1AEFC1270039F629 /* KBNTaskListUtils.m in Sources */,
 				E2AC8A371AF90312008A44B5 /* KBNUpdateManager.m in Sources */,
-				3A312AA01AEE8420005837A5 /* KBNSignInViewController.m in Sources */,
+				3A2D11F61B334995009EB7A3 /* KBNEditProjectViewController.m in Sources */,
 				3A312AA31AEE8442005837A5 /* KBNUser.m in Sources */,
 				A07653481B0E209C009A8550 /* KBNEmailUtils.m in Sources */,
 				3A69EE951B20BB35005CDB6D /* KBNReachabilityWidgetView.m in Sources */,
-				3A4840511AE545CA00C70739 /* KBNAddProjectViewController.m in Sources */,
 				3A0CCD3C1AEFD2740039F629 /* KBNTaskUtils.m in Sources */,
 				3AF8F0D81B1615400092A6BD /* KBNProjectTemplateParseAPIManager.m in Sources */,
+				3A2D11FD1B3349AE009EB7A3 /* KBNTaskDetailViewController.m in Sources */,
 				3A0CCD211AEEB7A40039F629 /* KBNTaskParseAPIManager.m in Sources */,
 				3AE7FBD01B16442C0037809A /* KBNProjectTemplateService.m in Sources */,
 				3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */,
 				E228B8421AEFD65D00753750 /* (null) in Sources */,
-				3A4840521AE545CA00C70739 /* KBNAddTaskViewController.m in Sources */,
 				3A69EE941B20BB35005CDB6D /* KBNCustomViewFromXib.m in Sources */,
 				187EC9AE1AFD23DB0028E9FE /* KBNUpdateUtils.m in Sources */,
 				3A312AA81AEE845E005837A5 /* KBNProjectParseAPIManager.m in Sources */,
@@ -752,6 +783,7 @@
 				3A9509A21AF7C5AD00849FF0 /* KBNProject.m in Sources */,
 				3A69EF061B20D537005CDB6D /* KBNReachabilityUtils.m in Sources */,
 				A0C8A7001AEED4560069E236 /* KBNTaskListParseAPIManager.m in Sources */,
+				3A2D12031B3349F0009EB7A3 /* KBNTutorialPageViewController.m in Sources */,
 				18D88D3D1AEEA7DA00D9BDE1 /* KBNParseRequestOperationManager.m in Sources */,
 				CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */,
 				CCA1A25E1ADEA3D900CC98B5 /* main.m in Sources */,
@@ -761,15 +793,15 @@
 				3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */,
 				3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */,
 				A0C8A7031AEED4640069E236 /* KBNTaskListService.m in Sources */,
+				3A2D11F51B334995009EB7A3 /* KBNAddProjectViewController.m in Sources */,
 				3A0CCD261AEEB7B50039F629 /* KBNTaskService.m in Sources */,
-				3A4840561AE545CA00C70739 /* KBNTaskDetailViewController.m in Sources */,
 				3A0CCD391AEFC1780039F629 /* UIFont+CustomFonts.m in Sources */,
 				3A312AC71AEE8BEF005837A5 /* KBNTaskList.m in Sources */,
 				3A3369A81B25CBF9004AE3FA /* Reachability.m in Sources */,
 				3A312AAF1AEE8473005837A5 /* KBNUserService.m in Sources */,
 				3A0CCD361AEFC1780039F629 /* KBNAlertUtils.m in Sources */,
 				CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */,
-				547280CE1B209188001E12FA /* KBNTutorialContentViewController.m in Sources */,
+				3A2D12021B3349F0009EB7A3 /* KBNTutorialContentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

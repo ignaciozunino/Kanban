@@ -40,13 +40,14 @@
     //first we create a project to be sure we have at least one project to bring
     KBNProjectService * service = [[KBNProjectService alloc]init];
     service.dataService =[[KBNProjectParseAPIManager alloc]init];
+    
     [service createProject:name
            withDescription:@"created with automatic test"
-                   forUser: [KBNUserUtils getUsername]
+              withTemplate:nil
            completionBlock:^(KBNProject* aProject){
                ///on the complete block we get all the projects
                
-               [service getProjectsForUser:[KBNUserUtils getUsername] onSuccessBlock:^(NSArray *records) {
+               [service getProjectsOnSuccessBlock:^(NSArray *records) {
                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
                    NSArray *filteredArray = [records filteredArrayUsingPredicate:predicate];
                    

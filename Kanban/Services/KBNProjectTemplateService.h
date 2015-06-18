@@ -15,6 +15,6 @@
 
 + (KBNProjectTemplateService*) sharedInstance;
 
-- (void)getTemplatesCompletionBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 @end

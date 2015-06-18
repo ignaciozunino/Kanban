@@ -52,7 +52,6 @@
     
     NSString *name = [NSString stringWithFormat:@"test_project_%@",dateString];
     NSString *projectDescription = @"Create task list test";
-    NSString *username = [KBNUserUtils getUsername];
     
     __block KBNProject *testProject = [KBNProjectUtils projectWithParams:
                                        [NSDictionary dictionaryWithObjectsAndKeys:
@@ -64,7 +63,7 @@
     
     [projectService createProject:testProject.name
                   withDescription:testProject.projectDescription
-                          forUser:username
+                     withTemplate:nil
                   completionBlock:^(KBNProject *project) {
                       testProject = project;
                       [projectCreatedExpectation fulfill];

@@ -13,26 +13,24 @@
 @interface KBNProjectParseAPIManager : NSObject
 
 //Projects Functions
-- (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void) createProject: (KBNProject *) project completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void) createProject: (KBNProject *) project withLists:(NSArray*)lists completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void) createProject: (KBNProject *) project withLists:(NSArray*)lists completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 -(void)setUsersList:(NSArray*)emailAddresses
         toProjectId:(NSString*)aProjectId
-    completionBlock:(KBNConnectionSuccessBlock)onSuccess
-         errorBlock:(KBNConnectionErrorBlock)onError;
+    completionBlock:(KBNSuccessBlock)onSuccess
+         errorBlock:(KBNErrorBlock)onError;
 
-- (void) editProject: (NSString*)projectID withNewName: (NSString*) newName withNewDesc: (NSString*) newDesc completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void) editProject: (NSString*)projectID withNewName: (NSString*) newName withNewDesc: (NSString*) newDesc completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void) getProjectWithProjectID: (NSString*)projectID successBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void) getProjectWithProjectID: (NSString*)projectID successBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)getProjectsFromUsername:(NSString*) username onSuccessBlock:(KBNSuccessDictionaryBlock) onSuccess errorBlock:(KBNErrorBlock)onError;
 
-- (void)getProjectsFromUsername:(NSString*) username onSuccessBlock:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)getProjectsFromUsername:(NSString*) username updatedAfter:(NSString*) lastUpdate onSuccessBlock:(KBNSuccessDictionaryBlock) onSuccess errorBlock:(KBNErrorBlock)onError;
 
-- (void)getProjectsFromUsername:(NSString*) username updatedAfter:(NSString*) lastUpdate onSuccessBlock:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError;
-
-- (void)updateProjects:(NSArray*)projects completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)updateProjects:(NSArray*)projects completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 
 @property KBNParseRequestOperationManager * afManager;

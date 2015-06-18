@@ -11,18 +11,13 @@
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
 #import "UIFont+CustomFonts.h"
+#import "AFNetworkActivityIndicatorManager.h"
 
 @interface KBNAppDelegate ()
 
 @end
 
 @implementation KBNAppDelegate
-
-+(void)activateActivityIndicator:(BOOL)activate{
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:activate];
-
-}
 
 - (void)lookAndFeelSetup {
     
@@ -59,6 +54,7 @@
     [self.window setRootViewController:initViewController];
     
     [self lookAndFeelSetup];
+    [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
     return YES;
 }

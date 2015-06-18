@@ -48,14 +48,11 @@
 
     [self.view endEditing:YES];
     [self startHUD];
-    [KBNAppDelegate activateActivityIndicator:YES];
     __weak typeof(self) weakself = self;
     [[KBNProjectService sharedInstance] createProject:self.nameTextField.text withDescription:self.descriptionTextView.text forUser:[KBNUserUtils getUsername] withTemplate:self.selectedTemplate completionBlock:^(KBNProject *project) {
-        [KBNAppDelegate activateActivityIndicator:NO];
         [[NSNotificationCenter defaultCenter] postNotificationName:PROJECT_ADDED object:project];
     } errorBlock:^(NSError *error) {
-        [KBNAppDelegate activateActivityIndicator:NO];
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         [weakself.navigationController popToRootViewControllerAnimated:YES];
     }];
 }

@@ -108,8 +108,8 @@
 }
 
 
-- (void)getProjectListsOnSuccess:(KBNConnectionSuccessBlock)success
-                       onFailure:(KBNConnectionErrorBlock)failure {
+- (void)getProjectListsOnSuccess:(KBNSuccessBlock)success
+                       onFailure:(KBNErrorBlock)failure {
     __weak typeof(self) weakself = self;
     
     [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {

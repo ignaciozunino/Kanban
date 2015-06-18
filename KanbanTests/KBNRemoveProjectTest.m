@@ -62,7 +62,7 @@
     
     [service createProject:testProject.name
            withDescription:testProject.projectDescription
-                   forUser:username
+              withTemplate:nil
            completionBlock:^(KBNProject *project) {
                testProject = project;
                [projectCreatedExpectation fulfill];
@@ -81,8 +81,7 @@
     
     [service removeProject:testProject
            completionBlock:^{
-               [service getProjectsForUser:[KBNUserUtils getUsername]
-                            onSuccessBlock:^(NSArray *records) {
+               [service getProjectsOnSuccessBlock:^(NSArray *records) {
                                 
                                 for (KBNProject *record in records) {
                                     NSString *projectId = record.projectId;

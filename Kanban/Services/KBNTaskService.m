@@ -27,8 +27,8 @@
 
 - (void)createTask:(KBNTask*)aTask
             inList:(KBNTaskList*)aTaskList
-   completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion
-        errorBlock:(KBNConnectionErrorBlock)onError {
+   completionBlock:(KBNSuccessDictionaryBlock)onCompletion
+        errorBlock:(KBNErrorBlock)onError {
     
     if ([aTask.name isEqualToString:@""] || !aTask.name) {
         NSString *domain = ERROR_DOMAIN;
@@ -51,7 +51,7 @@
     }
 }
 
-- (void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)getTasksForProject:(NSString *)projectId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     [self.dataService getTasksForProject:projectId completionBlock:^(NSDictionary *records) {
         onCompletion([self activeRecordsFromDictionary:records]);
     } errorBlock:onError];
@@ -72,7 +72,7 @@
 
 }
 
-- (void)removeTask:(KBNTask*)task completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)removeTask:(KBNTask*)task completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
     KBNTaskList *list = task.taskList;
     
@@ -93,7 +93,7 @@
 }
 
 - (void) moveTask:(KBNTask *)task toList:(KBNTaskList*)destinationList inOrder:(NSNumber*)order
-  completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+  completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
     
@@ -139,7 +139,7 @@
 }
 
 - (void)createTasks:(NSArray*)tasks
-    completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+    completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     [self.dataService createTasks:tasks completionBlock:^(NSDictionary *records) {
         if (tasks.count >0) {
             [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:((KBNTask *)tasks[0]).project.projectId];
@@ -148,13 +148,13 @@
     } errorBlock:onError ];
 }
 
-- (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+- (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     [self.dataService getTasksUpdatedForProject:projectId fromDate:lastDate completionBlock:^(NSDictionary *records) {
         onCompletion([self activeRecordsFromDictionary:records]);
     } errorBlock:onError];
 }
 
--(void)updateTask:(KBNTask*)task onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
+-(void)updateTask:(KBNTask*)task onSuccess:(KBNSuccessBlock)onSuccess failure:(KBNErrorBlock)onError{
     
     if (task.name.length) {
         [self.dataService updateTasks:@[task]
