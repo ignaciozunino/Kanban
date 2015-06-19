@@ -68,15 +68,13 @@
     KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
     addTask.name = taskName;
     addTask.taskDescription = taskDesc;
-
-    [service createTask:addTask inList:taskListObj completionBlock:^(NSDictionary *records) {
-        //we bring the tasks to know the task id, sincethe project id is unique and fake we know that is the only task
-        [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
-            NSArray* tasksforid=[records objectForKey:@"results"];
+    
+    [service createTask:addTask inList:taskListObj completionBlock:^(KBNTask *task) {
+        //we bring the tasks to know the task id, since the project id is unique and fake we know that is the only task
+        [service getTasksForProject:projectObj completionBlock:^(NSArray *records) {
+            NSArray* tasksforid=records;
             if (tasksforid.count==0) {//we bring no recors error creating the task
                 XCTAssertTrue(false);
-                
-                
             }
             NSDictionary * taskdictforid = tasksforid[0];
             taskId = [taskdictforid objectForKey:PARSE_OBJECTID];
@@ -113,13 +111,13 @@
     
     //we actually remove the task
     [service removeTask:task completionBlock:^{
-        [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
-            if (records.count==0) {//we bring no recors error geting the task
+        [service getTasksForProject:testProject completionBlock:^(NSArray *records) {
+            if (records.count == 0) {//we bring no records error geting the task
                 XCTAssertTrue(false);
                 [finalexpectation fulfill];
                 
             }
-            NSArray* tasksforverif=[records objectForKey:@"results"];
+            NSArray* tasksforverif = records;
             
             if (tasksforverif.count) {
                 NSDictionary * taskdictfoverif = tasksforverif[0];

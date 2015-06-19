@@ -38,13 +38,28 @@
                                             userInfo:info];
         onError(errorPtr);
     }else{
-        KBNProject *project = [[KBNProject alloc]initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
-        project.name = name;
-        project.projectDescription = projectDescription;
-        project.users = [NSMutableArray new];
-        [project.users addObject:[KBNUserUtils getUsername]];
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:4];
+        [params setObject:name forKey:PARSE_PROJECT_NAME_COLUMN];
+        [params setObject:projectDescription forKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
+        [params setObject:[NSNumber numberWithBool:YES] forKey:PARSE_PROJECT_ACTIVE_COLUMN];
+        [params setObject:[KBNUserUtils getUsername] forKey:PARSE_PROJECT_USERSLIST_COLUMN];
+        
+        KBNProject *project = [KBNProjectUtils projectWithParams:params];
         
         NSArray *lists = (NSArray*)projectTemplate.lists;
+        NSMutableArray *taskLists = [NSMutableArray array];
+        
+        for (int i = 0; i < lists.count; i++) {
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:2];
+            [params setObject:[projectTemplate.lists objectAtIndex:i] forKey:PARSE_TASKLIST_NAME_COLUMN];
+            [params setObject:[NSNumber numberWithInt:i] forKey:PARSE_TASKLIST_ORDER_COLUMN];
+
+            KBNTaskList *list = [KBNTaskListUtils taskListForProject:project params:params];
+            [taskLists addObject:list];
+        }
+        
+        project.taskLists = [NSOrderedSet orderedSetWithArray:taskLists];
+
         [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
             
             onCompletion(newProject);

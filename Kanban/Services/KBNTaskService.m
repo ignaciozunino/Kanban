@@ -27,7 +27,7 @@
 
 - (void)createTask:(KBNTask*)aTask
             inList:(KBNTaskList*)aTaskList
-   completionBlock:(KBNSuccessDictionaryBlock)onCompletion
+   completionBlock:(KBNSuccessTaskBlock)onCompletion
         errorBlock:(KBNErrorBlock)onError {
     
     if ([aTask.name isEqualToString:@""] || !aTask.name) {
@@ -45,31 +45,26 @@
             aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
                 [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:aTask.project.projectId];
-                onCompletion(records);
+                onCompletion(aTask);
             } errorBlock:onError];
         }
     }
 }
 
-- (void)getTasksForProject:(NSString *)projectId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    [self.dataService getTasksForProject:projectId completionBlock:^(NSDictionary *records) {
-        onCompletion([self activeRecordsFromDictionary:records]);
+- (void)getTasksForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    [self.dataService getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
+        NSArray *results = [records objectForKey:@"results"];
+        NSMutableArray *activeTasks = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *params in results) {
+            KBNTask *task = [KBNTaskUtils taskForProject:project taskList:nil params:params];
+            if ([task isActive]) {
+                [activeTasks addObject:task];
+            };
+        }
+        
+        onCompletion(activeTasks);
     } errorBlock:onError];
-}
-
-- (NSDictionary*)activeRecordsFromDictionary:(NSDictionary*)records {
-    
-    NSArray *results = [records objectForKey:@"results"];
-    NSMutableArray *activeTasks = [[NSMutableArray alloc] init];
-    
-    for (NSDictionary *params in results) {
-        if ([[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] boolValue]) {
-            [activeTasks addObject:params];
-        };
-    }
-    
-    return [NSDictionary dictionaryWithObject:activeTasks forKey:@"results"];
-
 }
 
 - (void)removeTask:(KBNTask*)task completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
@@ -138,20 +133,14 @@
     }
 }
 
-- (void)createTasks:(NSArray*)tasks
-    completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+- (void)createTasks:(NSArray*)tasks completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     [self.dataService createTasks:tasks completionBlock:^(NSDictionary *records) {
-        if (tasks.count >0) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:((KBNTask *)tasks[0]).project.projectId];
+        
+        if (tasks.count > 0) {
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:((KBNTask*)tasks[0]).project.projectId];
         }
-        onCompletion(records);
+        onCompletion(tasks);
     } errorBlock:onError ];
-}
-
-- (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
-    [self.dataService getTasksUpdatedForProject:projectId fromDate:lastDate completionBlock:^(NSDictionary *records) {
-        onCompletion([self activeRecordsFromDictionary:records]);
-    } errorBlock:onError];
 }
 
 -(void)updateTask:(KBNTask*)task onSuccess:(KBNSuccessBlock)onSuccess failure:(KBNErrorBlock)onError{

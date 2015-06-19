@@ -44,19 +44,22 @@
                                                                                           target:self
                                                                                           action:@selector(setupEdit)];
     [self getProjectLists];
+    [self subscribeToNotifications];
+}
+
+- (void)subscribeToNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:KBNTaskUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
 }
 
-- (void)stopListeningUpdateManager
-{
-    [[KBNUpdateManager sharedInstance] stopUpdatingTasks];
+- (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void) dealloc {
-    
-    [self stopListeningUpdateManager];
-}
+#pragma mark - Notification Handlers
 
 -(void)onProjectUpdate:(NSNotification *)notification{
     KBNProject *projectUpdated = (KBNProject*)notification.object;
@@ -66,17 +69,11 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)onTasksUpdate:(NSNotification *)notification {
+    // TODO
 }
 
-#pragma mark - Data methods
--(void)onTasksUpdate:(NSNotification *)noti{
-    [self getProjectTasks:noti];
-}
-
--(void)onTaskUpdate:(NSNotification *)notification{
+-(void)onTaskUpdate:(NSNotification *)notification {
     NSDictionary *notifiedTask =(NSDictionary*)notification.object;
     for (KBNTask * task in self.projectTasks) {
         if ([task.taskId isEqualToString: [notifiedTask objectForKey:PARSE_OBJECTID]]) {
@@ -88,52 +85,30 @@
 }
 
 -(void)onCurrentProjectUpdate:(NSNotification *)noti{
-    
     self.project = (KBNProject*)noti.object;
     self.title = self.project.name;
 }
 
-- (void)listenUpdateManager {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksInitialUpdate object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:KBNTaskUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
-    [[KBNUpdateManager sharedInstance] startUpdatingTasksForProject:self.project];
-}
+#pragma mark - Private methods
 
 - (void)getProjectLists {
-    //This method does the same as "getProjectListsOnSuccess..." but it doesn't require
-    //any block to be invoked. Kept this way for backward compatibility.
-    [self getProjectListsOnSuccess:^(){} onFailure:^(NSError* error){}];
-}
-
-
-- (void)getProjectListsOnSuccess:(KBNSuccessBlock)success
-                       onFailure:(KBNErrorBlock)failure {
     __weak typeof(self) weakself = self;
-    
-    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
-        
-        weakself.projectLists = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* params in [response objectForKey:@"results"]) {
-            [weakself.projectLists addObject:[KBNTaskListUtils taskListForProject:self.project params:params]];
-        }
-        
-        [self listenUpdateManager];
-        
+    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project completionBlock:^(NSArray *records) {
+        weakself.projectLists = [NSMutableArray arrayWithArray:records];
+        [weakself getProjectTasks];
     } errorBlock:^(NSError *error) {
-        NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
-        failure(error);
     }];
 }
 
-- (void)getProjectTasks:(NSNotification *)noti {
-    
-    [KBNUpdateUtils updateExistingTasksFromDictionary:(NSDictionary*)noti.object inArray:self.projectTasks forProject:self.project];
-    [self buildDetailViewControllers];
-    [self createPageViewController];
-    
+- (void)getProjectTasks {
+    __weak typeof(self) weakself = self;
+    [[KBNTaskService sharedInstance] getTasksForProject:self.project completionBlock:^(NSArray *records) {
+        weakself.projectTasks = [NSMutableArray arrayWithArray:records];
+        [weakself buildDetailViewControllers];
+        [weakself createPageViewController];
+
+    } errorBlock:^(NSError *error) {
+    }];
 }
 
 #pragma mark - Controller methods
@@ -342,8 +317,7 @@
     [self updateViewControllersArray];
     
     __weak typeof(self) weakself = self;
-    
-    [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^{
+    [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^(KBNTaskList *taskList) {
         // Enable edition on new task list
         [newProjectDetailViewController setEnable:YES];
         [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];

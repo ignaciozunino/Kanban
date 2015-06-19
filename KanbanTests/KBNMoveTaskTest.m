@@ -92,9 +92,9 @@
     KBNTask *task3 = tasks[3];
     
     [service createTasks:tasks
-         completionBlock:^(NSDictionary *records) {
-             [service getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-                 retrievedTasks = [records objectForKey:@"results"];
+         completionBlock:^(NSArray *records) {
+             [service getTasksForProject:project completionBlock:^(NSArray *records) {
+                 retrievedTasks = records;
                  if (!retrievedTasks.count) { // We brought no records => error creating the tasks
                      XCTAssertTrue(false);
                  } else {
@@ -130,8 +130,8 @@
     XCTestExpectation *taskMovedExpectation = [self expectationWithDescription:TASK_MOVED_EXPECTATION];
     
     [service moveTask:task1 toList:requirements inOrder:nil completionBlock:^{
-        [service getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-            retrievedTasks = [records objectForKey:@"results"];
+        [service getTasksForProject:project completionBlock:^(NSArray *records) {
+            retrievedTasks = records;
             
             for (NSDictionary *dict in retrievedTasks) {
 
@@ -181,8 +181,8 @@
     XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
 
     [service moveTask:task1 toList:backlog inOrder:nil completionBlock:^{
-        [service getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-            retrievedTasks = [records objectForKey:@"results"];
+        [service getTasksForProject:project completionBlock:^(NSArray *records) {
+            retrievedTasks = records;
             
             for (NSDictionary *dict in retrievedTasks) {
                 
@@ -232,14 +232,13 @@
     XCTestExpectation *taskReorderExpectation = [self expectationWithDescription:TASK_REORDER_EXPECTATION];
     
     [service moveTask:task1 toList:backlog inOrder:@1 completionBlock:^{
-        [service getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-            retrievedTasks = [records objectForKey:@"results"];
+        [service getTasksForProject:project completionBlock:^(NSArray *records) {
             
-            for (NSDictionary *dict in retrievedTasks) {
+            for (KBNTask *task in retrievedTasks) {
                 
-                NSString *name = [dict objectForKey:PARSE_TASK_NAME_COLUMN];
-                NSString *taskListId = [dict objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-                NSNumber *order = [dict objectForKey:PARSE_TASK_ORDER_COLUMN];
+                NSString *name = task.name;
+                NSString *taskListId = task.taskId;
+                NSNumber *order = task.order;
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {

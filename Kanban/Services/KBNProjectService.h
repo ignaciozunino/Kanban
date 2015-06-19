@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KBNProjectParseAPIManager.h"
 #import "KBNProjectUtils.h"
+#import "KBNTaskListUtils.h"
 #import "KBNAppDelegate.h"
 #import "KBNProjectTemplate.h"
 #import <Firebase/Firebase.h>

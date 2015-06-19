@@ -56,10 +56,8 @@
     self.addTask.taskDescription = self.descriptionTextView.text;
     
     __weak typeof(self) weakself = self;
-    
-    [[KBNTaskService sharedInstance] createTask:self.addTask inList:self.addTask.taskList completionBlock:^(NSDictionary *response) {
-        weakself.addTask.taskId = [response objectForKey:PARSE_OBJECTID];
-        [weakself.delegate didCreateTask:weakself.addTask];
+    [[KBNTaskService sharedInstance] createTask:self.addTask inList:self.addTask.taskList completionBlock:^(KBNTask *task) {
+        [weakself.delegate didCreateTask:task];
         [self dismissViewControllerAnimated:YES completion:nil];
     } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];

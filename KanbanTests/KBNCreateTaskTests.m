@@ -71,10 +71,8 @@
     
     [self.service createTask:addTask
                       inList:self.taskList
-             completionBlock:^(NSDictionary* response){
-                 
+             completionBlock:^(KBNTask *task) {
                  XCTAssertFalse(true);
-                 
              }
                   errorBlock:^(NSError* error){
                       NSString *errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
@@ -98,7 +96,7 @@
     
     [self.service createTask:addTask
                       inList:self.taskList
-             completionBlock:^(NSDictionary* response){
+             completionBlock:^(KBNTask *task) {
                  XCTAssertTrue(true);
              }
                   errorBlock:^(NSError* error){

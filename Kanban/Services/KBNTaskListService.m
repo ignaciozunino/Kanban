@@ -23,23 +23,17 @@
     return inst;
 }
 
--(void)createTaskListWithName:(NSString *)name order:(NSNumber *)order projectId:(NSString *)projectId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-
-    if (!name || [name isEqualToString:@""]) {
-        NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_TASKLIST_WITHOUT_NAME_ERROR};
-        NSError *errorPtr = [NSError errorWithDomain:domain code:-103 userInfo:info];
-        onError(errorPtr);
-    } else {
-        [self.dataService createTaskListWithName:name order:order projectId:projectId completionBlock:onCompletion errorBlock:onError];
+-(void)getTaskListsForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    
+    [self.dataService getTaskListsForProject:project.projectId completionBlock:^(NSDictionary *records) {
+        NSMutableArray *listsArray = [[NSMutableArray alloc] init];
         
-    }
-}
-
--(void)getTaskListsForProject:(NSString *)projectId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    
-    [self.dataService getTaskListsForProject:projectId completionBlock:onCompletion errorBlock:onError];
-    
+        for (NSDictionary* params in records) {
+            [listsArray addObject:[KBNTaskListUtils taskListForProject:project params:params]];
+        }
+        
+        onCompletion(listsArray);
+    } errorBlock:onError];
 }
 
 - (BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList {
@@ -58,7 +52,7 @@
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:onCompletion errorBlock:onError];
 }
 
-- (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+- (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNSuccessTaskListBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     taskList.project = project;
     taskList.order = order;
@@ -68,7 +62,7 @@
     
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
         taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
-        onCompletion();
+        onCompletion(taskList);
     } errorBlock:^(NSError *error){
         [project removeTaskListsObject:taskList];
         [self updateTaskListOrdersInSet:project.taskLists];

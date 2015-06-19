@@ -21,4 +21,6 @@
 @property (nonatomic, strong) KBNProject *project;
 @property (nonatomic, strong) KBNTaskList *taskList;
 
+- (BOOL)isActive;
+
 @end

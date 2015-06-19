@@ -98,15 +98,6 @@
     [super viewWillDisappear:animated];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
-}
-
 #pragma mark - IBActions
 - (IBAction)addTask:(id)sender {
     
@@ -208,17 +199,14 @@
     cell.layer.shadowOpacity = 0.5;
     
     return cell;
-    
 }
 
 #pragma mark - Table View Delegate
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //for now all the task are editable
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // For now all the tasks are editable
     return YES;
-    
-}
+    }
 
 - (IBAction)enterEditMode:(id)sender {
     
@@ -536,19 +524,13 @@
         if ([[KBNTaskListService sharedInstance] hasCountLimitBeenReached:self.taskList]){
             [KBNAlertUtils showAlertView:CREATING_TASK_TASKLIST_FULL andType:ERROR_ALERT];
         } else {
-            [self goToAddTaskScreen:[segue destinationViewController]];
+            UINavigationController *navController = [segue destinationViewController];
+            KBNAddTaskViewController *addTaskViewController = (KBNAddTaskViewController*)navController.topViewController;
+            
+            addTaskViewController.addTask = [KBNTaskUtils taskForProject:self.project taskList:self.taskList params:nil];
+            addTaskViewController.delegate = self;
         }
     }
-}
-
--(void)goToAddTaskScreen:(UINavigationController*)navController{
-    KBNAddTaskViewController *addTaskViewController = (KBNAddTaskViewController*)navController.topViewController;
-    
-    addTaskViewController.addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
-    
-    addTaskViewController.addTask.project = self.project;
-    addTaskViewController.addTask.taskList = self.taskList;
-    addTaskViewController.delegate = self;
 }
 
 @end

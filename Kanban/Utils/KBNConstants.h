@@ -166,6 +166,7 @@ typedef void (^KBNErrorBlock) (NSError *error);
 typedef void (^KBNSuccessBlock)() ;
 typedef void (^KBNSuccessArrayBlock) (NSArray *records);
 typedef void (^KBNSuccessProjectBlock) (KBNProject *project);
+typedef void (^KBNSuccessTaskListBlock) (KBNTaskList *taskList);
 typedef void (^KBNSuccessTaskBlock) (KBNTask *task);
 typedef void (^KBNSuccessDictionaryBlock) (NSDictionary *records);
 typedef void (^KBNSuccessIdBlock) (NSString *objectId);

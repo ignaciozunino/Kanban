@@ -34,26 +34,25 @@
 
 -(void)startUpdatingProjects{
     __weak typeof(self) weakself = self;
-    [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername]
-                             onSuccessBlock:^(NSArray *records) {
-                                 weakself.shouldUpdateProjects = YES;
-                                 [weakself startListeningProjects:records];
-                             }
-                                 errorBlock:^(NSError *error) {
-                                 }];
+    [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
+        weakself.shouldUpdateProjects = YES;
+        [weakself startListeningProjects:records];
+    }
+                                                       errorBlock:^(NSError *error) {
+                                                       }];
 }
 
 -(void)startUpdatingTasksForProject:(KBNProject*)project{
-    self.projectForTasksUpdate =project;
+    self.projectForTasksUpdate = project;
     __weak typeof(self) weakself = self;
-    [[KBNTaskService sharedInstance] getTasksForProject:project.projectId
-                          completionBlock:^(NSDictionary *records) {
-                              weakself.shouldUpdateTasks = YES;
-                              //we suppose to be listening but we try just in case
-                              [weakself startListeningTasks:[records objectForKey:@"results"]];
-                          }
-                               errorBlock:^(NSError *error) {
-                               }];
+    [[KBNTaskService sharedInstance] getTasksForProject:project
+                                        completionBlock:^(NSArray *records) {
+                                            weakself.shouldUpdateTasks = YES;
+                                            //we suppose to be listening but we try just in case
+                                            [weakself startListeningTasks:records];
+                                        }
+                                             errorBlock:^(NSError *error) {
+                                             }];
 }
 
 -(void)stopUpdatingProjects{
@@ -66,41 +65,34 @@
 
 -(void)updateProjects{
     if (self.shouldUpdateProjects) {
-        [[KBNProjectService sharedInstance] getProjectsForUser:[KBNUserUtils getUsername]
-                                   updatedAfter:nil
-                                 onSuccessBlock:^(NSArray *records) {
-                                     if (records.count > 0) {
-                                         [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectsUpdated object:records];
-                                      }
-                                     for (KBNProject *project in records) {
-                                         //if we update the current project we notify
-                                         if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
-                                             self.projectForTasksUpdate= project;
-                                             [[NSNotificationCenter defaultCenter] postNotificationName:KBNCurrentProjectUpdated object:project];
-                                          }
-                                     }
-                                     self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-                                 }
-                                     errorBlock:^(NSError *error) {
-                                         
-                                     }];
+        [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
+            if (records.count > 0) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectsUpdated object:records];
+            }
+            for (KBNProject *project in records) {
+                //if we update the current project we notify
+                if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
+                    self.projectForTasksUpdate= project;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:KBNCurrentProjectUpdated object:project];
+                }
+            }
+        }
+                                                           errorBlock:^(NSError *error) {
+                                                               
+                                                           }];
     }
 }
 
 -(void)updateTasks{
     if (self.shouldUpdateTasks) {
-        [[KBNTaskService sharedInstance] getUpdatedTasksForProject:self.projectForTasksUpdate.projectId
-                                    withModifiedDate:self.lastTasksUpdate
-                                     completionBlock:^(NSDictionary *records) {
-                                         NSDictionary * results=[records objectForKey:@"results"];
-                                         if(results.count > 0 ){
-                                             [[NSNotificationCenter defaultCenter] postNotificationName:KBNTasksUpdated object:results];
-                                             self.lastTasksUpdate = [NSDate getUTCNowWithParseFormat];
-                                         }
-                                     }
-                                          errorBlock:^(NSError *error) {
-                                              
-                                          }];
+        [[KBNTaskService sharedInstance] getTasksForProject:self.projectForTasksUpdate
+                                            completionBlock:^(NSArray *records) {
+                                                // TODO
+                                                [[NSNotificationCenter defaultCenter] postNotificationName:KBNTasksUpdated object:records];
+                                            }
+                                                 errorBlock:^(NSError *error) {
+                                                     
+                                                 }];
     }
 }
 
