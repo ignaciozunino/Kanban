@@ -49,7 +49,7 @@
     [self.view endEditing:YES];
     [self startHUD];
     __weak typeof(self) weakself = self;
-    [[KBNProjectService sharedInstance] createProject:self.nameTextField.text withDescription:self.descriptionTextView.text forUser:[KBNUserUtils getUsername] withTemplate:self.selectedTemplate completionBlock:^(KBNProject *project) {
+    [[KBNProjectService sharedInstance] createProject:self.nameTextField.text withDescription:self.descriptionTextView.text withTemplate:self.selectedTemplate completionBlock:^(KBNProject *project) {
         [[NSNotificationCenter defaultCenter] postNotificationName:PROJECT_ADDED object:project];
     } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];

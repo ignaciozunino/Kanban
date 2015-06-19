@@ -46,7 +46,7 @@
         
         NSArray *lists = (NSArray*)projectTemplate.lists;
         [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:newProject.projectId];
+            
             onCompletion(newProject);
         } errorBlock:onError];
     }
@@ -61,7 +61,11 @@
         onError(errorPtr);
     }else{
         [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
-            [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName withDescription:newDescription projectID:project.projectId];
+            NSArray *users = (NSArray*)project.users;
+            // If the project has more than one user, notify change
+            if (users.count > 1) {
+                [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName withDescription:newDescription projectID:project.projectId];
+            }
             onCompletion();
         } errorBlock:onError];
     }
@@ -129,23 +133,11 @@
 
 -(void)getProjectsOnSuccessBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     
-    __weak typeof(self) weakself = self;
-    
     [self.dataService getProjectsFromUsername:[KBNUserUtils getUsername] onSuccessBlock:^(NSDictionary *records) {
         NSMutableArray *projectsArray = [[NSMutableArray alloc] init];
         
-        for (NSDictionary* item in records) {
-            KBNProject *newProject = [[KBNProject alloc] initWithEntity:[NSEntityDescription entityForName:ENTITY_PROJECT
-                                                                                    inManagedObjectContext:weakself.managedObjectContext]
-                                         insertIntoManagedObjectContext:weakself.managedObjectContext];
-            
-            newProject.projectId = [item objectForKey:PARSE_OBJECTID];
-            newProject.name = [item objectForKey:PARSE_PROJECT_NAME_COLUMN];
-            newProject.projectDescription = [item objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
-            newProject.projectId = [item objectForKey:PARSE_OBJECTID];
-            newProject.active = [item objectForKey:PARSE_TASK_ACTIVE_COLUMN];
-            newProject.users = [item objectForKey:PARSE_PROJECT_USERSLIST_COLUMN];
-
+        for (NSDictionary* params in records) {
+            KBNProject *newProject = [KBNProjectUtils projectWithParams:params];
             
             if ([newProject isActive]) {
                 [projectsArray addObject:newProject];

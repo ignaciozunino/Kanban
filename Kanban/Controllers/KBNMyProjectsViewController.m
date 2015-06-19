@@ -38,18 +38,17 @@
     [super viewDidLoad];
     self.projects = [NSMutableArray new];
     [self getProjects];
+    [self subscribeToNotifications];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+- (void)subscribeToNotifications {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCreateProject:) name:PROJECT_ADDED object:nil];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Notification Handlers
@@ -72,9 +71,12 @@
 #pragma mark - Private methods
 
 - (void)getProjects {
-    
-    // TODO
-
+    __weak typeof(self) weakself = self;
+    [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
+        weakself.projects = [NSMutableArray arrayWithArray:records];
+        [weakself.tableView reloadData];
+    } errorBlock:^(NSError *error) {
+    }];
 }
 
 #pragma mark - Table View Data Source
@@ -107,6 +109,7 @@
     }
     
     [self performSegueWithIdentifier:SEGUE_PROJECT_DETAIL sender:nil];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
