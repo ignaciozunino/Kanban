@@ -44,6 +44,9 @@
         } else {
             aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
+                aTask.taskId = [records objectForKey:PARSE_OBJECTID];
+                aTask.active = [NSNumber numberWithBool:YES];
+            
                 [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:aTask.project.projectId];
                 onCompletion(aTask);
             } errorBlock:onError];
@@ -77,7 +80,7 @@
     [tasksToUpdate addObject:task];
     
     //Remove the task from the list
-    [list.tasks removeObject:task];
+    [list removeTasksObject:task];
     [self updateTaskOrdersInSet:list.tasks];
     [tasksToUpdate addObjectsFromArray:list.tasks.array];
     

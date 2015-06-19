@@ -61,7 +61,6 @@
         project.taskLists = [NSOrderedSet orderedSetWithArray:taskLists];
 
         [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
-            
             onCompletion(newProject);
         } errorBlock:onError];
     }
