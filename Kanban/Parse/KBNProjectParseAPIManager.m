@@ -7,6 +7,7 @@
 //
 
 #import "KBNProjectParseAPIManager.h"
+#import "KBNTaskList.h"
 
 @implementation KBNProjectParseAPIManager
 
@@ -28,25 +29,38 @@
     __block NSError *error = nil;
     dispatch_group_t serviceGroup = dispatch_group_create();
     
+    __block NSMutableArray *listIds = [NSMutableArray array];
+    
     for (int i =0; i<lists.count; i++) {
         NSDictionary * item = responseObject;
         NSString *projectID=[item objectForKey:PARSE_OBJECTID];
         
         NSDictionary *listdata = @{PARSE_TASKLIST_NAME_COLUMN: lists[i], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:i]};
         dispatch_group_enter(serviceGroup);
-        
+
         [manager POST:PARSE_TASKLISTS parameters:listdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            // As we don't know the order in which blocks are completed, we save the listId and the corresponding order too
+            NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [responseObject objectForKey:PARSE_OBJECTID], @"listId",
+                                  [NSNumber numberWithInt:i], @"order", nil];
+            [listIds addObject:info];
             dispatch_group_leave(serviceGroup);
         } failure:^(AFHTTPRequestOperation *operation, NSError *errorParse) {
             error = errorParse;
             dispatch_group_leave(serviceGroup);
         }];
     }
-    
+
     dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
         if (error) {
             onError(error);
         } else {
+            KBNTaskList *taskList;
+            for (NSDictionary *info in listIds) {
+                NSUInteger index = [[info objectForKey:@"order"] integerValue];
+                taskList = (KBNTaskList*)[project.taskLists objectAtIndex:index];
+                taskList.taskListId = [info objectForKey:@"listId"];
+            }
             onCompletion(project);
         }
     });

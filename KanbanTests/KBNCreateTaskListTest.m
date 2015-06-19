@@ -104,7 +104,7 @@
     [taskListService createTaskList:taskList
                          forProject:testProject
                             inOrder:@1
-                    completionBlock:^{
+                    completionBlock:^(KBNTaskList *taskList) {
                         // Get task lists and check their orders to be correct
                         [taskListService getTaskListsForProject:testProject
                                                 completionBlock:^(NSArray *records) {
