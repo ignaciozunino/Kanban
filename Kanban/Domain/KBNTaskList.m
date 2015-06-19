@@ -19,11 +19,16 @@
 @dynamic project;
 @dynamic tasks;
 
-- (void)removeTasksObject:(KBNTask *)value {
-    [self.tasks removeObject:value];
+- (void)insertObject:(KBNTask *)value inTasksAtIndex:(NSUInteger)idx {
+    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.tasks.array];
+    [temp insertObject:value atIndex:idx];
+    self.tasks = [NSOrderedSet orderedSetWithArray:temp];
 }
 
-- (void)insertObject:(KBNTask *)value inTasksAtIndex:(NSUInteger)idx {
-    [self.tasks insertObject:value atIndex:idx];
+- (void)removeTasksObject:(KBNTask *)value {
+    NSMutableArray *temp = [NSMutableArray arrayWithArray:self.tasks.array];
+    [temp removeObject:value];
+    self.tasks = [NSOrderedSet orderedSetWithArray:temp];
 }
+
 @end

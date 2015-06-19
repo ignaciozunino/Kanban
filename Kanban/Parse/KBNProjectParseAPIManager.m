@@ -68,9 +68,10 @@
 
 - (void) createProject: (KBNProject *) project completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     
-    NSArray* projectUsers = project.users;
+    NSString *username = (NSString*)project.users;
+    NSArray* projectUsers = [NSArray arrayWithObject:username];
     
-    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: [project.users objectAtIndex:0], PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
+    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: username, PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
     
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -212,13 +213,15 @@
     NSMutableDictionary *record;
     
     for (KBNProject *project in projects) {
+        NSString *username = (NSString*)project.users;
+        NSArray* projectUsers = [NSArray arrayWithObject:username];
         
         NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithCapacity:5];
         [updates setObject:project.name forKey:PARSE_PROJECT_NAME_COLUMN];
         [updates setObject:project.projectDescription forKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
         [updates setObject:[NSNumber numberWithBool:[project.active boolValue]] forKey:PARSE_PROJECT_ACTIVE_COLUMN];
-        [updates setObject:[project.users objectAtIndex:0] forKey:PARSE_PROJECT_USER_COLUMN];
-        [updates setObject:project.users forKey:PARSE_PROJECT_USERSLIST_COLUMN];
+        [updates setObject:username forKey:PARSE_PROJECT_USER_COLUMN];
+        [updates setObject:projectUsers forKey:PARSE_PROJECT_USERSLIST_COLUMN];
         
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"PUT" forKey:@"method"];

@@ -34,7 +34,7 @@
     KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
     serviceOrig.dataService = projectAPIManager;
-    [serviceOrig createProject:@"" withDescription:OCMOCK_ANY withTemplate:OCMOCK_ANY completionBlock:^(KBNProject* aProject){
+    [serviceOrig createProject:@"" withDescription:OCMOCK_ANY withTemplate:nil completionBlock:^(KBNProject* aProject){
         XCTAssertFalse(true);
     }
                     errorBlock:^(NSError *error)

@@ -76,7 +76,7 @@
                           } else {
                               for (int i = 0; i < lists.count; i++) {
                                   // Verify if the created list name is the same as the one in the template
-                                  NSString *name = [lists[i] objectForKey:PARSE_PROJECT_TEMPLATE_NAME];
+                                  NSString *name = [lists[i] name];
                                   if (![name isEqualToString:templateLists[i]]) {
                                       XCTFail(@"Template list was not created");
                                       break;

@@ -51,7 +51,6 @@
     
     NSString *name = [NSString stringWithFormat:@"test_project_%@",dateString];
     NSString *projectDescription = @"To remove";
-    NSString *username = [KBNUserUtils getUsername];
     
     __block KBNProject *testProject = [KBNProjectUtils projectWithParams:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                       name, PARSE_PROJECT_NAME_COLUMN,

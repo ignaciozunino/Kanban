@@ -79,8 +79,7 @@
     task.active = @NO;
     [tasksToUpdate addObject:task];
     
-    //Remove the task from the list
-    [list removeTasksObject:task];
+    //Update orders
     [self updateTaskOrdersInSet:list.tasks];
     [tasksToUpdate addObjectsFromArray:list.tasks.array];
     
@@ -128,10 +127,13 @@
                        errorBlock:onError];
 }
 
-- (void)updateTaskOrdersInSet:(NSMutableOrderedSet*)set {
-    for (NSUInteger index = 0; index < set.count; index++) {
-        KBNTask *taskToReorder = [set objectAtIndex:index];
-        taskToReorder.order = [NSNumber numberWithInteger:index];
+- (void)updateTaskOrdersInSet:(NSOrderedSet*)set {
+    NSUInteger index = 0;
+    for (KBNTask *taskToReorder in set) {
+        if ([taskToReorder isActive]) {
+            taskToReorder.order = [NSNumber numberWithInteger:index];
+            index++;
+        }
     }
 }
 

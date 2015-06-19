@@ -80,10 +80,7 @@
     KBNTaskService * service = [[KBNTaskService alloc]init];
     service.dataService =[[KBNTaskParseAPIManager alloc]init];
     
-    __block NSArray* retrievedTasks;
-    
     // Create the tasks and retrieve tasks of the test project
-    // NOTE: mock tasks will have fictious taskIds that should be replaced by those returned by createTasks
     NSArray *tasks = [KBNTaskUtils mockTasksForProject:project taskList:backlog quantity:4];
     
     KBNTask *task0 = tasks[0];
@@ -93,28 +90,20 @@
     
     [service createTasks:tasks
          completionBlock:^(NSArray *records) {
-             [service getTasksForProject:project completionBlock:^(NSArray *records) {
-                 retrievedTasks = records;
+             [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
+ 
                  if (!retrievedTasks.count) { // We brought no records => error creating the tasks
-                     XCTAssertTrue(false);
-                 } else {
-                     //update ids in tasks. NOTE: Tasks are retrieved ordered by task order.
-                     NSUInteger i = 0;
-                     for (NSDictionary *dict in retrievedTasks) {
-                         KBNTask *task = tasks[i];
-                          task.taskId = [dict objectForKey:PARSE_OBJECTID];
-                         i++;
-                     }
+                     XCTFail(@"Task Service could not retrieve any task");
                  }
                  [tasksCreatedExpectation fulfill];
                  
              } errorBlock:^(NSError *error) {
-                 XCTAssertTrue(false);
+                 XCTFail(@"Task Service could not retrieve tasks");
                  [tasksCreatedExpectation fulfill];
              }];
              
          } errorBlock:^(NSError *error) {
-             XCTAssertTrue(false);
+             XCTFail(@"Task Service could not create the tasks");
              [tasksCreatedExpectation fulfill];
          }];
     
@@ -130,14 +119,13 @@
     XCTestExpectation *taskMovedExpectation = [self expectationWithDescription:TASK_MOVED_EXPECTATION];
     
     [service moveTask:task1 toList:requirements inOrder:nil completionBlock:^{
-        [service getTasksForProject:project completionBlock:^(NSArray *records) {
-            retrievedTasks = records;
+        [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
             
-            for (NSDictionary *dict in retrievedTasks) {
+            for (KBNTask *task in retrievedTasks) {
 
-                NSString *name = [dict objectForKey:PARSE_TASK_NAME_COLUMN];
-                NSString *taskListId = [dict objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-                NSNumber *order = [dict objectForKey:PARSE_TASK_ORDER_COLUMN];
+                NSString *name = task.name;
+                NSString *taskListId = task.taskList.taskListId;
+                NSNumber *order = task.order;
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
@@ -181,14 +169,13 @@
     XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
 
     [service moveTask:task1 toList:backlog inOrder:nil completionBlock:^{
-        [service getTasksForProject:project completionBlock:^(NSArray *records) {
-            retrievedTasks = records;
+        [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
             
-            for (NSDictionary *dict in retrievedTasks) {
+            for (KBNTask *task in retrievedTasks) {
                 
-                NSString *name = [dict objectForKey:PARSE_TASK_NAME_COLUMN];
-                NSString *taskListId = [dict objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-                NSNumber *order = [dict objectForKey:PARSE_TASK_ORDER_COLUMN];
+                NSString *name = task.name;
+                NSString *taskListId = task.taskList.taskListId;
+                NSNumber *order = task.order;
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
@@ -232,12 +219,12 @@
     XCTestExpectation *taskReorderExpectation = [self expectationWithDescription:TASK_REORDER_EXPECTATION];
     
     [service moveTask:task1 toList:backlog inOrder:@1 completionBlock:^{
-        [service getTasksForProject:project completionBlock:^(NSArray *records) {
+        [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
             
             for (KBNTask *task in retrievedTasks) {
                 
                 NSString *name = task.name;
-                NSString *taskListId = task.taskId;
+                NSString *taskListId = task.taskList.taskListId;
                 NSNumber *order = task.order;
                 
                 if ([name isEqualToString:task0.name]) {
