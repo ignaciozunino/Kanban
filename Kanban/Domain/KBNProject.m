@@ -39,8 +39,11 @@
 }
 
 - (BOOL)isShared {
-    NSArray *users = (NSArray*)self.users;
-    return users.count;
+    NSArray *projectUsers = (NSArray*)self.users;
+    if (projectUsers.count > 1) {
+        return YES;
+    }
+    return NO;
 }
 
 - (KBNTaskList*)taskListForId:(NSString *)taskListId {

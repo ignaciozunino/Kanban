@@ -46,8 +46,9 @@
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
                 aTask.taskId = [records objectForKey:PARSE_OBJECTID];
                 aTask.active = [NSNumber numberWithBool:YES];
-            
-                [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:aTask.project.projectId];
+                if ([aTask.project isShared]) {
+                    [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:aTask.project.projectId];
+                }
                 onCompletion(aTask);
             } errorBlock:onError];
         }
@@ -85,7 +86,9 @@
     
     //Send updates to the data service
     [self.dataService updateTasks:tasksToUpdate completionBlock:^{
-        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_REMOVE projectID:task.project.projectId];
+        if ([task.project isShared]) {
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_REMOVE projectID:task.project.projectId];
+        }
         onCompletion();
     } errorBlock:onError];
 }
@@ -119,9 +122,11 @@
     //Send updates to the data service
     [self.dataService updateTasks:tasksToUpdate
                   completionBlock:^{
-                      [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
-                                                        withType:FIREBASE_TASK_CHANGE
-                                                projectID:task.project.projectId];
+                      if ([task.project isShared]) {
+                          [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
+                                                            withType:FIREBASE_TASK_CHANGE
+                                                           projectID:task.project.projectId];
+                      }
                       onCompletion();
                   }
                        errorBlock:onError];
@@ -140,7 +145,7 @@
 - (void)createTasks:(NSArray*)tasks completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     [self.dataService createTasks:tasks completionBlock:^(NSDictionary *records) {
         
-        if (tasks.count > 0) {
+        if ([[[tasks firstObject] project] isShared]) {
             [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:((KBNTask*)tasks[0]).project.projectId];
         }
         onCompletion(tasks);
@@ -152,10 +157,12 @@
     if (task.name.length) {
         [self.dataService updateTasks:@[task]
                       completionBlock:^{
-                          [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_TASK
-                                                            withName:task.name
-                                                             withDescription:task.taskDescription
-                                                    projectID:task.project.projectId];
+                          if ([task.project isShared]) {
+                              [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_TASK
+                                                                        withName:task.name
+                                                                 withDescription:task.taskDescription
+                                                                       projectID:task.project.projectId];
+                          }
                           onSuccess();
                       }
                            errorBlock:onError];

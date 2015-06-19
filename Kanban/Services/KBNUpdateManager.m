@@ -145,8 +145,12 @@
     return [typeOfChange isEqualToString:FIREBASE_TASK_ADD] || [typeOfChange isEqualToString:FIREBASE_TASK_CHANGE] || [typeOfChange isEqualToString:FIREBASE_TASK_REMOVE];
 }
 
+- (BOOL)isTaskListChangeValid:(NSString*)typeOfChange {
+    return [typeOfChange isEqualToString:FIREBASE_TASK_LIST_ADD];
+}
+
 - (BOOL)isProjectChangeValid:(NSString*)typeOfChange {
-    return [typeOfChange isEqualToString:FIREBASE_PROJECT_ADD] || [typeOfChange isEqualToString:FIREBASE_PROJECT_CHANGE] || [typeOfChange isEqualToString:FIREBASE_PROJECT_REMOVE];
+    return [typeOfChange isEqualToString:FIREBASE_PROJECT_CHANGE];
 }
 
 @end

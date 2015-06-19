@@ -147,12 +147,12 @@
 #define FIREBASE_EDIT_DESC_CHANGE @"objectDescription"
 
 #define FIREBASE_PROJECT @"Project"
+#define FIREBASE_TASK_LIST @"TaskList"
 #define FIREBASE_TASK @"Task"
 #define FIREBASE_USER @"User"
 
 #define FIREBASE_PROJECT_CHANGE @"projectChange"
-#define FIREBASE_PROJECT_ADD @"projectAdd"
-#define FIREBASE_PROJECT_REMOVE @"projectRemove"
+#define FIREBASE_TASK_LIST_ADD @"taskListAdd"
 #define FIREBASE_TASK_ADD @"taskAdd"
 #define FIREBASE_TASK_CHANGE @"taskChange"
 #define FIREBASE_TASK_REMOVE @"taskRemove"

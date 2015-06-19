@@ -63,6 +63,9 @@
     
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
         taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
+        if ([project isShared]) {
+            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK_LIST withType:FIREBASE_TASK_LIST_ADD projectID:project.projectId];
+        }
         onCompletion(taskList);
     } errorBlock:^(NSError *error){
         [project removeTaskListsObject:taskList];

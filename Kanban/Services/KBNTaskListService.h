@@ -10,10 +10,12 @@
 #import "KBNAppDelegate.h"
 #import "KBNTaskListParseAPIManager.h"
 #import "KBNTaskListUtils.h"
+#import "KBNUpdateUtils.h"
 
 @interface KBNTaskListService : NSObject
 
-@property (strong, nonatomic) KBNTaskListParseAPIManager* dataService;           
+@property (strong, nonatomic) KBNTaskListParseAPIManager* dataService;
+@property Firebase* fireBaseRootReference;
 
 +(KBNTaskListService *) sharedInstance;
 

@@ -75,9 +75,8 @@
         onError(errorPtr);
     }else{
         [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
-            NSArray *users = (NSArray*)project.users;
             // If the project has more than one user, notify change
-            if (users.count > 1) {
+            if ([project isShared]) {
                 [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName withDescription:newDescription projectID:project.projectId];
             }
             onCompletion();
@@ -109,8 +108,10 @@
             
             NSArray* newUsersArray = [NSArray arrayWithArray:usersMutableArray];
             [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(){
+                if ([aProject isShared]) {
+                    [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_CHANGE projectID:aProject.projectId];
+                }
                 aProject.users = newUsersArray;
-                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_ADD projectID:aProject.projectId];
                 onSuccess();
             } errorBlock:onError];
         }
@@ -127,8 +128,8 @@
 
 -(BOOL)project:(KBNProject*)project hasUser:(NSString*)emailAddress{
     BOOL result = NO;
-    NSArray* users = (NSArray*)project.users;
-    for (NSString* emailAddressInArray in users) {
+    NSArray* projectUsers = (NSArray*)project.users;
+    for (NSString* emailAddressInArray in projectUsers) {
         if ([emailAddressInArray isEqualToString:emailAddress]){
             result = YES;
             break;
@@ -140,7 +141,6 @@
 -(void)removeProject:(KBNProject*)project completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     project.active = @NO;
     [self.dataService updateProjects:@[project] completionBlock:^{
-        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_REMOVE projectID:project.projectId];
         onCompletion();
     } errorBlock:onError];
 }
