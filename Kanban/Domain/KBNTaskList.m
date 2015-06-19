@@ -19,4 +19,11 @@
 @dynamic project;
 @dynamic tasks;
 
+- (void)removeTasksObject:(KBNTask *)value {
+    [self.tasks removeObject:value];
+}
+
+- (void)insertObject:(KBNTask *)value inTasksAtIndex:(NSUInteger)idx {
+    [self.tasks insertObject:value atIndex:idx];
+}
 @end

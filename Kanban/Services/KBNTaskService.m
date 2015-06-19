@@ -57,7 +57,8 @@
         NSMutableArray *activeTasks = [[NSMutableArray alloc] init];
         
         for (NSDictionary *params in results) {
-            KBNTask *task = [KBNTaskUtils taskForProject:project taskList:nil params:params];
+            NSString *taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+            KBNTask *task = [KBNTaskUtils taskForProject:project taskList:[project taskListForId:taskListId] params:params];
             if ([task isActive]) {
                 [activeTasks addObject:task];
             };
@@ -94,9 +95,7 @@
     
     KBNTaskList *currentList = task.taskList;
     
-    //Update task to the new values and add it to the tasks to update array
-    task.taskList = destinationList;
-    
+    //Update task to the new values
     //If an order has not been passed, put the task at the end of the destination list
     if (order) {
         task.order = order;
@@ -104,10 +103,10 @@
         task.order = [NSNumber numberWithUnsignedLong:destinationList.tasks.count];
     }
     
-    [tasksToUpdate addObject:task];
+    task.taskList = destinationList;
     
-    [currentList.tasks removeObject:task];
-    [destinationList.tasks insertObject:task atIndex:[order integerValue]];
+    [currentList removeTasksObject:task];
+    [destinationList insertObject:task inTasksAtIndex:[order integerValue]];
     
     [self updateTaskOrdersInSet:currentList.tasks];
     [tasksToUpdate addObjectsFromArray:currentList.tasks.array];

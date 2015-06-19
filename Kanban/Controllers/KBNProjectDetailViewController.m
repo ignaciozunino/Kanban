@@ -77,7 +77,6 @@
     if (!self.enable) {
         [self enableActivityIndicator];
     }
-    [[KBNUpdateManager sharedInstance] startListeningProjects:@[self.project]];
     self.title = self.project.name;
 }
 

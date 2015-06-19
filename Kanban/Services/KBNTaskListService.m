@@ -27,8 +27,9 @@
     
     [self.dataService getTaskListsForProject:project.projectId completionBlock:^(NSDictionary *records) {
         NSMutableArray *listsArray = [[NSMutableArray alloc] init];
+        NSArray *results = [records objectForKey:@"results"];
         
-        for (NSDictionary* params in records) {
+        for (NSDictionary* params in results) {
             [listsArray addObject:[KBNTaskListUtils taskListForProject:project params:params]];
         }
         

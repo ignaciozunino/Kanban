@@ -47,5 +47,7 @@
 - (void)removeTasks:(NSOrderedSet *)values;
 
 - (BOOL)isActive;
+- (BOOL)isShared;
+- (KBNTaskList*)taskListForId:(NSString*)taskListId;
 
 @end
