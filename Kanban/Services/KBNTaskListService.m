@@ -62,10 +62,11 @@
     [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
     [self updateTaskListOrdersInSet:project.taskLists];
     
+    __weak typeof(self) weakself = self;
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
         taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
         if ([project isShared]) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK_LIST withType:FIREBASE_TASK_LIST_ADD projectID:project.projectId];
+            [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK_LIST projectId:project.projectId data:[KBNTaskListUtils taskListsJson:project.taskLists.array]];
         }
         onCompletion(taskList);
     } errorBlock:^(NSError *error){

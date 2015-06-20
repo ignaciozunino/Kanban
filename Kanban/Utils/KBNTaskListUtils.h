@@ -15,4 +15,8 @@
 
 + (KBNTaskList*)taskListWithName:(NSString*)name;
 
++ (NSDictionary *)taskListJson:(KBNTaskList *)taskList;
+
++ (NSDictionary *)taskListsJson:(NSArray *)taskLists;
+
 @end

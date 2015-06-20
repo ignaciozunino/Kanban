@@ -10,17 +10,10 @@
 
 @implementation KBNUpdateUtils
 
-+ (void)firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*)objectName withType:(NSString*)type projectID:(NSString*)projectID {
-    NSString* path = [NSString stringWithFormat:@"%@/%@", projectID, objectName];
++ (void)firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*)objectName projectId:(NSString*)projectId data:(NSDictionary*)data {
+    NSString* path = [NSString stringWithFormat:@"%@/%@", projectId, objectName];
     id rootRef = [rootReference childByAppendingPath:path];
-    NSDictionary * dataToPass = @{FIREBASE_TYPE_OF_CHANGE:type, @"User":[KBNUserUtils getUsername]};
-    [rootRef setValue:dataToPass];
-}
-
-+ (void)firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*)objectName withName:(NSString*)name withDescription:(NSString*)description projectID:(NSString*)projectID {
-    NSString* path = [NSString stringWithFormat:@"%@/%@", projectID, objectName];
-    id rootRef = [rootReference childByAppendingPath:path];
-    NSDictionary * dataToPass = @{FIREBASE_EDIT_NAME_CHANGE:name, FIREBASE_EDIT_DESC_CHANGE:description, @"User":[KBNUserUtils getUsername]};
+    NSDictionary *dataToPass = @{@"User":[KBNUserUtils getUsername], @"data":data};
     [rootRef setValue:dataToPass];
 }
 

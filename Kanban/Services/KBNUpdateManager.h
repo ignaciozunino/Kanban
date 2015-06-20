@@ -7,12 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NSDate+Utils.h"
+#import "KBNProjectService.h"
 #import "KBNTaskService.h"
 #import "KBNTaskUtils.h"
-#import "KBNTaskList.h"
 #import "KBNUserUtils.h"
-#import "KBNProjectService.h"
 #import "KBNUpdateUtils.h"
 #import <Firebase/Firebase.h>
 
@@ -28,14 +26,7 @@
 @property (nonatomic, strong) Firebase *fireBaseRootReference;
 
 + (KBNUpdateManager *)sharedInstance;
-- (void)startUpdatingProjects;
-- (void)startUpdatingTaskListsForProject:(KBNProject*)project;
-- (void)startUpdatingTasksForProject:(KBNProject*)project;
-- (void)stopUpdatingProjects;
-- (void)stopUpdatingTaskLists;
-- (void)stopUpdatingTasks;
-- (void)startListeningProjects:(NSArray*)projects;
-- (void)startListeningTaskLists:(NSArray*)taskLists;
-- (void)startListeningTasks:(NSArray*)tasks;
+
+- (void)listenToProjects:(NSArray*)projects;
 
 @end

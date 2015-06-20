@@ -74,6 +74,10 @@
     [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
         weakself.projects = [NSMutableArray arrayWithArray:records];
         [weakself.tableView reloadData];
+        
+        // Start listening for updates
+        [[KBNUpdateManager sharedInstance] listenToProjects:records];
+
     } errorBlock:^(NSError *error) {
     }];
 }

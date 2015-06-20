@@ -12,5 +12,6 @@
 @interface KBNProjectUtils : NSObject
 
 + (KBNProject*)projectWithParams:(NSDictionary *)params;
++ (NSDictionary*)projectJson:(KBNProject*)project;
 
 @end

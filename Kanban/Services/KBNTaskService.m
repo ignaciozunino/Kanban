@@ -43,11 +43,12 @@
             onError(errorPtr);
         } else {
             aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
+            __weak typeof(self) weakself = self;
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
                 aTask.taskId = [records objectForKey:PARSE_OBJECTID];
                 aTask.active = [NSNumber numberWithBool:YES];
                 if ([aTask.project isShared]) {
-                    [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:aTask.project.projectId];
+                    [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:aTask.project.projectId data:[KBNTaskUtils taskJson:aTask]];
                 }
                 onCompletion(aTask);
             } errorBlock:onError];
@@ -85,9 +86,10 @@
     [tasksToUpdate addObjectsFromArray:list.tasks.array];
     
     //Send updates to the data service
+    __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate completionBlock:^{
         if ([task.project isShared]) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_REMOVE projectID:task.project.projectId];
+            [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
         }
         onCompletion();
     } errorBlock:onError];
@@ -120,12 +122,11 @@
     [tasksToUpdate addObjectsFromArray:destinationList.tasks.array];
     
     //Send updates to the data service
+    __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate
                   completionBlock:^{
                       if ([task.project isShared]) {
-                          [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
-                                                            withType:FIREBASE_TASK_CHANGE
-                                                           projectID:task.project.projectId];
+                          [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
                       }
                       onCompletion();
                   }
@@ -143,10 +144,11 @@
 }
 
 - (void)createTasks:(NSArray*)tasks completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    __weak typeof(self) weakself = self;
     [self.dataService createTasks:tasks completionBlock:^(NSDictionary *records) {
-        
-        if ([[[tasks firstObject] project] isShared]) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:((KBNTask*)tasks[0]).project.projectId];
+        KBNProject *project = [[tasks firstObject] project];
+        if ([project isShared]) {
+            [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:project.projectId data:[KBNTaskUtils tasksJson:tasks]];
         }
         onCompletion(tasks);
     } errorBlock:onError ];
@@ -155,13 +157,11 @@
 -(void)updateTask:(KBNTask*)task onSuccess:(KBNSuccessBlock)onSuccess failure:(KBNErrorBlock)onError{
     
     if (task.name.length) {
+        __weak typeof(self) weakself = self;
         [self.dataService updateTasks:@[task]
                       completionBlock:^{
                           if ([task.project isShared]) {
-                              [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_TASK
-                                                                        withName:task.name
-                                                                 withDescription:task.taskDescription
-                                                                       projectID:task.project.projectId];
+                              [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:task.project.projectId data:[KBNTaskUtils taskJson:task]];
                           }
                           onSuccess();
                       }

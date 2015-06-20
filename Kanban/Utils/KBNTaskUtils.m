@@ -61,4 +61,27 @@
     
 }
 
++ (NSDictionary*)taskJson:(KBNTask *)task {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            task.taskId, NSStringFromSelector(@selector(taskId)),
+            task.name, NSStringFromSelector(@selector(name)),
+            task.taskDescription, NSStringFromSelector(@selector(taskDescription)),
+            task.order, NSStringFromSelector(@selector(order)),
+            task.active, NSStringFromSelector(@selector(active)), nil];
+}
+
++ (NSDictionary *)tasksJson:(NSArray *)tasks {
+    
+    NSMutableArray *objects = [NSMutableArray array];
+    NSMutableArray *keys = [NSMutableArray array];
+    
+    for (KBNTask *task in tasks) {
+        [objects addObject:[self taskJson:task]];
+        [keys addObject:task.taskId];
+    }
+    
+    return [NSDictionary dictionaryWithObjects:objects forKeys:keys];
+
+}
+
 @end

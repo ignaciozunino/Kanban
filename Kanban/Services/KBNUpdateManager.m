@@ -7,13 +7,8 @@
 //
 
 #import "KBNUpdateManager.h"
-#import "KBNAlertUtils.h"
 
 @interface KBNUpdateManager ()
-
-@property (nonatomic,unsafe_unretained) BOOL shouldUpdateTasks;
-@property (nonatomic,unsafe_unretained) BOOL shouldUpdateProjects;
-@property (nonatomic,unsafe_unretained) BOOL listeningToFirebase;
 
 @end
 
@@ -31,105 +26,49 @@
     return inst;
 }
 
-- (void)startListeningProjects:(NSArray*)projects {
+- (void)listenToProjects:(NSArray*)projects {
+    
     for (KBNProject* project in projects) {
-        self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL, project.projectId]];
-        [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-            NSString* user = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:@"User"];
-            if (![user isEqualToString:[KBNUserUtils getUsername]]) {
-                NSString *projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
-                if ([self isProjectChangeValid:projectChange]) {
-                    [self updateProjects];
-                }
-            }
-            NSString * projectName = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
-            NSString * projectDesc = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_EDIT_DESC_CHANGE];
-            if (projectName) {
-                project.name = projectName;
-                project.projectDescription = projectDesc;
-                [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectUpdated object:project];
-            }
-        }];
+        
+        NSString* stringURL = [NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL, project.projectId];
+        self.fireBaseRootReference = [[Firebase alloc] initWithUrl:stringURL];
+        
+        [self.fireBaseRootReference observeEventType:FEventTypeValue
+                                           withBlock:^(FDataSnapshot *snapshot) {
+                                               if ([snapshot.value respondsToSelector:@selector(objectForKey:)]) {
+                                                   NSString* user = [[((NSDictionary *)snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:@"User"];
+                                                   
+                                                   if (![user isEqualToString:[KBNUserUtils getUsername]]) {
+                                                       NSString *projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+                                                       if ([self isProjectChangeValid:projectChange]) {
+                                                           [self updateProject];
+                                                       }
+                                                   } else {
+                                                       // Delete node from firebase after receiving notification
+                                                       [snapshot.ref setValue:nil];
+                                                   }
+                                               }
+                                           }];
     }
 }
 
-- (void)startListeningTaskLists:(NSArray*)taskLists {
-    for (NSMutableDictionary* taskList in taskLists) {
-        self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL,[taskList objectForKey:PARSE_TASKLIST_PROJECT_COLUMN]]];
-        [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-            NSString* user = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK_LIST] objectForKey:@"User"];
-            if (![user isEqualToString:[KBNUserUtils getUsername]]) {
-                NSString * taskListChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK_LIST] objectForKey:FIREBASE_TYPE_OF_CHANGE];
-                if ([self isTaskListChangeValid:taskListChange]) {
-                    //   [self updateTaskLists];
-                }
-            }
-        }];
-    }
-}
-
-- (void)startListeningTasks:(NSArray*)tasks {
-    for (NSMutableDictionary* task in tasks) {
-        self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL,[task objectForKey:PARSE_TASK_PROJECT_COLUMN]]];
-        [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-            NSString* user = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:@"User"];
-            if (![user isEqualToString:[KBNUserUtils getUsername]]) {
-                NSString * taskChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_TYPE_OF_CHANGE];
-                if ([self isTaskChangeValid:taskChange]) {
-                    [self updateTasks];
-                }
-            }
-            NSString * taskEdit = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_EDIT_NAME_CHANGE];
-            NSString * taskDesc = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK] objectForKey:FIREBASE_EDIT_DESC_CHANGE];
-            if (taskEdit) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:KBNTasksUpdated
-                                                                    object:@{PARSE_TASK_NAME_COLUMN:taskEdit,
-                                                                             PARSE_TASK_DESCRIPTION_COLUMN:taskDesc,
-                                                                             PARSE_OBJECTID:[task objectForKey:PARSE_OBJECTID]}];
-            }
-        }];
-    }
-}
-
-- (void)updateProjects{
-    if (self.shouldUpdateProjects) {
-        [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
-            if (records.count > 0) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectsUpdated object:records];
-            }
-            for (KBNProject *project in records) {
-                //if we update the current project we notify
-                if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
-                    self.projectForTasksUpdate= project;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:KBNCurrentProjectUpdated object:project];
-                }
+- (void)updateProject {
+    
+    [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
+        if (records.count > 0) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectsUpdated object:records];
+        }
+        for (KBNProject *project in records) {
+            //if we update the current project we notify
+            if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
+                self.projectForTasksUpdate= project;
+                [[NSNotificationCenter defaultCenter] postNotificationName:KBNCurrentProjectUpdated object:project];
             }
         }
-                                                           errorBlock:^(NSError *error) {
-                                                               
-                                                           }];
     }
-}
-
-- (void)updateTasks{
-    if (self.shouldUpdateTasks) {
-        [[KBNTaskService sharedInstance] getTasksForProject:self.projectForTasksUpdate
-                                            completionBlock:^(NSArray *records) {
-                                                // TODO
-                                                [[NSNotificationCenter defaultCenter] postNotificationName:KBNTasksUpdated object:records];
-                                            }
-                                                 errorBlock:^(NSError *error) {
-                                                     
-                                                 }];
-    }
-}
-
-- (BOOL)isTaskChangeValid:(NSString*)typeOfChange {
-    return [typeOfChange isEqualToString:FIREBASE_TASK_ADD] || [typeOfChange isEqualToString:FIREBASE_TASK_CHANGE] || [typeOfChange isEqualToString:FIREBASE_TASK_REMOVE];
-}
-
-- (BOOL)isTaskListChangeValid:(NSString*)typeOfChange {
-    return [typeOfChange isEqualToString:FIREBASE_TASK_LIST_ADD];
+                                                       errorBlock:^(NSError *error) {
+                                                           
+                                                       }];
 }
 
 - (BOOL)isProjectChangeValid:(NSString*)typeOfChange {

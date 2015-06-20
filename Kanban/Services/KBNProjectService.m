@@ -53,13 +53,13 @@
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:2];
             [params setObject:[projectTemplate.lists objectAtIndex:i] forKey:PARSE_TASKLIST_NAME_COLUMN];
             [params setObject:[NSNumber numberWithInt:i] forKey:PARSE_TASKLIST_ORDER_COLUMN];
-
+            
             KBNTaskList *list = [KBNTaskListUtils taskListForProject:project params:params];
             [taskLists addObject:list];
         }
         
         project.taskLists = [NSOrderedSet orderedSetWithArray:taskLists];
-
+        
         [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
             onCompletion(newProject);
         } errorBlock:onError];
@@ -74,10 +74,13 @@
                                             userInfo:info];
         onError(errorPtr);
     }else{
+        __weak typeof(self) weakself = self;
         [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
+            project.name = newName;
+            project.projectDescription = newDescription;
             // If the project has more than one user, notify change
             if ([project isShared]) {
-                [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_PROJECT withName:newName withDescription:newDescription projectID:project.projectId];
+                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT projectId:project.projectId data:[KBNProjectUtils projectJson:project]];
             }
             onCompletion();
         } errorBlock:onError];
@@ -108,10 +111,10 @@
             
             NSArray* newUsersArray = [NSArray arrayWithArray:usersMutableArray];
             [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(){
-                if ([aProject isShared]) {
-                    [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT withType:FIREBASE_PROJECT_CHANGE projectID:aProject.projectId];
-                }
                 aProject.users = newUsersArray;
+                // As we are adding a new user, project is shared
+                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT projectId:aProject.projectId data:[KBNProjectUtils projectJson:aProject]];
+                
                 onSuccess();
             } errorBlock:onError];
         }

@@ -36,4 +36,13 @@
     return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
 }
 
++ (NSDictionary *)projectJson:(KBNProject *)project {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            project.projectId, NSStringFromSelector(@selector(projectId)),
+            project.name, NSStringFromSelector(@selector(name)),
+            project.projectDescription, NSStringFromSelector(@selector(projectDescription)),
+            project.users, NSStringFromSelector(@selector(users)),
+            project.active, NSStringFromSelector(@selector(active)), nil];
+}
+
 @end

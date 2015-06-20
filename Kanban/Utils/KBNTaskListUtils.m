@@ -38,4 +38,24 @@
     return [self taskListForProject:nil params:[NSDictionary dictionaryWithObjectsAndKeys:name, PARSE_TASKLIST_NAME_COLUMN, nil]];
 }
 
++ (NSDictionary *)taskListJson:(KBNTaskList *)taskList {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            taskList.taskListId, NSStringFromSelector(@selector(taskListId)),
+            taskList.name, NSStringFromSelector(@selector(name)),
+            taskList.order, NSStringFromSelector(@selector(order)), nil];
+}
+
++ (NSDictionary *)taskListsJson:(NSArray *)taskLists {
+    
+    NSMutableArray *lists = [NSMutableArray array];
+    NSMutableArray *keys = [NSMutableArray array];
+    
+    for (KBNTaskList *taskList in taskLists) {
+        [lists addObject:[self taskListJson:taskList]];
+        [keys addObject:taskList.taskListId];
+    }
+    
+    return [NSDictionary dictionaryWithObjects:lists forKeys:keys];
+}
+
 @end

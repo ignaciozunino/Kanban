@@ -18,7 +18,6 @@
 
 @interface KBNUpdateUtils : NSObject
 
-+ (void)firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*)objectName withType:(NSString*)type projectID:(NSString*)projectID;
-+ (void)firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*)objectName withName:(NSString*)name withDescription:(NSString*)description projectID:(NSString*)projectID;
++ (void)firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*)objectName projectId:(NSString*)projectId data:(NSDictionary*)data;
 
 @end
