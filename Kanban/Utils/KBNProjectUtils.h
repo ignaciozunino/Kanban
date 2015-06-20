@@ -11,8 +11,6 @@
 
 @interface KBNProjectUtils : NSObject
 
-+ (BOOL)existProject: (NSString*)name;
-
 + (KBNProject*)projectWithParams:(NSDictionary *)params;
 
 @end

@@ -18,11 +18,7 @@
 
 @interface KBNUpdateUtils : NSObject
 
-+(NSInteger) indexOfProject:(NSString*)projectid inArray:(NSArray *)array;
-+(void) updateExistingProjectsFromArray:(NSArray *) updatedProjects inArray:(NSArray *)array;
-+(void) updateExistingTasksFromDictionary:(NSDictionary *) updatedTasks inArray:(NSMutableArray *)array forProject:(KBNProject*)project;
-+(NSInteger) indexOfTask:(NSString*)taskid inArray:(NSArray *)array;
-+(void) firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*) objectName withType:(NSString*) type projectID:(NSString*)projectID;
-+(void) firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*) objectName withName:(NSString*)name withDescription:(NSString*)description projectID:(NSString*)projectID;
++ (void)firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*)objectName withType:(NSString*)type projectID:(NSString*)projectID;
++ (void)firebasePostToFirebaseRootWithName:(Firebase *)rootReference withObject:(NSString*)objectName withName:(NSString*)name withDescription:(NSString*)description projectID:(NSString*)projectID;
 
 @end

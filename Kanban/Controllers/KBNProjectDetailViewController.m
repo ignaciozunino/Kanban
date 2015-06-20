@@ -56,7 +56,7 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdated:) name:KBNProjectUpdated object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -80,7 +80,7 @@
     self.title = self.project.name;
 }
 
--(void)onProjectUpdate:(NSNotification *)notification{
+-(void)onProjectUpdated:(NSNotification *)notification{
     
     KBNProject *projectUpdated = (KBNProject*)notification.object;
     if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
@@ -93,7 +93,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:ENABLE_VIEW object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:KBNProjectUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:KBNProjectUpdated object:nil];
     [super viewWillDisappear:animated];
 }
 

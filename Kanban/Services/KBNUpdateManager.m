@@ -14,95 +14,30 @@
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateTasks;
 @property (nonatomic,unsafe_unretained) BOOL shouldUpdateProjects;
 @property (nonatomic,unsafe_unretained) BOOL listeningToFirebase;
-@property NSString * lastTasksUpdate;
 
 @end
 
 @implementation KBNUpdateManager
 
-+ (KBNUpdateManager *)sharedInstance{
++ (KBNUpdateManager *)sharedInstance {
     static  KBNUpdateManager *inst = nil;
     
     @synchronized(self){
         if (!inst) {
             inst = [[KBNUpdateManager alloc] init];
-            inst.fireBaseRootReference =[[Firebase alloc] initWithUrl:FIREBASE_BASE_URL];
+            inst.fireBaseRootReference = [[Firebase alloc] initWithUrl:FIREBASE_BASE_URL];
         }
     }
     return inst;
 }
 
--(void)startUpdatingProjects{
-    __weak typeof(self) weakself = self;
-    [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
-        weakself.shouldUpdateProjects = YES;
-        [weakself startListeningProjects:records];
-    }
-                                                       errorBlock:^(NSError *error) {
-                                                       }];
-}
-
--(void)startUpdatingTasksForProject:(KBNProject*)project{
-    self.projectForTasksUpdate = project;
-    __weak typeof(self) weakself = self;
-    [[KBNTaskService sharedInstance] getTasksForProject:project
-                                        completionBlock:^(NSArray *records) {
-                                            weakself.shouldUpdateTasks = YES;
-                                            //we suppose to be listening but we try just in case
-                                            [weakself startListeningTasks:records];
-                                        }
-                                             errorBlock:^(NSError *error) {
-                                             }];
-}
-
--(void)stopUpdatingProjects{
-    self.shouldUpdateProjects = NO;
-}
-
--(void)stopUpdatingTasks{
-    self.shouldUpdateTasks= NO;
-}
-
--(void)updateProjects{
-    if (self.shouldUpdateProjects) {
-        [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
-            if (records.count > 0) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectsUpdated object:records];
-            }
-            for (KBNProject *project in records) {
-                //if we update the current project we notify
-                if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
-                    self.projectForTasksUpdate= project;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:KBNCurrentProjectUpdated object:project];
-                }
-            }
-        }
-                                                           errorBlock:^(NSError *error) {
-                                                               
-                                                           }];
-    }
-}
-
--(void)updateTasks{
-    if (self.shouldUpdateTasks) {
-        [[KBNTaskService sharedInstance] getTasksForProject:self.projectForTasksUpdate
-                                            completionBlock:^(NSArray *records) {
-                                                // TODO
-                                                [[NSNotificationCenter defaultCenter] postNotificationName:KBNTasksUpdated object:records];
-                                            }
-                                                 errorBlock:^(NSError *error) {
-                                                     
-                                                 }];
-    }
-}
-
-- (void) startListeningProjects: (NSArray*) projects {
+- (void)startListeningProjects:(NSArray*)projects {
     for (KBNProject* project in projects) {
         self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL, project.projectId]];
         [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
             NSString* user = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:@"User"];
             if (![user isEqualToString:[KBNUserUtils getUsername]]) {
-                NSString * projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+                NSString *projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
                 if ([self isProjectChangeValid:projectChange]) {
                     [self updateProjects];
                 }
@@ -112,7 +47,22 @@
             if (projectName) {
                 project.name = projectName;
                 project.projectDescription = projectDesc;
-                [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectUpdate object:project];
+                [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectUpdated object:project];
+            }
+        }];
+    }
+}
+
+- (void)startListeningTaskLists:(NSArray*)taskLists {
+    for (NSMutableDictionary* taskList in taskLists) {
+        self.fireBaseRootReference =[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"%@/%@", FIREBASE_BASE_URL,[taskList objectForKey:PARSE_TASKLIST_PROJECT_COLUMN]]];
+        [self.fireBaseRootReference observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+            NSString* user = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK_LIST] objectForKey:@"User"];
+            if (![user isEqualToString:[KBNUserUtils getUsername]]) {
+                NSString * taskListChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_TASK_LIST] objectForKey:FIREBASE_TYPE_OF_CHANGE];
+                if ([self isTaskListChangeValid:taskListChange]) {
+                    //   [self updateTaskLists];
+                }
             }
         }];
     }
@@ -138,6 +88,39 @@
                                                                              PARSE_OBJECTID:[task objectForKey:PARSE_OBJECTID]}];
             }
         }];
+    }
+}
+
+- (void)updateProjects{
+    if (self.shouldUpdateProjects) {
+        [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
+            if (records.count > 0) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectsUpdated object:records];
+            }
+            for (KBNProject *project in records) {
+                //if we update the current project we notify
+                if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
+                    self.projectForTasksUpdate= project;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:KBNCurrentProjectUpdated object:project];
+                }
+            }
+        }
+                                                           errorBlock:^(NSError *error) {
+                                                               
+                                                           }];
+    }
+}
+
+- (void)updateTasks{
+    if (self.shouldUpdateTasks) {
+        [[KBNTaskService sharedInstance] getTasksForProject:self.projectForTasksUpdate
+                                            completionBlock:^(NSArray *records) {
+                                                // TODO
+                                                [[NSNotificationCenter defaultCenter] postNotificationName:KBNTasksUpdated object:records];
+                                            }
+                                                 errorBlock:^(NSError *error) {
+                                                     
+                                                 }];
     }
 }
 

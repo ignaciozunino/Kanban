@@ -18,6 +18,7 @@
         if (!inst) {
             inst = [[self alloc] init];
             inst.dataService = [[KBNTaskListParseAPIManager alloc]init];
+            inst.fireBaseRootReference = [[Firebase alloc] initWithUrl:FIREBASE_BASE_URL];
         }
     }
     return inst;

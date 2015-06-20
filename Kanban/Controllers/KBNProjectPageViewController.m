@@ -52,7 +52,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:KBNTaskUpdated object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdated:) name:KBNProjectUpdated object:nil];
 }
 
 - (void) dealloc {
@@ -61,7 +61,7 @@
 
 #pragma mark - Notification Handlers
 
--(void)onProjectUpdate:(NSNotification *)notification{
+-(void)onProjectUpdated:(NSNotification *)notification{
     KBNProject *projectUpdated = (KBNProject*)notification.object;
     if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
         self.project.name = projectUpdated.name;

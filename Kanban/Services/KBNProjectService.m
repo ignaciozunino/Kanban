@@ -42,7 +42,7 @@
         [params setObject:name forKey:PARSE_PROJECT_NAME_COLUMN];
         [params setObject:projectDescription forKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
         [params setObject:[NSNumber numberWithBool:YES] forKey:PARSE_PROJECT_ACTIVE_COLUMN];
-        [params setObject:[KBNUserUtils getUsername] forKey:PARSE_PROJECT_USERSLIST_COLUMN];
+        [params setObject:[NSArray arrayWithObject:[KBNUserUtils getUsername]] forKey:PARSE_PROJECT_USERSLIST_COLUMN];
         
         KBNProject *project = [KBNProjectUtils projectWithParams:params];
         

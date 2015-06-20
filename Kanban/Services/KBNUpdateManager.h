@@ -17,9 +17,7 @@
 #import <Firebase/Firebase.h>
 
 #define KBNProjectsUpdated @"KBNProjectsUpdated"
-#define KBNProjectsInitialUpdate @"KBNProjectsInitialUpdate"
-#define KBNTasksInitialUpdate @"KBNTasksInitialUpdate"
-#define KBNProjectUpdate @"KBNProjectUpdate"
+#define KBNProjectUpdated @"KBNProjectUpdated"
 #define KBNTasksUpdated @"KBNTasksUpdated"
 #define KBNTaskUpdated @"KBNTaskUpdated"
 #define KBNCurrentProjectUpdated @"KBNCurrentProjectUpdated"
@@ -31,10 +29,13 @@
 
 + (KBNUpdateManager *)sharedInstance;
 - (void)startUpdatingProjects;
+- (void)startUpdatingTaskListsForProject:(KBNProject*)project;
 - (void)startUpdatingTasksForProject:(KBNProject*)project;
 - (void)stopUpdatingProjects;
+- (void)stopUpdatingTaskLists;
 - (void)stopUpdatingTasks;
 - (void)startListeningProjects:(NSArray*)projects;
+- (void)startListeningTaskLists:(NSArray*)taskLists;
 - (void)startListeningTasks:(NSArray*)tasks;
 
 @end

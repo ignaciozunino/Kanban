@@ -19,10 +19,6 @@
 
 @implementation KBNProjectUtils
 
-+ (BOOL)existProject:(NSString*)name {
-    return NO;
-}
-
 + (KBNProject*)projectWithParams:(NSDictionary *)params {
     
     KBNProject *project = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
