@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "KBNTask.h"
+#import "KBNTaskList.h"
 
 @interface KBNTaskUtils : NSObject
 
@@ -18,5 +19,7 @@
 + (NSDictionary *)taskJson:(KBNTask *)task;
 
 + (NSDictionary *)tasksJson:(NSArray *)tasks;
+
++ (NSArray*)tasksFromDictionary:(NSDictionary*)records key:(NSString*)key forProject:(KBNProject*)project;
 
 @end

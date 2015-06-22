@@ -56,7 +56,9 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdated:) name:KBNProjectUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -80,7 +82,14 @@
     self.title = self.project.name;
 }
 
--(void)onProjectUpdated:(NSNotification *)notification{
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewWillDisappear:animated];
+}
+
+#pragma mark - Notifications handlers
+
+-(void)onProjectUpdate:(NSNotification *)notification{
     
     KBNProject *projectUpdated = (KBNProject*)notification.object;
     if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
@@ -91,10 +100,12 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:ENABLE_VIEW object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:KBNProjectUpdated object:nil];
-    [super viewWillDisappear:animated];
+- (void)onTaskUpdate:(NSNotification*)notification {
+    
+}
+
+- (void)onTasksUpdate:(NSNotification*)notification {
+    
 }
 
 #pragma mark - IBActions

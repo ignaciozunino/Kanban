@@ -142,22 +142,22 @@
 
 
 //FIREBASE KEYS
-#define FIREBASE_TYPE_OF_CHANGE @"typeOfChange"
-#define FIREBASE_EDIT_NAME_CHANGE @"objectName"
-#define FIREBASE_EDIT_DESC_CHANGE @"objectDescription"
+#define FIREBASE_CHANGE_TYPE @"ChangeType"
+#define FIREBASE_USER @"User"
+#define FIREBASE_DATA @"Data"
 
 #define FIREBASE_PROJECT @"Project"
 #define FIREBASE_TASK_LIST @"TaskList"
 #define FIREBASE_TASK @"Task"
-#define FIREBASE_USER @"User"
 
-#define FIREBASE_PROJECT_CHANGE @"projectChange"
-#define FIREBASE_TASK_LIST_ADD @"taskListAdd"
-#define FIREBASE_TASK_ADD @"taskAdd"
-#define FIREBASE_TASK_CHANGE @"taskChange"
-#define FIREBASE_TASK_REMOVE @"taskRemove"
+//Notifications
+#define UPDATE_PROJECT @"updateProject"
+#define UPDATE_TASKLISTS @"updateTaskLists"
+#define ADD_TASK @"addTask"
+#define UPDATE_TASK @"updateTask"
+#define UPDATE_TASKS @"updateTasks"
 
-
+//TaskLists Templates
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
 
 

@@ -67,21 +67,34 @@
             task.name, NSStringFromSelector(@selector(name)),
             task.taskDescription, NSStringFromSelector(@selector(taskDescription)),
             task.order, NSStringFromSelector(@selector(order)),
-            task.active, NSStringFromSelector(@selector(active)), nil];
+            task.active, NSStringFromSelector(@selector(active)),
+            task.taskList.taskListId, NSStringFromSelector(@selector(taskListId)), nil];
 }
 
 + (NSDictionary *)tasksJson:(NSArray *)tasks {
     
     NSMutableArray *objects = [NSMutableArray array];
-    NSMutableArray *keys = [NSMutableArray array];
     
     for (KBNTask *task in tasks) {
         [objects addObject:[self taskJson:task]];
-        [keys addObject:task.taskId];
     }
     
-    return [NSDictionary dictionaryWithObjects:objects forKeys:keys];
+    return [NSDictionary dictionaryWithObject:objects forKey:@"results"];
 
+}
+
++ (NSArray *)tasksFromDictionary:(NSDictionary *)records key:(NSString *)key forProject:(KBNProject *)project {
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (NSDictionary *params in (NSArray*)[records objectForKey:key]) {
+        NSString *taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+        KBNTask *task = [KBNTaskUtils taskForProject:project taskList:[project taskListForId:taskListId] params:params];
+        if ([task isActive]) {
+            [array addObject:task];
+        }
+    }
+    return array;
 }
 
 @end

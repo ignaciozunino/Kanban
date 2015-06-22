@@ -163,9 +163,7 @@
     [self.afManager GET:PARSE_PROJECTS
              parameters:params
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    NSDictionary *projectList = [responseObject objectForKey:@"results"];
-                    
-                    onSuccess(projectList);
+                    onSuccess(responseObject);
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     onError(error);

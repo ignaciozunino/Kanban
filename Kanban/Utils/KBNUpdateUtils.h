@@ -16,8 +16,16 @@
 #import <Firebase/Firebase.h>
 #import "KBNUserUtils.h"
 
+typedef NS_ENUM(NSInteger, KBNChangeType) {
+    KBNChangeTypeProjectUpdate,
+    KBNChangeTypeTaskListsUpdate,
+    KBNChangeTypeTaskAdded,
+    KBNChangeTypeTaskUpdate,
+    KBNChangeTypeTasksUpdate
+};
+
 @interface KBNUpdateUtils : NSObject
 
-+ (void)firebasePostToFirebaseRoot:(Firebase *)rootReference withObject:(NSString*)objectName projectId:(NSString*)projectId data:(NSDictionary*)data;
++ (void)postToFirebase:(Firebase *)rootReference changeType:(KBNChangeType)changeType projectId:(NSString*)projectId data:(id)data;
 
 @end

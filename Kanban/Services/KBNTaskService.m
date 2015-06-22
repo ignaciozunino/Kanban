@@ -48,7 +48,7 @@
                 aTask.taskId = [records objectForKey:PARSE_OBJECTID];
                 aTask.active = [NSNumber numberWithBool:YES];
                 if ([aTask.project isShared]) {
-                    [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:aTask.project.projectId data:[KBNTaskUtils taskJson:aTask]];
+                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdded projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
                 }
                 onCompletion(aTask);
             } errorBlock:onError];
@@ -58,18 +58,7 @@
 
 - (void)getTasksForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     [self.dataService getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-        NSArray *results = [records objectForKey:@"results"];
-        NSMutableArray *activeTasks = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary *params in results) {
-            NSString *taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
-            KBNTask *task = [KBNTaskUtils taskForProject:project taskList:[project taskListForId:taskListId] params:params];
-            if ([task isActive]) {
-                [activeTasks addObject:task];
-            };
-        }
-        
-        onCompletion(activeTasks);
+        onCompletion([KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project]);
     } errorBlock:onError];
 }
 
@@ -89,7 +78,7 @@
     __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate completionBlock:^{
         if ([task.project isShared]) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTasksUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
         }
         onCompletion();
     } errorBlock:onError];
@@ -126,7 +115,7 @@
     [self.dataService updateTasks:tasksToUpdate
                   completionBlock:^{
                       if ([task.project isShared]) {
-                          [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
+                          [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTasksUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
                       }
                       onCompletion();
                   }
@@ -148,7 +137,7 @@
     [self.dataService createTasks:tasks completionBlock:^(NSDictionary *records) {
         KBNProject *project = [[tasks firstObject] project];
         if ([project isShared]) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:project.projectId data:[KBNTaskUtils tasksJson:tasks]];
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTasksUpdate projectId:project.projectId data:[KBNTaskUtils tasksJson:tasks]];
         }
         onCompletion(tasks);
     } errorBlock:onError ];
@@ -161,7 +150,7 @@
         [self.dataService updateTasks:@[task]
                       completionBlock:^{
                           if ([task.project isShared]) {
-                              [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK projectId:task.project.projectId data:[KBNTaskUtils taskJson:task]];
+                              [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
                           }
                           onSuccess();
                       }

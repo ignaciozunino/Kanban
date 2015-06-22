@@ -48,14 +48,22 @@
 + (NSDictionary *)taskListsJson:(NSArray *)taskLists {
     
     NSMutableArray *lists = [NSMutableArray array];
-    NSMutableArray *keys = [NSMutableArray array];
     
     for (KBNTaskList *taskList in taskLists) {
         [lists addObject:[self taskListJson:taskList]];
-        [keys addObject:taskList.taskListId];
     }
     
-    return [NSDictionary dictionaryWithObjects:lists forKeys:keys];
+    return [NSDictionary dictionaryWithObject:lists forKey:@"results"];
+}
+
++ (NSArray *)taskListsFromDictionary:(NSDictionary *)records key:(NSString *)key forProject:(KBNProject*)project{
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (NSDictionary* params in (NSArray*)[records objectForKey:key]) {
+        [array addObject:[self taskListForProject:project params:params]];
+    }
+    return array;
 }
 
 @end

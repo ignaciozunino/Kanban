@@ -42,7 +42,7 @@
 }
 
 - (void)subscribeToNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCreateProject:) name:PROJECT_ADDED object:nil];
 }
 
@@ -52,9 +52,7 @@
 
 #pragma mark - Notification Handlers
 
--(void)onProjectsUpdate:(NSNotification *)notification{
-    
-    // NSArray *updatedProjects = (NSArray*)notification.object;
+-(void)onProjectUpdate:(NSNotification *)notification{
     
     // TODO
     

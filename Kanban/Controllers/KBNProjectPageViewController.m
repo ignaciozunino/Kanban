@@ -48,11 +48,10 @@
 }
 
 - (void)subscribeToNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:KBNTaskUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdated:) name:KBNProjectUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListsUpdate:) name:UPDATE_TASKLISTS object:nil];
 }
 
 - (void) dealloc {
@@ -61,12 +60,16 @@
 
 #pragma mark - Notification Handlers
 
--(void)onProjectUpdated:(NSNotification *)notification{
+-(void)onProjectUpdate:(NSNotification *)notification{
     KBNProject *projectUpdated = (KBNProject*)notification.object;
     if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
         self.project.name = projectUpdated.name;
         self.title = self.project.name;
     }
+}
+
+-(void)onTaskListsUpdate:(NSNotification *)notification {
+    // TODO
 }
 
 -(void)onTasksUpdate:(NSNotification *)notification {
@@ -82,11 +85,6 @@
             break;
         }
     }
-}
-
--(void)onCurrentProjectUpdate:(NSNotification *)noti{
-    self.project = (KBNProject*)noti.object;
-    self.title = self.project.name;
 }
 
 #pragma mark - Private methods

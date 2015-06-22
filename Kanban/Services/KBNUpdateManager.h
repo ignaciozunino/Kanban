@@ -14,12 +14,6 @@
 #import "KBNUpdateUtils.h"
 #import <Firebase/Firebase.h>
 
-#define KBNProjectsUpdated @"KBNProjectsUpdated"
-#define KBNProjectUpdated @"KBNProjectUpdated"
-#define KBNTasksUpdated @"KBNTasksUpdated"
-#define KBNTaskUpdated @"KBNTaskUpdated"
-#define KBNCurrentProjectUpdated @"KBNCurrentProjectUpdated"
-
 @interface KBNUpdateManager : NSObject
 
 @property KBNProject * projectForTasksUpdate;

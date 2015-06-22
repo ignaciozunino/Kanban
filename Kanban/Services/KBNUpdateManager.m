@@ -36,43 +36,56 @@
         [self.fireBaseRootReference observeEventType:FEventTypeValue
                                            withBlock:^(FDataSnapshot *snapshot) {
                                                if ([snapshot.value respondsToSelector:@selector(objectForKey:)]) {
-                                                   NSString* user = [[((NSDictionary *)snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:@"User"];
+                                                   NSString* user = [snapshot.value objectForKey:FIREBASE_USER];
+                                                   KBNChangeType changeType = [[snapshot.value objectForKey:FIREBASE_CHANGE_TYPE] integerValue];
+                                                   id records = [snapshot.value objectForKey:FIREBASE_DATA];
                                                    
-                                                   if (![user isEqualToString:[KBNUserUtils getUsername]]) {
-                                                       NSString *projectChange = [[((NSDictionary *) snapshot.value) objectForKey:FIREBASE_PROJECT] objectForKey:FIREBASE_TYPE_OF_CHANGE];
-                                                       if ([self isProjectChangeValid:projectChange]) {
-                                                           [self updateProject];
-                                                       }
-                                                   } else {
+                                                   if ([user isEqualToString:[KBNUserUtils getUsername]]) {
                                                        // Delete node from firebase after receiving notification
-                                                       [snapshot.ref setValue:nil];
-                                                   }
+                                                       // [snapshot.ref setValue:nil];
+                                                   } else {
+                                                       switch (changeType) {
+                                                           case KBNChangeTypeProjectUpdate:
+                                                               [self updateProject:records];
+                                                               break;
+                                                           case KBNChangeTypeTaskListsUpdate:
+                                                               [self updateTaskLists:records];
+                                                               break;
+                                                           case KBNChangeTypeTaskAdded:
+                                                               [self addTask:records];
+                                                               break;
+                                                           case KBNChangeTypeTaskUpdate:
+                                                               [self updateTask:records];
+                                                               break;
+                                                           case KBNChangeTypeTasksUpdate:
+                                                               [self updateTasks:records];
+                                                               break;
+                                                       }
+                                                    }
                                                }
                                            }];
     }
 }
 
-- (void)updateProject {
-    
-    [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
-        if (records.count > 0) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:KBNProjectsUpdated object:records];
-        }
-        for (KBNProject *project in records) {
-            //if we update the current project we notify
-            if ([project.projectId isEqualToString:self.projectForTasksUpdate.projectId]) {
-                self.projectForTasksUpdate= project;
-                [[NSNotificationCenter defaultCenter] postNotificationName:KBNCurrentProjectUpdated object:project];
-            }
-        }
-    }
-                                                       errorBlock:^(NSError *error) {
-                                                           
-                                                       }];
+- (void)updateProject:(NSDictionary*)records {
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PROJECT
+                                                        object:[KBNProjectUtils projectsFromDictionary:records key:@"results"]];
 }
 
-- (BOOL)isProjectChangeValid:(NSString*)typeOfChange {
-    return [typeOfChange isEqualToString:FIREBASE_PROJECT_CHANGE];
+- (void)updateTaskLists:(NSDictionary*)records {
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASKLISTS
+                                                        object:[KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:nil]];
 }
 
+- (void)addTask:(NSDictionary*)records {
+    [[NSNotificationCenter defaultCenter] postNotificationName:ADD_TASK object:[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:nil]];
+}
+
+- (void)updateTask:(NSDictionary*)records {
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASK object:[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:nil]];
+}
+
+- (void)updateTasks:(NSDictionary*)records {
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASKS object:[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:nil]];
+}
 @end

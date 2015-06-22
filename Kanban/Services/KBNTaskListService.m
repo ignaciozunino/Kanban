@@ -27,14 +27,7 @@
 -(void)getTaskListsForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     [self.dataService getTaskListsForProject:project.projectId completionBlock:^(NSDictionary *records) {
-        NSMutableArray *listsArray = [[NSMutableArray alloc] init];
-        NSArray *results = [records objectForKey:@"results"];
-        
-        for (NSDictionary* params in results) {
-            [listsArray addObject:[KBNTaskListUtils taskListForProject:project params:params]];
-        }
-        
-        onCompletion(listsArray);
+        onCompletion([KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:project]);
     } errorBlock:onError];
 }
 
@@ -66,7 +59,7 @@
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
         taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
         if ([project isShared]) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_TASK_LIST projectId:project.projectId data:[KBNTaskListUtils taskListsJson:project.taskLists.array]];
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskListsUpdate projectId:project.projectId data:[KBNTaskListUtils taskListsJson:project.taskLists.array]];
         }
         onCompletion(taskList);
     } errorBlock:^(NSError *error){

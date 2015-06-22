@@ -45,4 +45,30 @@
             project.active, NSStringFromSelector(@selector(active)), nil];
 }
 
++ (NSDictionary *)projectsJson:(NSArray *)projects {
+    
+    NSMutableArray *objects = [NSMutableArray array];
+    
+    for (KBNProject *project in projects) {
+        [objects addObject:[self projectJson:project]];
+    }
+    
+    return [NSDictionary dictionaryWithObject:objects forKey:@"results"];
+    
+}
+
++ (NSArray *)projectsFromDictionary:(NSDictionary *)records key:(NSString *)key {
+
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (NSDictionary* params in (NSArray*)[records objectForKey:key]) {
+        KBNProject *project = [self projectWithParams:params];
+        
+        if ([project isActive]) {
+            [array addObject:project];
+        }
+    }
+    return array;
+}
+
 @end

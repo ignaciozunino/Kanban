@@ -25,10 +25,6 @@
     return inst;
 }
 
-- (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
-}
-
 - (void)createProject:(NSString *)name withDescription:(NSString *)projectDescription withTemplate:(KBNProjectTemplate *)projectTemplate completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     if ([name isEqualToString:@""] || !name) {
@@ -80,7 +76,7 @@
             project.projectDescription = newDescription;
             // If the project has more than one user, notify change
             if ([project isShared]) {
-                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT projectId:project.projectId data:[KBNProjectUtils projectJson:project]];
+                [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeProjectUpdate projectId:project.projectId data:[KBNProjectUtils projectsJson:@[project]]];
             }
             onCompletion();
         } errorBlock:onError];
@@ -113,7 +109,7 @@
             [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(){
                 aProject.users = newUsersArray;
                 // As we are adding a new user, project is shared
-                [KBNUpdateUtils firebasePostToFirebaseRoot:weakself.fireBaseRootReference withObject:FIREBASE_PROJECT projectId:aProject.projectId data:[KBNProjectUtils projectJson:aProject]];
+                [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeProjectUpdate projectId:aProject.projectId data:[KBNProjectUtils projectsJson:@[aProject]]];
                 
                 onSuccess();
             } errorBlock:onError];
@@ -141,26 +137,17 @@
     return result;
 }
 
--(void)removeProject:(KBNProject*)project completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
+- (void)removeProject:(KBNProject*)project completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     project.active = @NO;
     [self.dataService updateProjects:@[project] completionBlock:^{
         onCompletion();
     } errorBlock:onError];
 }
 
--(void)getProjectsOnSuccessBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
-    
+- (void)getProjectsOnSuccessBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     [self.dataService getProjectsFromUsername:[KBNUserUtils getUsername] onSuccessBlock:^(NSDictionary *records) {
-        NSMutableArray *projectsArray = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* params in records) {
-            KBNProject *newProject = [KBNProjectUtils projectWithParams:params];
-            
-            if ([newProject isActive]) {
-                [projectsArray addObject:newProject];
-            }
-        }
-        onCompletion(projectsArray);
+        // Get the projects array from the response dictionary and pass it around
+        onCompletion([KBNProjectUtils projectsFromDictionary:records key:@"results"]);
     } errorBlock:onError];
 }
 
