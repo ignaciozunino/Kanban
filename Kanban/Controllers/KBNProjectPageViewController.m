@@ -44,6 +44,7 @@
                                                                                           target:self
                                                                                           action:@selector(setupEdit)];
     [self getProjectLists];
+    
     [self subscribeToNotifications];
 }
 
@@ -61,15 +62,17 @@
 #pragma mark - Notification Handlers
 
 -(void)onProjectUpdate:(NSNotification *)notification{
-    KBNProject *projectUpdated = (KBNProject*)notification.object;
-    if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
-        self.project.name = projectUpdated.name;
+    // This view controller displays the project name in the title. On project change, change the title accordingly.
+    KBNProject *updatedProject = (KBNProject*)notification.object;
+    if ([self.project.projectId isEqualToString:updatedProject.projectId]) {
+        self.project = updatedProject;
         self.title = self.project.name;
     }
 }
 
 -(void)onTaskListsUpdate:(NSNotification *)notification {
-    // TODO
+    // Receives the task lists for the project
+    self.projectLists = [NSMutableArray arrayWithArray:(NSArray*)notification.object];
 }
 
 -(void)onTasksUpdate:(NSNotification *)notification {
@@ -77,13 +80,19 @@
 }
 
 -(void)onTaskUpdate:(NSNotification *)notification {
-    NSDictionary *notifiedTask =(NSDictionary*)notification.object;
+    KBNTask *updatedTask =(KBNTask*)notification.object;
+    NSUInteger index = 0;
     for (KBNTask * task in self.projectTasks) {
-        if ([task.taskId isEqualToString: [notifiedTask objectForKey:PARSE_OBJECTID]]) {
-            task.name = [notifiedTask objectForKey:PARSE_TASK_NAME_COLUMN];
-            task.taskDescription = [notifiedTask objectForKey:PARSE_TASK_DESCRIPTION_COLUMN];
+        if ([task.taskId isEqualToString: updatedTask.taskId]) {
+            [self.projectTasks replaceObjectAtIndex:index withObject:updatedTask];
             break;
         }
+        index++;
+    }
+    
+    if (index == self.projectTasks.count) {
+        // The updated task isn't in the array. Add it.
+        [self.projectTasks addObject:updatedTask];
     }
 }
 

@@ -21,8 +21,16 @@
 
 + (KBNProject*)projectWithParams:(NSDictionary *)params {
     
-    KBNProject *project = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    KBNProject *project = nil;
+    NSString *projectId = [params objectForKey:PARSE_OBJECTID];
     
+    if (projectId) {
+        project = [self projectFromId:projectId];
+    }
+    if (!project) {
+        project = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    }
+
     [project setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"projectId"];
     [project setValue:[params objectForKey:PARSE_PROJECT_NAME_COLUMN] forKey:@"name"];
     [project setValue:[params objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN] forKey:@"projectDescription"];
@@ -38,11 +46,11 @@
 
 + (NSDictionary *)projectJson:(KBNProject *)project {
     return [NSDictionary dictionaryWithObjectsAndKeys:
-            project.projectId, NSStringFromSelector(@selector(projectId)),
-            project.name, NSStringFromSelector(@selector(name)),
-            project.projectDescription, NSStringFromSelector(@selector(projectDescription)),
-            project.users, NSStringFromSelector(@selector(users)),
-            project.active, NSStringFromSelector(@selector(active)), nil];
+            project.projectId, PARSE_OBJECTID,
+            project.name, PARSE_PROJECT_NAME_COLUMN,
+            project.projectDescription, PARSE_PROJECT_DESCRIPTION_COLUMN,
+            project.users, PARSE_PROJECT_USERSLIST_COLUMN   ,
+            project.active, PARSE_PROJECT_ACTIVE_COLUMN, nil];
 }
 
 + (NSDictionary *)projectsJson:(NSArray *)projects {
@@ -69,6 +77,22 @@
         }
     }
     return array;
+}
+
++ (KBNProject *)projectFromId:(NSString *)projectId {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"projectId LIKE %@", projectId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        return nil;
+    }
+    return [fetchedObjects firstObject];
 }
 
 @end

@@ -54,7 +54,21 @@
 
 -(void)onProjectUpdate:(NSNotification *)notification{
     
-    // TODO
+    KBNProject *updatedProject = (KBNProject*)notification.object;
+    
+    NSUInteger index = 0;
+    for (KBNProject* project in self.projects) {
+        if ([project.projectId isEqualToString:updatedProject.projectId]) {
+            [self.projects replaceObjectAtIndex:index withObject:updatedProject];
+            break;
+        }
+        index++;
+    }
+    
+    if (index == self.projects.count) {
+        // The updated project isn't in the array. Add it.
+        [self.projects addObject:updatedProject];
+    }
     
     [self.tableView reloadData];
 }

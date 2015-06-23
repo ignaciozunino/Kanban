@@ -22,7 +22,7 @@
 
 + (void)setUp {
     [[KBNInitialSetupTest new] testCreateUser];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:UPDATE_PROJECT object:nil];
 }
 
 + (void)tearDown {
@@ -45,11 +45,9 @@
         XCTFail();
         [self.expectation fulfill];
     }];
-    [self.updateManager startUpdatingProjects];
     
     [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
-        [self.updateManager stopUpdatingProjects];
-    }];
+     }];
 }
 
 -(void)onProjectsUpdate:(NSNotification *)noti{

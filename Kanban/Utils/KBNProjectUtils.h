@@ -19,4 +19,6 @@
 
 + (NSArray*)projectsFromDictionary:(NSDictionary*)records key:(NSString*)key;
 
++ (KBNProject*)projectFromId:(NSString*)projectId;
+
 @end

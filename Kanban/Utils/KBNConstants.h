@@ -93,9 +93,9 @@
 #define PARSE_TASKLIST_ORDER_COLUMN @"order"
 
 #define PARSE_PROJECT_NAME_COLUMN @"name"
-#define PARSE_PROJECT_DESCRIPTION_COLUMN @"project_description"
+#define PARSE_PROJECT_DESCRIPTION_COLUMN @"projectDescription"
 #define PARSE_PROJECT_USER_COLUMN @"userName"
-#define PARSE_PROJECT_USERSLIST_COLUMN @"usersList"
+#define PARSE_PROJECT_USERSLIST_COLUMN @"users"
 #define PARSE_PROJECT_ACTIVE_COLUMN @"active"
 
 #define PARSE_TASK_NAME_COLUMN @"name"

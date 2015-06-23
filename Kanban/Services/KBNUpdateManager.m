@@ -39,53 +39,63 @@
                                                    NSString* user = [snapshot.value objectForKey:FIREBASE_USER];
                                                    KBNChangeType changeType = [[snapshot.value objectForKey:FIREBASE_CHANGE_TYPE] integerValue];
                                                    id records = [snapshot.value objectForKey:FIREBASE_DATA];
+                                                   NSString *projectId = snapshot.key;
                                                    
-                                                   if ([user isEqualToString:[KBNUserUtils getUsername]]) {
+//                                                   if ([user isEqualToString:[KBNUserUtils getUsername]]) {
+                                                       // If we made the changes, they are already reflected in the corresponding view.
                                                        // Delete node from firebase after receiving notification
-                                                       // [snapshot.ref setValue:nil];
-                                                   } else {
+                                                       [snapshot.ref setValue:nil];
+//                                                   } else {
                                                        switch (changeType) {
                                                            case KBNChangeTypeProjectUpdate:
                                                                [self updateProject:records];
                                                                break;
                                                            case KBNChangeTypeTaskListsUpdate:
-                                                               [self updateTaskLists:records];
+                                                               [self updateTaskLists:records inProject:projectId];
                                                                break;
                                                            case KBNChangeTypeTaskAdded:
-                                                               [self addTask:records];
+                                                               [self addTask:records inProject:projectId];
                                                                break;
                                                            case KBNChangeTypeTaskUpdate:
-                                                               [self updateTask:records];
+                                                               [self updateTask:records inProject:projectId];
                                                                break;
                                                            case KBNChangeTypeTasksUpdate:
-                                                               [self updateTasks:records];
+                                                               [self updateTasks:records inProject:projectId];
                                                                break;
                                                        }
-                                                    }
+//                                                   }
                                                }
                                            }];
     }
 }
 
 - (void)updateProject:(NSDictionary*)records {
-    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PROJECT
-                                                        object:[KBNProjectUtils projectsFromDictionary:records key:@"results"]];
+    // Get the only project from the records array and post the notification
+    KBNProject* project = [[KBNProjectUtils projectsFromDictionary:records key:@"results"] firstObject];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PROJECT object:project];
 }
 
-- (void)updateTaskLists:(NSDictionary*)records {
+- (void)updateTaskLists:(NSDictionary*)records inProject:(NSString*)projectId {
+    // We get here when a task list is added. The order of the other lists may change, so we notify an array of updated task lists.
     [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASKLISTS
-                                                        object:[KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:nil]];
+                                                        object:[KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]]];
 }
 
-- (void)addTask:(NSDictionary*)records {
-    [[NSNotificationCenter defaultCenter] postNotificationName:ADD_TASK object:[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:nil]];
+- (void)addTask:(NSDictionary*)records inProject:(NSString*)projectId{
+    // Get the task from the records array and post the notification
+    // As the task is added at the end of the list, there will be only one. No other task is modified when a new task is added.
+    KBNTask *task = [[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]] firstObject];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ADD_TASK object:task];
 }
 
-- (void)updateTask:(NSDictionary*)records {
-    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASK object:[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:nil]];
+- (void)updateTask:(NSDictionary*)records inProject:(NSString*)projectId{
+    // We get here when the task name or description is changed. Get the task from the records array and post the notification.
+    KBNTask *task = [[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]] firstObject];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASK object:task];
 }
 
-- (void)updateTasks:(NSDictionary*)records {
-    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASKS object:[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:nil]];
+- (void)updateTasks:(NSDictionary*)records inProject:(NSString*)projectId{
+    // We get here when a task is moved (in the same list or to another list) or a task is deleted. 
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASKS object:[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]]];
 }
 @end

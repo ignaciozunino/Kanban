@@ -45,12 +45,12 @@
 		3A3369A81B25CBF9004AE3FA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3369A71B25CBF9004AE3FA /* Reachability.m */; };
 		3A427E6D1B06630B00348F24 /* UITextView+CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A427E6C1B06630B00348F24 /* UITextView+CustomTextView.m */; };
 		3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */; };
-		3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */; };
 		3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */; };
 		3A69EE941B20BB35005CDB6D /* KBNCustomViewFromXib.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EE901B20BB35005CDB6D /* KBNCustomViewFromXib.m */; };
 		3A69EE951B20BB35005CDB6D /* KBNReachabilityWidgetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EE921B20BB35005CDB6D /* KBNReachabilityWidgetView.m */; };
 		3A69EE961B20BB35005CDB6D /* KBNReachabilityWidgetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A69EE931B20BB35005CDB6D /* KBNReachabilityWidgetView.xib */; };
 		3A69EF061B20D537005CDB6D /* KBNReachabilityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */; };
+		3A8190331B38DDD900222F40 /* KBNProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8190321B38DDD900222F40 /* KBNProjectDetailViewController.m */; };
 		3A9509A21AF7C5AD00849FF0 /* KBNProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A11AF7C5AD00849FF0 /* KBNProject.m */; };
 		3A9509A61AF908CC00849FF0 /* KBNMoveTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */; };
 		3AA0C9751B0B601000030630 /* KBNRemoveProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */; };
@@ -172,7 +172,6 @@
 		3A4840491AE545CA00C70739 /* KBNMyProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNMyProjectsViewController.h; path = Controllers/KBNMyProjectsViewController.h; sourceTree = "<group>"; };
 		3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNMyProjectsViewController.m; path = Controllers/KBNMyProjectsViewController.m; sourceTree = "<group>"; };
 		3A48404B1AE545CA00C70739 /* KBNProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectDetailViewController.h; path = Controllers/KBNProjectDetailViewController.h; sourceTree = "<group>"; };
-		3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectDetailViewController.m; path = Controllers/KBNProjectDetailViewController.m; sourceTree = "<group>"; };
 		3A48404D1AE545CA00C70739 /* KBNProjectPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectPageViewController.h; path = Controllers/KBNProjectPageViewController.h; sourceTree = "<group>"; };
 		3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectPageViewController.m; path = Controllers/KBNProjectPageViewController.m; sourceTree = "<group>"; };
 		3A69EE8F1B20BB35005CDB6D /* KBNCustomViewFromXib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNCustomViewFromXib.h; path = CustomViews/KBNCustomViewFromXib.h; sourceTree = "<group>"; };
@@ -182,6 +181,7 @@
 		3A69EE931B20BB35005CDB6D /* KBNReachabilityWidgetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KBNReachabilityWidgetView.xib; path = CustomViews/KBNReachabilityWidgetView.xib; sourceTree = "<group>"; };
 		3A69EF041B20D537005CDB6D /* KBNReachabilityUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNReachabilityUtils.h; path = Utils/KBNReachabilityUtils.h; sourceTree = "<group>"; };
 		3A69EF051B20D537005CDB6D /* KBNReachabilityUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNReachabilityUtils.m; path = Utils/KBNReachabilityUtils.m; sourceTree = "<group>"; };
+		3A8190321B38DDD900222F40 /* KBNProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectDetailViewController.m; path = Controllers/KBNProjectDetailViewController.m; sourceTree = "<group>"; };
 		3A9509A01AF7C5AD00849FF0 /* KBNProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProject.h; path = Domain/KBNProject.h; sourceTree = "<group>"; };
 		3A9509A11AF7C5AD00849FF0 /* KBNProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProject.m; path = Domain/KBNProject.m; sourceTree = "<group>"; };
 		3A9509A51AF908CC00849FF0 /* KBNMoveTaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNMoveTaskTest.m; sourceTree = "<group>"; };
@@ -420,7 +420,7 @@
 				3A4840491AE545CA00C70739 /* KBNMyProjectsViewController.h */,
 				3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */,
 				3A48404B1AE545CA00C70739 /* KBNProjectDetailViewController.h */,
-				3A48404C1AE545CA00C70739 /* KBNProjectDetailViewController.m */,
+				3A8190321B38DDD900222F40 /* KBNProjectDetailViewController.m */,
 				3A48404D1AE545CA00C70739 /* KBNProjectPageViewController.h */,
 				3A48404E1AE545CA00C70739 /* KBNProjectPageViewController.m */,
 				3A2D11EE1B334973009EB7A3 /* Project */,
@@ -755,6 +755,7 @@
 				3A0CCD381AEFC1780039F629 /* KBNUserUtils.m in Sources */,
 				18CB2DBC1AEAE40700F5F390 /* (null) in Sources */,
 				3A312AAE1AEE8473005837A5 /* KBNProjectService.m in Sources */,
+				3A8190331B38DDD900222F40 /* KBNProjectDetailViewController.m in Sources */,
 				032EF2921AF0259400F27846 /* KBNErrorUtils.m in Sources */,
 				E2AC8A341AF902D9008A44B5 /* NSDate+Utils.m in Sources */,
 				3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */,
@@ -774,7 +775,6 @@
 				3A2D11FD1B3349AE009EB7A3 /* KBNTaskDetailViewController.m in Sources */,
 				3A0CCD211AEEB7A40039F629 /* KBNTaskParseAPIManager.m in Sources */,
 				3AE7FBD01B16442C0037809A /* KBNProjectTemplateService.m in Sources */,
-				3A4840541AE545CA00C70739 /* KBNProjectDetailViewController.m in Sources */,
 				E228B8421AEFD65D00753750 /* (null) in Sources */,
 				3A69EE941B20BB35005CDB6D /* KBNCustomViewFromXib.m in Sources */,
 				187EC9AE1AFD23DB0028E9FE /* KBNUpdateUtils.m in Sources */,
