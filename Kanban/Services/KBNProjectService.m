@@ -139,7 +139,12 @@
 
 - (void)removeProject:(KBNProject*)project completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     project.active = @NO;
+    __weak typeof(self) weakself = self;
     [self.dataService updateProjects:@[project] completionBlock:^{
+        // If the project has more than one user, notify change
+        if ([project isShared]) {
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeProjectUpdate projectId:project.projectId data:[KBNProjectUtils projectsJson:@[project]]];
+        }
         onCompletion();
     } errorBlock:onError];
 }

@@ -43,8 +43,8 @@
                                                    
 //                                                   if ([user isEqualToString:[KBNUserUtils getUsername]]) {
                                                        // If we made the changes, they are already reflected in the corresponding view.
-                                                       // Delete node from firebase after receiving notification
-                                                       [snapshot.ref setValue:nil];
+                                                       // Delete reference in firebase 10 seconds after receiving notification
+                                                   [self performSelector:@selector(deleteReference:) withObject:snapshot.ref afterDelay:10.0];
 //                                                   } else {
                                                        switch (changeType) {
                                                            case KBNChangeTypeProjectUpdate:
@@ -67,6 +67,10 @@
                                                }
                                            }];
     }
+}
+
+- (void)deleteReference:(Firebase*)ref {
+    [ref setValue:nil];
 }
 
 - (void)updateProject:(NSDictionary*)records {

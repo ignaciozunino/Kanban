@@ -56,10 +56,10 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
-    [self subscribeToNotifications];
+    [self subscribeToRemoteNotifications];
 }
 
-- (void)subscribeToNotifications {
+- (void)subscribeToRemoteNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListsUpdate:) name:UPDATE_TASKLISTS object:nil];
@@ -89,8 +89,15 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:ENABLE_VIEW];
     [super viewWillDisappear:animated];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASKS];
+    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASK];
+    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASKLISTS];
+    [[NSNotificationCenter defaultCenter] removeObserver:ADD_TASK];
 }
 
 #pragma mark - Notifications handlers

@@ -37,6 +37,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.projects = [NSMutableArray new];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self getProjects];
     [self subscribeToNotifications];
 }
