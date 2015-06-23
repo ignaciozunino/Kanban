@@ -43,8 +43,8 @@
                                                    
 //                                                   if ([user isEqualToString:[KBNUserUtils getUsername]]) {
                                                        // If we made the changes, they are already reflected in the corresponding view.
-                                                       // Delete reference in firebase 10 seconds after receiving notification
-                                                   [self performSelector:@selector(deleteReference:) withObject:snapshot.ref afterDelay:10.0];
+                                                       // Delete reference in firebase a determined time after receiving notification
+                                                   [self performSelector:@selector(deleteReference:) withObject:snapshot.ref afterDelay:600.0];
 //                                                   } else {
                                                        switch (changeType) {
                                                            case KBNChangeTypeProjectUpdate:

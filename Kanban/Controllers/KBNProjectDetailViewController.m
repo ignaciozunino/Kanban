@@ -56,18 +56,9 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
-    [self subscribeToRemoteNotifications];
 }
 
-- (void)subscribeToRemoteNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListsUpdate:) name:UPDATE_TASKLISTS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskAdd:) name:ADD_TASK object:nil];
-}
-
-
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableActivityIndicator) name:ENABLE_VIEW object:nil];
@@ -91,66 +82,6 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:ENABLE_VIEW];
     [super viewWillDisappear:animated];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASKS];
-    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASK];
-    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASKLISTS];
-    [[NSNotificationCenter defaultCenter] removeObserver:ADD_TASK];
-}
-
-#pragma mark - Notifications handlers
-
-- (void)onTaskListsUpdate:(NSNotification*)notification {
-    // See how to refresh the page controller
-}
-
-- (void)onTaskUpdate:(NSNotification*)notification {
-    
-    KBNTask *updatedTask =(KBNTask*)notification.object;
-    NSUInteger index = 0;
-    for (KBNTask * task in self.taskListTasks) {
-        if ([task.taskId isEqualToString: updatedTask.taskId]) {
-            [self.taskListTasks replaceObjectAtIndex:index withObject:updatedTask];
-            break;
-        }
-        index++;
-    }
-    
-    if (index == self.taskListTasks.count) {
-        // The updated task isn't in the array. Add it.
-        [self.taskListTasks addObject:updatedTask];
-    }
-    
-    [self.tableView reloadData];
-}
-
-- (void)onTasksUpdate:(NSNotification*)notification {
-    
-    for (KBNTask* updatedTask in (NSArray*)notification.object) {
-        NSUInteger index = 0;
-        for (KBNTask * task in self.taskListTasks) {
-            if ([task.taskId isEqualToString: updatedTask.taskId]) {
-                [self.taskListTasks replaceObjectAtIndex:index withObject:updatedTask];
-                break;
-            }
-            index++;
-        }
-        
-        if (index == self.taskListTasks.count) {
-            // The updated task isn't in the array. Add it.
-            [self.taskListTasks addObject:updatedTask];
-        }
-    }
-}
-
-- (void)onTaskAdd:(NSNotification*)notification {
-    KBNTask *task = (KBNTask*)notification.object;
-    if ([task.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
-        [self.taskListTasks addObject:task];
-        [self.tableView reloadData];
-    }
 }
 
 #pragma mark - IBActions

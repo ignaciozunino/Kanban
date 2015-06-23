@@ -49,10 +49,11 @@
 }
 
 - (void)subscribeToNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListsUpdate:) name:UPDATE_TASKLISTS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:ADD_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASK object:nil];
 }
 
 - (void) dealloc {
@@ -61,7 +62,7 @@
 
 #pragma mark - Notification Handlers
 
--(void)onProjectUpdate:(NSNotification *)notification{
+- (void)onProjectUpdate:(NSNotification *)notification{
     // This view controller displays the project name in the title. On project change, change the title accordingly.
     KBNProject *updatedProject = (KBNProject*)notification.object;
     if ([self.project.projectId isEqualToString:updatedProject.projectId]) {
@@ -70,30 +71,25 @@
     }
 }
 
--(void)onTaskListsUpdate:(NSNotification *)notification {
+- (void)onTaskListsUpdate:(NSNotification *)notification {
     // Receives the task lists for the project
     self.projectLists = [NSMutableArray arrayWithArray:(NSArray*)notification.object];
 }
 
--(void)onTasksUpdate:(NSNotification *)notification {
-    // TODO
-}
-
--(void)onTaskUpdate:(NSNotification *)notification {
-    KBNTask *updatedTask =(KBNTask*)notification.object;
-    NSUInteger index = 0;
-    for (KBNTask * task in self.projectTasks) {
-        if ([task.taskId isEqualToString: updatedTask.taskId]) {
-            [self.projectTasks replaceObjectAtIndex:index withObject:updatedTask];
-            break;
-        }
-        index++;
-    }
-    
-    if (index == self.projectTasks.count) {
-        // The updated task isn't in the array. Add it.
-        [self.projectTasks addObject:updatedTask];
-    }
+- (void)onTasksUpdate:(NSNotification*)notification {
+    // Determine the index of the current detail view controller
+    NSUInteger index = [self.detailViewControllers indexOfObject:[self.pageViewController.viewControllers firstObject]];
+    __weak typeof(self) weakself = self;
+    [[KBNTaskService sharedInstance] tasksForProject:self.project completionBlock:^(NSArray *records) {
+        weakself.projectTasks = [NSMutableArray arrayWithArray:records];
+        [weakself buildDetailViewControllers];
+        [weakself.pageViewController setViewControllers:@[[weakself.detailViewControllers objectAtIndex:index]]
+                                              direction:UIPageViewControllerNavigationDirectionReverse
+                                               animated:NO
+                                             completion:nil];
+        
+    } errorBlock:^(NSError *error) {
+    }];
 }
 
 #pragma mark - Private methods
