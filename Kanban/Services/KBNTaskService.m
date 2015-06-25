@@ -48,7 +48,7 @@
                 aTask.taskId = [records objectForKey:PARSE_OBJECTID];
                 aTask.active = [NSNumber numberWithBool:YES];
                 if ([aTask.project isShared]) {
-                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
+                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
                 }
                 onCompletion(aTask);
             } errorBlock:onError];

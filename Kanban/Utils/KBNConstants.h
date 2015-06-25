@@ -155,6 +155,7 @@
 #define UPDATE_TASKLIST @"updateTaskList"
 #define UPDATE_TASK @"updateTask"
 #define UPDATE_TASKS @"updateTasks"
+#define ADD_TASK @"addTask"
 
 //TaskLists Templates
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]

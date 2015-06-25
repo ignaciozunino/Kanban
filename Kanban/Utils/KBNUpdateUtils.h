@@ -20,7 +20,8 @@ typedef NS_ENUM(NSInteger, KBNChangeType) {
     KBNChangeTypeProjectUpdate,
     KBNChangeTypeTaskListUpdate,
     KBNChangeTypeTaskUpdate,
-    KBNChangeTypeTasksUpdate
+    KBNChangeTypeTasksUpdate,
+    KBNChangeTypeTaskAdd
 };
 
 @interface KBNUpdateUtils : NSObject

@@ -62,6 +62,7 @@
 
 - (void)subscribeToRemoteNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskAdd:) name:ADD_TASK object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -93,8 +94,14 @@
 
 #pragma mark - Notifications Handlers
 
-- (void)onTaskUpdate:(NSNotification*)notification {
+- (void)onTaskAdd:(NSNotification*)notification {
     
+}
+
+- (void)onTaskUpdate:(NSNotification*)notification {
+    KBNTask *task = (KBNTask*)notification.object;
+    NSLog([NSString stringWithFormat:@"TaskList in Task  : %@", task.taskList.taskListId], nil);
+    NSLog([NSString stringWithFormat:@"TaskList receiving: %@", self.taskList.taskListId], nil);
 }
 
 #pragma mark - IBActions
