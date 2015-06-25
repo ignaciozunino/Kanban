@@ -56,10 +56,11 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
+    
+    [self subscribeToRemoteNotifications];
 }
 
 - (void)subscribeToRemoteNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListUpdate:) name:UPDATE_TASKLIST object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
 }
 
@@ -67,7 +68,6 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableActivityIndicator) name:ENABLE_VIEW object:nil];
-    [self subscribeToRemoteNotifications];
     
     [self.tableView reloadData];
     
@@ -92,11 +92,6 @@
 }
 
 #pragma mark - Notifications Handlers
-
-- (void)onTaskListUpdate:(NSNotification*)notification {
-    KBNTaskList *updatedTaskList = (KBNTaskList*)notification.object;
-    [self.delegate insertTaskList:updatedTaskList atIndex:self.pageIndex notified:YES];
-}
 
 - (void)onTaskUpdate:(NSNotification*)notification {
     
@@ -157,13 +152,13 @@
         switch (buttonIndex) {
             case 1: //Before
                 if ([[[alertView textFieldAtIndex:0] text] length]) {
-                    [self.delegate insertTaskList:taskList before:self notified:NO];
+                    [self.delegate insertTaskList:taskList before:self];
                     [self.delegate moveBackwardFrom:self];
                 }
                 break;
             case 2: //After
                 if ([[[alertView textFieldAtIndex:0] text] length]) {
-                    [self.delegate insertTaskList:taskList after:self notified:NO];
+                    [self.delegate insertTaskList:taskList after:self];
                     [self.delegate moveForwardFrom:self];
                 }
                 break;

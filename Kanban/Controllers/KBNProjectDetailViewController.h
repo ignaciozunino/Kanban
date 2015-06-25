@@ -24,11 +24,9 @@
 
 - (void)moveToLeftTask:(KBNTask*)task from:(KBNProjectDetailViewController*)viewController;
 
-- (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController*)viewController notified:(BOOL)notified;
+- (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController*)viewController;
 
-- (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController*)viewController notified:(BOOL)notified;
-
-- (void)insertTaskList:(KBNTaskList*)taskList atIndex:(NSUInteger)index notified:(BOOL)notified;
+- (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController*)viewController;
 
 - (void)moveBackwardFrom:(KBNProjectDetailViewController*)viewController;
 

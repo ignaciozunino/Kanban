@@ -50,6 +50,7 @@
 
 - (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListUpdate:) name:UPDATE_TASKLIST object:nil];
 }
 
 - (void) dealloc {
@@ -67,7 +68,9 @@
     }
 }
 
-- (void)onTaskUpdate:(NSNotification*)notification {
+- (void)onTaskListUpdate:(NSNotification*)notification {
+    KBNTaskList *taskList = (KBNTaskList*)notification.object;
+    [self insertTaskList:taskList atIndex:taskList.order.integerValue notified:YES];
 }
 
 #pragma mark - Private methods
@@ -273,19 +276,15 @@
     }
 }
 
-- (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController *)viewController notified:(BOOL)notified {
-    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex notified:notified];
+- (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController *)viewController {
+    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex notified:NO];
 }
 
-- (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController *)viewController notified:(BOOL)notified {
-    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex + 1 notified:notified];
+- (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController *)viewController {
+    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex + 1 notified:NO];
 }
 
 - (void)insertTaskList:(KBNTaskList*)taskList atIndex:(NSUInteger)index notified:(BOOL)notified {
-    
-    if (notified) {
-        index = taskList.order.integerValue;
-    }
     
     // This view controller handles two arrays:
     // 1. projectLists
