@@ -95,7 +95,11 @@
 #pragma mark - Notifications Handlers
 
 - (void)onTaskAdd:(NSNotification*)notification {
-    
+    KBNTask *task = (KBNTask*)notification.object;
+    if ([task.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
+        [self.taskListTasks addObject:task];
+        [self.tableView reloadData];
+    }
 }
 
 - (void)onTaskUpdate:(NSNotification*)notification {
