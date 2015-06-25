@@ -314,6 +314,10 @@
             [weakself updateViewControllersArray];
             [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         }];
+    } else {
+        [newProjectDetailViewController setEnable:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];
+        [self updatePageController];
     }
     
 }
@@ -346,6 +350,10 @@
                                       direction:UIPageViewControllerNavigationDirectionForward
                                        animated:YES
                                      completion:nil];
+}
+
+- (void)updatePageController {
+    [self.pageViewController setViewControllers:[self.pageViewController viewControllers] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 }
 
 - (void)toggleScrollStatus {
