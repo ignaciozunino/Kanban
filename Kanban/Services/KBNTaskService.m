@@ -48,7 +48,7 @@
                 aTask.taskId = [records objectForKey:PARSE_OBJECTID];
                 aTask.active = [NSNumber numberWithBool:YES];
                 if ([aTask.project isShared]) {
-                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdded projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
+                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
                 }
                 onCompletion(aTask);
             } errorBlock:onError];
@@ -78,7 +78,7 @@
     __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate completionBlock:^{
         if ([task.project isShared]) {
-            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTasksUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
         }
         onCompletion();
     } errorBlock:onError];
@@ -115,7 +115,7 @@
     [self.dataService updateTasks:tasksToUpdate
                   completionBlock:^{
                       if ([task.project isShared]) {
-                          [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTasksUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
+                          [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
                       }
                       onCompletion();
                   }

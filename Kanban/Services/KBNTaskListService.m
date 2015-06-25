@@ -59,7 +59,9 @@
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
         taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
         if ([project isShared]) {
-            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskListsUpdate projectId:project.projectId data:[KBNTaskListUtils taskListsJson:project.taskLists.array]];
+            NSArray *array = [NSArray arrayWithObject:taskList];
+            NSDictionary *data = [KBNTaskListUtils taskListsJson:array];
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskListUpdate projectId:project.projectId data:data];
         }
         onCompletion(taskList);
     } errorBlock:^(NSError *error){

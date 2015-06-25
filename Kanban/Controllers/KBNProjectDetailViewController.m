@@ -58,10 +58,16 @@
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
 }
 
+- (void)subscribeToRemoteNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListUpdate:) name:UPDATE_TASKLIST object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableActivityIndicator) name:ENABLE_VIEW object:nil];
+    [self subscribeToRemoteNotifications];
     
     [self.tableView reloadData];
     
@@ -81,7 +87,19 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:ENABLE_VIEW];
+    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASKLIST];
     [super viewWillDisappear:animated];
+}
+
+#pragma mark - Notifications Handlers
+
+- (void)onTaskListUpdate:(NSNotification*)notification {
+    KBNTaskList *updatedTaskList = (KBNTaskList*)notification.object;
+    [self.delegate insertTaskList:updatedTaskList atIndex:self.pageIndex notified:YES];
+}
+
+- (void)onTaskUpdate:(NSNotification*)notification {
+    
 }
 
 #pragma mark - IBActions
@@ -139,13 +157,13 @@
         switch (buttonIndex) {
             case 1: //Before
                 if ([[[alertView textFieldAtIndex:0] text] length]) {
-                    [self.delegate insertTaskList:taskList before:self];
+                    [self.delegate insertTaskList:taskList before:self notified:NO];
                     [self.delegate moveBackwardFrom:self];
                 }
                 break;
             case 2: //After
                 if ([[[alertView textFieldAtIndex:0] text] length]) {
-                    [self.delegate insertTaskList:taskList after:self];
+                    [self.delegate insertTaskList:taskList after:self notified:NO];
                     [self.delegate moveForwardFrom:self];
                 }
                 break;

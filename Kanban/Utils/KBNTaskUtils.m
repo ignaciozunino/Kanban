@@ -129,8 +129,9 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(project.projectId LIKE %@) AND (active == %@)", projectId, [NSNumber numberWithBool:YES]];
     [fetchRequest setPredicate:predicate];
     // Specify how the fetched objects should be sorted
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+    NSSortDescriptor *sortByTaskListDescriptor = [[NSSortDescriptor alloc] initWithKey:@"taskList.order" ascending:YES];
+    NSSortDescriptor *sortByOrderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortByTaskListDescriptor, sortByOrderDescriptor, nil]];
     
     NSError *error = nil;
     NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];

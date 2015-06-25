@@ -50,10 +50,6 @@
 
 - (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListsUpdate:) name:UPDATE_TASKLISTS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:ADD_TASK object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASK object:nil];
 }
 
 - (void) dealloc {
@@ -71,25 +67,7 @@
     }
 }
 
-- (void)onTaskListsUpdate:(NSNotification *)notification {
-    // Receives the task lists for the project
-    self.projectLists = [NSMutableArray arrayWithArray:(NSArray*)notification.object];
-}
-
-- (void)onTasksUpdate:(NSNotification*)notification {
-    // Determine the index of the current detail view controller
-    NSUInteger index = [self.detailViewControllers indexOfObject:[self.pageViewController.viewControllers firstObject]];
-    __weak typeof(self) weakself = self;
-    [[KBNTaskService sharedInstance] tasksForProject:self.project completionBlock:^(NSArray *records) {
-        weakself.projectTasks = [NSMutableArray arrayWithArray:records];
-        [weakself buildDetailViewControllers];
-        [weakself.pageViewController setViewControllers:@[[weakself.detailViewControllers objectAtIndex:index]]
-                                              direction:UIPageViewControllerNavigationDirectionReverse
-                                               animated:NO
-                                             completion:nil];
-        
-    } errorBlock:^(NSError *error) {
-    }];
+- (void)onTaskUpdate:(NSNotification*)notification {
 }
 
 #pragma mark - Private methods
@@ -295,15 +273,20 @@
     }
 }
 
-- (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController *)viewController {
-    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex];
+- (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController *)viewController notified:(BOOL)notified {
+    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex notified:notified];
 }
 
-- (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController *)viewController {
-    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex + 1];
+- (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController *)viewController notified:(BOOL)notified {
+    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex + 1 notified:notified];
 }
 
-- (void)insertTaskList:(KBNTaskList*)taskList atIndex:(NSUInteger)index {
+- (void)insertTaskList:(KBNTaskList*)taskList atIndex:(NSUInteger)index notified:(BOOL)notified {
+    
+    if (notified) {
+        index = taskList.order.integerValue;
+    }
+    
     // This view controller handles two arrays:
     // 1. projectLists
     // 2. detailViewControllers
@@ -319,18 +302,20 @@
     
     [self updateViewControllersArray];
     
-    __weak typeof(self) weakself = self;
-    [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^(KBNTaskList *taskList) {
-        // Enable edition on new task list
-        [newProjectDetailViewController setEnable:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];
-    
-    } errorBlock:^(NSError *error) {
-        [weakself.projectLists removeObject:taskList];
-        [weakself.detailViewControllers removeObject:newProjectDetailViewController];
-        [weakself updateViewControllersArray];
-        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-    }];
+    if (!notified) {
+        __weak typeof(self) weakself = self;
+        [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^(KBNTaskList *taskList) {
+            // Enable edition on new task list
+            [newProjectDetailViewController setEnable:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];
+            
+        } errorBlock:^(NSError *error) {
+            [weakself.projectLists removeObject:taskList];
+            [weakself.detailViewControllers removeObject:newProjectDetailViewController];
+            [weakself updateViewControllersArray];
+            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+        }];
+    }
     
 }
 

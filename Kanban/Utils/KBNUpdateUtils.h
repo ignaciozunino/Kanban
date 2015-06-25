@@ -18,8 +18,7 @@
 
 typedef NS_ENUM(NSInteger, KBNChangeType) {
     KBNChangeTypeProjectUpdate,
-    KBNChangeTypeTaskListsUpdate,
-    KBNChangeTypeTaskAdded,
+    KBNChangeTypeTaskListUpdate,
     KBNChangeTypeTaskUpdate,
     KBNChangeTypeTasksUpdate
 };

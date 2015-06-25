@@ -145,19 +145,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCh-uY-tqv" userLabel="ActivityIndicatorView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="d5X-Mv-4N4">
-                                        <rect key="frame" x="290" y="290" width="20" height="20"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="d5X-Mv-4N4" secondAttribute="centerX" id="hTX-Jk-HF6"/>
-                                    <constraint firstAttribute="centerY" secondItem="d5X-Mv-4N4" secondAttribute="centerY" id="iZz-O4-Eyg"/>
-                                </constraints>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ListName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGD-ko-F2l">
                                 <rect key="frame" x="66" y="80" width="468" height="21"/>
                                 <constraints>
@@ -248,6 +235,19 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <view hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCh-uY-tqv" userLabel="ActivityIndicatorView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="d5X-Mv-4N4">
+                                        <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="d5X-Mv-4N4" secondAttribute="centerX" id="hTX-Jk-HF6"/>
+                                    <constraint firstAttribute="centerY" secondItem="d5X-Mv-4N4" secondAttribute="centerY" id="iZz-O4-Eyg"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oet-Ma-sNN" customClass="KBNReachabilityWidgetView">
                                 <rect key="frame" x="150" y="546" width="300" height="46"/>
                                 <constraints>
