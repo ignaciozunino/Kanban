@@ -63,6 +63,7 @@
 - (void)subscribeToRemoteNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskAdd:) name:ADD_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskMove:) name:MOVE_TASK object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,8 +89,13 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:ENABLE_VIEW];
-    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASKLIST];
     [super viewWillDisappear:animated];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASK];
+    [[NSNotificationCenter defaultCenter] removeObserver:ADD_TASK];
+    [[NSNotificationCenter defaultCenter] removeObserver:MOVE_TASK];
 }
 
 #pragma mark - Notifications Handlers
@@ -103,9 +109,28 @@
 }
 
 - (void)onTaskUpdate:(NSNotification*)notification {
-    KBNTask *task = (KBNTask*)notification.object;
-    NSLog([NSString stringWithFormat:@"TaskList in Task  : %@", task.taskList.taskListId], nil);
-    NSLog([NSString stringWithFormat:@"TaskList receiving: %@", self.taskList.taskListId], nil);
+    KBNTask *updatedTask = (KBNTask*)notification.object;
+    if ([updatedTask.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
+        for (KBNTask* task in self.taskListTasks) {
+            if ([task.taskId isEqualToString:updatedTask.taskId]) {
+                task.name = updatedTask.name;
+                task.taskDescription = updatedTask.taskDescription;
+                break;
+            }
+        }
+        [self.tableView reloadData];
+    }
+}
+
+- (void)onTaskMove:(NSNotification*)notification {
+    NSArray *updatedTasks = (NSArray*)notification.object;
+    self.taskListTasks = [NSMutableArray array];
+    for (KBNTask* task in updatedTasks) {
+        if ([task.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
+            [self.taskListTasks addObject:task];
+        }
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark - IBActions

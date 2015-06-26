@@ -62,6 +62,9 @@
                                                            case KBNChangeTypeTaskAdd:
                                                                [self addTask:records inProject:projectId];
                                                                break;
+                                                           case KBNChangeTypeTaskMove:
+                                                               [self moveTask:records inProject:projectId];
+                                                               break;
                                                        }
                                                    }
                                                }
@@ -86,7 +89,7 @@
 }
 
 - (void)updateTask:(NSDictionary*)records inProject:(NSString*)projectId{
-    // We get here when a task is deleted or moved in the same list or to another list.
+    // We get here when a task name or description is changed.
     KBNTask *task = [[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]] firstObject];
     [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASK object:task];
 }
@@ -97,10 +100,16 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:ADD_TASK object:task];
 }
 
+- (void)moveTask:(NSDictionary*)records inProject:(NSString*)projectId{
+    // We get here when a task is moved thru the same list or to another list.
+    NSArray *tasks = [KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MOVE_TASK object:tasks];
+}
+
 - (void)updateTasks:(NSDictionary*)records inProject:(NSString*)projectId{
     // We get here when several tasks are created. It's only used in a test.
     NSArray *tasks = [KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASK object:tasks];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASKS object:tasks];
 }
 
 @end

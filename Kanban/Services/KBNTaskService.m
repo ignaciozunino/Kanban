@@ -86,7 +86,7 @@
 
 - (void) moveTask:(KBNTask *)task toList:(KBNTaskList*)destinationList inOrder:(NSNumber*)order
   completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    
+
     NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
     
     KBNTaskList *currentList = task.taskList;
@@ -101,21 +101,25 @@
     
     task.taskList = destinationList;
     
-    [currentList removeTasksObject:task];
-    [destinationList insertObject:task inTasksAtIndex:[order integerValue]];
+    if ([currentList.taskListId isEqualToString:destinationList.taskListId]) {
+        [currentList removeTasksObject:task];
+        [destinationList insertObject:task inTasksAtIndex:[order integerValue]];
+    }
     
     [self updateTaskOrdersInSet:currentList.tasks];
     [tasksToUpdate addObjectsFromArray:currentList.tasks.array];
     
-    [self updateTaskOrdersInSet:destinationList.tasks];
-    [tasksToUpdate addObjectsFromArray:destinationList.tasks.array];
+    if (![currentList.taskListId isEqualToString:destinationList.taskListId]) {
+        [self updateTaskOrdersInSet:destinationList.tasks];
+        [tasksToUpdate addObjectsFromArray:destinationList.tasks.array];
+    }
     
-    //Send updates to the data service
+     //Send updates to the data service
     __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate
                   completionBlock:^{
                       if ([task.project isShared]) {
-                          [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
+                          [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskMove projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
                       }
                       onCompletion();
                   }
