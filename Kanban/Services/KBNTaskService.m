@@ -46,6 +46,7 @@
             __weak typeof(self) weakself = self;
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
                 aTask.taskId = [records objectForKey:PARSE_OBJECTID];
+                aTask.synchronized = [NSNumber numberWithBool:YES];
                 aTask.active = [NSNumber numberWithBool:YES];
                 if ([aTask.project isShared]) {
                     [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];

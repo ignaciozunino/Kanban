@@ -55,8 +55,10 @@
         }
         
         project.taskLists = [NSOrderedSet orderedSetWithArray:taskLists];
+        [[KBNCoreDataManager sharedInstance] saveContext];
         
         [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
+            [[KBNCoreDataManager sharedInstance] saveContext];
             onCompletion(newProject);
         } errorBlock:onError];
     }

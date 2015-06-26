@@ -31,7 +31,7 @@
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    return [[KBNCoreDataManager sharedInstance] managedObjectContext];
 }
 
 ///test that we can logical remove tasks

@@ -42,7 +42,7 @@
 }
 
 + (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    return [[KBNCoreDataManager sharedInstance] managedObjectContext];
 }
 
 + (NSArray*)mockTasksForProject:(KBNProject*)project taskList:(KBNTaskList*)taskList quantity:(NSUInteger)quantity {

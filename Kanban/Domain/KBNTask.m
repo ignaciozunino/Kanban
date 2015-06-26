@@ -20,9 +20,14 @@
 @dynamic active;
 @dynamic project;
 @dynamic taskList;
+@dynamic synchronized;
 
 - (BOOL)isActive {
     return self.active.boolValue;
+}
+
+- (BOOL)isSynchronized {
+    return self.synchronized.boolValue;
 }
 
 @end

@@ -162,12 +162,6 @@
 
 #pragma mark - IBActions
 - (IBAction)addProject:(UIBarButtonItem *)sender {
-    
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
-    
     [self performSegueWithIdentifier:SEGUE_SELECT_PROJECT_TEMPLATE sender:sender];
 }
 

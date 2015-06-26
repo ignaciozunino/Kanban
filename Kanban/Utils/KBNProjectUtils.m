@@ -41,7 +41,7 @@
 }
 
 + (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    return [[KBNCoreDataManager sharedInstance] managedObjectContext];
 }
 
 + (NSDictionary *)projectJson:(KBNProject *)project {

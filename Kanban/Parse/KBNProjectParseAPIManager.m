@@ -60,6 +60,7 @@
                 NSUInteger index = [[info objectForKey:@"order"] integerValue];
                 taskList = (KBNTaskList*)[project.taskLists objectAtIndex:index];
                 taskList.taskListId = [info objectForKey:@"listId"];
+                taskList.synchronized = [NSNumber numberWithBool:YES];
             }
             onCompletion(project);
         }
@@ -76,6 +77,7 @@
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                      project.projectId = [responseObject objectForKey:PARSE_OBJECTID];
+                     project.synchronized = [NSNumber numberWithBool:YES];
                      
                      NSArray *lists = DEFAULT_TASK_LISTS;
                      [self createTasksListForProject:responseObject forProject:project lists:lists onError:onError onCompletion:onCompletion manager:self.afManager];
