@@ -157,6 +157,7 @@
 #define UPDATE_TASKS @"updateTasks"
 #define ADD_TASK @"addTask"
 #define MOVE_TASK @"moveTask"
+#define REMOVE_TASK @"removeTask"
 
 //TaskLists Templates
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]

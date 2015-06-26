@@ -64,6 +64,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskAdd:) name:ADD_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskMove:) name:MOVE_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskRemove:) name:REMOVE_TASK object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -96,6 +97,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASK];
     [[NSNotificationCenter defaultCenter] removeObserver:ADD_TASK];
     [[NSNotificationCenter defaultCenter] removeObserver:MOVE_TASK];
+    [[NSNotificationCenter defaultCenter] removeObserver:REMOVE_TASK];
 }
 
 #pragma mark - Notifications Handlers
@@ -131,6 +133,14 @@
         }
     }
     [self.tableView reloadData];
+}
+
+- (void)onTaskRemove:(NSNotification*)notification {
+    KBNTask *removedTask = (KBNTask*)notification.object;
+    if ([removedTask.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
+        [self.taskListTasks removeObject:removedTask];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - IBActions

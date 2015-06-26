@@ -65,6 +65,9 @@
                                                            case KBNChangeTypeTaskMove:
                                                                [self moveTask:records inProject:projectId];
                                                                break;
+                                                           case KBNChangeTypeTaskRemove:
+                                                               [self removeTask:records inProject:projectId];
+                                                               break;
                                                        }
                                                    }
                                                }
@@ -92,6 +95,12 @@
     // We get here when a task name or description is changed.
     KBNTask *task = [[KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]] firstObject];
     [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASK object:task];
+}
+
+- (void)removeTask:(NSDictionary*)records inProject:(NSString*)projectId{
+    // We get here when a task is deleted.
+    KBNTask *task = [[KBNTaskUtils allTasksFromDictionary:records key:@"results" forProject:[KBNProjectUtils projectFromId:projectId]] firstObject];
+    [[NSNotificationCenter defaultCenter] postNotificationName:REMOVE_TASK object:task];
 }
 
 - (void)addTask:(NSDictionary*)records inProject:(NSString*)projectId{

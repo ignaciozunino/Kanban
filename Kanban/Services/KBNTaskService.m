@@ -78,7 +78,7 @@
     __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate completionBlock:^{
         if ([task.project isShared]) {
-            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskRemove projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
         }
         onCompletion();
     } errorBlock:onError];

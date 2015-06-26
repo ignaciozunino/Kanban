@@ -105,6 +105,18 @@
     return array;
 }
 
++ (NSArray *)allTasksFromDictionary:(NSDictionary *)records key:(NSString *)key forProject:(KBNProject *)project {
+    // Returns an array of all tasks, including deleted ones.
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (NSDictionary *params in (NSArray*)[records objectForKey:key]) {
+        NSString *taskListId = [params objectForKey:PARSE_TASK_TASK_LIST_COLUMN];
+        KBNTask *task = [KBNTaskUtils taskForProject:project taskList:[project taskListForId:taskListId] params:params];
+        [array addObject:task];
+    }
+    return array;
+}
+
 + (KBNTask *)taskFromId:(NSString *)taskId {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
