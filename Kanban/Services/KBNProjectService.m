@@ -55,9 +55,11 @@
         }
         
         project.taskLists = [NSOrderedSet orderedSetWithArray:taskLists];
+        // Project object creation completed. Save context.
         [[KBNCoreDataManager sharedInstance] saveContext];
         
         [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
+            // Save context to save parse object id's in Core Data
             [[KBNCoreDataManager sharedInstance] saveContext];
             onCompletion(newProject);
         } errorBlock:onError];
@@ -72,6 +74,10 @@
                                             userInfo:info];
         onError(errorPtr);
     }else{
+        project.name = newName;
+        project.projectDescription = newDescription;
+        [[KBNCoreDataManager sharedInstance] saveContext];
+        
         __weak typeof(self) weakself = self;
         [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
             project.name = newName;
@@ -151,11 +157,19 @@
     } errorBlock:onError];
 }
 
-- (void)getProjectsOnSuccessBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
+- (void)getProjectsOnSuccessBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    
+    [[KBNCoreDataManager sharedInstance] getProjectsOnSuccess:^(NSArray *records) {
+        onCompletion(records);
+    } errorBlock:onError];
+    
     [self.dataService getProjectsFromUsername:[KBNUserUtils getUsername] onSuccessBlock:^(NSDictionary *records) {
         // Get the projects array from the response dictionary and pass it around
-        onCompletion([KBNProjectUtils projectsFromDictionary:records key:@"results"]);
-    } errorBlock:onError];
+        NSArray *results = [KBNProjectUtils projectsFromDictionary:records key:@"results"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:GET_PROJECTS object:results];
+    } errorBlock:^(NSError *error) {
+    }];
+
 }
 
 @end

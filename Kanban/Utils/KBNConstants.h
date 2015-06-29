@@ -159,6 +159,9 @@
 #define MOVE_TASK @"moveTask"
 #define REMOVE_TASK @"removeTask"
 
+#define GET_PROJECTS @"getProjects"
+#define GET_TASKS @"getTasks"
+
 //TaskLists Templates
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
 

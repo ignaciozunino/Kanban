@@ -45,6 +45,7 @@
 - (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCreateProject:) name:PROJECT_ADDED object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetProjects:) name:GET_PROJECTS object:nil];
 }
 
 - (void)dealloc {
@@ -74,9 +75,14 @@
     [self.tableView reloadData];
 }
 
--(void) didCreateProject:(NSNotification *)notification {
+- (void)didCreateProject:(NSNotification *)notification {
     KBNProject *project = (KBNProject*)notification.object;
     [self.projects addObject:project];
+    [self.tableView reloadData];
+}
+
+- (void)didGetProjects:(NSNotification*)notification {
+    self.projects = [NSMutableArray arrayWithArray:(NSArray*)notification.object];
     [self.tableView reloadData];
 }
 
