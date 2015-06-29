@@ -363,11 +363,13 @@
 #pragma mark - Navigation
 
 - (void)setupEdit {
-    
+	
+	
     if ([KBNReachabilityUtils isOffline]) {
         [[[self.pageViewController.viewControllers firstObject] reachabilityView] showAnimated:YES];
         return;
     }
+	
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     KBNEditProjectViewController *editProjectViewController = [storyboard instantiateViewControllerWithIdentifier:KBNEDIT_VC];

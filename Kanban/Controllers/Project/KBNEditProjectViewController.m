@@ -46,7 +46,11 @@
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
     [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
-
+	NSArray *projectUsers = (NSArray*)self.project.users;
+	if([KBNReachabilityUtils isOffline] && projectUsers.count > 1) {
+		//it's shared
+		[KBNAlertUtils showAlertView:@"Shared Proyects cannot be edited in offline mode" andType:@"Warning"];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,8 +76,12 @@
 }
 
 - (IBAction)onSavePressed:(id)sender {
-    
     if ([KBNReachabilityUtils isOffline]) {
+		NSArray *projectUsers = (NSArray*)self.project.users;
+		if (projectUsers.count > 1) {
+			[KBNAlertUtils showAlertView:@"Shared Proyects cannot be edited in offline mode" andType:@"Warning"];
+			return;
+		}
         [self.reachabilityView showAnimated:YES];
         return;
     }
