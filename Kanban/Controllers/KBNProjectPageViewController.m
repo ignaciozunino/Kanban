@@ -366,11 +366,14 @@
 	
 	
     if ([KBNReachabilityUtils isOffline]) {
+		if (self.project.isShared) {
+			[KBNAlertUtils showAlertView:@"Shared Proyects cannot be edited in offline mode" andType:@"Warning"];
+			return;
+		}
         [[[self.pageViewController.viewControllers firstObject] reachabilityView] showAnimated:YES];
         return;
     }
 	
-
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     KBNEditProjectViewController *editProjectViewController = [storyboard instantiateViewControllerWithIdentifier:KBNEDIT_VC];
     editProjectViewController.project = self.project;
