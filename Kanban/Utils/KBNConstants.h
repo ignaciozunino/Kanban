@@ -152,15 +152,13 @@
 
 //Notifications
 #define UPDATE_PROJECT @"updateProject"
+#define UPDATE_PROJECTS @"updateProjects"
 #define UPDATE_TASKLIST @"updateTaskList"
 #define UPDATE_TASK @"updateTask"
 #define UPDATE_TASKS @"updateTasks"
 #define ADD_TASK @"addTask"
 #define MOVE_TASK @"moveTask"
 #define REMOVE_TASK @"removeTask"
-
-#define GET_PROJECTS @"getProjects"
-#define GET_TASKS @"getTasks"
 
 //TaskLists Templates
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]

@@ -71,7 +71,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskAdd:) name:ADD_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskMove:) name:MOVE_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskRemove:) name:REMOVE_TASK object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetTasks:) name:GET_TASKS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -105,7 +105,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:ADD_TASK];
     [[NSNotificationCenter defaultCenter] removeObserver:MOVE_TASK];
     [[NSNotificationCenter defaultCenter] removeObserver:REMOVE_TASK];
-    [[NSNotificationCenter defaultCenter] removeObserver:GET_TASKS];
+    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASKS];
 }
 
 #pragma mark - Notifications Handlers
@@ -151,7 +151,8 @@
     }
 }
 
-- (void)didGetTasks:(NSNotification*)notification {
+- (void)onTasksUpdate:(NSNotification*)notification {
+    // Notification received after getting tasks from Parse
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskList == %@", self.taskList];
     NSArray *tasks = [(NSArray*)notification.object filteredArrayUsingPredicate:predicate];
     self.taskListTasks = [NSMutableArray arrayWithArray:tasks];

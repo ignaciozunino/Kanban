@@ -166,7 +166,7 @@
     [self.dataService getProjectsFromUsername:[KBNUserUtils getUsername] onSuccessBlock:^(NSDictionary *records) {
         // Get the projects array from the response dictionary and pass it around
         NSArray *results = [KBNProjectUtils projectsFromDictionary:records key:@"results"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:GET_PROJECTS object:results];
+        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PROJECTS object:results];
     } errorBlock:^(NSError *error) {
     }];
 

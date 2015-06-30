@@ -45,7 +45,7 @@
 - (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCreateProject:) name:PROJECT_ADDED object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetProjects:) name:GET_PROJECTS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:UPDATE_PROJECTS object:nil];
 }
 
 - (void)dealloc {
@@ -81,7 +81,8 @@
     [self.tableView reloadData];
 }
 
-- (void)didGetProjects:(NSNotification*)notification {
+- (void)onProjectsUpdate:(NSNotification*)notification {
+    // Notification received after getting projects from Parse
     self.projects = [NSMutableArray arrayWithArray:(NSArray*)notification.object];
     [self.tableView reloadData];
 }

@@ -69,7 +69,7 @@
     
     [self.dataService getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
         NSArray *results = [KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project];
-        [[NSNotificationCenter defaultCenter] postNotificationName:GET_TASKS object:results];
+        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASKS object:results];
     } errorBlock:onError];
 }
 
