@@ -43,11 +43,16 @@
             onError(errorPtr);
         } else {
             aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
+            aTask.active = [NSNumber numberWithBool:YES];
+            [[KBNCoreDataManager sharedInstance] saveContext];
+            
             __weak typeof(self) weakself = self;
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
                 aTask.taskId = [records objectForKey:PARSE_OBJECTID];
                 aTask.synchronized = [NSNumber numberWithBool:YES];
-                aTask.active = [NSNumber numberWithBool:YES];
+                // Save context to save parse object id's in Core Data
+                [[KBNCoreDataManager sharedInstance] saveContext];
+                
                 if ([aTask.project isShared]) {
                     [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
                 }
@@ -58,8 +63,13 @@
 }
 
 - (void)getTasksForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    [[KBNCoreDataManager sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSArray *records) {
+        onCompletion(records);
+    } errorBlock:onError];
+    
     [self.dataService getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-        onCompletion([KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project]);
+        NSArray *results = [KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project];
+        [[NSNotificationCenter defaultCenter] postNotificationName:GET_TASKS object:results];
     } errorBlock:onError];
 }
 

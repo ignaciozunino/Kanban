@@ -151,12 +151,12 @@
 }
 
 - (void)getTasksForProject:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"projectId == %@",projectId];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"project.projectId == %@", projectId];
     [self fetchEntitiesForClass:[KBNTask class] withPredicate:predicate inManagedObjectContext:[self managedObjectContext] onSuccess:onCompletion onError:onError];
 }
 
 - (void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"projectId == %@",projectId];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"project.projectId == %@", projectId];
     [self fetchEntitiesForClass:[KBNTaskList class] withPredicate:predicate inManagedObjectContext:[self managedObjectContext] onSuccess:onCompletion onError:onError];
 }
 
