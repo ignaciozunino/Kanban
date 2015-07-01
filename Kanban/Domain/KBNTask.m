@@ -21,6 +21,7 @@
 @dynamic project;
 @dynamic taskList;
 @dynamic synchronized;
+@dynamic updatedAt;
 
 - (BOOL)isActive {
     return self.active.boolValue;

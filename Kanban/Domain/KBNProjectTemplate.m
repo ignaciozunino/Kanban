@@ -14,5 +14,6 @@
 @dynamic projectTemplateId;
 @dynamic name;
 @dynamic lists;
+@dynamic updatedAt;
 
 @end

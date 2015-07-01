@@ -27,7 +27,19 @@
 -(void)getTaskListsForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     [self.dataService getTaskListsForProject:project.projectId completionBlock:^(NSDictionary *records) {
-        onCompletion([KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:project]);
+        NSArray *results = [KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:project];
+        
+        // TaskLists have already been inserted in context.
+        // Mark them as synchronized and update context.
+        for (KBNTaskList *taskList in results) {
+            if (!taskList.isSynchronized) {
+                taskList.synchronized = [NSNumber numberWithBool:YES];
+            }
+        }
+        [[KBNCoreDataManager sharedInstance] saveContext];
+        
+        onCompletion(results);
+
     } errorBlock:onError];
 }
 

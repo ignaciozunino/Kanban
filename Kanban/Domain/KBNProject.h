@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSOrderedSet *taskLists;
 @property (nonatomic, strong) NSOrderedSet *tasks;
 @property (nonatomic, strong) NSNumber *synchronized;
+@property (nonatomic, strong) NSDate *updatedAt;
 
 @end
 

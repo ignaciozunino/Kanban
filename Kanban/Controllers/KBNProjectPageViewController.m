@@ -23,8 +23,6 @@
 @interface KBNProjectPageViewController ()
 
 @property (strong, nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) NSMutableArray* projectTasks;
-@property (strong, nonatomic) NSMutableArray* projectLists;
 @property (strong, nonatomic) NSMutableArray* detailViewControllers; //An array of view controllers built once. Then, every time the user goes to the next/previous page, the corresponding KBNProjectDetailViewController is obtained immediatly from the array, at no cost.
 
 @property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
@@ -38,14 +36,16 @@
     
     self.title = self.project.name;
     
-    self.projectTasks = [NSMutableArray new];
-    
     self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                           target:self
                                                                                           action:@selector(setupEdit)];
-    [self getProjectLists];
-    
+    if (self.project.taskLists.count) {
+        [self buildDetailViewControllers];
+        [self createPageViewController];
+    }
+
     [self subscribeToNotifications];
+    [self startListeningForUpdates];
 }
 
 - (void)subscribeToNotifications {
@@ -75,22 +75,20 @@
 
 #pragma mark - Private methods
 
-- (void)getProjectLists {
+- (void)startListeningForUpdates {
     __weak typeof(self) weakself = self;
     [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project completionBlock:^(NSArray *records) {
-        weakself.projectLists = [NSMutableArray arrayWithArray:records];
-        [weakself getProjectTasks];
+        weakself.project.taskLists = [NSOrderedSet orderedSetWithArray:records];
+        [weakself getUpdatesForProjectTasks];
     } errorBlock:^(NSError *error) {
     }];
 }
 
-- (void)getProjectTasks {
+- (void)getUpdatesForProjectTasks {
     __weak typeof(self) weakself = self;
     [[KBNTaskService sharedInstance] getTasksForProject:self.project completionBlock:^(NSArray *records) {
-        weakself.projectTasks = [NSMutableArray arrayWithArray:records];
-        [weakself buildDetailViewControllers];
-        [weakself createPageViewController];
-
+        weakself.project.tasks = [NSOrderedSet orderedSetWithArray:records];
+        [weakself updateDetailViewControllers];
     } errorBlock:^(NSError *error) {
     }];
 }
@@ -102,13 +100,29 @@
     self.detailViewControllers = [[NSMutableArray alloc] init];
     
     int i = 0;
-    for (KBNTaskList* taskList in self.projectLists) {
+    for (KBNTaskList* taskList in self.project.taskLists) {
         
         //Add all detail view controllers to the pageViewController, each one having its own TaskList and array of Lists.
         [self.detailViewControllers addObject:[self createViewControllerWithIndex:i
                                                                       andTaskList:taskList
                                                                          andTasks:[self tasksForList:taskList]]];
         i++;
+    }
+}
+
+- (void)updateDetailViewControllers {
+    
+    if (!self.detailViewControllers) {
+        [self buildDetailViewControllers];
+        [self createPageViewController];
+    } else {
+        for (KBNTaskList *list in self.project.taskLists) {
+            NSUInteger index = [self.project.taskLists indexOfObject:list];
+            // If the remote list does not exist in the lists array, create detail view controller and add it to detailViewControllers array.
+            if (index == NSNotFound) {
+                [self insertTaskList:list atIndex:list.order.integerValue notified:YES];
+            }
+        }
     }
 }
 
@@ -170,7 +184,7 @@
     
     projectDetailViewController.delegate = self;
     projectDetailViewController.pageIndex = index;
-    projectDetailViewController.totalPages = self.projectLists.count;
+    projectDetailViewController.totalPages = self.project.taskLists.count;
     projectDetailViewController.project = self.project;
     projectDetailViewController.enable = YES;
     
@@ -184,7 +198,7 @@
 -(NSMutableArray*)tasksForList:(KBNTaskList*)list {
     NSMutableArray *result = [[NSMutableArray alloc] init];
     
-    for (KBNTask* task in self.projectTasks) {
+    for (KBNTask* task in self.project.tasks) {
         if ([task.taskList.taskListId isEqualToString:list.taskListId]){
             [result addObject:task];
         }
@@ -213,7 +227,7 @@
         return nil;
     }
     index++;
-    if (index == [self.projectLists count])
+    if (index == self.project.taskLists.count)
     {
         return nil;
     }
@@ -221,7 +235,7 @@
 }
 
 -(NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
-    return [self.projectLists count];
+    return self.project.taskLists.count;
 }
 
 -(NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
@@ -291,7 +305,7 @@
     // 2. detailViewControllers
     // We have to insert new objects (task list and detail view controller) in the corresponding array.
     
-    [self.projectLists insertObject:taskList atIndex:index];
+//    [self.projectLists insertObject:taskList atIndex:index];
     
     KBNProjectDetailViewController *newProjectDetailViewController = [self createViewControllerWithIndex:index andTaskList:taskList andTasks:nil];
     
@@ -309,10 +323,10 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];
             
         } errorBlock:^(NSError *error) {
-            [weakself.projectLists removeObject:taskList];
-            [weakself.detailViewControllers removeObject:newProjectDetailViewController];
-            [weakself updateViewControllersArray];
-            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+//            [weakself.projectLists removeObject:taskList];
+//            [weakself.detailViewControllers removeObject:newProjectDetailViewController];
+//            [weakself updateViewControllersArray];
+//            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         }];
     } else {
         [newProjectDetailViewController setEnable:YES];

@@ -77,6 +77,7 @@
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
                      project.projectId = [responseObject objectForKey:PARSE_OBJECTID];
+                     
                      project.synchronized = [NSNumber numberWithBool:YES];
                      
                      NSArray *lists = DEFAULT_TASK_LISTS;

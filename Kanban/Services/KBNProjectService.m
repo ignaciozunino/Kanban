@@ -167,6 +167,15 @@
         // Get the projects array from the response dictionary and pass it around
         NSArray *results = [KBNProjectUtils projectsFromDictionary:records key:@"results"];
         [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PROJECTS object:results];
+        
+        // Any change in projects has already been changed in context.
+        // Mark projects as synchronized and update context.
+        for (KBNProject *project in results) {
+            if (!project.isSynchronized) {
+                project.synchronized = [NSNumber numberWithBool:YES];
+            }
+        }
+        [[KBNCoreDataManager sharedInstance] saveContext];
     } errorBlock:^(NSError *error) {
     }];
 

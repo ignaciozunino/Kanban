@@ -154,6 +154,7 @@
 #define UPDATE_PROJECT @"updateProject"
 #define UPDATE_PROJECTS @"updateProjects"
 #define UPDATE_TASKLIST @"updateTaskList"
+#define UPDATE_TASKLISTS @"updateTaskLists"
 #define UPDATE_TASK @"updateTask"
 #define UPDATE_TASKS @"updateTasks"
 #define ADD_TASK @"addTask"

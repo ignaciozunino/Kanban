@@ -21,6 +21,7 @@
 @dynamic taskLists;
 @dynamic tasks;
 @dynamic synchronized;
+@dynamic updatedAt;
 
 - (void)insertObject:(KBNTaskList *)value inTaskListsAtIndex:(NSUInteger)idx {
     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.taskLists.array];

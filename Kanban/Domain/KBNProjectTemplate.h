@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSString *projectTemplateId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) id lists;
+@property (nonatomic, strong) NSDate *updatedAt;
 
 @end

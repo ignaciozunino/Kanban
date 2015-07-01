@@ -63,13 +63,21 @@
 }
 
 - (void)getTasksForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    [[KBNCoreDataManager sharedInstance] getTasksForProject:project.projectId completionBlock:^(NSArray *records) {
-        onCompletion(records);
-    } errorBlock:onError];
-    
+
     [self.dataService getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
         NSArray *results = [KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project];
-        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_TASKS object:results];
+        
+        // Any change in tasks has already been changed in context.
+        // Mark tasks as synchronized and update context.
+        for (KBNTask *task in results) {
+            if (!task.isSynchronized) {
+                task.synchronized = [NSNumber numberWithBool:YES];
+            }
+        }
+        [[KBNCoreDataManager sharedInstance] saveContext];
+        
+        onCompletion(results);
+
     } errorBlock:onError];
 }
 
