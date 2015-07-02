@@ -35,7 +35,7 @@
     KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
     serviceOrig.dataService = projectAPIManager;
-    [serviceOrig createProject:@"" withDescription:OCMOCK_ANY withTemplate:nil completionBlock:^(KBNProject* aProject){
+    [serviceOrig createProject:@"" withDescription:OCMOCK_ANY withTemplate:OCMOCK_ANY completionBlock:^(KBNProject* aProject){
         XCTFail(@"Project was created with no name");
     }
                     errorBlock:^(NSError *error)
@@ -43,7 +43,7 @@
          NSString *errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
          XCTAssertEqualObjects(errorMessage, CREATING_PROJECT_WITHOUTNAME_ERROR);
      }];
-    [[projectAPIManager reject] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
+    [[projectAPIManager reject] createProject:OCMOCK_ANY withLists:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
 }
 
 //Feature tested: Create Project

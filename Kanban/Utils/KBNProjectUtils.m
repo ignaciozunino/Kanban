@@ -9,6 +9,7 @@
 #import "KBNProjectUtils.h"
 #import "KBNAppDelegate.h"
 #import "KBNConstants.h"
+#import "NSDate+Utils.h"
 
 @interface KBNProjectUtils()
 
@@ -36,6 +37,7 @@
     [project setValue:[params objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN] forKey:@"projectDescription"];
     [project setValue:[params objectForKey:PARSE_PROJECT_ACTIVE_COLUMN] forKey:@"active"];
     [project setValue:[params objectForKey:PARSE_PROJECT_USERSLIST_COLUMN] forKey:@"users"];
+    [project setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
     
     return project;
 }

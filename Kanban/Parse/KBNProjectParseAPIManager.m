@@ -7,7 +7,8 @@
 //
 
 #import "KBNProjectParseAPIManager.h"
-#import "KBNTaskList.h"
+#import "KBNTaskListService.h"
+#import "NSDate+Utils.h"
 
 @implementation KBNProjectParseAPIManager
 
@@ -19,93 +20,36 @@
     return self;
 }
 
+#pragma mark - Project Methods
 
-
-#pragma mark - project methods
-
-
-- (void)createTasksListForProject:(id)responseObject forProject:(KBNProject*) project lists:(NSArray*)lists onError:(KBNErrorBlock)onError onCompletion:(KBNSuccessProjectBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
-    
-    __block NSError *error = nil;
-    dispatch_group_t serviceGroup = dispatch_group_create();
-    
-    __block NSMutableArray *listIds = [NSMutableArray array];
-    
-    for (int i =0; i<lists.count; i++) {
-        NSDictionary * item = responseObject;
-        NSString *projectID=[item objectForKey:PARSE_OBJECTID];
-        
-        NSDictionary *listdata = @{PARSE_TASKLIST_NAME_COLUMN: lists[i], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:i]};
-        dispatch_group_enter(serviceGroup);
-
-        [manager POST:PARSE_TASKLISTS parameters:listdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            // As we don't know the order in which blocks are completed, we save the listId and the corresponding order too
-            NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  [responseObject objectForKey:PARSE_OBJECTID], @"listId",
-                                  [NSNumber numberWithInt:i], @"order", nil];
-            [listIds addObject:info];
-            dispatch_group_leave(serviceGroup);
-        } failure:^(AFHTTPRequestOperation *operation, NSError *errorParse) {
-            error = errorParse;
-            dispatch_group_leave(serviceGroup);
-        }];
-    }
-
-    dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
-        if (error) {
-            onError(error);
-        } else {
-            KBNTaskList *taskList;
-            for (NSDictionary *info in listIds) {
-                NSUInteger index = [[info objectForKey:@"order"] integerValue];
-                taskList = (KBNTaskList*)[project.taskLists objectAtIndex:index];
-                taskList.taskListId = [info objectForKey:@"listId"];
-                taskList.synchronized = [NSNumber numberWithBool:YES];
-            }
-            onCompletion(project);
-        }
-    });
-}
-
-- (void) createProject: (KBNProject *) project completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
+- (void)createProject:(KBNProject*)project withLists:(NSArray*)lists completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     NSArray *projectUsers = (NSArray*)project.users;
     NSString *username = [projectUsers firstObject];
-
-    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: username, PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
     
-    [self.afManager POST:PARSE_PROJECTS parameters: data
-                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     project.projectId = [responseObject objectForKey:PARSE_OBJECTID];
-                     
-                     project.synchronized = [NSNumber numberWithBool:YES];
-                     
-                     NSArray *lists = DEFAULT_TASK_LISTS;
-                     [self createTasksListForProject:responseObject forProject:project lists:lists onError:onError onCompletion:onCompletion manager:self.afManager];
-                 }
-                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                     onError(error);
-                     
-                 }
-     ];
-}
-
-- (void) createProject: (KBNProject *) project withLists:(NSArray*)lists completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    
-    NSArray *projectUsers = (NSArray*)project.users;
-    NSString *username = [projectUsers firstObject];
-
     __block NSArray *listNames = lists;
+    __block NSMutableDictionary *info = [NSMutableDictionary dictionaryWithCapacity:2];
     
     NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: username, PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
     
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     project.projectId = [responseObject objectForKey:PARSE_OBJECTID];
+                     NSString *projectId = [responseObject objectForKey:PARSE_OBJECTID];
+                     NSDate *updatedAt = [NSDate dateFromParseString:[responseObject objectForKey:PARSE_CREATED_COLUMN]];
+                     NSDictionary *projectParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    projectId, @"projectId",
+                                                    updatedAt, @"updatedAt", nil];
+                     [info setObject:projectParams forKey:@"project"];
+                     
                      if (!lists) {
                          listNames = @[];
                      }
-                     [self createTasksListForProject:responseObject forProject:project lists:listNames onError:onError onCompletion:onCompletion manager:self.afManager];
+                     
+                     [[[KBNTaskListParseAPIManager alloc] init] createTaskLists:listNames forProject:projectId onCompletion:^(NSArray *records) {
+                         [info setObject:records forKey:@"taskLists"];
+                         onCompletion(info);
+                         
+                     } onError:onError];
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);

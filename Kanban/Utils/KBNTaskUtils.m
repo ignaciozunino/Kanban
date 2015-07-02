@@ -9,6 +9,7 @@
 #import "KBNTaskUtils.h"
 #import "KBNAppDelegate.h"
 #import "KBNConstants.h"
+#import "NSDate+Utils.h"
 
 @interface KBNTaskUtils()
 
@@ -35,6 +36,7 @@
     [task setValue:[params objectForKey:PARSE_TASK_DESCRIPTION_COLUMN] forKey:@"taskDescription"];
     [task setValue:[params objectForKey:PARSE_TASK_ORDER_COLUMN] forKey:@"order"];
     [task setValue:[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] forKey:@"active"];
+    [task setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
     task.project = project;
     task.taskList = taskList;
     

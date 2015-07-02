@@ -58,10 +58,25 @@
         // Project object creation completed. Save context.
         [[KBNCoreDataManager sharedInstance] saveContext];
         
-        [self.dataService createProject:project withLists:lists completionBlock:^(KBNProject *newProject) {
-            // Save context to save parse object id's in Core Data
+        [self.dataService createProject:project withLists:lists completionBlock:^(NSDictionary *records) {
+            NSDictionary *projectParams = [records objectForKey:@"project"];
+            project.projectId = [projectParams objectForKey:@"projectId"];
+            project.updatedAt = [projectParams objectForKey:@"updatedAt"];
+            project.synchronized = [NSNumber numberWithBool:YES];
+            
+            NSArray *listsParams = [records objectForKey:@"taskLists"];
+            KBNTaskList *taskList = nil;
+            NSUInteger index = 0;
+            for (NSDictionary *params in listsParams) {
+                taskList = [project.taskLists objectAtIndex:index];
+                taskList.taskListId = [params objectForKey:@"taskListId"];
+                taskList.updatedAt = [params objectForKey:@"updatedAt"];
+                taskList.synchronized = [NSNumber numberWithBool:YES];
+                index++;
+             }
+             
             [[KBNCoreDataManager sharedInstance] saveContext];
-            onCompletion(newProject);
+            onCompletion(project);
         } errorBlock:onError];
     }
 }

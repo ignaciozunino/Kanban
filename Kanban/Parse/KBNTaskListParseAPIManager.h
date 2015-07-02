@@ -13,6 +13,8 @@
 
 @property KBNParseRequestOperationManager* afManager;
 
+- (void)createTaskLists:(NSArray*)listNames forProject:(NSString*)projectId onCompletion:(KBNSuccessArrayBlock)onCompletion onError:(KBNErrorBlock)onError;
+
 - (void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 - (void)updateTaskLists:(NSArray*)taskLists completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError;

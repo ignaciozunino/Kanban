@@ -13,11 +13,9 @@
 @interface KBNProjectParseAPIManager : NSObject
 
 //Projects Functions
-- (void) createProject: (KBNProject *) project completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
+- (void)createProject:(KBNProject*)project withLists:(NSArray*)lists completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void) createProject: (KBNProject *) project withLists:(NSArray*)lists completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
-
--(void)setUsersList:(NSArray*)emailAddresses
+- (void)setUsersList:(NSArray*)emailAddresses
         toProjectId:(NSString*)aProjectId
     completionBlock:(KBNSuccessBlock)onSuccess
          errorBlock:(KBNErrorBlock)onError;

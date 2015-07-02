@@ -9,6 +9,7 @@
 #import "KBNTaskListUtils.h"
 #import "KBNAppDelegate.h"
 #import "KBNConstants.h"
+#import "NSDate+Utils.h"
 
 @interface KBNTaskListUtils()
 
@@ -33,6 +34,7 @@
     [taskList setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"taskListId"];
     [taskList setValue:[params objectForKey:PARSE_TASKLIST_NAME_COLUMN] forKey:@"name"];
     [taskList setValue:[params objectForKey:PARSE_TASKLIST_ORDER_COLUMN] forKey:@"order"];
+    [taskList setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
     taskList.project = project;
     
     return taskList;

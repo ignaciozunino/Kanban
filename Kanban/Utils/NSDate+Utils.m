@@ -10,8 +10,8 @@
 
 @implementation NSDate (Utils)
 
-+(NSString *)getUTCNowWithParseFormat
-{
++ (NSString *)getUTCNowWithParseFormat {
+    
     NSTimeZone *tz = [NSTimeZone timeZoneWithName:@"UTC"];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setTimeZone:tz];
@@ -28,4 +28,13 @@
     NSString * dateString =[NSString stringWithFormat: @"%@T%@.000Z",theDate,theTime];
     return dateString;
 }
+
++ (NSDate*)dateFromParseString:(NSString*)string {
+    //e.g. "2015-07-01T18:59:59.758Z"
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    return [formatter dateFromString:string];
+}
+
 @end

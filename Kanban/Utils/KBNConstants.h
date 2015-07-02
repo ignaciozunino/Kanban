@@ -87,6 +87,8 @@
 
 //PARSE TABLE COLUMNS
 #define PARSE_OBJECTID @"objectId"
+#define PARSE_CREATED_COLUMN @"createdAt"
+#define PARSE_UPDATED_COLUMN @"updatedAt"
 
 #define PARSE_TASKLIST_NAME_COLUMN @"name"
 #define PARSE_TASKLIST_PROJECT_COLUMN @"project"

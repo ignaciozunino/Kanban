@@ -10,6 +10,7 @@
 
 @interface NSDate (Utils)
 
-+(NSString *)getUTCNowWithParseFormat;
++ (NSString *)getUTCNowWithParseFormat;
++ (NSDate*)dateFromParseString:(NSString*)string;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "KBNTaskService.h"
 #import "KBNTaskUtils.h"
+#import "NSDate+Utils.h"
 
 @implementation KBNTaskService
 
@@ -47,9 +48,11 @@
             [[KBNCoreDataManager sharedInstance] saveContext];
             
             __weak typeof(self) weakself = self;
-            [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
-                aTask.taskId = [records objectForKey:PARSE_OBJECTID];
+            [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *params) {
+                aTask.taskId = [params objectForKey:@"taskId"];
+                aTask.updatedAt = [params objectForKey:@"updatedAt"];
                 aTask.synchronized = [NSNumber numberWithBool:YES];
+                
                 // Save context to save parse object id's in Core Data
                 [[KBNCoreDataManager sharedInstance] saveContext];
                 
