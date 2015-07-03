@@ -123,13 +123,6 @@
 #pragma mark - Table View Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        [tableView deselectRowAtIndexPath:indexPath animated:NO];
-        return;
-    }
-    
     [self performSegueWithIdentifier:SEGUE_PROJECT_DETAIL sender:nil];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }

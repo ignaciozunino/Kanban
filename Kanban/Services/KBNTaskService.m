@@ -8,6 +8,7 @@
 
 #import "KBNTaskService.h"
 #import "KBNTaskUtils.h"
+#import "KBNReachabilityUtils.h"
 
 @implementation KBNTaskService
 
@@ -44,15 +45,22 @@
         } else {
             aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
             __weak typeof(self) weakself = self;
-            [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
-                aTask.taskId = [records objectForKey:PARSE_OBJECTID];
-                aTask.synchronized = [NSNumber numberWithBool:YES];
-                aTask.active = [NSNumber numberWithBool:YES];
-                if ([aTask.project isShared]) {
-                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
-                }
-                onCompletion(aTask);
-            } errorBlock:onError];
+			if ([KBNReachabilityUtils isOffline]) {
+				aTask.synchronized = [NSNumber numberWithBool:NO];
+				aTask.active = [NSNumber numberWithBool:YES];
+				onCompletion(aTask);
+			}
+			else {
+				[self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
+					aTask.taskId = [records objectForKey:PARSE_OBJECTID];
+					aTask.synchronized = [NSNumber numberWithBool:YES];
+					aTask.active = [NSNumber numberWithBool:YES];
+					if ([aTask.project isShared]) {
+						[KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
+					}
+					onCompletion(aTask);
+				} errorBlock:onError];
+			}
         }
     }
 }
