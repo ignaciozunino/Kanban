@@ -66,21 +66,23 @@
 }
 
 - (void)getTasksForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-
+    
+    // If the project was created offline, it will not hava a projectId, so return.
+    if (!project.projectId) {
+        return;
+    }
     [self.dataService getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
         NSArray *results = [KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project];
         
         // Any change in tasks has already been changed in context.
-        // Mark tasks as synchronized and update context.
+        // Mark tasks as synchronized and save context.
         for (KBNTask *task in results) {
-            if (!task.isSynchronized) {
-                task.synchronized = [NSNumber numberWithBool:YES];
-            }
+            task.synchronized = [NSNumber numberWithBool:YES];
         }
         [[KBNCoreDataManager sharedInstance] saveContext];
         
         onCompletion(results);
-
+        
     } errorBlock:onError];
 }
 
@@ -98,7 +100,9 @@
     
     //Send updates to the data service
     __weak typeof(self) weakself = self;
-    [self.dataService updateTasks:tasksToUpdate completionBlock:^{
+    [self.dataService updateTasks:tasksToUpdate completionBlock:^(NSDictionary *records) {
+        
+        
         if ([task.project isShared]) {
             [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskRemove projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
         }
@@ -139,7 +143,7 @@
      //Send updates to the data service
     __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate
-                  completionBlock:^{
+                  completionBlock:^(NSDictionary *records) {
                       if ([task.project isShared]) {
                           [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskMove projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
                       }
@@ -174,7 +178,7 @@
     if (task.name.length) {
         __weak typeof(self) weakself = self;
         [self.dataService updateTasks:@[task]
-                      completionBlock:^{
+                      completionBlock:^(NSDictionary *records) {
                           if ([task.project isShared]) {
                               [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
                           }

@@ -7,6 +7,7 @@
 //
 
 #import "KBNProjectService.h"
+#import "NSDate+Utils.h"
 
 @implementation KBNProjectService
 
@@ -91,12 +92,18 @@
     }else{
         project.name = newName;
         project.projectDescription = newDescription;
+        project.synchronized = [NSNumber numberWithBool:NO];
         [[KBNCoreDataManager sharedInstance] saveContext];
         
         __weak typeof(self) weakself = self;
-        [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^{
+        [self.dataService editProject:project.projectId withNewName:newName withNewDesc:newDescription completionBlock:^(NSDictionary *records) {
+            
             project.name = newName;
             project.projectDescription = newDescription;
+            project.updatedAt = [records objectForKey:@"updatedAt"];
+            project.synchronized = [NSNumber numberWithBool:YES];
+            [[KBNCoreDataManager sharedInstance] saveContext];
+            
             // If the project has more than one user, notify change
             if ([project isShared]) {
                 [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeProjectUpdate projectId:project.projectId data:[KBNProjectUtils projectsJson:@[project]]];
@@ -129,8 +136,16 @@
             [usersMutableArray addObjectsFromArray:aProject.users];
             
             NSArray* newUsersArray = [NSArray arrayWithArray:usersMutableArray];
-            [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(){
+            aProject.users = newUsersArray;
+            aProject.synchronized = [NSNumber numberWithBool:NO];
+            [[KBNCoreDataManager sharedInstance] saveContext];
+           
+            [self.dataService setUsersList:newUsersArray toProjectId:aProject.projectId completionBlock:^(NSDictionary *records) {
                 aProject.users = newUsersArray;
+                aProject.updatedAt = [records objectForKey:@"updatedAt"];
+                aProject.synchronized = [NSNumber numberWithBool:YES];
+                [[KBNCoreDataManager sharedInstance] saveContext];
+                
                 // As we are adding a new user, project is shared
                 [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeProjectUpdate projectId:aProject.projectId data:[KBNProjectUtils projectsJson:@[aProject]]];
                 
@@ -161,9 +176,21 @@
 }
 
 - (void)removeProject:(KBNProject*)project completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
-    project.active = @NO;
+    project.active = [NSNumber numberWithBool:NO];
+    project.synchronized = [NSNumber numberWithBool:NO];
+    [[KBNCoreDataManager sharedInstance] saveContext];
+    
     __weak typeof(self) weakself = self;
-    [self.dataService updateProjects:@[project] completionBlock:^{
+    [self.dataService updateProjects:@[project] completionBlock:^(NSArray *records) {
+        // As we've sent one project, the returned array will have only one record
+        // If updatedAt key is present, the project was successfully updated
+        NSDate *updatedAt = [[records firstObject] objectForKey:@"updatedAt"];
+        if (updatedAt) {
+            project.updatedAt = updatedAt;
+            project.synchronized = [NSNumber numberWithBool:YES];
+            [[KBNCoreDataManager sharedInstance] saveContext];
+        }
+        
         // If the project has more than one user, notify change
         if ([project isShared]) {
             [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeProjectUpdate projectId:project.projectId data:[KBNProjectUtils projectsJson:@[project]]];
@@ -174,21 +201,24 @@
 
 - (void)getProjectsOnSuccessBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
+    NSPredicate *activePredicate = [NSPredicate predicateWithFormat:@"active != 0"];
+
     [[KBNCoreDataManager sharedInstance] getProjectsOnSuccess:^(NSArray *records) {
-        onCompletion(records);
+        onCompletion([records filteredArrayUsingPredicate:activePredicate]);
     } errorBlock:onError];
     
     [self.dataService getProjectsFromUsername:[KBNUserUtils getUsername] onSuccessBlock:^(NSDictionary *records) {
         // Get the projects array from the response dictionary and pass it around
         NSArray *results = [KBNProjectUtils projectsFromDictionary:records key:@"results"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PROJECTS object:results];
+        NSArray *activeProjects = [results filteredArrayUsingPredicate:activePredicate];
+        
+        // Notify view controller to update projects in the view
+        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PROJECTS object:activeProjects];
         
         // Any change in projects has already been changed in context.
-        // Mark projects as synchronized and update context.
+        // Mark projects as synchronized and save context.
         for (KBNProject *project in results) {
-            if (!project.isSynchronized) {
-                project.synchronized = [NSNumber numberWithBool:YES];
-            }
+            project.synchronized = [NSNumber numberWithBool:YES];
         }
         [[KBNCoreDataManager sharedInstance] saveContext];
     } errorBlock:^(NSError *error) {

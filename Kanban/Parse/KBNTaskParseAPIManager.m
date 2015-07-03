@@ -92,7 +92,7 @@
 }
 
 // This method will receive an array of tasks to update
-- (void)updateTasks:(NSArray*)tasks completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+- (void)updateTasks:(NSArray*)tasks completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     NSMutableArray *requests = [[NSMutableArray alloc] init];
     NSMutableDictionary *record;

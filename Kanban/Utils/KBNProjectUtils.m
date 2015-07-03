@@ -73,10 +73,7 @@
     
     for (NSDictionary* params in (NSArray*)[records objectForKey:key]) {
         KBNProject *project = [self projectWithParams:params];
-        
-        if ([project isActive]) {
-            [array addObject:project];
-        }
+        [array addObject:project];
     }
     return array;
 }

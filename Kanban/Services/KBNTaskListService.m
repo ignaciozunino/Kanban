@@ -26,6 +26,11 @@
 
 -(void)getTaskListsForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
+    // If the project was created offline, it will not hava a projectId, so return.
+    if (!project.projectId) {
+        return;
+    }
+    
     [self.dataService getTaskListsForProject:project.projectId completionBlock:^(NSDictionary *records) {
         NSArray *results = [KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:project];
         

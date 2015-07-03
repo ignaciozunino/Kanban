@@ -12,23 +12,20 @@
 
 @interface KBNProjectParseAPIManager : NSObject
 
-//Projects Functions
+// Projects Functions
 - (void)createProject:(KBNProject*)project withLists:(NSArray*)lists completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void)setUsersList:(NSArray*)emailAddresses
-        toProjectId:(NSString*)aProjectId
-    completionBlock:(KBNSuccessBlock)onSuccess
-         errorBlock:(KBNErrorBlock)onError;
+- (void)setUsersList:(NSArray*)emailAddresses toProjectId:(NSString*)aProjectId completionBlock:(KBNSuccessDictionaryBlock)onSuccess errorBlock:(KBNErrorBlock)onError;
 
-- (void) editProject: (NSString*)projectID withNewName: (NSString*) newName withNewDesc: (NSString*) newDesc completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
+- (void)editProject: (NSString*)projectID withNewName: (NSString*) newName withNewDesc: (NSString*) newDesc completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void) getProjectWithProjectID: (NSString*)projectID successBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
+- (void)getProjectWithProjectID: (NSString*)projectID successBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 - (void)getProjectsFromUsername:(NSString*) username onSuccessBlock:(KBNSuccessDictionaryBlock) onSuccess errorBlock:(KBNErrorBlock)onError;
 
-- (void)getProjectsFromUsername:(NSString*) username updatedAfter:(NSString*) lastUpdate onSuccessBlock:(KBNSuccessDictionaryBlock) onSuccess errorBlock:(KBNErrorBlock)onError;
+- (void)getProjectsFromUsername:(NSString*) username updatedAfter:(NSString*)lastUpdate onSuccessBlock:(KBNSuccessDictionaryBlock) onSuccess errorBlock:(KBNErrorBlock)onError;
 
-- (void)updateProjects:(NSArray*)projects completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
+- (void)updateProjects:(NSArray*)projects completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 
 @property KBNParseRequestOperationManager * afManager;
