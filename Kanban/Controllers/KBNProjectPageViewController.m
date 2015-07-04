@@ -19,6 +19,7 @@
 
 #define KBNEDIT_VC @"KBNEditProjectViewController"
 #define KBNEDIT_PROJECT_NAV_CONTROLLER @"KBNEditProjectNavigationController"
+#define ALERT_EDIT_PROJECT @"Shared projects cannot be edited offline"
 
 @interface KBNProjectPageViewController ()
 
@@ -378,8 +379,8 @@
 
 - (void)setupEdit {
     
-    if ([KBNReachabilityUtils isOffline]) {
-        [[[self.pageViewController.viewControllers firstObject] reachabilityView] showAnimated:YES];
+    if ([KBNReachabilityUtils isOffline] && [self.project isShared]) {
+        [KBNAlertUtils showAlertView:ALERT_EDIT_PROJECT andType:ERROR_ALERT];
         return;
     }
 

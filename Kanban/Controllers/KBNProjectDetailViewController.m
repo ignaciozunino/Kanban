@@ -162,21 +162,11 @@
 #pragma mark - IBActions
 - (IBAction)addTask:(id)sender {
     
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
-    
     [self performSegueWithIdentifier:SEGUE_ADD_TASK sender:sender];
 
 }
 
 - (IBAction)addTaskList:(id)sender {
-    
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
     
     NSString *currentList = [@" " stringByAppendingString:self.labelTaskListName.text];
     NSString *beforeTitle = [BEFORE_TITLE stringByAppendingString:currentList];

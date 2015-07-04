@@ -73,11 +73,6 @@
 
 - (IBAction)onSavePressed:(id)sender {
     
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
-    
     [self startHUD];
     [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
     } errorBlock:^(NSError *error) {
