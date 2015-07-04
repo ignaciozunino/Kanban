@@ -11,39 +11,10 @@
 #import "KBNConstants.h"
 #import "NSDate+Utils.h"
 
-@interface KBNProjectUtils()
-
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
-@end
-
-
 @implementation KBNProjectUtils
 
-+ (KBNProject*)projectWithParams:(NSDictionary *)params {
-    
-    KBNProject *project = nil;
-    NSString *projectId = [params objectForKey:PARSE_OBJECTID];
-    
-    if (projectId) {
-        project = [self projectFromId:projectId];
-    }
-    if (!project) {
-        project = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
-    }
-
-    [project setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"projectId"];
-    [project setValue:[params objectForKey:PARSE_PROJECT_NAME_COLUMN] forKey:@"name"];
-    [project setValue:[params objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN] forKey:@"projectDescription"];
-    [project setValue:[params objectForKey:PARSE_PROJECT_ACTIVE_COLUMN] forKey:@"active"];
-    [project setValue:[params objectForKey:PARSE_PROJECT_USERSLIST_COLUMN] forKey:@"users"];
-    [project setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
-    
-    return project;
-}
-
-+ (NSManagedObjectContext*) managedObjectContext {
-    return [[KBNCoreDataManager sharedInstance] managedObjectContext];
++ (KBNProject *)projectWithParams:(NSDictionary *)params {
+    return [[KBNCoreDataManager sharedInstance] projectWithParams:params];
 }
 
 + (NSDictionary *)projectJson:(KBNProject *)project {
@@ -64,7 +35,6 @@
     }
     
     return [NSDictionary dictionaryWithObject:objects forKey:@"results"];
-    
 }
 
 + (NSArray *)projectsFromDictionary:(NSDictionary *)records key:(NSString *)key {
@@ -79,19 +49,7 @@
 }
 
 + (KBNProject *)projectFromId:(NSString *)projectId {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
-    [fetchRequest setEntity:entity];
-    // Specify criteria for filtering which objects to fetch
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"projectId LIKE %@", projectId];
-    [fetchRequest setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
-    if (fetchedObjects == nil) {
-        return nil;
-    }
-    return [fetchedObjects firstObject];
+    return [[KBNCoreDataManager sharedInstance] projectFromId:projectId];
 }
 
 @end

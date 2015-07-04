@@ -194,7 +194,7 @@
 }
 
 - (void)tasksForProject:(KBNProject *)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    [KBNTaskUtils tasksForProjectId:project.projectId completionBlock:onCompletion errorBlock:onError];
+    [[KBNCoreDataManager sharedInstance] tasksForProjectId:project.projectId completionBlock:onCompletion errorBlock:onError];
 }
 
 @end

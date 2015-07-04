@@ -25,6 +25,4 @@
 
 + (NSArray*)allTasksFromDictionary:(NSDictionary*)records key:(NSString*)key forProject:(KBNProject*)project;
 
-+ (void)tasksForProjectId:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
-
 @end

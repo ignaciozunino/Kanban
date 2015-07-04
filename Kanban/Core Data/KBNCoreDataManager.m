@@ -7,10 +7,8 @@
 //
 
 #import "KBNCoreDataManager.h"
-#import "KBNProject.h"
-#import "KBNTask.h"
-#import "KBNTaskList.h"
 #import "KBNUserUtils.h"
+#import "NSDate+Utils.h"
 
 @implementation KBNCoreDataManager
 
@@ -132,6 +130,8 @@
 
 #pragma mark - KBN Specific methods
 
+#pragma mark - Project methods
+
 - (void)getProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError {
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -153,14 +153,214 @@
     }
 }
 
+- (KBNProject*)projectWithParams:(NSDictionary *)params {
+    
+    KBNProject *project = nil;
+    NSString *projectId = [params objectForKey:PARSE_OBJECTID];
+    
+    if (projectId) {
+        project = [self projectFromId:projectId];
+    }
+    if (!project) {
+        project = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    }
+    
+    [project setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"projectId"];
+    [project setValue:[params objectForKey:PARSE_PROJECT_NAME_COLUMN] forKey:@"name"];
+    [project setValue:[params objectForKey:PARSE_PROJECT_DESCRIPTION_COLUMN] forKey:@"projectDescription"];
+    [project setValue:[params objectForKey:PARSE_PROJECT_ACTIVE_COLUMN] forKey:@"active"];
+    [project setValue:[params objectForKey:PARSE_PROJECT_USERSLIST_COLUMN] forKey:@"users"];
+    [project setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
+    
+    return project;
+}
+
+- (KBNProject *)projectFromId:(NSString *)projectId {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"projectId LIKE %@", projectId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        return nil;
+    }
+    return [fetchedObjects firstObject];
+}
+
+#pragma mark - Task methods
+
 - (void)getTasksForProject:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"project.projectId == %@", projectId];
     [self fetchEntitiesForClass:[KBNTask class] withPredicate:predicate inManagedObjectContext:[self managedObjectContext] onSuccess:onCompletion onError:onError];
 }
 
+- (KBNTask*)taskForProject:(KBNProject *)project taskList:(KBNTaskList *)taskList params:(NSDictionary *)params {
+    
+    KBNTask *task = nil;
+    NSString *taskId = [params objectForKey:PARSE_OBJECTID];
+    
+    if (taskId) {
+        task = [self taskFromId:taskId];
+    }
+    if (!task) {
+        task = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    }
+    
+    [task setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"taskId"];
+    [task setValue:[params objectForKey:PARSE_TASK_NAME_COLUMN] forKey:@"name"];
+    [task setValue:[params objectForKey:PARSE_TASK_DESCRIPTION_COLUMN] forKey:@"taskDescription"];
+    [task setValue:[params objectForKey:PARSE_TASK_ORDER_COLUMN] forKey:@"order"];
+    [task setValue:[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] forKey:@"active"];
+    [task setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
+    task.project = project;
+    task.taskList = taskList;
+    
+    return task;
+}
+
+- (NSArray*)mockTasksForProject:(KBNProject*)project taskList:(KBNTaskList*)taskList quantity:(NSUInteger)quantity {
+    
+    NSMutableArray *tasks = [[NSMutableArray alloc] init];
+    KBNTask *task;
+    
+    for (NSUInteger i = 0; i < quantity; i++) {
+        
+        task = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+        
+        [task setValue:[NSString stringWithFormat:@"Task%lu", (unsigned long)i] forKey:@"taskId"];
+        [task setValue:[NSString stringWithFormat:@"Task%lu", (unsigned long)i] forKey:@"name"];
+        [task setValue:@"Mock task for testing purposes" forKey:@"taskDescription"];
+        [task setValue:[NSNumber numberWithUnsignedLong:i] forKey:@"order"];
+        [task setValue:@YES forKey:@"active"];
+        task.project = project;
+        task.taskList = taskList;
+        
+        [tasks addObject:task];
+    }
+    
+    return tasks;
+}
+
+- (KBNTask *)taskFromId:(NSString *)taskId {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskId LIKE %@", taskId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        return nil;
+    }
+    return [fetchedObjects firstObject];
+}
+
+- (void)tasksForProjectId:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(project.projectId LIKE %@) AND (active == %@)", projectId, [NSNumber numberWithBool:YES]];
+    [fetchRequest setPredicate:predicate];
+    // Specify how the fetched objects should be sorted
+    NSSortDescriptor *sortByTaskListDescriptor = [[NSSortDescriptor alloc] initWithKey:@"taskList.order" ascending:YES];
+    NSSortDescriptor *sortByOrderDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortByTaskListDescriptor, sortByOrderDescriptor, nil]];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        onError(error);
+    } else {
+        onCompletion(fetchedObjects);
+    }
+}
+
+#pragma mark - TaskList methods
+
 - (void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"project.projectId == %@", projectId];
     [self fetchEntitiesForClass:[KBNTaskList class] withPredicate:predicate inManagedObjectContext:[self managedObjectContext] onSuccess:onCompletion onError:onError];
+}
+
+- (KBNTaskList*)taskListForProject:(KBNProject *)project params:(NSDictionary *)params {
+    
+    KBNTaskList *taskList = nil;
+    NSString *taskListId = [params objectForKey:PARSE_OBJECTID];
+    
+    if (taskListId) {
+        taskList = [self taskListFromId:taskListId];
+    }
+    if (!taskList) {
+        taskList = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK_LIST inManagedObjectContext:[self managedObjectContext]];
+    }
+    
+    [taskList setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"taskListId"];
+    [taskList setValue:[params objectForKey:PARSE_TASKLIST_NAME_COLUMN] forKey:@"name"];
+    [taskList setValue:[params objectForKey:PARSE_TASKLIST_ORDER_COLUMN] forKey:@"order"];
+    [taskList setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
+    taskList.project = project;
+    
+    return taskList;
+}
+
+- (KBNTaskList *)taskListFromId:(NSString *)taskListId {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_TASK_LIST inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskListId LIKE %@", taskListId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        return nil;
+    }
+    return [fetchedObjects firstObject];
+}
+
+#pragma mark - Project Template methods
+
+- (KBNProjectTemplate*)projectTemplateWithParams:(NSDictionary *)params {
+    
+    KBNProjectTemplate *template = nil;
+    NSString *templateId = [params objectForKey:PARSE_OBJECTID];
+    
+    if (templateId) {
+        template = [self projectTemplateFromId:templateId];
+    }
+    if (!template) {
+        template = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT_TEMPLATE inManagedObjectContext:[self managedObjectContext]];
+    }
+    
+    [template setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"projectTemplateId"];
+    [template setValue:[params objectForKey:PARSE_PROJECT_TEMPLATE_NAME] forKey:@"name"];
+    [template setValue:[params objectForKey:PARSE_PROJECT_TEMPLATE_LISTS] forKey:@"lists"];
+    
+    return template;
+}
+
+- (KBNProjectTemplate *)projectTemplateFromId:(NSString *)templateId {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_PROJECT_TEMPLATE inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"projectTemplateId LIKE %@", templateId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        return nil;
+    }
+    return [fetchedObjects firstObject];
 }
 
 @end
