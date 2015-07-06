@@ -14,6 +14,7 @@
 @interface KBNReachabilityUtils : NSObject
 
 + (BOOL)isOffline;
++ (BOOL)isOnline;
 + (void)startMonitoring;
 + (void)stopMonitoring;
 

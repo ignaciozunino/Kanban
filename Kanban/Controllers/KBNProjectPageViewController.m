@@ -104,9 +104,7 @@
     for (KBNTaskList* taskList in self.project.taskLists) {
         
         //Add all detail view controllers to the pageViewController, each one having its own TaskList and array of Lists.
-        [self.detailViewControllers addObject:[self createViewControllerWithIndex:i
-                                                                      andTaskList:taskList
-                                                                         andTasks:[self tasksForList:taskList]]];
+        [self.detailViewControllers addObject:[self createViewControllerWithIndex:i andTaskList:taskList]];
         i++;
     }
 }
@@ -178,7 +176,7 @@
 }
 
 
--(KBNProjectDetailViewController*)createViewControllerWithIndex:(NSUInteger)index andTaskList:(KBNTaskList*)taskList andTasks:(NSArray*)tasks{
+-(KBNProjectDetailViewController*)createViewControllerWithIndex:(NSUInteger)index andTaskList:(KBNTaskList*)taskList {
     
     // Create a new view controller and pass suitable data.
     KBNProjectDetailViewController *projectDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:PROJECT_DETAIL_VC];
@@ -189,22 +187,10 @@
     projectDetailViewController.project = self.project;
     projectDetailViewController.enable = YES;
     
-    projectDetailViewController.taskListTasks = [NSMutableArray arrayWithArray:tasks];
+    projectDetailViewController.taskListTasks = [NSMutableArray arrayWithArray:taskList.tasks.array];
     projectDetailViewController.taskList = taskList;
     
     return projectDetailViewController;
-}
-
-
--(NSMutableArray*)tasksForList:(KBNTaskList*)list {
-    NSMutableArray *result = [[NSMutableArray alloc] init];
-    
-    for (KBNTask* task in self.project.tasks) {
-        if ([task.taskList.taskListId isEqualToString:list.taskListId]){
-            [result addObject:task];
-        }
-    }
-    return result;
 }
 
 #pragma mark - Page View Controller Data Source
@@ -306,9 +292,7 @@
     // 2. detailViewControllers
     // We have to insert new objects (task list and detail view controller) in the corresponding array.
     
-//    [self.projectLists insertObject:taskList atIndex:index];
-    
-    KBNProjectDetailViewController *newProjectDetailViewController = [self createViewControllerWithIndex:index andTaskList:taskList andTasks:nil];
+    KBNProjectDetailViewController *newProjectDetailViewController = [self createViewControllerWithIndex:index andTaskList:taskList];
     
     [newProjectDetailViewController setEnable:NO];
     
@@ -317,17 +301,12 @@
     [self updateViewControllersArray];
     
     if (!notified) {
-        __weak typeof(self) weakself = self;
         [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^(KBNTaskList *taskList) {
             // Enable edition on new task list
             [newProjectDetailViewController setEnable:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];
             
         } errorBlock:^(NSError *error) {
-//            [weakself.projectLists removeObject:taskList];
-//            [weakself.detailViewControllers removeObject:newProjectDetailViewController];
-//            [weakself updateViewControllersArray];
-//            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         }];
     } else {
         [newProjectDetailViewController setEnable:YES];

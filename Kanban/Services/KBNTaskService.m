@@ -8,6 +8,7 @@
 
 #import "KBNTaskService.h"
 #import "KBNTaskUtils.h"
+#import "KBNReachabilityUtils.h"
 #import "NSDate+Utils.h"
 
 @implementation KBNTaskService
@@ -47,20 +48,24 @@
             aTask.active = [NSNumber numberWithBool:YES];
             [[KBNCoreDataManager sharedInstance] saveContext];
             
-            __weak typeof(self) weakself = self;
-            [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *params) {
-                aTask.taskId = [params objectForKey:@"taskId"];
-                aTask.updatedAt = [params objectForKey:@"updatedAt"];
-                aTask.synchronized = [NSNumber numberWithBool:YES];
-                
-                // Save context to save parse object id's in Core Data
-                [[KBNCoreDataManager sharedInstance] saveContext];
-                
-                if ([aTask.project isShared]) {
-                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
-                }
+            if ([KBNReachabilityUtils isOnline]) {
+                __weak typeof(self) weakself = self;
+                [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *params) {
+                    aTask.taskId = [params objectForKey:@"taskId"];
+                    aTask.updatedAt = [params objectForKey:@"updatedAt"];
+                    aTask.synchronized = [NSNumber numberWithBool:YES];
+                    
+                    // Save context to save parse object id's in Core Data
+                    [[KBNCoreDataManager sharedInstance] saveContext];
+                    
+                    if ([aTask.project isShared]) {
+                        [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
+                    }
+                    onCompletion(aTask);
+                } errorBlock:onError];
+            } else {
                 onCompletion(aTask);
-            } errorBlock:onError];
+            }
         }
     }
 }

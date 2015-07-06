@@ -128,8 +128,6 @@
     }
 }
 
-#pragma mark - KBN Specific methods
-
 #pragma mark - Project methods
 
 - (void)getProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError {

@@ -7,6 +7,7 @@
 //
 
 #import "KBNTaskListService.h"
+#import "KBNReachabilityUtils.h"
 
 @implementation KBNTaskListService
 
@@ -44,7 +45,7 @@
         [[KBNCoreDataManager sharedInstance] saveContext];
         
         onCompletion(results);
-
+        
     } errorBlock:onError];
 }
 
@@ -72,20 +73,27 @@
     [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
     [self updateTaskListOrdersInSet:project.taskLists];
     
-    __weak typeof(self) weakself = self;
-    [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
-        taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
-        if ([project isShared]) {
-            NSArray *array = [NSArray arrayWithObject:taskList];
-            NSDictionary *data = [KBNTaskListUtils taskListsJson:array];
-            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskListUpdate projectId:project.projectId data:data];
-        }
+    // TaskList object creation completed offline. Save context.
+    [[KBNCoreDataManager sharedInstance] saveContext];
+
+    if ([KBNReachabilityUtils isOnline]) {
+        __weak typeof(self) weakself = self;
+        [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
+            taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
+            if ([project isShared]) {
+                NSArray *array = [NSArray arrayWithObject:taskList];
+                NSDictionary *data = [KBNTaskListUtils taskListsJson:array];
+                [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskListUpdate projectId:project.projectId data:data];
+            }
+            onCompletion(taskList);
+        } errorBlock:^(NSError *error){
+            [project removeTaskListsObject:taskList];
+            [self updateTaskListOrdersInSet:project.taskLists];
+            onError(error);
+        }];
+    } else {
         onCompletion(taskList);
-    } errorBlock:^(NSError *error){
-        [project removeTaskListsObject:taskList];
-        [self updateTaskListOrdersInSet:project.taskLists];
-        onError(error);
-    }];
+    }
 }
 
 - (void)updateTaskListOrdersInSet:(NSOrderedSet*)set {

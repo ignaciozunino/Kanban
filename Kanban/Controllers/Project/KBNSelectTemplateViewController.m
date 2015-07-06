@@ -46,7 +46,7 @@
         [weakself.templates addObjectsFromArray:templates];
         [weakself.tableView reloadData];
     } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:WARNING_ALERT];
     }];
     
 }
