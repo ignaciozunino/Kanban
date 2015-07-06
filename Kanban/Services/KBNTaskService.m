@@ -48,7 +48,9 @@
             aTask.active = [NSNumber numberWithBool:YES];
             [[KBNCoreDataManager sharedInstance] saveContext];
             
-            if ([KBNReachabilityUtils isOnline]) {
+            if ([KBNReachabilityUtils isOnline] &&
+                aTask.project.projectId && aTask.taskList.taskListId) {
+                
                 __weak typeof(self) weakself = self;
                 [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *params) {
                     aTask.taskId = [params objectForKey:@"taskId"];

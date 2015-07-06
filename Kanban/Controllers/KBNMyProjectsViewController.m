@@ -82,8 +82,14 @@
 }
 
 - (void)onProjectsUpdate:(NSNotification*)notification {
-    // Notification received after getting projects from Parse
-    self.projects = [NSMutableArray arrayWithArray:(NSArray*)notification.object];
+    // Notification received with projects from Parse
+    
+    // Add projects from parse to the projects array
+    [self.projects addObjectsFromArray:(NSArray*)notification.object];
+    
+    // Eliminate duplicates
+    self.projects = [NSMutableArray arrayWithArray:[[NSOrderedSet orderedSetWithArray:self.projects] array]];
+    
     [self.tableView reloadData];
 }
 

@@ -76,7 +76,7 @@
     // TaskList object creation completed offline. Save context.
     [[KBNCoreDataManager sharedInstance] saveContext];
 
-    if ([KBNReachabilityUtils isOnline]) {
+    if ([KBNReachabilityUtils isOnline] && project.projectId) {
         __weak typeof(self) weakself = self;
         [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
             taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
