@@ -42,10 +42,21 @@
     [self subscribeToNotifications];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [KBNReachabilityUtils startMonitoring];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [KBNReachabilityUtils stopMonitoring];
+    [super viewWillDisappear:animated];
+}
+
 - (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCreateProject:) name:PROJECT_ADDED object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:UPDATE_PROJECTS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getProjectsUpdate) name:CONNECTION_ONLINE object:nil];
 }
 
 - (void)dealloc {
@@ -91,6 +102,10 @@
     self.projects = [NSMutableArray arrayWithArray:[[NSOrderedSet orderedSetWithArray:self.projects] array]];
     
     [self.tableView reloadData];
+}
+
+- (void)getProjectsUpdate {
+    [[KBNProjectService sharedInstance] getProjectsUpdate];
 }
 
 #pragma mark - Private methods

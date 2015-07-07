@@ -206,15 +206,20 @@
 
 - (void)getProjectsOnSuccessBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
-    NSPredicate *activePredicate = [NSPredicate predicateWithFormat:@"active != 0"];
-
     [[KBNCoreDataManager sharedInstance] getProjectsOnSuccess:^(NSArray *records) {
+        NSPredicate *activePredicate = [NSPredicate predicateWithFormat:@"active != 0"];
         onCompletion([records filteredArrayUsingPredicate:activePredicate]);
     } errorBlock:onError];
+    
+    [self getProjectsUpdate];
+}
+
+- (void)getProjectsUpdate {
     
     [self.dataService getProjectsFromUsername:[KBNUserUtils getUsername] onSuccessBlock:^(NSDictionary *records) {
         // Get the projects array from the response dictionary and pass it around
         NSArray *results = [KBNProjectUtils projectsFromDictionary:records key:@"results"];
+        NSPredicate *activePredicate = [NSPredicate predicateWithFormat:@"active != 0"];
         NSArray *activeProjects = [results filteredArrayUsingPredicate:activePredicate];
         
         // Notify view controller to update projects in the view

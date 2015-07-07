@@ -46,12 +46,23 @@
     }
 
     [self subscribeToNotifications];
-    [self startListeningForUpdates];
+    [self getUpdates];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [KBNReachabilityUtils startMonitoring];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [KBNReachabilityUtils stopMonitoring];
+    [super viewWillDisappear:animated];
 }
 
 - (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListUpdate:) name:UPDATE_TASKLIST object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUpdates) name:CONNECTION_ONLINE object:nil];
 }
 
 - (void) dealloc {
@@ -76,7 +87,7 @@
 
 #pragma mark - Private methods
 
-- (void)startListeningForUpdates {
+- (void)getUpdates {
     __weak typeof(self) weakself = self;
     [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project completionBlock:^(NSArray *records) {
         weakself.project.taskLists = [NSOrderedSet orderedSetWithArray:records];

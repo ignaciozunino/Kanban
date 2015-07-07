@@ -75,6 +75,7 @@
     
     [self startHUD];
     [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PROJECT object:self.project];
     } errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         [self dismissViewControllerAnimated:YES completion:nil];
