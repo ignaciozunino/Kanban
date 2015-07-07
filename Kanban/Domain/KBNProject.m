@@ -38,4 +38,21 @@
     return self.active.boolValue;
 }
 
+- (BOOL)isShared {
+    NSArray *projectUsers = (NSArray*)self.users;
+    if (projectUsers.count > 1) {
+        return YES;
+    }
+    return NO;
+}
+
+- (KBNTaskList*)taskListForId:(NSString *)taskListId {
+    for (KBNTaskList* taskList in self.taskLists) {
+        if ([taskList.taskListId isEqualToString:taskListId]) {
+            return taskList;
+        }
+    }
+    return nil;
+}
+
 @end

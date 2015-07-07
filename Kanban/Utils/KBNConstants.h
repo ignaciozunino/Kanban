@@ -93,9 +93,9 @@
 #define PARSE_TASKLIST_ORDER_COLUMN @"order"
 
 #define PARSE_PROJECT_NAME_COLUMN @"name"
-#define PARSE_PROJECT_DESCRIPTION_COLUMN @"project_description"
+#define PARSE_PROJECT_DESCRIPTION_COLUMN @"projectDescription"
 #define PARSE_PROJECT_USER_COLUMN @"userName"
-#define PARSE_PROJECT_USERSLIST_COLUMN @"usersList"
+#define PARSE_PROJECT_USERSLIST_COLUMN @"users"
 #define PARSE_PROJECT_ACTIVE_COLUMN @"active"
 
 #define PARSE_TASK_NAME_COLUMN @"name"
@@ -142,32 +142,36 @@
 
 
 //FIREBASE KEYS
-#define FIREBASE_TYPE_OF_CHANGE @"typeOfChange"
-#define FIREBASE_EDIT_NAME_CHANGE @"objectName"
-#define FIREBASE_EDIT_DESC_CHANGE @"objectDescription"
+#define FIREBASE_CHANGE_TYPE @"ChangeType"
+#define FIREBASE_USER @"User"
+#define FIREBASE_DATA @"Data"
 
 #define FIREBASE_PROJECT @"Project"
+#define FIREBASE_TASK_LIST @"TaskList"
 #define FIREBASE_TASK @"Task"
-#define FIREBASE_USER @"User"
 
-#define FIREBASE_PROJECT_CHANGE @"projectChange"
-#define FIREBASE_PROJECT_ADD @"projectAdd"
-#define FIREBASE_PROJECT_REMOVE @"projectRemove"
-#define FIREBASE_TASK_ADD @"taskAdd"
-#define FIREBASE_TASK_CHANGE @"taskChange"
-#define FIREBASE_TASK_REMOVE @"taskRemove"
+//Notifications
+#define UPDATE_PROJECT @"updateProject"
+#define UPDATE_TASKLIST @"updateTaskList"
+#define UPDATE_TASK @"updateTask"
+#define UPDATE_TASKS @"updateTasks"
+#define ADD_TASK @"addTask"
+#define MOVE_TASK @"moveTask"
+#define REMOVE_TASK @"removeTask"
 
-
+//TaskLists Templates
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
 
 
 //Blocks 
-typedef void (^KBNConnectionErrorBlock) (NSError *error);
-typedef void (^KBNConnectionSuccessBlock)() ;
-typedef void (^KBNConnectionSuccessArrayBlock) (NSArray *records);
-typedef void (^KBNConnectionSuccessProjectBlock) (KBNProject * project);
-typedef void (^KBNConnectionSuccessDictionaryBlock) (NSDictionary *records);
-typedef void (^KBNConnectionSuccessIdBlock) (NSString *objectId);
+typedef void (^KBNErrorBlock) (NSError *error);
+typedef void (^KBNSuccessBlock)() ;
+typedef void (^KBNSuccessArrayBlock) (NSArray *records);
+typedef void (^KBNSuccessProjectBlock) (KBNProject *project);
+typedef void (^KBNSuccessTaskListBlock) (KBNTaskList *taskList);
+typedef void (^KBNSuccessTaskBlock) (KBNTask *task);
+typedef void (^KBNSuccessDictionaryBlock) (NSDictionary *records);
+typedef void (^KBNSuccessIdBlock) (NSString *objectId);
 
 //Colors
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]

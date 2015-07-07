@@ -60,34 +60,29 @@
     taskListObj.name = @"";
     taskListObj.project = projectObj;
 
-    KBNTaskService * service = [[KBNTaskService alloc]init];
-    service.dataService =[[KBNTaskParseAPIManager alloc]init];
-    __block NSString* taskId;
+    KBNTaskService * service = [KBNTaskService sharedInstance];
+    service.dataService =[[KBNTaskParseAPIManager alloc] init];
     
-    //first we create the task
-    KBNTask* addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
-    addTask.name = taskName;
-    addTask.taskDescription = taskDesc;
-
-    [service createTask:addTask inList:taskListObj completionBlock:^(NSDictionary *records) {
-        //we bring the tasks to know the task id, sincethe project id is unique and fake we know that is the only task
-        [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
-            NSArray* tasksforid=[records objectForKey:@"results"];
-            if (tasksforid.count==0) {//we bring no recors error creating the task
-                XCTAssertTrue(false);
-                
-                
+    // First we create the task
+                                
+    KBNTask* task = [KBNTaskUtils taskForProject:projectObj taskList:taskListObj params:nil];
+    task.name = taskName;
+    task.taskDescription = taskDesc;
+    
+    [service createTask:task inList:taskListObj completionBlock:^(KBNTask *task) {
+        //we bring the tasks to know the task id, since the project id is unique and fake we know that is the only task
+        [service getTasksForProject:projectObj completionBlock:^(NSArray *records) {
+            if (!records.count) {//we bring no records error creating the task
+                XCTFail(@"Task Service could not retrieve any task");
             }
-            NSDictionary * taskdictforid = tasksforid[0];
-            taskId = [taskdictforid objectForKey:PARSE_OBJECTID];
             [expectation fulfill];
             
         } errorBlock:^(NSError *error) {
-            XCTAssertTrue(false);
+            XCTFail(@"Task Service could not retrieved the tasks");
             [expectation fulfill];
         }];
     } errorBlock:^(NSError *error) {
-        XCTAssertTrue(false);
+        XCTFail(@"Task Service could not create the task");
         [expectation fulfill];
     }];
     
@@ -98,49 +93,28 @@
     ////************************the test itself**********************************************
     XCTestExpectation *finalexpectation = [self expectationWithDescription:@"testRemoveTask completed"];
     
-    // Create a task object to pass to the remove method
-    KBNProject *testProject = projectObj;
-    KBNTaskList *testTaskList = taskListObj;
-    
-    KBNTask *task = [KBNTaskUtils taskForProject:testProject
-                                        taskList:testTaskList
-                                          params:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                  taskId, PARSE_OBJECTID,
-                                                  taskName, PARSE_TASK_NAME_COLUMN,
-                                                  taskDesc, PARSE_TASK_DESCRIPTION_COLUMN,
-                                                  @0, PARSE_TASKLIST_ORDER_COLUMN,
-                                                  [NSNumber numberWithBool:@YES], PARSE_TASK_ACTIVE_COLUMN, nil]];
-    
-    //we actually remove the task
+    // We actually remove the task
     [service removeTask:task completionBlock:^{
-        [service getTasksForProject:project completionBlock:^(NSDictionary *records) {
-            if (records.count==0) {//we bring no recors error geting the task
-                XCTAssertTrue(false);
-                [finalexpectation fulfill];
-                
-            }
-            NSArray* tasksforverif=[records objectForKey:@"results"];
-            
-            if (tasksforverif.count) {
-                NSDictionary * taskdictfoverif = tasksforverif[0];
-                
-                if (!((NSNumber*)[taskdictfoverif objectForKey:PARSE_TASK_ACTIVE_COLUMN]).boolValue ) {
+        [service getTasksForProject:projectObj completionBlock:^(NSArray *records) {
+            if (records.count) {
+                KBNTask *removedTask = [records firstObject];
+                if (removedTask.isActive) {
+                    XCTFail(@"The task to remove is still active");
                     [finalexpectation fulfill];
                 } else {
-                    XCTAssertTrue(false);
                     [finalexpectation fulfill];
                 }
             } else { // If the array is empty, the task was removed successfully
                 [finalexpectation fulfill];
             }
         } errorBlock:^(NSError *error) {
-            XCTAssertTrue(false);
+            XCTFail(@"Task Service could not retrieved the tasks");
             [finalexpectation fulfill];
             
         }];
         
     } errorBlock:^(NSError *error) {
-        XCTAssertTrue(false);
+        XCTFail(@"Task Service could not remove the task");
         [finalexpectation fulfill];
         
     }];

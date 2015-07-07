@@ -13,6 +13,7 @@
 #import "KBNConstants.h"
 #import "KBNUserUtils.h"
 #import "KBNInitialSetupTest.h"
+#import "KBNProjectTemplateUtils.h"
 
 @interface KBNCreateProjectTests : XCTestCase
 
@@ -29,15 +30,14 @@
 }
 
 //Feature tested: Create Project
-//Description: In this test we will verify that you cant create a project without a name
+//Description: In this test we will verify that you can't create a project without a name
 -(void) testCreateProjectWithoutName{
     KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
     serviceOrig.dataService = projectAPIManager;
-    [serviceOrig createProject:@"" withDescription:OCMOCK_ANY forUser: OCMOCK_ANY
-               completionBlock:^(KBNProject* aProject){
-         XCTAssertFalse(true);
-     }
+    [serviceOrig createProject:@"" withDescription:OCMOCK_ANY withTemplate:nil completionBlock:^(KBNProject* aProject){
+        XCTFail(@"Project was created with no name");
+    }
                     errorBlock:^(NSError *error)
      {
          NSString *errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
@@ -51,15 +51,14 @@
 -(void) testCreateProjectOK{
     KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
-    [[projectAPIManager stub] createProject:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
+    [[projectAPIManager stub] createProject:OCMOCK_ANY withLists:OCMOCK_ANY completionBlock:OCMOCK_ANY errorBlock:OCMOCK_ANY];
     serviceOrig.dataService = projectAPIManager;
-    [serviceOrig createProject:@"test" withDescription:@"desc" forUser: [KBNUserUtils getUsername]
-               completionBlock:^(KBNProject* aProject){
-         XCTAssertTrue(true);
-     }
+    
+    [serviceOrig createProject:@"test" withDescription:@"desc" withTemplate:[KBNProjectTemplateUtils defaultTemplate] completionBlock:^(KBNProject* aProject){
+    }
                     errorBlock:^(NSError *error)
      {
-         XCTAssertTrue(false);
+         XCTFail(@"The project could not be created");
      }];
     
     [projectAPIManager verify];
@@ -67,7 +66,7 @@
 
 //Feature tested: Create Project
 //Description: In this test we will verify that in case you create a project offline
-//the project is't created correctly
+//the project isn't created correctly
 -(void)testOfflineCreateProject
 {
     KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
@@ -75,6 +74,7 @@
     
     //This is to redefine the createProject method from the ParseAPIManager class
     OCMStub([projectAPIManager createProject:OCMOCK_ANY
+                                   withLists:OCMOCK_ANY
                              completionBlock:OCMOCK_ANY
                                   errorBlock:OCMOCK_ANY]).
     andDo(^(NSInvocation *invocation)
@@ -96,11 +96,11 @@
           });
     XCTestExpectation *expectation = [self expectationWithDescription:@"testOfflineCreateProject"];
     serviceOrig.dataService = projectAPIManager;
-    [serviceOrig createProject:@"test" withDescription:@"desc" forUser: [KBNUserUtils getUsername]
-               completionBlock:^(KBNProject* aProject){
-         XCTAssertTrue(false);
-         [expectation fulfill];
-     }
+    
+    [serviceOrig createProject:@"test" withDescription:@"desc" withTemplate:[KBNProjectTemplateUtils defaultTemplate] completionBlock:^(KBNProject* aProject){
+                   XCTFail(@"Project was created offline");
+                   [expectation fulfill];
+               }
                     errorBlock:^(NSError *error)
      {
          if (error) {

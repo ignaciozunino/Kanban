@@ -78,12 +78,10 @@
         return;
     }
     
-    [KBNAppDelegate activateActivityIndicator:YES];
     [self startHUD];
     [[KBNProjectService sharedInstance] editProject:self.project withNewName:self.nameTextField.text withDescription:self.descriptionTextView.text completionBlock:^{
     } errorBlock:^(NSError *error) {
-        [KBNAppDelegate activateActivityIndicator:NO];
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -147,7 +145,8 @@
 #pragma mark - Table View Data Source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.project.users count];
+    NSArray *projectUsers = (NSArray*)self.project.users;
+    return projectUsers.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

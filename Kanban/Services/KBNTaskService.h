@@ -23,18 +23,18 @@
 
 +(KBNTaskService *) sharedInstance;
 
-- (void)createTask:(KBNTask*)aTask inList:(KBNTaskList*)aTaskList completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)createTask:(KBNTask*)aTask inList:(KBNTaskList*)aTaskList completionBlock:(KBNSuccessTaskBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void)getTasksForProject:(NSString*)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)getTasksForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void)removeTask:(KBNTask*)task completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)removeTask:(KBNTask*)task completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void) moveTask:(KBNTask *)task toList:(KBNTaskList*)destinationList inOrder:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)moveTask:(KBNTask *)task toList:(KBNTaskList*)destinationList inOrder:(NSNumber*)order completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)createTasks:(NSArray*)tasks completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
-- (void)createTasks:(NSArray*)tasks completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError;
+- (void)updateTask:(KBNTask*)task onSuccess:(KBNSuccessBlock)onSuccess failure:(KBNErrorBlock)onError;
 
--(void)updateTask:(KBNTask*)task onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError;
+- (void)tasksForProject:(KBNProject *)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 @end

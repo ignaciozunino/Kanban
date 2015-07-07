@@ -7,6 +7,7 @@
 //
 
 #import "KBNProjectParseAPIManager.h"
+#import "KBNTaskList.h"
 
 @implementation KBNProjectParseAPIManager
 
@@ -23,10 +24,12 @@
 #pragma mark - project methods
 
 
-- (void)createTasksListForProject:(id)responseObject forProject:(KBNProject*) project lists:(NSArray*)lists onError:(KBNConnectionErrorBlock)onError onCompletion:(KBNConnectionSuccessProjectBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
+- (void)createTasksListForProject:(id)responseObject forProject:(KBNProject*) project lists:(NSArray*)lists onError:(KBNErrorBlock)onError onCompletion:(KBNSuccessProjectBlock)onCompletion manager:(AFHTTPRequestOperationManager *)manager {
     
     __block NSError *error = nil;
     dispatch_group_t serviceGroup = dispatch_group_create();
+    
+    __block NSMutableArray *listIds = [NSMutableArray array];
     
     for (int i =0; i<lists.count; i++) {
         NSDictionary * item = responseObject;
@@ -34,29 +37,41 @@
         
         NSDictionary *listdata = @{PARSE_TASKLIST_NAME_COLUMN: lists[i], PARSE_TASKLIST_PROJECT_COLUMN: projectID,PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:i]};
         dispatch_group_enter(serviceGroup);
-        
+
         [manager POST:PARSE_TASKLISTS parameters:listdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            // As we don't know the order in which blocks are completed, we save the listId and the corresponding order too
+            NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [responseObject objectForKey:PARSE_OBJECTID], @"listId",
+                                  [NSNumber numberWithInt:i], @"order", nil];
+            [listIds addObject:info];
             dispatch_group_leave(serviceGroup);
         } failure:^(AFHTTPRequestOperation *operation, NSError *errorParse) {
             error = errorParse;
             dispatch_group_leave(serviceGroup);
         }];
     }
-    
+
     dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
         if (error) {
             onError(error);
         } else {
+            KBNTaskList *taskList;
+            for (NSDictionary *info in listIds) {
+                NSUInteger index = [[info objectForKey:@"order"] integerValue];
+                taskList = (KBNTaskList*)[project.taskLists objectAtIndex:index];
+                taskList.taskListId = [info objectForKey:@"listId"];
+            }
             onCompletion(project);
         }
     });
 }
 
-- (void) createProject: (KBNProject *) project completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+- (void) createProject: (KBNProject *) project completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     
-    NSArray* projectUsers = project.users;
-    
-    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: [project.users objectAtIndex:0], PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
+    NSArray *projectUsers = (NSArray*)project.users;
+    NSString *username = [projectUsers firstObject];
+
+    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: username, PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
     
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -72,12 +87,14 @@
      ];
 }
 
-- (void) createProject: (KBNProject *) project withLists:(NSArray*)lists completionBlock:(KBNConnectionSuccessProjectBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void) createProject: (KBNProject *) project withLists:(NSArray*)lists completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
-    NSArray* projectUsers = project.users;
+    NSArray *projectUsers = (NSArray*)project.users;
+    NSString *username = [projectUsers firstObject];
+
     __block NSArray *listNames = lists;
     
-    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: [project.users objectAtIndex:0], PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
+    NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: project.name, PARSE_PROJECT_DESCRIPTION_COLUMN: project.projectDescription, PARSE_PROJECT_USER_COLUMN: username, PARSE_PROJECT_ACTIVE_COLUMN: [NSNumber numberWithBool:YES],PARSE_PROJECT_USERSLIST_COLUMN:projectUsers};
     
     [self.afManager POST:PARSE_PROJECTS parameters: data
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -96,8 +113,8 @@
 
 -(void)setUsersList:(NSArray*)emailAddresses
         toProjectId:(NSString*)aProjectId
-    completionBlock:(KBNConnectionSuccessBlock)onSuccess
-         errorBlock:(KBNConnectionErrorBlock)onError
+    completionBlock:(KBNSuccessBlock)onSuccess
+         errorBlock:(KBNErrorBlock)onError
 {
     NSDictionary *data = @{PARSE_PROJECT_USERSLIST_COLUMN: emailAddresses};
     [self.afManager PUT:[NSString stringWithFormat:@"%@/%@", PARSE_PROJECTS, aProjectId]
@@ -110,7 +127,7 @@
                 }];
 }
 
-- (void) editProject: (NSString*)projectID withNewName: (NSString*) newName withNewDesc: (NSString*) newDesc completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+- (void) editProject: (NSString*)projectID withNewName: (NSString*) newName withNewDesc: (NSString*) newDesc completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     NSDictionary *data = @{PARSE_PROJECT_NAME_COLUMN: newName, PARSE_PROJECT_DESCRIPTION_COLUMN: newDesc};
     [self.afManager PUT:[NSString stringWithFormat:@"%@/%@", PARSE_PROJECTS, projectID]
              parameters:data
@@ -122,7 +139,7 @@
                 }];
 }
 
--(void) getProjectWithProjectID: (NSString*)projectID successBlock:(KBNConnectionSuccessArrayBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
+-(void) getProjectWithProjectID: (NSString*)projectID successBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError{
     [self.afManager GET: [NSString stringWithFormat:@"%@/%@", PARSE_PROJECTS, projectID]
              parameters:nil
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -134,11 +151,7 @@
                 }];
 }
 
-- (KBNProject*) getProjectWithName: (NSString*)name errorBlock:(KBNConnectionErrorBlock)onError{
-    return nil;
-}
-
-- (void)getProjectsFromUsername:(NSString*) username onSuccessBlock:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError{
+- (void)getProjectsFromUsername:(NSString*) username onSuccessBlock:(KBNSuccessDictionaryBlock) onSuccess errorBlock:(KBNErrorBlock)onError{
     
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:username forKey:PARSE_PROJECT_USERSLIST_COLUMN];
@@ -150,16 +163,14 @@
     [self.afManager GET:PARSE_PROJECTS
              parameters:params
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    NSDictionary *projectList = [responseObject objectForKey:@"results"];
-                    
-                    onSuccess(projectList);
+                    onSuccess(responseObject);
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     onError(error);
                 }];
 }
 
-- (void)getProjectsFromUsername:(NSString*) username updatedAfter:(NSString*) lastUpdate onSuccessBlock:(KBNConnectionSuccessDictionaryBlock) onSuccess errorBlock:(KBNConnectionErrorBlock)onError{
+- (void)getProjectsFromUsername:(NSString*) username updatedAfter:(NSString*) lastUpdate onSuccessBlock:(KBNSuccessDictionaryBlock) onSuccess errorBlock:(KBNErrorBlock)onError{
     
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:2];
     NSMutableDictionary *whereGT = [NSMutableDictionary dictionaryWithCapacity:1];
@@ -194,19 +205,21 @@
 }
 
 // This method will receive an array of projects to update
-- (void)updateProjects:(NSArray *)projects completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)updateProjects:(NSArray *)projects completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     NSMutableArray *requests = [[NSMutableArray alloc] init];
     NSMutableDictionary *record;
     
     for (KBNProject *project in projects) {
+        NSString *username = (NSString*)project.users;
+        NSArray* projectUsers = [NSArray arrayWithObject:username];
         
         NSMutableDictionary *updates = [NSMutableDictionary dictionaryWithCapacity:5];
         [updates setObject:project.name forKey:PARSE_PROJECT_NAME_COLUMN];
         [updates setObject:project.projectDescription forKey:PARSE_PROJECT_DESCRIPTION_COLUMN];
         [updates setObject:[NSNumber numberWithBool:[project.active boolValue]] forKey:PARSE_PROJECT_ACTIVE_COLUMN];
-        [updates setObject:[project.users objectAtIndex:0] forKey:PARSE_PROJECT_USER_COLUMN];
-        [updates setObject:project.users forKey:PARSE_PROJECT_USERSLIST_COLUMN];
+        [updates setObject:username forKey:PARSE_PROJECT_USER_COLUMN];
+        [updates setObject:projectUsers forKey:PARSE_PROJECT_USERSLIST_COLUMN];
         
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"PUT" forKey:@"method"];

@@ -27,8 +27,8 @@
 
 - (void)createTask:(KBNTask*)aTask
             inList:(KBNTaskList*)aTaskList
-   completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion
-        errorBlock:(KBNConnectionErrorBlock)onError {
+   completionBlock:(KBNSuccessTaskBlock)onCompletion
+        errorBlock:(KBNErrorBlock)onError {
     
     if ([aTask.name isEqualToString:@""] || !aTask.name) {
         NSString *domain = ERROR_DOMAIN;
@@ -43,36 +43,26 @@
             onError(errorPtr);
         } else {
             aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
+            __weak typeof(self) weakself = self;
             [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
-                [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:aTask.project.projectId];
-                onCompletion(records);
+                aTask.taskId = [records objectForKey:PARSE_OBJECTID];
+                aTask.active = [NSNumber numberWithBool:YES];
+                if ([aTask.project isShared]) {
+                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
+                }
+                onCompletion(aTask);
             } errorBlock:onError];
         }
     }
 }
 
-- (void)getTasksForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    [self.dataService getTasksForProject:projectId completionBlock:^(NSDictionary *records) {
-        onCompletion([self activeRecordsFromDictionary:records]);
+- (void)getTasksForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    [self.dataService getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
+        onCompletion([KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project]);
     } errorBlock:onError];
 }
 
-- (NSDictionary*)activeRecordsFromDictionary:(NSDictionary*)records {
-    
-    NSArray *results = [records objectForKey:@"results"];
-    NSMutableArray *activeTasks = [[NSMutableArray alloc] init];
-    
-    for (NSDictionary *params in results) {
-        if ([[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] boolValue]) {
-            [activeTasks addObject:params];
-        };
-    }
-    
-    return [NSDictionary dictionaryWithObject:activeTasks forKey:@"results"];
-
-}
-
-- (void)removeTask:(KBNTask*)task completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)removeTask:(KBNTask*)task completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
     KBNTaskList *list = task.taskList;
     
@@ -80,28 +70,28 @@
     task.active = @NO;
     [tasksToUpdate addObject:task];
     
-    //Remove the task from the list
-    [list.tasks removeObject:task];
+    //Update orders
     [self updateTaskOrdersInSet:list.tasks];
     [tasksToUpdate addObjectsFromArray:list.tasks.array];
     
     //Send updates to the data service
+    __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate completionBlock:^{
-        [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_REMOVE projectID:task.project.projectId];
+        if ([task.project isShared]) {
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskRemove projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
+        }
         onCompletion();
     } errorBlock:onError];
 }
 
 - (void) moveTask:(KBNTask *)task toList:(KBNTaskList*)destinationList inOrder:(NSNumber*)order
-  completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-    
+  completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+
     NSMutableArray *tasksToUpdate = [[NSMutableArray alloc] init];
     
     KBNTaskList *currentList = task.taskList;
     
-    //Update task to the new values and add it to the tasks to update array
-    task.taskList = destinationList;
-    
+    //Update task to the new values
     //If an order has not been passed, put the task at the end of the destination list
     if (order) {
         task.order = order;
@@ -109,60 +99,63 @@
         task.order = [NSNumber numberWithUnsignedLong:destinationList.tasks.count];
     }
     
-    [tasksToUpdate addObject:task];
+    task.taskList = destinationList;
     
-    [currentList.tasks removeObject:task];
-    [destinationList.tasks insertObject:task atIndex:[order integerValue]];
+    if ([currentList.taskListId isEqualToString:destinationList.taskListId]) {
+        [currentList removeTasksObject:task];
+        [destinationList insertObject:task inTasksAtIndex:[order integerValue]];
+    }
     
     [self updateTaskOrdersInSet:currentList.tasks];
     [tasksToUpdate addObjectsFromArray:currentList.tasks.array];
     
-    [self updateTaskOrdersInSet:destinationList.tasks];
-    [tasksToUpdate addObjectsFromArray:destinationList.tasks.array];
+    if (![currentList.taskListId isEqualToString:destinationList.taskListId]) {
+        [self updateTaskOrdersInSet:destinationList.tasks];
+        [tasksToUpdate addObjectsFromArray:destinationList.tasks.array];
+    }
     
-    //Send updates to the data service
+     //Send updates to the data service
+    __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate
                   completionBlock:^{
-                      [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK
-                                                        withType:FIREBASE_TASK_CHANGE
-                                                projectID:task.project.projectId];
+                      if ([task.project isShared]) {
+                          [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskMove projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
+                      }
                       onCompletion();
                   }
                        errorBlock:onError];
 }
 
-- (void)updateTaskOrdersInSet:(NSMutableOrderedSet*)set {
-    for (NSUInteger index = 0; index < set.count; index++) {
-        KBNTask *taskToReorder = [set objectAtIndex:index];
-        taskToReorder.order = [NSNumber numberWithInteger:index];
+- (void)updateTaskOrdersInSet:(NSOrderedSet*)set {
+    NSUInteger index = 0;
+    for (KBNTask *taskToReorder in set) {
+        if ([taskToReorder isActive]) {
+            taskToReorder.order = [NSNumber numberWithInteger:index];
+            index++;
+        }
     }
 }
 
-- (void)createTasks:(NSArray*)tasks
-    completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)createTasks:(NSArray*)tasks completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    __weak typeof(self) weakself = self;
     [self.dataService createTasks:tasks completionBlock:^(NSDictionary *records) {
-        if (tasks.count >0) {
-            [KBNUpdateUtils firebasePostToFirebaseRoot:self.fireBaseRootReference withObject:FIREBASE_TASK withType:FIREBASE_TASK_ADD projectID:((KBNTask *)tasks[0]).project.projectId];
+        KBNProject *project = [[tasks firstObject] project];
+        if ([project isShared]) {
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTasksUpdate projectId:project.projectId data:[KBNTaskUtils tasksJson:tasks]];
         }
-        onCompletion(records);
+        onCompletion(tasks);
     } errorBlock:onError ];
 }
 
-- (void)getUpdatedTasksForProject:(NSString*)projectId withModifiedDate: (NSString*)lastDate completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError{
-    [self.dataService getTasksUpdatedForProject:projectId fromDate:lastDate completionBlock:^(NSDictionary *records) {
-        onCompletion([self activeRecordsFromDictionary:records]);
-    } errorBlock:onError];
-}
-
--(void)updateTask:(KBNTask*)task onSuccess:(KBNConnectionSuccessBlock)onSuccess failure:(KBNConnectionErrorBlock)onError{
+-(void)updateTask:(KBNTask*)task onSuccess:(KBNSuccessBlock)onSuccess failure:(KBNErrorBlock)onError{
     
     if (task.name.length) {
+        __weak typeof(self) weakself = self;
         [self.dataService updateTasks:@[task]
                       completionBlock:^{
-                          [KBNUpdateUtils firebasePostToFirebaseRootWithName:self.fireBaseRootReference withObject:FIREBASE_TASK
-                                                            withName:task.name
-                                                             withDescription:task.taskDescription
-                                                    projectID:task.project.projectId];
+                          if ([task.project isShared]) {
+                              [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
+                          }
                           onSuccess();
                       }
                            errorBlock:onError];
@@ -173,4 +166,9 @@
         onError(errorPtr);
     }
 }
+
+- (void)tasksForProject:(KBNProject *)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    [KBNTaskUtils tasksForProjectId:project.projectId completionBlock:onCompletion errorBlock:onError];
+}
+
 @end

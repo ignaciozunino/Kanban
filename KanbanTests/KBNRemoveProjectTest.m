@@ -51,7 +51,6 @@
     
     NSString *name = [NSString stringWithFormat:@"test_project_%@",dateString];
     NSString *projectDescription = @"To remove";
-    NSString *username = [KBNUserUtils getUsername];
     
     __block KBNProject *testProject = [KBNProjectUtils projectWithParams:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                       name, PARSE_PROJECT_NAME_COLUMN,
@@ -62,7 +61,7 @@
     
     [service createProject:testProject.name
            withDescription:testProject.projectDescription
-                   forUser:username
+              withTemplate:nil
            completionBlock:^(KBNProject *project) {
                testProject = project;
                [projectCreatedExpectation fulfill];
@@ -81,8 +80,7 @@
     
     [service removeProject:testProject
            completionBlock:^{
-               [service getProjectsForUser:[KBNUserUtils getUsername]
-                            onSuccessBlock:^(NSArray *records) {
+               [service getProjectsOnSuccessBlock:^(NSArray *records) {
                                 
                                 for (KBNProject *record in records) {
                                     NSString *projectId = record.projectId;

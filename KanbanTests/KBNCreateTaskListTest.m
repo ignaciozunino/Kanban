@@ -10,6 +10,7 @@
 #import <XCTest/XCTest.h>
 #import "KBNTaskListService.h"
 #import "KBNProjectService.h"
+#import "KBNProjectTemplateUtils.h"
 #import "KBNUserUtils.h"
 #import "KBNInitialSetupTest.h"
 
@@ -52,7 +53,6 @@
     
     NSString *name = [NSString stringWithFormat:@"test_project_%@",dateString];
     NSString *projectDescription = @"Create task list test";
-    NSString *username = [KBNUserUtils getUsername];
     
     __block KBNProject *testProject = [KBNProjectUtils projectWithParams:
                                        [NSDictionary dictionaryWithObjectsAndKeys:
@@ -64,7 +64,7 @@
     
     [projectService createProject:testProject.name
                   withDescription:testProject.projectDescription
-                          forUser:username
+                     withTemplate:[KBNProjectTemplateUtils defaultTemplate]
                   completionBlock:^(KBNProject *project) {
                       testProject = project;
                       [projectCreatedExpectation fulfill];
@@ -80,17 +80,12 @@
     
     XCTestExpectation *getTaskListsExpectation = [self expectationWithDescription:GET_TASKLISTS_EXPECTATION];
     
-    KBNTaskListService *taskListService = [[KBNTaskListService alloc] init];
+    KBNTaskListService *taskListService = [KBNTaskListService sharedInstance];
     taskListService.dataService = [[KBNTaskListParseAPIManager alloc] init];
     
-    [taskListService getTaskListsForProject:testProject.projectId
-                            completionBlock:^(NSDictionary *records) {
-                                NSMutableArray *lists = [[NSMutableArray alloc] init];
-                                for (NSDictionary* params in [records objectForKey:@"results"]) {
-                                    KBNTaskList *defaultTaskList = [KBNTaskListUtils taskListForProject:testProject params:params];
-                                    [lists addObject:defaultTaskList];
-                                }
-                                testProject.taskLists = [NSOrderedSet orderedSetWithArray:lists];
+    [taskListService getTaskListsForProject:testProject
+                            completionBlock:^(NSArray *records) {
+                                testProject.taskLists = [NSOrderedSet orderedSetWithArray:records];
                                 [getTaskListsExpectation fulfill];
                             } errorBlock:^(NSError *error) {
                                 XCTFail(@"TaskList Service could not get project´s tasklists");
@@ -109,12 +104,11 @@
     [taskListService createTaskList:taskList
                          forProject:testProject
                             inOrder:@1
-                    completionBlock:^{
+                    completionBlock:^(KBNTaskList *taskList) {
                         // Get task lists and check their orders to be correct
-                        [taskListService getTaskListsForProject:testProject.projectId
-                                                completionBlock:^(NSDictionary *records) {
-                                                    for (NSDictionary* params in [records objectForKey:@"results"]) {
-                                                        KBNTaskList *retrievedTaskList = [KBNTaskListUtils taskListForProject:testProject params:params];
+                        [taskListService getTaskListsForProject:testProject
+                                                completionBlock:^(NSArray *records) {
+                                                    for (KBNTaskList* retrievedTaskList in records) {
                                                         if ([retrievedTaskList.name isEqualToString: @"Backlog"] && [retrievedTaskList.order integerValue] != 0) {
                                                             XCTFail(@"Backlog order is not correct");
                                                         } else if ([retrievedTaskList.name isEqualToString: @"AfterBacklog"] && [retrievedTaskList.order integerValue] != 1) {
@@ -134,7 +128,7 @@
                                                     XCTFail(@"TaskList Service could not get project´s tasklists");
                                                     [taskListCreatedExpectation fulfill];
                                                 }];
- 
+                        
                     } errorBlock:^(NSError *error) {
                         XCTFail(@"TaskList Service could not create the list");
                         [taskListCreatedExpectation fulfill];

@@ -18,35 +18,24 @@
         if (!inst) {
             inst = [[self alloc] init];
             inst.dataService = [[KBNTaskListParseAPIManager alloc]init];
+            inst.fireBaseRootReference = [[Firebase alloc] initWithUrl:FIREBASE_BASE_URL];
         }
     }
     return inst;
 }
 
--(void)createTaskListWithName:(NSString *)name order:(NSNumber *)order projectId:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
-
-    if (!name || [name isEqualToString:@""]) {
-        NSString *domain = ERROR_DOMAIN;
-        NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_TASKLIST_WITHOUT_NAME_ERROR};
-        NSError *errorPtr = [NSError errorWithDomain:domain code:-103 userInfo:info];
-        onError(errorPtr);
-    } else {
-        [self.dataService createTaskListWithName:name order:order projectId:projectId completionBlock:onCompletion errorBlock:onError];
-        
-    }
-}
-
--(void)getTaskListsForProject:(NSString *)projectId completionBlock:(KBNConnectionSuccessDictionaryBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+-(void)getTaskListsForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
-    [self.dataService getTaskListsForProject:projectId completionBlock:onCompletion errorBlock:onError];
-    
+    [self.dataService getTaskListsForProject:project.projectId completionBlock:^(NSDictionary *records) {
+        onCompletion([KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:project]);
+    } errorBlock:onError];
 }
 
 - (BOOL)hasCountLimitBeenReached:(KBNTaskList*)taskList {
     return ([taskList.tasks count] > LIMIT_TASKLIST_ITEMS);
 }
 
-- (void)moveTaskList:(KBNTaskList *)taskList toOrder:(NSNumber*)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)moveTaskList:(KBNTaskList *)taskList toOrder:(NSNumber*)order completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     KBNProject *project = taskList.project;
     
@@ -58,7 +47,7 @@
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:onCompletion errorBlock:onError];
 }
 
-- (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNConnectionSuccessBlock)onCompletion errorBlock:(KBNConnectionErrorBlock)onError {
+- (void)createTaskList:(KBNTaskList*)taskList forProject:(KBNProject*)project inOrder:(NSNumber *)order completionBlock:(KBNSuccessTaskListBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     taskList.project = project;
     taskList.order = order;
@@ -66,9 +55,15 @@
     [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
     [self updateTaskListOrdersInSet:project.taskLists];
     
+    __weak typeof(self) weakself = self;
     [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
         taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
-        onCompletion();
+        if ([project isShared]) {
+            NSArray *array = [NSArray arrayWithObject:taskList];
+            NSDictionary *data = [KBNTaskListUtils taskListsJson:array];
+            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskListUpdate projectId:project.projectId data:data];
+        }
+        onCompletion(taskList);
     } errorBlock:^(NSError *error){
         [project removeTaskListsObject:taskList];
         [self updateTaskListOrdersInSet:project.taskLists];

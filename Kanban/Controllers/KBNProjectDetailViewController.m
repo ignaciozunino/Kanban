@@ -56,10 +56,18 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
+    
+    [self subscribeToRemoteNotifications];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)subscribeToRemoteNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:UPDATE_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskAdd:) name:ADD_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskMove:) name:MOVE_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskRemove:) name:REMOVE_TASK object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableActivityIndicator) name:ENABLE_VIEW object:nil];
@@ -77,34 +85,62 @@
     if (!self.enable) {
         [self enableActivityIndicator];
     }
-    [[KBNUpdateManager sharedInstance] startListeningProjects:@[self.project]];
     self.title = self.project.name;
 }
 
--(void)onProjectUpdate:(NSNotification *)notification{
-    
-    KBNProject *projectUpdated = (KBNProject*)notification.object;
-    if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
-        self.project.name = projectUpdated.name;
-        UILabel *title = [[UILabel alloc] init];
-        title.text = self.project.name;
-        self.navigationItem.titleView = title;
-    }
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:ENABLE_VIEW object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:KBNProjectUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:ENABLE_VIEW];
     [super viewWillDisappear:animated];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASK];
+    [[NSNotificationCenter defaultCenter] removeObserver:ADD_TASK];
+    [[NSNotificationCenter defaultCenter] removeObserver:MOVE_TASK];
+    [[NSNotificationCenter defaultCenter] removeObserver:REMOVE_TASK];
 }
 
-- (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+#pragma mark - Notifications Handlers
+
+- (void)onTaskAdd:(NSNotification*)notification {
+    KBNTask *task = (KBNTask*)notification.object;
+    if ([task.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
+        [self.taskListTasks addObject:task];
+        [self.tableView reloadData];
+    }
+}
+
+- (void)onTaskUpdate:(NSNotification*)notification {
+    KBNTask *updatedTask = (KBNTask*)notification.object;
+    if ([updatedTask.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
+        for (KBNTask* task in self.taskListTasks) {
+            if ([task.taskId isEqualToString:updatedTask.taskId]) {
+                task.name = updatedTask.name;
+                task.taskDescription = updatedTask.taskDescription;
+                break;
+            }
+        }
+        [self.tableView reloadData];
+    }
+}
+
+- (void)onTaskMove:(NSNotification*)notification {
+    NSArray *updatedTasks = (NSArray*)notification.object;
+    self.taskListTasks = [NSMutableArray array];
+    for (KBNTask* task in updatedTasks) {
+        if ([task.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
+            [self.taskListTasks addObject:task];
+        }
+    }
+    [self.tableView reloadData];
+}
+
+- (void)onTaskRemove:(NSNotification*)notification {
+    KBNTask *removedTask = (KBNTask*)notification.object;
+    if ([removedTask.taskList.taskListId isEqualToString:self.taskList.taskListId]) {
+        [self.taskListTasks removeObject:removedTask];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - IBActions
@@ -208,17 +244,14 @@
     cell.layer.shadowOpacity = 0.5;
     
     return cell;
-    
 }
 
 #pragma mark - Table View Delegate
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //for now all the task are editable
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // For now all the tasks are editable
     return YES;
-    
-}
+    }
 
 - (IBAction)enterEditMode:(id)sender {
     
@@ -536,19 +569,13 @@
         if ([[KBNTaskListService sharedInstance] hasCountLimitBeenReached:self.taskList]){
             [KBNAlertUtils showAlertView:CREATING_TASK_TASKLIST_FULL andType:ERROR_ALERT];
         } else {
-            [self goToAddTaskScreen:[segue destinationViewController]];
+            UINavigationController *navController = [segue destinationViewController];
+            KBNAddTaskViewController *addTaskViewController = (KBNAddTaskViewController*)navController.topViewController;
+            
+            addTaskViewController.addTask = [KBNTaskUtils taskForProject:self.project taskList:self.taskList params:nil];
+            addTaskViewController.delegate = self;
         }
     }
-}
-
--(void)goToAddTaskScreen:(UINavigationController*)navController{
-    KBNAddTaskViewController *addTaskViewController = (KBNAddTaskViewController*)navController.topViewController;
-    
-    addTaskViewController.addTask = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
-    
-    addTaskViewController.addTask.project = self.project;
-    addTaskViewController.addTask.taskList = self.taskList;
-    addTaskViewController.delegate = self;
 }
 
 @end

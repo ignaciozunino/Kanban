@@ -8,11 +8,23 @@
 
 #import <Foundation/Foundation.h>
 #import "KBNTask.h"
+#import "KBNTaskList.h"
+#import "KBNConstants.h"
 
 @interface KBNTaskUtils : NSObject
 
 + (KBNTask*)taskForProject:(KBNProject*)project taskList:(KBNTaskList*)taskList params:(NSDictionary*)params;
 
 + (NSArray*)mockTasksForProject:(KBNProject*)project taskList:(KBNTaskList*)taskList quantity:(NSUInteger)quantity;
+
++ (NSDictionary *)taskJson:(KBNTask *)task;
+
++ (NSDictionary *)tasksJson:(NSArray *)tasks;
+
++ (NSArray*)tasksFromDictionary:(NSDictionary*)records key:(NSString*)key forProject:(KBNProject*)project;
+
++ (NSArray*)allTasksFromDictionary:(NSDictionary*)records key:(NSString*)key forProject:(KBNProject*)project;
+
++ (void)tasksForProjectId:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 @end

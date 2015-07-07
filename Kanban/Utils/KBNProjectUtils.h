@@ -11,8 +11,14 @@
 
 @interface KBNProjectUtils : NSObject
 
-+ (BOOL)existProject: (NSString*)name;
-
 + (KBNProject*)projectWithParams:(NSDictionary *)params;
+
++ (NSDictionary*)projectJson:(KBNProject*)project;
+
++ (NSDictionary*)projectsJson:(NSArray*)projects;
+
++ (NSArray*)projectsFromDictionary:(NSDictionary*)records key:(NSString*)key;
+
++ (KBNProject*)projectFromId:(NSString*)projectId;
 
 @end

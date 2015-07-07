@@ -49,7 +49,6 @@
     
     NSString *name = [NSString stringWithFormat:@"test_project_%@",dateString];
     NSString *projectDescription = @"Project created from template";
-    NSString *username = [KBNUserUtils getUsername];
     
     __block KBNProject *testProject = [KBNProjectUtils projectWithParams:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                           name, PARSE_PROJECT_NAME_COLUMN,
@@ -69,31 +68,27 @@
     
     [projectService createProject:testProject.name
                   withDescription:testProject.projectDescription
-                          forUser:username
                      withTemplate:template
                   completionBlock:^(KBNProject *project) {
-                      [tasklistService getTaskListsForProject:project.projectId
-                                              completionBlock:^(NSDictionary *records) {
-                                                  NSArray *lists = [records objectForKey:@"results"];
-                                                  
-                                                  if (lists.count != 3) {
-                                                      XCTFail(@"Three lists should have been created");
-                                                  } else {
-                                                      for (int i = 0; i < lists.count; i++) {
-                                                          // Verify if the created list name is the same as the one in the template
-                                                          NSString *name = [lists[i] objectForKey:PARSE_PROJECT_TEMPLATE_NAME];
-                                                          if (![name isEqualToString:templateLists[i]]) {
-                                                              XCTFail(@"Template list was not created");
-                                                              break;
-                                                          }
-                                                      }
-                                                   }
-                                                  [projectCreatedExpectation fulfill];
-                                                  
-                                              } errorBlock:^(NSError *error) {
-                                                  XCTFail(@"TaskList Service could not retrieve lists");
-                                                  [projectCreatedExpectation fulfill];
-                                              }];
+                      [tasklistService getTaskListsForProject:project completionBlock:^(NSArray *lists) {
+                          if (lists.count != 3) {
+                              XCTFail(@"Three lists should have been created");
+                          } else {
+                              for (int i = 0; i < lists.count; i++) {
+                                  // Verify if the created list name is the same as the one in the template
+                                  NSString *name = [lists[i] name];
+                                  if (![name isEqualToString:templateLists[i]]) {
+                                      XCTFail(@"Template list was not created");
+                                      break;
+                                  }
+                              }
+                          }
+                          [projectCreatedExpectation fulfill];
+                          
+                      } errorBlock:^(NSError *error) {
+                          XCTFail(@"TaskList Service could not retrieve lists");
+                          [projectCreatedExpectation fulfill];
+                      }];
                   } errorBlock:^(NSError *error) {
                       XCTFail(@"Project Service could not create the project");
                       [projectCreatedExpectation fulfill];

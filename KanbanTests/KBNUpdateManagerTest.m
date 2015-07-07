@@ -22,7 +22,7 @@
 
 + (void)setUp {
     [[KBNInitialSetupTest new] testCreateUser];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:UPDATE_PROJECT object:nil];
 }
 
 + (void)tearDown {
@@ -36,20 +36,18 @@
     
     self.updateManager= [KBNUpdateManager new];
     
-    KBNProjectService * serviceOrig = [[KBNProjectService alloc]init];
-    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc]init];
-    self.updateManager.projectService = serviceOrig;
-    [serviceOrig createProject:ProjectTest withDescription:@"desc" forUser:[KBNUserUtils getUsername] completionBlock:^(KBNProject *project) {
+    KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
+    serviceOrig.dataService = [[KBNProjectParseAPIManager alloc] init];
+    
+    [serviceOrig createProject:ProjectTest withDescription:@"desc" withTemplate:nil completionBlock:^(KBNProject *project) {
         [self.expectation fulfill];
     } errorBlock:^(NSError *error) {
         XCTFail();
         [self.expectation fulfill];
     }];
-    [self.updateManager startUpdatingProjects];
     
     [self waitForExpectationsWithTimeout:100.0 handler:^(NSError *error) {
-        [self.updateManager stopUpdatingProjects];
-    }];
+     }];
 }
 
 -(void)onProjectsUpdate:(NSNotification *)noti{

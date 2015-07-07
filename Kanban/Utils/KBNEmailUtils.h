@@ -13,6 +13,6 @@
 
 @interface KBNEmailUtils : NSObject
 
-+(void)sendEmailTo:(NSString*)recipientEmailAddress from:(NSString*)emailSender subject:(NSString*)subject body:(NSString*)body onSuccess:(KBNConnectionSuccessBlock)successBlock onError:(KBNConnectionErrorBlock)errorBlock;
++(void)sendEmailTo:(NSString*)recipientEmailAddress from:(NSString*)emailSender subject:(NSString*)subject body:(NSString*)body onSuccess:(KBNSuccessBlock)successBlock onError:(KBNErrorBlock)errorBlock;
 
 @end

@@ -22,7 +22,7 @@
 
 #define PROJECT_ROW_HEIGHT 80
 
-@interface KBNMyProjectsViewController () <MBProgressHUDDelegate>
+@interface KBNMyProjectsViewController () 
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *projects;
@@ -34,86 +34,65 @@
 
 @implementation KBNMyProjectsViewController
 
-- (void)listenUpdateManager {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:KBNProjectsInitialUpdate object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
-
-    [[KBNUpdateManager sharedInstance] startUpdatingProjects];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.projects = [NSMutableArray new];
     
-    self.projects=[NSMutableArray new];
+    [self getProjects];
     [self subscribeToNotifications];
-    
 }
 
 - (void)subscribeToNotifications {
-    
-    [self listenUpdateManager];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCreateProject:) name:PROJECT_ADDED object:nil];
-    
 }
 
--(void) viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [[KBNUpdateManager sharedInstance] startListeningProjects:self.projects];
-    [self.tableView reloadData];
-}
-
-- (void)stopListeningUpdateManager
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[KBNUpdateManager sharedInstance] stopUpdatingProjects];
 }
 
-- (void) dealloc {
-    
-    [self stopListeningUpdateManager];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PROJECT_ADDED object:nil];
-
-}
-
--(void)onProjectsUpdate:(NSNotification *)noti{
-    
-    [self getProjects:noti];
-}
+#pragma mark - Notification Handlers
 
 -(void)onProjectUpdate:(NSNotification *)notification{
     
-    KBNProject *projectUpdated = (KBNProject*)notification.object;
+    KBNProject *updatedProject = (KBNProject*)notification.object;
+    
+    NSUInteger index = 0;
     for (KBNProject* project in self.projects) {
-        if ([project.projectId isEqualToString:projectUpdated.projectId]) {
-            project.name = projectUpdated.name;
+        if ([project.projectId isEqualToString:updatedProject.projectId]) {
+            [self.projects replaceObjectAtIndex:index withObject:updatedProject];
             break;
         }
+        index++;
     }
+    
+    if (index == self.projects.count) {
+        // The updated project isn't in the array. Add it.
+        [self.projects addObject:updatedProject];
+    }
+    
+    [self.tableView reloadData];
 }
 
-- (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+-(void) didCreateProject:(NSNotification *)notification {
+    KBNProject *project = (KBNProject*)notification.object;
+    [self.projects addObject:project];
+    [self.tableView reloadData];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 #pragma mark - Private methods
 
-- (void)getProjects:(NSNotification *)notification {
-    [KBNUpdateUtils updateExistingProjectsFromArray:(NSArray*)notification.object inArray:self.projects];
-    
+- (void)getProjects {
     __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [KBNAppDelegate activateActivityIndicator:YES];
+    [[KBNProjectService sharedInstance] getProjectsOnSuccessBlock:^(NSArray *records) {
+        weakself.projects = [NSMutableArray arrayWithArray:records];
         [weakself.tableView reloadData];
         
-        [KBNAppDelegate activateActivityIndicator:NO];
-    });
+        // Start listening for updates
+        [[KBNUpdateManager sharedInstance] listenToProjects:records];
+
+    } errorBlock:^(NSError *error) {
+    }];
 }
 
 #pragma mark - Table View Data Source
@@ -146,6 +125,7 @@
     }
     
     [self performSegueWithIdentifier:SEGUE_PROJECT_DETAIL sender:nil];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -205,14 +185,6 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         controller.project = [self.projects objectAtIndex:indexPath.row];
     }
-}
-
-#pragma mark - Add Project Notification
--(void) didCreateProject:(NSNotification *)notification {
-    KBNProject *project = (KBNProject*)notification.object;
-    [self.projects addObject:project];
-    [KBNUpdateManager sharedInstance].lastProjectsUpdate = [NSDate getUTCNowWithParseFormat];
-    [self.tableView reloadData];
 }
 
 #pragma mark - Alert View Delegate

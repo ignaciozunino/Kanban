@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "KBNSelectTemplateViewController.h"
 
-@interface KBNMyProjectsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
-
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@interface KBNMyProjectsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, MBProgressHUDDelegate>
 
 @end

@@ -56,16 +56,13 @@
 }
 
 - (IBAction)onSavePressed:(id)sender {
-    [KBNAppDelegate activateActivityIndicator:YES];
     self.task.name = self.nameTextField.text;
     self.task.taskDescription = self.descriptionTextField.text;
     [[KBNTaskService sharedInstance] updateTask:self.task onSuccess:^{
-        [KBNAppDelegate activateActivityIndicator:NO];
         [KBNAlertUtils showAlertView:TASK_EDIT_SUCCESS andType:SUCCESS_ALERT];
         [self.navigationController popViewControllerAnimated:YES];
     } failure:^(NSError *error) {
-        [KBNAppDelegate activateActivityIndicator:NO];
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT ];
+        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
     }];
 }
 

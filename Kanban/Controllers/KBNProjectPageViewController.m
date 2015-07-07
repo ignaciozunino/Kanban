@@ -44,96 +44,55 @@
                                                                                           target:self
                                                                                           action:@selector(setupEdit)];
     [self getProjectLists];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:KBNProjectUpdate object:nil];
+    
+    [self subscribeToNotifications];
 }
 
-- (void)stopListeningUpdateManager
-{
-    [[KBNUpdateManager sharedInstance] stopUpdatingTasks];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)subscribeToNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskListUpdate:) name:UPDATE_TASKLIST object:nil];
 }
 
 - (void) dealloc {
-    
-    [self stopListeningUpdateManager];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)onProjectUpdate:(NSNotification *)notification{
-    KBNProject *projectUpdated = (KBNProject*)notification.object;
-    if ([self.project.projectId isEqualToString:projectUpdated.projectId]) {
-        self.project.name = projectUpdated.name;
+#pragma mark - Notification Handlers
+
+- (void)onProjectUpdate:(NSNotification *)notification{
+    // This view controller displays the project name in the title. On project change, change the title accordingly.
+    KBNProject *updatedProject = (KBNProject*)notification.object;
+    if ([self.project.projectId isEqualToString:updatedProject.projectId]) {
+        self.project = updatedProject;
         self.title = self.project.name;
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)onTaskListUpdate:(NSNotification*)notification {
+    KBNTaskList *taskList = (KBNTaskList*)notification.object;
+    [self insertTaskList:taskList atIndex:taskList.order.integerValue notified:YES];
 }
 
-#pragma mark - Data methods
--(void)onTasksUpdate:(NSNotification *)noti{
-    [self getProjectTasks:noti];
-}
-
--(void)onTaskUpdate:(NSNotification *)notification{
-    NSDictionary *notifiedTask =(NSDictionary*)notification.object;
-    for (KBNTask * task in self.projectTasks) {
-        if ([task.taskId isEqualToString: [notifiedTask objectForKey:PARSE_OBJECTID]]) {
-            task.name = [notifiedTask objectForKey:PARSE_TASK_NAME_COLUMN];
-            task.taskDescription = [notifiedTask objectForKey:PARSE_TASK_DESCRIPTION_COLUMN];
-            break;
-        }
-    }
-}
-
--(void)onCurrentProjectUpdate:(NSNotification *)noti{
-    
-    self.project = (KBNProject*)noti.object;
-    self.title = self.project.name;
-}
-
-- (void)listenUpdateManager {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksInitialUpdate object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:KBNTasksUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskUpdate:) name:KBNTaskUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onCurrentProjectUpdate:) name:KBNCurrentProjectUpdated object:nil];
-    [[KBNUpdateManager sharedInstance] startUpdatingTasksForProject:self.project];
-}
+#pragma mark - Private methods
 
 - (void)getProjectLists {
-    //This method does the same as "getProjectListsOnSuccess..." but it doesn't require
-    //any block to be invoked. Kept this way for backward compatibility.
-    [self getProjectListsOnSuccess:^(){} onFailure:^(NSError* error){}];
-}
-
-
-- (void)getProjectListsOnSuccess:(KBNConnectionSuccessBlock)success
-                       onFailure:(KBNConnectionErrorBlock)failure {
     __weak typeof(self) weakself = self;
-    
-    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project.projectId completionBlock:^(NSDictionary *response) {
-        
-        weakself.projectLists = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* params in [response objectForKey:@"results"]) {
-            [weakself.projectLists addObject:[KBNTaskListUtils taskListForProject:self.project params:params]];
-        }
-        
-        [self listenUpdateManager];
-        
+    [[KBNTaskListService sharedInstance] getTaskListsForProject:self.project completionBlock:^(NSArray *records) {
+        weakself.projectLists = [NSMutableArray arrayWithArray:records];
+        [weakself getProjectTasks];
     } errorBlock:^(NSError *error) {
-        NSLog(@"Error getting TaskLists: %@",error.localizedDescription);
-        failure(error);
     }];
 }
 
-- (void)getProjectTasks:(NSNotification *)noti {
-    
-    [KBNUpdateUtils updateExistingTasksFromDictionary:(NSDictionary*)noti.object inArray:self.projectTasks forProject:self.project];
-    [self buildDetailViewControllers];
-    [self createPageViewController];
-    
+- (void)getProjectTasks {
+    __weak typeof(self) weakself = self;
+    [[KBNTaskService sharedInstance] getTasksForProject:self.project completionBlock:^(NSArray *records) {
+        weakself.projectTasks = [NSMutableArray arrayWithArray:records];
+        [weakself buildDetailViewControllers];
+        [weakself createPageViewController];
+
+    } errorBlock:^(NSError *error) {
+    }];
 }
 
 #pragma mark - Controller methods
@@ -318,14 +277,15 @@
 }
 
 - (void)insertTaskList:(KBNTaskList*)taskList before:(KBNProjectDetailViewController *)viewController {
-    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex];
+    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex notified:NO];
 }
 
 - (void)insertTaskList:(KBNTaskList*)taskList after:(KBNProjectDetailViewController *)viewController {
-    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex + 1];
+    [self insertTaskList:(KBNTaskList*)taskList atIndex:viewController.pageIndex + 1 notified:NO];
 }
 
-- (void)insertTaskList:(KBNTaskList*)taskList atIndex:(NSUInteger)index {
+- (void)insertTaskList:(KBNTaskList*)taskList atIndex:(NSUInteger)index notified:(BOOL)notified {
+    
     // This view controller handles two arrays:
     // 1. projectLists
     // 2. detailViewControllers
@@ -341,19 +301,24 @@
     
     [self updateViewControllersArray];
     
-    __weak typeof(self) weakself = self;
-    
-    [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^{
-        // Enable edition on new task list
+    if (!notified) {
+        __weak typeof(self) weakself = self;
+        [[KBNTaskListService sharedInstance] createTaskList:taskList forProject:self.project inOrder:[NSNumber numberWithUnsignedLong:index] completionBlock:^(KBNTaskList *taskList) {
+            // Enable edition on new task list
+            [newProjectDetailViewController setEnable:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];
+            
+        } errorBlock:^(NSError *error) {
+            [weakself.projectLists removeObject:taskList];
+            [weakself.detailViewControllers removeObject:newProjectDetailViewController];
+            [weakself updateViewControllersArray];
+            [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
+        }];
+    } else {
         [newProjectDetailViewController setEnable:YES];
         [[NSNotificationCenter defaultCenter] postNotificationName:ENABLE_VIEW object:nil];
-    
-    } errorBlock:^(NSError *error) {
-        [weakself.projectLists removeObject:taskList];
-        [weakself.detailViewControllers removeObject:newProjectDetailViewController];
-        [weakself updateViewControllersArray];
-        [KBNAlertUtils showAlertView:[error localizedDescription] andType:ERROR_ALERT];
-    }];
+        [self updatePageController];
+    }
     
 }
 
@@ -385,6 +350,10 @@
                                       direction:UIPageViewControllerNavigationDirectionForward
                                        animated:YES
                                      completion:nil];
+}
+
+- (void)updatePageController {
+    [self.pageViewController setViewControllers:[self.pageViewController viewControllers] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 }
 
 - (void)toggleScrollStatus {
