@@ -10,6 +10,7 @@
 #import "KBNTask.h"
 #import "KBNTaskList.h"
 #import "KBNProject.h"
+#import "NSDate+Utils.h"
 
 @implementation KBNTaskParseAPIManager
 
@@ -36,7 +37,10 @@
     
     [self.afManager POST:PARSE_TASKS parameters: params
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     onCompletion(responseObject);
+                     NSDictionary *taskParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [responseObject objectForKey:PARSE_OBJECTID], @"taskId",
+                                                 [NSDate dateFromParseString:[responseObject objectForKey:PARSE_UPDATED_COLUMN]], @"updatedAt", nil];
+                     onCompletion(taskParams);
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                      onError(error);
@@ -88,7 +92,7 @@
 }
 
 // This method will receive an array of tasks to update
-- (void)updateTasks:(NSArray*)tasks completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+- (void)updateTasks:(NSArray*)tasks completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     NSMutableArray *requests = [[NSMutableArray alloc] init];
     NSMutableDictionary *record;

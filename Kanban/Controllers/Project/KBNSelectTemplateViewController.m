@@ -46,7 +46,7 @@
         [weakself.templates addObjectsFromArray:templates];
         [weakself.tableView reloadData];
     } errorBlock:^(NSError *error) {
-        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:ERROR_ALERT];
+        [KBNAlertUtils showAlertView:[error localizedDescription ]andType:WARNING_ALERT];
     }];
     
 }
@@ -82,14 +82,8 @@
 #pragma mark - Table View Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([KBNReachabilityUtils isOffline]) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
-
     [self performSegueWithIdentifier:SEGUE_ADD_PROJECT sender:nil];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

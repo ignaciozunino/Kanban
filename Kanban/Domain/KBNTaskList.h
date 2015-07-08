@@ -18,6 +18,9 @@
 @property (nonatomic, strong) NSString * taskListId;
 @property (nonatomic, strong) KBNProject *project;
 @property (nonatomic, strong) NSOrderedSet *tasks;
+@property (nonatomic, strong) NSNumber *synchronized;
+@property (nonatomic, strong) NSDate *updatedAt;
+
 @end
 
 @interface KBNTaskList (CoreDataGeneratedAccessors)
@@ -32,5 +35,7 @@
 - (void)removeTasksObject:(KBNTask *)value;
 - (void)addTasks:(NSOrderedSet *)values;
 - (void)removeTasks:(NSOrderedSet *)values;
+
+- (BOOL)isSynchronized;
 
 @end

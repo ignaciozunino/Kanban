@@ -10,32 +10,15 @@
 #import "KBNAppDelegate.h"
 #import "KBNConstants.h"
 
-@interface KBNProjectTemplateUtils()
-
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
-@end
-
 @implementation KBNProjectTemplateUtils
 
-+ (KBNProjectTemplate*)projectTemplateWithParams:(NSDictionary *)params {
-    
-    KBNProjectTemplate *template = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_PROJECT_TEMPLATE inManagedObjectContext:[self managedObjectContext]];
-    
-    [template setValue:[params objectForKey:PARSE_OBJECTID] forKey:@"projectTemplateId"];
-    [template setValue:[params objectForKey:PARSE_PROJECT_TEMPLATE_NAME] forKey:@"name"];
-    [template setValue:[params objectForKey:PARSE_PROJECT_TEMPLATE_LISTS] forKey:@"lists"];
-    
-    return template;
-}
-
-+ (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
++ (KBNProjectTemplate *)projectTemplateWithParams:(NSDictionary *)params {
+    return [[KBNCoreDataManager sharedInstance] projectTemplateWithParams:params];
 }
 
 + (KBNProjectTemplate *)defaultTemplate {
  
-    return [self projectTemplateWithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"Default", @"name", DEFAULT_TASK_LISTS, @"lists", nil]];
+    return [[KBNCoreDataManager sharedInstance] projectTemplateWithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"Default", @"name", DEFAULT_TASK_LISTS, @"lists", @"xxxxxxxxxx", PARSE_OBJECTID, nil]];
 }
 
 @end

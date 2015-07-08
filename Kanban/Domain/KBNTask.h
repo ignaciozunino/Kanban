@@ -20,7 +20,11 @@
 @property (nonatomic, strong) NSNumber *active;
 @property (nonatomic, strong) KBNProject *project;
 @property (nonatomic, strong) KBNTaskList *taskList;
+@property (nonatomic, strong) NSNumber *synchronized;
+@property (nonatomic, strong) NSDate *updatedAt;
+
 
 - (BOOL)isActive;
+- (BOOL)isSynchronized;
 
 @end

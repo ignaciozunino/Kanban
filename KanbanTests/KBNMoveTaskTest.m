@@ -39,7 +39,7 @@
 }
 
 - (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    return [[KBNCoreDataManager sharedInstance] managedObjectContext];
 }
 
 // Test description

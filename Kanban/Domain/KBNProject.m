@@ -20,7 +20,8 @@
 @dynamic active;
 @dynamic taskLists;
 @dynamic tasks;
-
+@dynamic synchronized;
+@dynamic updatedAt;
 
 - (void)insertObject:(KBNTaskList *)value inTaskListsAtIndex:(NSUInteger)idx {
     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.taskLists.array];
@@ -44,6 +45,10 @@
         return YES;
     }
     return NO;
+}
+
+- (BOOL)isSynchronized {
+    return self.synchronized.boolValue;
 }
 
 - (KBNTaskList*)taskListForId:(NSString *)taskListId {

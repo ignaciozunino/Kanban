@@ -8,6 +8,7 @@
 
 #import "KBNTaskListParseAPIManager.h"
 #import "KBNTaskListUtils.h"
+#import "NSDate+Utils.h"
 
 @implementation KBNTaskListParseAPIManager
 
@@ -18,6 +19,43 @@
         _afManager = [[KBNParseRequestOperationManager alloc] init];
     }
     return self;
+}
+
+- (void)createTaskLists:(NSArray*)listNames forProject:(NSString*)projectId onCompletion:(KBNSuccessArrayBlock)onCompletion onError:(KBNErrorBlock)onError {
+    
+    __block NSError *error = nil;
+    dispatch_group_t serviceGroup = dispatch_group_create();
+    
+    __block NSMutableArray *listsInfo = [NSMutableArray array];
+    
+    for (int i = 0; i < listNames.count; i++) {
+        
+        NSDictionary *listdata = @{PARSE_TASKLIST_NAME_COLUMN: listNames[i], PARSE_TASKLIST_PROJECT_COLUMN: projectId, PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:i]};
+        dispatch_group_enter(serviceGroup);
+        
+        [self.afManager POST:PARSE_TASKLISTS parameters:listdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            // As we don't know the order in which blocks are completed, we save the listId and the corresponding order too
+            NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [responseObject objectForKey:PARSE_OBJECTID], @"taskListId",
+                                  [NSDate dateFromParseString:[responseObject objectForKey:PARSE_CREATED_COLUMN]], @"updatedAt",
+                                  [NSNumber numberWithInt:i], @"order", nil];
+            [listsInfo addObject:info];
+            dispatch_group_leave(serviceGroup);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *errorParse) {
+            error = errorParse;
+            dispatch_group_leave(serviceGroup);
+        }];
+    }
+    
+    dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
+        if (error) {
+            onError(error);
+        } else {
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES];
+            [listsInfo sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+            onCompletion(listsInfo);
+        }
+    });
 }
 
 - (void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {

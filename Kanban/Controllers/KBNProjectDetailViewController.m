@@ -41,6 +41,14 @@
 
 @implementation KBNProjectDetailViewController
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self subscribeToRemoteNotifications];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -56,8 +64,6 @@
     self.longPress.delegate = self;
     
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
-    
-    [self subscribeToRemoteNotifications];
 }
 
 - (void)subscribeToRemoteNotifications {
@@ -65,6 +71,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskAdd:) name:ADD_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskMove:) name:MOVE_TASK object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTaskRemove:) name:REMOVE_TASK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTasksUpdate:) name:UPDATE_TASKS object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -98,6 +105,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:ADD_TASK];
     [[NSNotificationCenter defaultCenter] removeObserver:MOVE_TASK];
     [[NSNotificationCenter defaultCenter] removeObserver:REMOVE_TASK];
+    [[NSNotificationCenter defaultCenter] removeObserver:UPDATE_TASKS];
 }
 
 #pragma mark - Notifications Handlers
@@ -143,24 +151,22 @@
     }
 }
 
+- (void)onTasksUpdate:(NSNotification*)notification {
+    // Notification received after getting tasks from Parse
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskList == %@", self.taskList];
+    NSArray *tasks = [(NSArray*)notification.object filteredArrayUsingPredicate:predicate];
+    self.taskListTasks = [NSMutableArray arrayWithArray:tasks];
+    [self.tableView reloadData];
+}
+
 #pragma mark - IBActions
 - (IBAction)addTask:(id)sender {
-    
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
     
     [self performSegueWithIdentifier:SEGUE_ADD_TASK sender:sender];
 
 }
 
 - (IBAction)addTaskList:(id)sender {
-    
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
     
     NSString *currentList = [@" " stringByAppendingString:self.labelTaskListName.text];
     NSString *beforeTitle = [BEFORE_TITLE stringByAppendingString:currentList];

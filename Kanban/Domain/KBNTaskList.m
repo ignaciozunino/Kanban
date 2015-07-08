@@ -18,6 +18,8 @@
 @dynamic taskListId;
 @dynamic project;
 @dynamic tasks;
+@dynamic synchronized;
+@dynamic updatedAt;
 
 - (void)insertObject:(KBNTask *)value inTasksAtIndex:(NSUInteger)idx {
     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.tasks.array];
@@ -29,6 +31,10 @@
     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.tasks.array];
     [temp removeObject:value];
     self.tasks = [NSOrderedSet orderedSetWithArray:temp];
+}
+
+- (BOOL)isSynchronized {
+    return self.synchronized.boolValue;
 }
 
 @end

@@ -42,9 +42,21 @@
     [self subscribeToNotifications];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [KBNReachabilityUtils startMonitoring];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [KBNReachabilityUtils stopMonitoring];
+    [super viewWillDisappear:animated];
+}
+
 - (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectUpdate:) name:UPDATE_PROJECT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCreateProject:) name:PROJECT_ADDED object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProjectsUpdate:) name:UPDATE_PROJECTS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getProjectsUpdate) name:CONNECTION_ONLINE object:nil];
 }
 
 - (void)dealloc {
@@ -74,10 +86,26 @@
     [self.tableView reloadData];
 }
 
--(void) didCreateProject:(NSNotification *)notification {
+- (void)didCreateProject:(NSNotification *)notification {
     KBNProject *project = (KBNProject*)notification.object;
     [self.projects addObject:project];
     [self.tableView reloadData];
+}
+
+- (void)onProjectsUpdate:(NSNotification*)notification {
+    // Notification received with projects from Parse
+    
+    // Add projects from parse to the projects array
+    [self.projects addObjectsFromArray:(NSArray*)notification.object];
+    
+    // Eliminate duplicates
+    self.projects = [NSMutableArray arrayWithArray:[[NSOrderedSet orderedSetWithArray:self.projects] array]];
+    
+    [self.tableView reloadData];
+}
+
+- (void)getProjectsUpdate {
+    [[KBNProjectService sharedInstance] getProjectsUpdate];
 }
 
 #pragma mark - Private methods
@@ -118,12 +146,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        [tableView deselectRowAtIndexPath:indexPath animated:NO];
-        return;
-    }
-    
     [self performSegueWithIdentifier:SEGUE_PROJECT_DETAIL sender:nil];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
@@ -162,12 +184,6 @@
 
 #pragma mark - IBActions
 - (IBAction)addProject:(UIBarButtonItem *)sender {
-    
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
-    
     [self performSegueWithIdentifier:SEGUE_SELECT_PROJECT_TEMPLATE sender:sender];
 }
 

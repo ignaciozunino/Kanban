@@ -7,6 +7,7 @@
 //
 
 #import "KBNTaskListService.h"
+#import "KBNReachabilityUtils.h"
 
 @implementation KBNTaskListService
 
@@ -26,8 +27,25 @@
 
 -(void)getTaskListsForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
+    // If the project was created offline, it will not hava a projectId, so return.
+    if (!project.projectId) {
+        return;
+    }
+    
     [self.dataService getTaskListsForProject:project.projectId completionBlock:^(NSDictionary *records) {
-        onCompletion([KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:project]);
+        NSArray *results = [KBNTaskListUtils taskListsFromDictionary:records key:@"results" forProject:project];
+        
+        // TaskLists have already been inserted in context.
+        // Mark them as synchronized and update context.
+        for (KBNTaskList *taskList in results) {
+            if (!taskList.isSynchronized) {
+                taskList.synchronized = [NSNumber numberWithBool:YES];
+            }
+        }
+        [[KBNCoreDataManager sharedInstance] saveContext];
+        
+        onCompletion(results);
+        
     } errorBlock:onError];
 }
 
@@ -55,20 +73,27 @@
     [project insertObject:taskList inTaskListsAtIndex:[order integerValue]];
     [self updateTaskListOrdersInSet:project.taskLists];
     
-    __weak typeof(self) weakself = self;
-    [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
-        taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
-        if ([project isShared]) {
-            NSArray *array = [NSArray arrayWithObject:taskList];
-            NSDictionary *data = [KBNTaskListUtils taskListsJson:array];
-            [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskListUpdate projectId:project.projectId data:data];
-        }
+    // TaskList object creation completed offline. Save context.
+    [[KBNCoreDataManager sharedInstance] saveContext];
+
+    if ([KBNReachabilityUtils isOnline] && project.projectId) {
+        __weak typeof(self) weakself = self;
+        [self.dataService updateTaskLists:project.taskLists.array completionBlock:^(NSDictionary *records) {
+            taskList.taskListId = [records objectForKey:PARSE_OBJECTID];
+            if ([project isShared]) {
+                NSArray *array = [NSArray arrayWithObject:taskList];
+                NSDictionary *data = [KBNTaskListUtils taskListsJson:array];
+                [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskListUpdate projectId:project.projectId data:data];
+            }
+            onCompletion(taskList);
+        } errorBlock:^(NSError *error){
+            [project removeTaskListsObject:taskList];
+            [self updateTaskListOrdersInSet:project.taskLists];
+            onError(error);
+        }];
+    } else {
         onCompletion(taskList);
-    } errorBlock:^(NSError *error){
-        [project removeTaskListsObject:taskList];
-        [self updateTaskListOrdersInSet:project.taskLists];
-        onError(error);
-    }];
+    }
 }
 
 - (void)updateTaskListOrdersInSet:(NSOrderedSet*)set {

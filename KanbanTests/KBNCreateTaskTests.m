@@ -56,10 +56,6 @@
     [super tearDown];
 }
 
-- (NSManagedObjectContext*) managedObjectContext {
-    return [(KBNAppDelegate*)[[UIApplication sharedApplication] delegate] managedObjectContext];
-}
-
 //Feature tested: Create Task
 //Description: In this test we will verify that you can't create a task without a name
 -(void) testCreateTaskWithoutName{

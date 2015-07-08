@@ -44,11 +44,6 @@
 
 - (IBAction)save:(UIBarButtonItem *)sender {
     
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return;
-    }
-    
     [self.view endEditing:YES];
     [self startHUD];
 

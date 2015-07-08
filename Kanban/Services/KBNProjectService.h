@@ -32,4 +32,6 @@
 
 - (void)getProjectsOnSuccessBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
+- (void)getProjectsUpdate;
+
 @end

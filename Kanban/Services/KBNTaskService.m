@@ -8,6 +8,8 @@
 
 #import "KBNTaskService.h"
 #import "KBNTaskUtils.h"
+#import "KBNReachabilityUtils.h"
+#import "NSDate+Utils.h"
 
 @implementation KBNTaskService
 
@@ -43,22 +45,51 @@
             onError(errorPtr);
         } else {
             aTask.order = [NSNumber numberWithUnsignedLong:[aTaskList.tasks indexOfObject:aTask]];
-            __weak typeof(self) weakself = self;
-            [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *records) {
-                aTask.taskId = [records objectForKey:PARSE_OBJECTID];
-                aTask.active = [NSNumber numberWithBool:YES];
-                if ([aTask.project isShared]) {
-                    [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
-                }
+            aTask.active = [NSNumber numberWithBool:YES];
+            [[KBNCoreDataManager sharedInstance] saveContext];
+            
+            if ([KBNReachabilityUtils isOnline] &&
+                aTask.project.projectId && aTask.taskList.taskListId) {
+                
+                __weak typeof(self) weakself = self;
+                [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *params) {
+                    aTask.taskId = [params objectForKey:@"taskId"];
+                    aTask.updatedAt = [params objectForKey:@"updatedAt"];
+                    aTask.synchronized = [NSNumber numberWithBool:YES];
+                    
+                    // Save context to save parse object id's in Core Data
+                    [[KBNCoreDataManager sharedInstance] saveContext];
+                    
+                    if ([aTask.project isShared]) {
+                        [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskAdd projectId:aTask.project.projectId data:[KBNTaskUtils tasksJson:@[aTask]]];
+                    }
+                    onCompletion(aTask);
+                } errorBlock:onError];
+            } else {
                 onCompletion(aTask);
-            } errorBlock:onError];
+            }
         }
     }
 }
 
 - (void)getTasksForProject:(KBNProject*)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+    
+    // If the project was created offline, it will not hava a projectId, so return.
+    if (!project.projectId) {
+        return;
+    }
     [self.dataService getTasksForProject:project.projectId completionBlock:^(NSDictionary *records) {
-        onCompletion([KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project]);
+        NSArray *results = [KBNTaskUtils tasksFromDictionary:records key:@"results" forProject:project];
+        
+        // Any change in tasks has already been changed in context.
+        // Mark tasks as synchronized and save context.
+        for (KBNTask *task in results) {
+            task.synchronized = [NSNumber numberWithBool:YES];
+        }
+        [[KBNCoreDataManager sharedInstance] saveContext];
+        
+        onCompletion(results);
+        
     } errorBlock:onError];
 }
 
@@ -76,7 +107,9 @@
     
     //Send updates to the data service
     __weak typeof(self) weakself = self;
-    [self.dataService updateTasks:tasksToUpdate completionBlock:^{
+    [self.dataService updateTasks:tasksToUpdate completionBlock:^(NSDictionary *records) {
+        
+        
         if ([task.project isShared]) {
             [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskRemove projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
         }
@@ -117,7 +150,7 @@
      //Send updates to the data service
     __weak typeof(self) weakself = self;
     [self.dataService updateTasks:tasksToUpdate
-                  completionBlock:^{
+                  completionBlock:^(NSDictionary *records) {
                       if ([task.project isShared]) {
                           [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskMove projectId:task.project.projectId data:[KBNTaskUtils tasksJson:tasksToUpdate]];
                       }
@@ -152,7 +185,7 @@
     if (task.name.length) {
         __weak typeof(self) weakself = self;
         [self.dataService updateTasks:@[task]
-                      completionBlock:^{
+                      completionBlock:^(NSDictionary *records) {
                           if ([task.project isShared]) {
                               [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTaskUpdate projectId:task.project.projectId data:[KBNTaskUtils tasksJson:@[task]]];
                           }
@@ -168,7 +201,7 @@
 }
 
 - (void)tasksForProject:(KBNProject *)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
-    [KBNTaskUtils tasksForProjectId:project.projectId completionBlock:onCompletion errorBlock:onError];
+    [[KBNCoreDataManager sharedInstance] tasksForProjectId:project.projectId completionBlock:onCompletion errorBlock:onError];
 }
 
 @end

@@ -17,6 +17,10 @@
     return networkStatus == NotReachable;
 }
 
++ (BOOL)isOnline {
+    return ![self isOffline];
+}
+
 + (void)startMonitoring {
     
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
