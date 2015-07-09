@@ -1,0 +1,41 @@
+/* 
+  Localizable.strings
+  Kanban
+
+  Created by guerrier on 09/07/15.
+  Copyright (c) 2015 Globant. All rights reserved.
+*/
+
+"ADD_PROJECT_LOADING" =  "Creando el proyecto";
+"ADD_TASK_LOADING" = "Creando la tarea";
+"EDIT_PROJECT_LOADING" = "Editando el proyecto";
+"EDIT_TASK_LOADING" = "Editando la tarea";
+"EDIT_PROJECT_INVITING" = "Invitando al proyecto";
+"PROJECT_CREATION_SUCCESS" = "Proyecto creado exitosamente!";
+"PROJECT_EDIT_SUCCESS"  = "Proyecto modificato exitosamente!";
+"TASK_CREATION_SUCCESS" = "Tarea creada exitosamente!";
+"TASK_EDIT_SUCCESS" = "Tarea modificada exitosamente!";
+"ERROR_DOMAIN" = "globant.kanban.Kanban.ErrorDomain";
+"SIGNIN_ERROR" = "Por favor valida que nombre de usuario es un correo electronico valido y la contraseña tienen al menos 6 caracteres, una letra y un número.";
+"CREATING_PROJECT_WITHOUTNAME_ERROR" = "El proyecto debe de tener un nombre";
+"CREATING_PROJECT_OFFLINE_ERROR" = "El servicio esta offline.";
+"CREATING_TASK_WITHOUT_NAME_ERROR" = "La tarea debe de tener un nombre";
+"CREATING_TASKLIST_WITHOUT_NAME_ERROR" = "La lista de tareas debe tener un nombre";
+"CREATING_TASK_OFFLINE_ERROR" = "La conexion con el servidor ha agotado el tiempo de espera";
+"CREATING_TASK_TASKLIST_FULL" = "La lista de tareas ya no puede tener más elementos";
+"EDIT_PROJECT_WITHOUTNAME_ERROR" = "El proyecto debe de tener un nombre";
+"USER_EXISTS_ERROR" = "Ya hay un usuario con ese nombre, por favor trata con otro.";
+"EDIT_TASK_WITHOUTNAME_ERROR" = "La tarea debe de tener un nombre";
+"INVITE_USERS_USER_EXISTS_ERROR" = "a hay un usuario con ese nombre, por favor trata con otro.";
+"OFFLINE_WARNING" = "La conexión parece estar fuera de línea.";
+"EMAIL_INVITE_SUBJECT" = "Invitación a mi proyecto";
+"EMAIL_INVITE_BODY" = "Acabo te invitarte a mi proyecto Simple Kanban. Inicia sesión en la App Kanban con tu dirección de correo electrónico y comprobar que funciona!";
+"ERROR_ALERT" = "ERROR";
+"WARNING_ALERT" = "ADVERTENCIA";
+"SUCCESS_ALERT" = "EXITO";
+"OK_TITLE" = "Ok";
+"CANCEL_TITLE" = "Cancelar";
+"DELETE_TITLE" = "Eliminar";
+"BEFORE_TITLE" = "Antes";
+"AFTER_TITLE" = "Después";
+"ADD_LIST_TITLE" = "Agregar a lista";
