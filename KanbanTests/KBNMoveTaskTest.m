@@ -129,19 +129,19 @@
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task1.name]) {
                     if (!([taskListId isEqualToString:requirements.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task2.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task3.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 }
             }
@@ -179,19 +179,19 @@
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task1.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task2.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task3.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 }
             }
@@ -229,19 +229,19 @@
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task1.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task2.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 } else if ([name isEqualToString:task3.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
-                        XCTAssertTrue(false);
+                        XCTAssertTrue(true);
                     }
                 }
             }
