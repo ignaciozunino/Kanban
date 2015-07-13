@@ -12,6 +12,9 @@
 #import "KBNUserUtils.h"
 #import "UIFont+CustomFonts.h"
 #import "AFNetworkActivityIndicatorManager.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 @interface KBNAppDelegate ()
 
@@ -46,6 +49,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Fabric with:@[CrashlyticsKit]];
     BOOL isLoggedIn = [KBNUserUtils hasUserBeenCreated];
     
     NSString *storyboardId = isLoggedIn ? MAIN_STORYBOARD : SIGNIN_STORYBOARD;
