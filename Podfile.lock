@@ -20,19 +20,19 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Firebase (2.2.2)
+  - Firebase (2.3.2)
   - MBProgressHUD (0.9.1)
   - OCMock (3.1.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - Firebase (>= 2.2.2)
-  - MBProgressHUD (>= 0.9.1)
+  - MBProgressHUD (~> 0.9.1)
   - OCMock (~> 3.1)
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  Firebase: e35cdd2561bf4fea9c1e384e9400a9c173d19e47
+  Firebase: 02fbeacfe19970856c872321788194524f21ffed
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
 

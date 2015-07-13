@@ -12,6 +12,7 @@
 #import "KBNUserUtils.h"
 #import "UIFont+CustomFonts.h"
 #import "AFNetworkActivityIndicatorManager.h"
+#import "KBNReachabilityUtils.h"
 
 @interface KBNAppDelegate ()
 
@@ -55,6 +56,8 @@
     
     [self lookAndFeelSetup];
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+    
+    [KBNReachabilityUtils startMonitoring];
     
     return YES;
 }

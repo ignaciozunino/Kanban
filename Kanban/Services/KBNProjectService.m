@@ -27,6 +27,11 @@
     return inst;
 }
 
+-(instancetype)init {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncProjectsOnParse) name:CONNECTION_ONLINE object:nil];
+    return self;
+}
+
 - (void)createProject:(NSString *)name withDescription:(NSString *)projectDescription withTemplate:(KBNProjectTemplate *)projectTemplate completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     if ([name isEqualToString:@""] || !name) {
@@ -77,13 +82,13 @@
                     taskList.synchronized = [NSNumber numberWithBool:YES];
                     index++;
                 }
-                
-                [[KBNCoreDataManager sharedInstance] saveContext];
-                onCompletion(project);
             } errorBlock:onError];
-        } else {
-            onCompletion(project);
         }
+        else {
+               [project setSynchronized:[NSNumber numberWithBool:false]];
+        }
+        [[KBNCoreDataManager sharedInstance] saveContext];
+        onCompletion(project);
     }
 }
 
@@ -234,6 +239,49 @@
     } errorBlock:^(NSError *error) {
     }];
 
+}
+
+-(void)syncProjectsOnParse {
+    [[KBNCoreDataManager sharedInstance] getProjectsOnSuccess:^(NSArray *records) {
+        for (KBNProject *project in records) {
+            if(project.isSynchronized) {
+                __weak typeof(self) weakself = self;
+                [self.dataService editProject:project.projectId withNewName:project.name withNewDesc:project.description completionBlock:^(NSDictionary *records) {
+                    project.updatedAt = [records objectForKey:@"updatedAt"];
+                    project.synchronized = [NSNumber numberWithBool:YES];
+                    // If the project has more than one user, notify change
+                    if ([project isShared]) {
+                        [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeProjectUpdate projectId:project.projectId data:[KBNProjectUtils projectsJson:@[project]]];
+                    }
+                } errorBlock:^(NSError *error) {
+                    NSLog(@"Could not update proyect on syncprojectsonparse",nil);
+                }];
+            }
+            else {
+                [self.dataService createProject:project withLists:[project.taskLists array] completionBlock:^(NSDictionary *records) {
+                    NSDictionary *projectParams = [records objectForKey:@"project"];
+                    project.projectId = [projectParams objectForKey:@"projectId"];
+                    project.updatedAt = [projectParams objectForKey:@"updatedAt"];
+                    project.synchronized = [NSNumber numberWithBool:YES];
+                    
+                    NSArray *listsParams = [records objectForKey:@"taskLists"];
+                    KBNTaskList *taskList = nil;
+                    NSUInteger index = 0;
+                    for (NSDictionary *params in listsParams) {
+                        taskList = [project.taskLists objectAtIndex:index];
+                        taskList.taskListId = [params objectForKey:@"taskListId"];
+                        taskList.updatedAt = [params objectForKey:@"updatedAt"];
+                        taskList.synchronized = [NSNumber numberWithBool:YES];
+                        index++;
+                    }
+                } errorBlock:^(NSError *error) {
+                    NSLog(@"Could not create project on syncProjectsOnParse");
+                }];
+            }
+        }
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error Recovering Proyects from coredata");
+    }];
 }
 
 @end

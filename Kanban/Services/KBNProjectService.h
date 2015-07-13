@@ -22,6 +22,8 @@
 
 + (KBNProjectService *)sharedInstance;
 
+-(void)syncProjectsOnParse;
+
 - (void)createProject:(NSString*)name withDescription:(NSString*)projectDescription withTemplate:(KBNProjectTemplate*)projectTemplate completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
 - (void)editProject: (KBNProject*)project withNewName:(NSString*)newName withDescription:(NSString*)newDescription completionBlock:(KBNSuccessBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
