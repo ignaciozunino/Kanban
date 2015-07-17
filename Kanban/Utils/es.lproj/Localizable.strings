@@ -36,6 +36,14 @@
 "OK_TITLE" = "Ok";
 "CANCEL_TITLE" = "Cancelar";
 "DELETE_TITLE" = "Eliminar";
-"BEFORE_TITLE" = "Antes";
-"AFTER_TITLE" = "Después";
+"BEFORE_TITLE" = "Antes de";
+"AFTER_TITLE" = "Después de";
 "ADD_LIST_TITLE" = "Agregar a lista";
+"DEFAULT" = "Predeterminado";
+"PRIORITY_HIGH" = "Alta";
+"PRIORITY_MEDIUM" = "Media";
+"PRIORITY_LOW" = "Baja";
+"DONE_TITLE" = "Aceptar";
+"CREATE_PROJECTS_TITLE" = "Crea Proyectos";
+"CREATE_AND_MOVE_TASK_TITLE" = "Crea y mueve tareas";
+"INVITE_USERS_TITLE" = "Invita usuarios";

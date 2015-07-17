@@ -39,3 +39,11 @@
 "BEFORE_TITLE" = "Before";
 "AFTER_TITLE" = "After";
 "ADD_LIST_TITLE" = "Add list";
+"DEFAULT" = "Default";
+"PRIORITY_HIGH" = "High";
+"PRIORITY_MEDIUM" = "Medium";
+"PRIORITY_LOW" = "Low";
+"DONE_TITLE" = "Done";
+"CREATE_PROJECTS_TITLE" = "Create Projects";
+"CREATE_AND_MOVE_TASK_TITLE" = "Create and move tasks";
+"INVITE_USERS_TITLE" = "Invite users";

@@ -107,9 +107,11 @@
 #define PARSE_TASK_ORDER_COLUMN @"order"
 #define PARSE_TASK_ACTIVE_COLUMN @"active"
 #define PARSE_TASK_UPDATED_COLUMN @"updatedAt"
+#define PARSE_TASK_PRIORITY_COLUMN @"priority"
 
 #define PARSE_PROJECT_TEMPLATE_NAME @"name"
 #define PARSE_PROJECT_TEMPLATE_LISTS @"lists"
+#define PARSE_PROJECT_TEMPLATE_LANGUAGE @"language"
 
 #define PARSE_USER_NAME_COLUMN @"username"
 
@@ -141,7 +143,12 @@
 #define BEFORE_TITLE NSLocalizedString(@"BEFORE_TITLE", nil)
 #define AFTER_TITLE NSLocalizedString(@"AFTER_TITLE", nil)
 #define ADD_LIST_TITLE NSLocalizedString(@"ADD_LIST_TITLE", nil)
+#define DONE_TITLE NSLocalizedString(@"DONE_TITLE", nil)
 
+//Tutorial titles
+#define CREATE_PROJECTS_TITLE NSLocalizedString(@"CREATE_PROJECTS_TITLE", nil)
+#define CREATE_AND_MOVE_TASK_TITLE NSLocalizedString(@"CREATE_AND_MOVE_TASK_TITLE", nil)
+#define INVITE_USERS_TITLE NSLocalizedString(@"INVITE_USERS_TITLE", nil)
 
 //FIREBASE KEYS
 #define FIREBASE_CHANGE_TYPE @"ChangeType"
@@ -166,6 +173,13 @@
 //TaskLists Templates
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
 
+//Priority Data
+#define PRIORITY_HIGH NSLocalizedString(@"PRIORITY_HIGH", nil)
+#define PRIORITY_MEDIUM NSLocalizedString(@"PRIORITY_MEDIUM", nil)
+#define PRIORITY_LOW NSLocalizedString(@"PRIORITY_LOW", nil)
+#define LOW_COLOR [UIColor colorWithRed:204.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1]
+#define MEDIUM_COLOR [UIColor colorWithRed:255.0/255.0 green:204.0/255.0 blue:102.0/255.0 alpha:1]
+#define HIGH_COLOR [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1]
 
 //Blocks 
 typedef void (^KBNErrorBlock) (NSError *error);
