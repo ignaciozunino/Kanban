@@ -22,6 +22,7 @@
 @property (nonatomic, strong) KBNTaskList *taskList;
 @property (nonatomic, strong) NSNumber *synchronized;
 @property (nonatomic, strong) NSDate *updatedAt;
+@property (nonatomic, strong) NSNumber *priority;
 
 
 - (BOOL)isActive;
