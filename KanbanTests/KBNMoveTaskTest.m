@@ -129,19 +129,27 @@
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task0");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task1.name]) {
                     if (!([taskListId isEqualToString:requirements.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task1");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task2.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task2");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task3.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task3");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 }
             }
@@ -179,19 +187,27 @@
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task0");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task1.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task1");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task2.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task2");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task3.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task3");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 }
             }
@@ -229,19 +245,27 @@
                 
                 if ([name isEqualToString:task0.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task0");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task1.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task1");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task2.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task2");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 } else if ([name isEqualToString:task3.name]) {
                     if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
-                        XCTAssertTrue(true);
+                        XCTAssertTrue(taskListId, @"backlog");
+                        XCTAssertTrue(name, @"Task3");
+                        XCTAssertFalse([order isEqual:0]);
                     }
                 }
             }

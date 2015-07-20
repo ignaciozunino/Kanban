@@ -85,8 +85,7 @@
         }
         [expectation fulfill];
     }
-                    errorBlock:^(NSError *error)
-     {
+                    errorBlock:^(NSError *error){
          if (error) {
              NSString *errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
              XCTAssertEqualObjects(errorMessage, CREATING_PROJECT_OFFLINE_ERROR);
