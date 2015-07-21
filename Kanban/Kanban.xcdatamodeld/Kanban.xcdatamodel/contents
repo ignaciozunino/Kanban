@@ -7,6 +7,7 @@
         <attribute name="projectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="synchronized" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="updatedWithParse" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="users" optional="YES" attributeType="Transformable" valueTransformerName="KBNArrayToDataTransformer" syncable="YES"/>
         <relationship name="taskLists" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTaskList" inverseName="project" inverseEntity="KBNTaskList" syncable="YES"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTask" inverseName="project" inverseEntity="KBNTask" syncable="YES"/>
@@ -38,7 +39,7 @@
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KBNTask" inverseName="taskList" inverseEntity="KBNTask" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KBNProject" positionX="-137" positionY="-378" width="128" height="180"/>
+        <element name="KBNProject" positionX="-137" positionY="-378" width="128" height="195"/>
         <element name="KBNProjectTemplate" positionX="52" positionY="-378" width="128" height="105"/>
         <element name="KBNTask" positionX="115" positionY="-130" width="128" height="180"/>
         <element name="KBNTaskList" positionX="-324" positionY="-84" width="128" height="150"/>

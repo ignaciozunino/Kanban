@@ -27,6 +27,8 @@
 
 - (void)getProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError;
 
+-(void)getUnUpdatedProyectsOnSucess:(KBNSuccessArrayBlock)onSucess errorBlock:(KBNErrorBlock)onError;
+
 - (KBNProject*)projectWithParams:(NSDictionary *)params;
 
 - (KBNProject *)projectFromId:(NSString *)project;

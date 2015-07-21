@@ -151,6 +151,26 @@
     }
 }
 
+-(void)getUnUpdatedProyectsOnSucess:(KBNSuccessArrayBlock)onSucess errorBlock:(KBNErrorBlock)onError {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    
+    if (fetchedObjects == nil) {
+        onError(error);
+    } else {
+        // We filter records here because users is transformable
+        NSPredicate *aPredicate = [NSPredicate predicateWithFormat:@"users contains[c] %@ and updatedWithParse==%@", [KBNUserUtils getUsername],[NSNumber numberWithBool:false]];
+        onSucess([fetchedObjects filteredArrayUsingPredicate:aPredicate]);
+    }
+}
+
 - (KBNProject*)projectWithParams:(NSDictionary *)params {
     
     KBNProject *project = nil;
