@@ -1,0 +1,49 @@
+/* 
+  Localizable.strings
+  Kanban
+
+  Created by guerrier on 09/07/15.
+  Copyright (c) 2015 Globant. All rights reserved.
+*/
+
+"ADD_PROJECT_LOADING" =  "Creating the project";
+"ADD_TASK_LOADING" = "Creating the task";
+"EDIT_PROJECT_LOADING" = "Editing the project";
+"EDIT_TASK_LOADING" = "Editing the task";
+"EDIT_PROJECT_INVITING" = "Inviting to the project";
+"PROJECT_CREATION_SUCCESS" = "Project created successfully!";
+"PROJECT_EDIT_SUCCESS"  = "Project modified successfully!";
+"TASK_CREATION_SUCCESS" = "Task created successfully!";
+"TASK_EDIT_SUCCESS" = "Task modified successfully!";
+"ERROR_DOMAIN" = "globant.kanban.Kanban.ErrorDomain";
+"SIGNIN_ERROR" = "Please verify the username is a valid email and the password has at least 6 characters, one letter and one number.";
+"CREATING_PROJECT_WITHOUTNAME_ERROR" = "Project must have a name";
+"CREATING_PROJECT_OFFLINE_ERROR" = "The service is offline.";
+"CREATING_TASK_WITHOUT_NAME_ERROR" = "Task must have a name";
+"CREATING_TASKLIST_WITHOUT_NAME_ERROR" = "Task List must have a name";
+"CREATING_TASK_OFFLINE_ERROR" = "The connection to the server has timed out";
+"CREATING_TASK_TASKLIST_FULL" = "The task list cannot hold any more items";
+"EDIT_PROJECT_WITHOUTNAME_ERROR" = "Project must have a name";
+"USER_EXISTS_ERROR" = "There is already a user created with that username, please try other username.";
+"EDIT_TASK_WITHOUTNAME_ERROR" = "Task must have a name";
+"INVITE_USERS_USER_EXISTS_ERROR" = "There is already a user created with that username, please try other username.";
+"OFFLINE_WARNING" = "Connection appears to be offline.";
+"EMAIL_INVITE_SUBJECT" = "Invitation to my project";
+"EMAIL_INVITE_BODY" = "I've just invited you to my Simple Kanban project. Sign in to the Kanban App with your email address and check it out!";
+"ERROR_ALERT" = "ERROR";
+"WARNING_ALERT" = "WARNING";
+"SUCCESS_ALERT" = "SUCCESS";
+"OK_TITLE" = "Ok";
+"CANCEL_TITLE" = "Cancel";
+"DELETE_TITLE" = "Delete";
+"BEFORE_TITLE" = "Before";
+"AFTER_TITLE" = "After";
+"ADD_LIST_TITLE" = "Add list";
+"DEFAULT" = "Default";
+"PRIORITY_HIGH" = "High";
+"PRIORITY_MEDIUM" = "Medium";
+"PRIORITY_LOW" = "Low";
+"DONE_TITLE" = "Done";
+"CREATE_PROJECTS_TITLE" = "Create Projects";
+"CREATE_AND_MOVE_TASK_TITLE" = "Create and move tasks";
+"INVITE_USERS_TITLE" = "Invite users";

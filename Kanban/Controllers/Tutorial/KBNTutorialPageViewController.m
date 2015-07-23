@@ -8,6 +8,7 @@
 
 #import "KBNTutorialPageViewController.h"
 #import "KBNTutorialContentViewController.h"
+#import "KBNConstants.h"
 
 @interface KBNTutorialPageViewController () <UIPageViewControllerDataSource>
 
@@ -40,7 +41,7 @@
 }
 
 - (void)setupTutorialData {
-    self.pageActions = @[@"Create Projects", @"Create and move tasks", @"Invite users"];
+    self.pageActions = @[CREATE_PROJECTS_TITLE, CREATE_AND_MOVE_TASK_TITLE, INVITE_USERS_TITLE];
     self.pageImages = @[@"tutorial1.png", @"tutorial2.png", @"tutorial3.png"];
 }
 
