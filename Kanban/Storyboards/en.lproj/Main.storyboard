@@ -157,6 +157,20 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ffK-Mz-TY4">
                                 <rect key="frame" x="8" y="117" width="584" height="437"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" id="mCh-uY-tqv" userLabel="ActivityIndicatorView">
+                                    <rect key="frame" x="0.0" y="122" width="584" height="600"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="d5X-Mv-4N4">
+                                            <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="d5X-Mv-4N4" secondAttribute="centerX" id="hTX-Jk-HF6"/>
+                                        <constraint firstAttribute="centerY" secondItem="d5X-Mv-4N4" secondAttribute="centerY" id="iZz-O4-Eyg"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="oZ9-bJ-qgx" customClass="KBNProjectTableViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="568" height="44"/>
@@ -174,7 +188,7 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="roJ-3P-XjT">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="roJ-3P-XjT">
                                                     <rect key="frame" x="500" y="25" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="9e6-R5-Qgg"/>
@@ -186,7 +200,7 @@
                                                 <constraint firstItem="DWs-pb-mtt" firstAttribute="leading" secondItem="GWQ-Qw-k04" secondAttribute="leading" constant="4" id="16X-Ba-YO2"/>
                                                 <constraint firstAttribute="bottom" secondItem="DWs-pb-mtt" secondAttribute="bottom" id="9Ae-Xg-dwY"/>
                                                 <constraint firstItem="roJ-3P-XjT" firstAttribute="top" secondItem="GWQ-Qw-k04" secondAttribute="topMargin" constant="17" id="Kqa-7p-Ns7"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="roJ-3P-XjT" secondAttribute="trailing" constant="19" id="NRK-nr-nLC"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="roJ-3P-XjT" secondAttribute="trailing" constant="46" id="NRK-nr-nLC"/>
                                                 <constraint firstAttribute="trailing" secondItem="DWs-pb-mtt" secondAttribute="trailing" constant="4" id="UpM-Zj-6Oo"/>
                                                 <constraint firstItem="DWs-pb-mtt" firstAttribute="top" secondItem="GWQ-Qw-k04" secondAttribute="top" constant="8" id="zup-WS-MpH"/>
                                             </constraints>
@@ -245,19 +259,6 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view hidden="YES" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCh-uY-tqv" userLabel="ActivityIndicatorView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="d5X-Mv-4N4">
-                                        <rect key="frame" x="290" y="290" width="20" height="20"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="d5X-Mv-4N4" secondAttribute="centerX" id="hTX-Jk-HF6"/>
-                                    <constraint firstAttribute="centerY" secondItem="d5X-Mv-4N4" secondAttribute="centerY" id="iZz-O4-Eyg"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oet-Ma-sNN" customClass="KBNReachabilityWidgetView">
                                 <rect key="frame" x="150" y="546" width="300" height="46"/>
                                 <constraints>
@@ -269,7 +270,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="mCh-uY-tqv" firstAttribute="leading" secondItem="TIH-5r-WaZ" secondAttribute="leading" id="0cc-CB-GjR"/>
                             <constraint firstAttribute="trailing" secondItem="dPf-9E-3qG" secondAttribute="trailing" constant="8" id="0mE-sA-xtb"/>
                             <constraint firstItem="7VO-1U-4sy" firstAttribute="leading" secondItem="ffK-Mz-TY4" secondAttribute="leading" id="5CO-Cf-p2D"/>
                             <constraint firstAttribute="bottomMargin" secondItem="oet-Ma-sNN" secondAttribute="bottom" constant="8" id="85e-sA-8xh"/>
@@ -282,13 +282,10 @@
                             <constraint firstItem="dPf-9E-3qG" firstAttribute="leading" secondItem="VGD-ko-F2l" secondAttribute="trailing" constant="8" id="X6a-zX-KoK"/>
                             <constraint firstItem="7VO-1U-4sy" firstAttribute="top" secondItem="ffK-Mz-TY4" secondAttribute="bottom" constant="8" id="XrK-ea-OD6"/>
                             <constraint firstItem="VGD-ko-F2l" firstAttribute="leading" secondItem="TIH-5r-WaZ" secondAttribute="leading" constant="66" id="egQ-rO-OX1"/>
-                            <constraint firstItem="mCh-uY-tqv" firstAttribute="top" secondItem="TIH-5r-WaZ" secondAttribute="top" id="kL7-Bf-kdH"/>
                             <constraint firstItem="ffK-Mz-TY4" firstAttribute="top" secondItem="dPf-9E-3qG" secondAttribute="bottom" constant="4" id="lgn-hP-qem"/>
                             <constraint firstAttribute="centerX" secondItem="oet-Ma-sNN" secondAttribute="centerX" id="t1E-XK-kjd"/>
                             <constraint firstItem="sTc-GV-xcg" firstAttribute="top" secondItem="h91-NS-eFL" secondAttribute="bottom" constant="8" id="ulP-k0-am5"/>
                             <constraint firstAttribute="trailing" secondItem="ffK-Mz-TY4" secondAttribute="trailing" constant="8" id="vGf-R3-cCn"/>
-                            <constraint firstItem="sTc-GV-xcg" firstAttribute="top" secondItem="mCh-uY-tqv" secondAttribute="bottom" id="vbi-6J-Lcu"/>
-                            <constraint firstAttribute="trailing" secondItem="mCh-uY-tqv" secondAttribute="trailing" id="yrQ-FW-rZd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Project Detail" id="Asi-r5-KaZ"/>
