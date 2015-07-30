@@ -7,12 +7,19 @@
 //
 
 #import "KBNTaskDetailViewController.h"
+#import "KBNTaskPriorityPickerView.h"
 
 @interface KBNTaskDetailViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
+@property (weak, nonatomic) IBOutlet UIView *viewPickerView;
+@property (weak, nonatomic) IBOutlet KBNTaskPriorityPickerView *priorityPickerView;
+@property (weak, nonatomic) IBOutlet UIButton *priorityButton;
+@property (weak, nonatomic) IBOutlet UILabel *priorityColor;
+
 @property UIBarButtonItem *editButton;
 @property UIBarButtonItem *saveButton;
+@property (strong, nonatomic) NSMutableArray *priorityData;
 
 @property BOOL isEditing;
 
@@ -28,6 +35,10 @@
                                                                     action:@selector(onEditPressed:)];
     self.saveButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"save.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onSavePressed:)];
     self.navigationItem.rightBarButtonItem = self.editButton;
+    
+    [priorityPickerView initialConfigurationWithPriority:prioritySelected onView:viewPickerView withPriorityButton:self.priorityButton withPriorityColor:priorityColor];
+    
+    [self.view addSubview:viewPickerView];
 }
 
 - (void)setUpView {
@@ -50,6 +61,22 @@
     }
 }
 
+-(IBAction)priorityTapped:(id)sender{
+    
+    if (!priorityPickerView.userInteractionEnabled) {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.6];
+        CGAffineTransform transfrom;
+        transfrom = CGAffineTransformMakeTranslation(0, -162.0);
+        priorityPickerView.userInteractionEnabled = !priorityPickerView.userInteractionEnabled;
+        
+        viewPickerView.transform = transfrom;
+        viewPickerView.alpha = viewPickerView.alpha * (-1) + 1;
+        [UIView commitAnimations];
+    }
+    
+}
+
 - (IBAction)onEditPressed:(id)sender {
     self.isEditing = !self.isEditing;
     [self setUpEditingState];
@@ -58,6 +85,8 @@
 - (IBAction)onSavePressed:(id)sender {
     self.task.name = self.nameTextField.text;
     self.task.taskDescription = self.descriptionTextField.text;
+    prioritySelected = priorityPickerView.prioritySelected;
+    self.task.priority = [NSNumber numberWithInteger:prioritySelected];
     [[KBNTaskService sharedInstance] updateTask:self.task onSuccess:^{
         [KBNAlertUtils showAlertView:TASK_EDIT_SUCCESS andType:SUCCESS_ALERT];
         [self.navigationController popViewControllerAnimated:YES];

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "KBNProject.h"
 
 @interface KBNProjectUtils : NSObject
@@ -20,5 +21,7 @@
 + (NSArray*)projectsFromDictionary:(NSDictionary*)records key:(NSString*)key;
 
 + (KBNProject*)projectFromId:(NSString*)projectId;
+
++ (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size;
 
 @end

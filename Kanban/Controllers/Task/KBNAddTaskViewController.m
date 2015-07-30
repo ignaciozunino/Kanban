@@ -13,18 +13,29 @@
 #import "UITextView+CustomTextView.h"
 #import "KBNReachabilityWidgetView.h"
 #import "KBNReachabilityUtils.h"
+#import "KBNTaskPriorityPickerView.h"
 
-@interface KBNAddTaskViewController ()
+@interface KBNAddTaskViewController (){
+        NSUInteger prioritySelected;
+}
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet KBNReachabilityWidgetView *reachabilityView;
+@property (weak, nonatomic) IBOutlet UIView *viewPickerView;
+@property (weak, nonatomic) IBOutlet KBNTaskPriorityPickerView *priorityPickerView;
+@property (weak, nonatomic) IBOutlet UIButton *priorityButton;
+@property (weak, nonatomic) IBOutlet UILabel *priorityColor;
 
 @property (strong, nonatomic) MBProgressHUD* HUD;
 
 @end
 
 @implementation KBNAddTaskViewController
+
+@synthesize priorityPickerView;
+@synthesize viewPickerView;
+@synthesize priorityColor;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,6 +44,12 @@
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
     [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
     
+    prioritySelected = 2;
+    
+    [priorityPickerView initialConfigurationWithPriority:prioritySelected onView:viewPickerView withPriorityButton:self.priorityButton withPriorityColor:priorityColor];
+    
+    [self.priorityButton setTitle:PRIORITY_LOW forState:UIControlStateNormal];
+    [self.view addSubview:viewPickerView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,6 +66,8 @@
 
     self.addTask.name = self.nameTextField.text;
     self.addTask.taskDescription = self.descriptionTextView.text;
+    prioritySelected = priorityPickerView.prioritySelected;
+    self.addTask.priority = [NSNumber numberWithInteger:prioritySelected];
     
     __weak typeof(self) weakself = self;
     [[KBNTaskService sharedInstance] createTask:self.addTask inList:self.addTask.taskList completionBlock:^(KBNTask *task) {
@@ -71,6 +90,22 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
+}
+
+-(IBAction)priorityTapped:(id)sender{
+    
+    if (!priorityPickerView.userInteractionEnabled) {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.6];
+        CGAffineTransform transfrom;
+        transfrom = CGAffineTransformMakeTranslation(0, -162.0);
+        priorityPickerView.userInteractionEnabled = !priorityPickerView.userInteractionEnabled;
+        
+        self.viewPickerView.transform = transfrom;
+        self.viewPickerView.alpha = self.viewPickerView.alpha * (-1) + 1;
+        [UIView commitAnimations];
+    }
+    
 }
 
 #pragma mark - HUD

@@ -57,7 +57,8 @@
                 aTask.project.projectId && aTask.taskList.taskListId) {
                 
                 __weak typeof(self) weakself = self;
-                [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId completionBlock:^(NSDictionary *params) {
+                [self.dataService createTaskWithName:aTask.name taskDescription:aTask.taskDescription order:aTask.order projectId:aTaskList.project.projectId taskListId:aTaskList.taskListId priority:aTask.priority completionBlock:^(NSDictionary *params) {
+                    
                     aTask.taskId = [params objectForKey:@"taskId"];
                     aTask.updatedAt = [params objectForKey:@"updatedAt"];
                     aTask.synchronized = [NSNumber numberWithBool:YES];

@@ -15,6 +15,7 @@
 #import "KBNUpdateManager.h"
 #import "KBNReachabilityUtils.h"
 #import "KBNReachabilityWidgetView.h"
+#import "KBNProjectTableViewCell.h"
 
 #define TABLEVIEW_TASK_CELL @"TaskCell"
 #define SEGUE_TASK_DETAIL @"taskDetail"
@@ -242,12 +243,30 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_TASK_CELL forIndexPath:indexPath];
+    KBNProjectTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLEVIEW_TASK_CELL forIndexPath:indexPath];
     
     KBNTask* task = [self.taskListTasks objectAtIndex:indexPath.row];
     cell.textLabel.text = task.name;
     cell.layer.shadowOffset = CGSizeMake(-1, 1);
     cell.layer.shadowOpacity = 0.5;
+    
+    cell.propertyColor.layer.borderWidth = 1.0f;
+    cell.propertyColor.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    cell.propertyColor.layer.masksToBounds = YES;
+    cell.propertyColor.clipsToBounds = YES;
+    cell.propertyColor.layer.cornerRadius = cell.propertyColor.frame.size.width / 2;
+    
+    switch ([task.priority integerValue]) {
+        case 0:
+            cell.propertyColor.image =  [KBNProjectUtils imageWithColor:HIGH_COLOR andSize:cell.propertyColor.frame.size];
+            break;
+        case 1:
+            cell.propertyColor.image =  [KBNProjectUtils imageWithColor:MEDIUM_COLOR andSize:cell.propertyColor.frame.size];
+            break;
+        case 2:
+            cell.propertyColor.image =  [KBNProjectUtils imageWithColor:LOW_COLOR andSize:cell.propertyColor.frame.size];
+            break;
+    }
     
     return cell;
 }
