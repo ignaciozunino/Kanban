@@ -258,13 +258,13 @@
     
     switch ([task.priority integerValue]) {
         case 0:
-            cell.propertyColor.image =  [KBNProjectDetailViewController imageWithColor:HIGH_COLOR andSize:cell.propertyColor.frame.size];
+            cell.propertyColor.image =  [KBNProjectUtils imageWithColor:HIGH_COLOR andSize:cell.propertyColor.frame.size];
             break;
         case 1:
-            cell.propertyColor.image =  [KBNProjectDetailViewController imageWithColor:MEDIUM_COLOR andSize:cell.propertyColor.frame.size];
+            cell.propertyColor.image =  [KBNProjectUtils imageWithColor:MEDIUM_COLOR andSize:cell.propertyColor.frame.size];
             break;
         case 2:
-            cell.propertyColor.image =  [KBNProjectDetailViewController imageWithColor:LOW_COLOR andSize:cell.propertyColor.frame.size];
+            cell.propertyColor.image =  [KBNProjectUtils imageWithColor:LOW_COLOR andSize:cell.propertyColor.frame.size];
             break;
     }
     
@@ -602,24 +602,5 @@
         }
     }
 }
-
-+ (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size
-{
-    UIImage *img = nil;
-    
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context,
-                                   color.CGColor);
-    CGContextFillRect(context, rect);
-    
-    img = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return img;
-}
-
 
 @end

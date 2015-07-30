@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KBNTaskPriorityPickerView : UIPickerView
+@interface KBNTaskPriorityPickerView : UIPickerView <UIPickerViewDataSource, UIPickerViewDelegate>
+
+@property (nonatomic) NSUInteger prioritySelected;
+
+-(void) initialConfigurationWithPriority: (NSUInteger) priority onView:(UIView *) viewPickerView withPriorityButton:(UIButton *) priorityButton withPriorityColor: (UILabel *) priorityColor;
 
 @end
