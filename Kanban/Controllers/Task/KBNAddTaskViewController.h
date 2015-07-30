@@ -21,4 +21,6 @@
 @property (strong, nonatomic) KBNTask *addTask;
 @property (weak, nonatomic) id <KBNAddTaskViewControllerDelegate> delegate;
 
+-(IBAction)priorityTapped:(id)sender;
+
 @end

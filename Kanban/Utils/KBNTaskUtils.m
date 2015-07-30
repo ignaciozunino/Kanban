@@ -26,7 +26,8 @@
             task.taskDescription, PARSE_TASK_DESCRIPTION_COLUMN,
             task.order, PARSE_TASK_ORDER_COLUMN,
             task.active, PARSE_TASK_ACTIVE_COLUMN,
-            task.taskList.taskListId, PARSE_TASK_TASK_LIST_COLUMN, nil];
+            task.taskList.taskListId, PARSE_TASK_TASK_LIST_COLUMN,
+            task.priority, PARSE_TASK_PRIORITY_COLUMN, nil];
 }
 
 + (NSDictionary *)tasksJson:(NSArray *)tasks {
