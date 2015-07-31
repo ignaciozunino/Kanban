@@ -24,7 +24,7 @@
     return self;
 }
 
--(void)createTaskWithName:(NSString *)name taskDescription:(NSString *)taskDescription order:(NSNumber *)order projectId:(NSString *)projectId taskListId:(NSString *)taskListId completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+-(void)createTaskWithName:(NSString *)name taskDescription:(NSString *)taskDescription order:(NSNumber *)order projectId:(NSString *)projectId taskListId:(NSString *)taskListId priority:(NSNumber *)priority completionBlock:(KBNSuccessDictionaryBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:6];
     [params setObject:name forKey:PARSE_TASK_NAME_COLUMN];
@@ -33,6 +33,7 @@
     [params setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
     [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
     [params setObject:[NSNumber numberWithBool:YES] forKey:PARSE_TASK_ACTIVE_COLUMN];
+    [params setObject:priority forKey:PARSE_TASK_PRIORITY_COLUMN];
     
     
     [self.afManager POST:PARSE_TASKS parameters: params
@@ -106,6 +107,7 @@
         [updates setObject:task.project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
         [updates setObject:task.order forKey:PARSE_TASK_ORDER_COLUMN];
         [updates setObject:[NSNumber numberWithBool:[task.active boolValue]] forKey:PARSE_TASK_ACTIVE_COLUMN];
+        [updates setObject:task.priority forKey:PARSE_TASK_PRIORITY_COLUMN];
 
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"PUT" forKey:@"method"];

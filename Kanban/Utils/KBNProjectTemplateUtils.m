@@ -18,7 +18,7 @@
 
 + (KBNProjectTemplate *)defaultTemplate {
  
-    return [[KBNCoreDataManager sharedInstance] projectTemplateWithParams:[NSDictionary dictionaryWithObjectsAndKeys:@"Default", @"name", DEFAULT_TASK_LISTS, @"lists", @"xxxxxxxxxx", PARSE_OBJECTID, nil]];
+    return [[KBNCoreDataManager sharedInstance] projectTemplateWithParams:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"DEFAULT", nil), @"name", DEFAULT_TASK_LISTS, @"lists", @"xxxxxxxxxx", PARSE_OBJECTID, nil]];
 }
 
 @end

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -22,7 +22,7 @@
             </objects>
             <point key="canvasLocation" x="-745" y="365"/>
         </scene>
-        <!--My Projects-->
+        <!--Mis Proyectos-->
         <scene sceneID="gvg-oM-E8H">
             <objects>
                 <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="UsA-ZU-Bqt" customClass="KBNMyProjectsViewController" sceneMemberID="viewController">
@@ -88,7 +88,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="My Projects" id="fDN-zB-ecP">
+                    <navigationItem key="navigationItem" title="Mis Proyectos" id="fDN-zB-ecP">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="a4x-5T-Tkv">
                             <connections>
                                 <action selector="addProject:" destination="UsA-ZU-Bqt" id="csU-ae-RFg"/>
@@ -133,7 +133,7 @@
             </objects>
             <point key="canvasLocation" x="889" y="1097"/>
         </scene>
-        <!--Project Detail-->
+        <!--Detalle del Proyecto-->
         <scene sceneID="mpz-ns-vWl">
             <objects>
                 <viewController storyboardIdentifier="KBNProjectDetailViewController" id="m2D-kq-531" customClass="KBNProjectDetailViewController" sceneMemberID="viewController">
@@ -145,7 +145,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ListName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGD-ko-F2l">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lista de Nombres" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGD-ko-F2l">
                                 <rect key="frame" x="66" y="80" width="468" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ucn-B3-Kt3"/>
@@ -158,7 +158,7 @@
                                 <rect key="frame" x="8" y="117" width="584" height="437"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="oZ9-bJ-qgx">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="oZ9-bJ-qgx" customClass="KBNProjectTableViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="568" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oZ9-bJ-qgx" id="GWQ-Qw-k04">
@@ -174,16 +174,26 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="roJ-3P-XjT">
+                                                    <rect key="frame" x="500" y="25" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="9e6-R5-Qgg"/>
+                                                        <constraint firstAttribute="height" constant="30" id="r3L-wq-PwS"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="DWs-pb-mtt" firstAttribute="leading" secondItem="GWQ-Qw-k04" secondAttribute="leading" constant="4" id="16X-Ba-YO2"/>
                                                 <constraint firstAttribute="bottom" secondItem="DWs-pb-mtt" secondAttribute="bottom" id="9Ae-Xg-dwY"/>
+                                                <constraint firstItem="roJ-3P-XjT" firstAttribute="top" secondItem="GWQ-Qw-k04" secondAttribute="topMargin" constant="17" id="Kqa-7p-Ns7"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="roJ-3P-XjT" secondAttribute="trailing" constant="19" id="NRK-nr-nLC"/>
                                                 <constraint firstAttribute="trailing" secondItem="DWs-pb-mtt" secondAttribute="trailing" constant="4" id="UpM-Zj-6Oo"/>
                                                 <constraint firstItem="DWs-pb-mtt" firstAttribute="top" secondItem="GWQ-Qw-k04" secondAttribute="top" constant="8" id="zup-WS-MpH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
                                         <connections>
+                                            <outlet property="propertyColor" destination="roJ-3P-XjT" id="eFC-9b-iSK"/>
                                             <outletCollection property="gestureRecognizers" destination="KBZ-j3-w0h" appends="YES" id="68g-xi-UNy"/>
                                             <outletCollection property="gestureRecognizers" destination="t0p-JV-okQ" appends="YES" id="GdH-qW-5Yo"/>
                                             <outletCollection property="gestureRecognizers" destination="cik-EW-rmh" appends="YES" id="M7g-MU-YHb"/>
@@ -201,7 +211,7 @@
                                     <constraint firstAttribute="width" constant="80" id="DYN-GH-q33"/>
                                     <constraint firstAttribute="height" constant="30" id="kDr-ji-3q0"/>
                                 </constraints>
-                                <state key="normal" title="Delete">
+                                <state key="normal" title="Eliminar">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -214,7 +224,7 @@
                                     <constraint firstAttribute="width" constant="100" id="BcW-MT-0dZ"/>
                                     <constraint firstAttribute="height" constant="30" id="d7l-RF-y41"/>
                                 </constraints>
-                                <state key="normal" title="Add Task">
+                                <state key="normal" title="Agregar Tarea">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -281,7 +291,7 @@
                             <constraint firstAttribute="trailing" secondItem="mCh-uY-tqv" secondAttribute="trailing" id="yrQ-FW-rZd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Project Detail" id="Asi-r5-KaZ"/>
+                    <navigationItem key="navigationItem" title="Detalle del Proyecto" id="Asi-r5-KaZ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="activityIndicator" destination="d5X-Mv-4N4" id="I6M-Jt-iVl"/>
@@ -316,7 +326,7 @@
             </objects>
             <point key="canvasLocation" x="1627" y="365"/>
         </scene>
-        <!--Add Task-->
+        <!--Agregar Tarea-->
         <scene sceneID="ZcN-uB-Xg0">
             <objects>
                 <viewController id="nQT-iH-oMz" customClass="KBNAddTaskViewController" sceneMemberID="viewController">
@@ -351,7 +361,7 @@
                                     <outlet property="delegate" destination="nQT-iH-oMz" id="zOh-Sg-My5"/>
                                 </connections>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ueX-5E-Mlz">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombre" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ueX-5E-Mlz">
                                 <rect key="frame" x="24" y="80" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="9xG-CT-aeF"/>
@@ -361,7 +371,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jH0-ge-u0y">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Descripción" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jH0-ge-u0y">
                                 <rect key="frame" x="24" y="155" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="FfT-gd-4XT"/>
@@ -378,6 +388,38 @@
                                     <constraint firstAttribute="height" constant="46" id="oHs-eB-aKJ"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Prioridad" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EXg-N0-9aE">
+                                <rect key="frame" x="24" y="265" width="87" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHx-tt-sE4">
+                                <rect key="frame" x="170" y="294" width="42" height="30"/>
+                                <color key="backgroundColor" red="0.80000001192092896" green="1" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2r1-zq-PIZ">
+                                <rect key="frame" x="24" y="294" width="138" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="2"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="8"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                        <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="priorityTapped:" destination="nQT-iH-oMz" eventType="touchUpInside" id="4El-0i-qu6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -395,7 +437,7 @@
                             <constraint firstAttribute="bottom" secondItem="aop-gP-zyr" secondAttribute="bottom" constant="8" id="vOD-5e-xmf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Task" id="rHG-VM-cqm">
+                    <navigationItem key="navigationItem" title="Agregar Tarea" id="rHG-VM-cqm">
                         <barButtonItem key="leftBarButtonItem" image="cancel" id="P5S-zP-KLn">
                             <connections>
                                 <action selector="cancel:" destination="nQT-iH-oMz" id="NLS-sU-QJ8"/>
@@ -410,14 +452,27 @@
                     <connections>
                         <outlet property="descriptionTextView" destination="UAj-Ao-3qe" id="BWx-Qe-nqk"/>
                         <outlet property="nameTextField" destination="ymT-gy-CXt" id="IGq-ux-Rnm"/>
+                        <outlet property="priorityButton" destination="2r1-zq-PIZ" id="aO0-hW-6Rx"/>
+                        <outlet property="priorityColor" destination="sHx-tt-sE4" id="T5m-MP-I2Q"/>
+                        <outlet property="priorityPickerView" destination="QOq-fo-OX6" id="onJ-cc-AGG"/>
                         <outlet property="reachabilityView" destination="aop-gP-zyr" id="khd-US-jxN"/>
+                        <outlet property="viewPickerView" destination="2NJ-eH-NIN" id="BcM-0Y-UBw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yCp-q1-shn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="2NJ-eH-NIN">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <pickerView contentMode="scaleToFill" id="QOq-fo-OX6" customClass="KBNTaskPriorityPickerView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                </pickerView>
             </objects>
             <point key="canvasLocation" x="2392" y="1097"/>
         </scene>
-        <!--Task Detail-->
+        <!--Detalle de Tarea-->
         <scene sceneID="wdH-J3-e9n">
             <objects>
                 <viewController id="eKh-vB-Cg9" customClass="KBNTaskDetailViewController" sceneMemberID="viewController">
@@ -437,7 +492,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzi-P0-fKJ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombre" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzi-P0-fKJ">
                                 <rect key="frame" x="24" y="86" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="BCL-Mx-8nR"/>
@@ -447,7 +502,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iot-KB-TK0">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Descripción" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iot-KB-TK0">
                                 <rect key="frame" x="24" y="161" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Tnv-Fn-UIG"/>
@@ -462,34 +517,105 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Prioridad" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Zs-dp-b4d">
+                                <rect key="frame" x="24" y="272" width="74" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="65" id="wOM-Re-8fI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5w-ry-6LR">
+                                <rect key="frame" x="16" y="296" width="138" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="138" id="R29-tH-rqd"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="2"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="8"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                        <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="priorityTapped:" destination="nQT-iH-oMz" eventType="touchUpInside" id="ELe-Kd-Htf"/>
+                                    <action selector="priorityTapped:" destination="eKh-vB-Cg9" eventType="touchUpInside" id="wnJ-88-jf1"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mt4-CK-gh2">
+                                <rect key="frame" x="162" y="296" width="42" height="30"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="42" id="IUQ-y1-l5V"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="Mt4-CK-gh2" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="41" id="3Ve-ZX-ENz"/>
                             <constraint firstItem="enn-RC-T8c" firstAttribute="leading" secondItem="FFe-17-E06" secondAttribute="leading" id="3nS-0d-C6k"/>
                             <constraint firstItem="FFe-17-E06" firstAttribute="leading" secondItem="eUQ-gc-8Ij" secondAttribute="leadingMargin" id="4I5-eC-NSk"/>
                             <constraint firstItem="Iot-KB-TK0" firstAttribute="trailing" secondItem="zzi-P0-fKJ" secondAttribute="trailing" id="At2-KO-SvX"/>
                             <constraint firstItem="dJw-vx-d0K" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="345" id="Edt-dA-mkO"/>
+                            <constraint firstItem="0Zs-dp-b4d" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="16" id="Gfv-iS-8kj"/>
+                            <constraint firstItem="0Zs-dp-b4d" firstAttribute="leading" secondItem="Iot-KB-TK0" secondAttribute="leading" id="H8V-Uc-40G"/>
                             <constraint firstItem="Iot-KB-TK0" firstAttribute="top" secondItem="enn-RC-T8c" secondAttribute="bottom" constant="16" id="Ksh-Fa-ASx"/>
+                            <constraint firstItem="z5w-ry-6LR" firstAttribute="bottom" secondItem="Mt4-CK-gh2" secondAttribute="bottom" id="Min-9T-41B"/>
                             <constraint firstItem="Iot-KB-TK0" firstAttribute="leading" secondItem="zzi-P0-fKJ" secondAttribute="leading" id="VnV-vf-Wlb"/>
                             <constraint firstItem="zzi-P0-fKJ" firstAttribute="top" secondItem="r49-a8-1Kr" secondAttribute="bottom" constant="22" id="WLS-EQ-3gT"/>
                             <constraint firstItem="enn-RC-T8c" firstAttribute="top" secondItem="zzi-P0-fKJ" secondAttribute="bottom" constant="3" id="Xrt-9a-eD2"/>
                             <constraint firstItem="FFe-17-E06" firstAttribute="trailing" secondItem="eUQ-gc-8Ij" secondAttribute="trailingMargin" id="Zud-pg-rg5"/>
+                            <constraint firstItem="Mt4-CK-gh2" firstAttribute="leading" secondItem="z5w-ry-6LR" secondAttribute="trailing" constant="8" symbolic="YES" id="d2r-f2-08i"/>
                             <constraint firstItem="enn-RC-T8c" firstAttribute="trailing" secondItem="FFe-17-E06" secondAttribute="trailing" id="fZn-LT-PYg"/>
+                            <constraint firstItem="dJw-vx-d0K" firstAttribute="top" secondItem="z5w-ry-6LR" secondAttribute="bottom" constant="274" id="hgP-3n-ob2"/>
                             <constraint firstItem="FFe-17-E06" firstAttribute="top" secondItem="Iot-KB-TK0" secondAttribute="bottom" constant="3" id="mBy-RF-0Gf"/>
+                            <constraint firstItem="z5w-ry-6LR" firstAttribute="top" secondItem="0Zs-dp-b4d" secondAttribute="bottom" constant="3" id="pAP-jq-yg7"/>
                             <constraint firstItem="zzi-P0-fKJ" firstAttribute="leading" secondItem="eUQ-gc-8Ij" secondAttribute="leadingMargin" constant="8" id="rg6-IK-KBd"/>
+                            <constraint firstItem="FFe-17-E06" firstAttribute="leading" secondItem="z5w-ry-6LR" secondAttribute="leading" id="tjK-d6-B3e"/>
+                            <constraint firstItem="dJw-vx-d0K" firstAttribute="top" secondItem="0Zs-dp-b4d" secondAttribute="bottom" constant="308" id="tt1-cS-Xl2"/>
+                            <constraint firstItem="z5w-ry-6LR" firstAttribute="top" secondItem="Mt4-CK-gh2" secondAttribute="top" id="wLQ-9b-TEE"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Edt-dA-mkO"/>
+                                <exclude reference="tt1-cS-Xl2"/>
+                            </mask>
+                        </variation>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="8DR-kN-1iX" appends="YES" id="cig-xX-63r"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Task Detail" id="0We-Sd-5e8"/>
+                    <navigationItem key="navigationItem" title="Detalle de Tarea" id="0We-Sd-5e8"/>
                     <connections>
                         <outlet property="descriptionTextField" destination="FFe-17-E06" id="g4I-O7-ADD"/>
                         <outlet property="nameTextField" destination="enn-RC-T8c" id="vrt-w3-iFP"/>
+                        <outlet property="priorityButton" destination="z5w-ry-6LR" id="WSF-h1-EMU"/>
+                        <outlet property="priorityColor" destination="Mt4-CK-gh2" id="7dW-wP-2Rv"/>
+                        <outlet property="priorityPickerView" destination="fWh-rU-rmU" id="66G-Pt-wXX"/>
+                        <outlet property="viewPickerView" destination="JMo-qW-3zx" id="ojo-Kn-jVB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ytY-Ey-27N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="JMo-qW-3zx">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <pickerView contentMode="scaleToFill" id="fWh-rU-rmU" customClass="KBNTaskPriorityPickerView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                </pickerView>
                 <tapGestureRecognizer id="8DR-kN-1iX">
                     <connections>
                         <action selector="onTap:" destination="eKh-vB-Cg9" id="LQz-ui-WJJ"/>
@@ -498,7 +624,7 @@
             </objects>
             <point key="canvasLocation" x="2392" y="365"/>
         </scene>
-        <!--Select Template-->
+        <!--Elegir Modelo-->
         <scene sceneID="nQJ-yf-FS6">
             <objects>
                 <viewController id="r3z-YY-l5P" customClass="KBNSelectTemplateViewController" sceneMemberID="viewController">
@@ -563,7 +689,7 @@
                             <constraint firstAttribute="centerX" secondItem="0yB-jI-uMy" secondAttribute="centerX" id="k0f-sG-Xkx"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Select Template" id="AjQ-YK-Cma">
+                    <navigationItem key="navigationItem" title="Elegir Modelo" id="AjQ-YK-Cma">
                         <barButtonItem key="leftBarButtonItem" systemItem="stop" id="ksg-1B-0xB">
                             <connections>
                                 <action selector="cancel:" destination="r3z-YY-l5P" id="oq2-oA-w37"/>
@@ -580,7 +706,7 @@
             </objects>
             <point key="canvasLocation" x="889" y="-393"/>
         </scene>
-        <!--Add Project-->
+        <!--Agregar Proyecto-->
         <scene sceneID="iAq-Lw-tDL">
             <objects>
                 <viewController id="aEl-4f-jdp" customClass="KBNAddProjectViewController" sceneMemberID="viewController">
@@ -600,7 +726,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Jb-Q3-b44">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombre" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Jb-Q3-b44">
                                 <rect key="frame" x="24" y="80" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="829-hc-sh9"/>
@@ -610,7 +736,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIg-Fo-jav">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Descripción" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIg-Fo-jav">
                                 <rect key="frame" x="24" y="155" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Lho-Yv-XKx"/>
@@ -653,7 +779,7 @@
                             <constraint firstAttribute="centerX" secondItem="esa-CF-cul" secondAttribute="centerX" id="zZ7-LS-N0z"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Project" id="1so-g4-HLX">
+                    <navigationItem key="navigationItem" title="Agregar Proyecto" id="1so-g4-HLX">
                         <barButtonItem key="leftBarButtonItem" systemItem="stop" id="QzD-fM-dll">
                             <connections>
                                 <action selector="cancel:" destination="aEl-4f-jdp" id="GFy-gf-Zav"/>
@@ -693,7 +819,7 @@
             </objects>
             <point key="canvasLocation" x="1627" y="1097"/>
         </scene>
-        <!--Edit Project-->
+        <!--Editar Proyecto-->
         <scene sceneID="suW-ch-WaB">
             <objects>
                 <viewController storyboardIdentifier="KBNEditProjectViewController" automaticallyAdjustsScrollViewInsets="NO" id="3YN-g9-yLs" customClass="KBNEditProjectViewController" sceneMemberID="viewController">
@@ -730,7 +856,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8CR-2y-xKF">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombre" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8CR-2y-xKF">
                                 <rect key="frame" x="24" y="80" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="XEE-3H-X9x"/>
@@ -740,7 +866,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoH-2X-1D9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Descripción" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoH-2X-1D9">
                                 <rect key="frame" x="24" y="155" width="150" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="A8g-Fk-Llz"/>
@@ -750,13 +876,13 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jbe-Av-6KN">
-                                <rect key="frame" x="200" y="550" width="200" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jbe-Av-6KN">
+                                <rect key="frame" x="172" y="550" width="278" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="KSq-m4-cui"/>
                                     <constraint firstAttribute="height" constant="30" id="l0m-Fq-3dZ"/>
                                 </constraints>
-                                <state key="normal" title="Invite a user to this project...">
+                                <state key="normal" title="Invitar a usuarios a este proyecto...">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -772,8 +898,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Users participating on this project:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amV-zY-HzN">
-                                <rect key="frame" x="24" y="265" width="250" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Usuarios que participan en este proyecto:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amV-zY-HzN">
+                                <rect key="frame" x="24" y="265" width="314" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="kma-bF-upt"/>
                                     <constraint firstAttribute="height" constant="21" id="xZp-yO-lM8"/>
@@ -818,7 +944,7 @@
                             <outletCollection property="gestureRecognizers" destination="pgr-zf-i2E" appends="YES" id="v20-gQ-Hto"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Edit Project" id="Kgx-Qy-I2i">
+                    <navigationItem key="navigationItem" title="Editar Proyecto" id="Kgx-Qy-I2i">
                         <barButtonItem key="leftBarButtonItem" image="cancel" id="3wx-gx-xf6">
                             <connections>
                                 <action selector="onCancelPressed:" destination="3YN-g9-yLs" id="eQX-cD-NsI"/>
