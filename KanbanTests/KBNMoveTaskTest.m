@@ -82,16 +82,10 @@
     
     // Create the tasks and retrieve tasks of the test project
     NSArray *tasks = [KBNTaskUtils mockTasksForProject:project taskList:backlog quantity:4];
-    
-    KBNTask *task0 = tasks[0];
-    KBNTask *task1 = tasks[1];
-    KBNTask *task2 = tasks[2];
-    KBNTask *task3 = tasks[3];
-    
+
     [service createTasks:tasks completionBlock:^(NSArray *records) {
-             [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
- 
-                 if (!retrievedTasks.count) { // We brought no records => error creating the tasks
+        [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
+            if (!retrievedTasks.count) { // We brought no records => error creating the tasks
                      XCTFail(@"Task Service could not retrieve any task");
                  }
                  [tasksCreatedExpectation fulfill];
@@ -117,7 +111,7 @@
   
     XCTestExpectation *taskMovedExpectation = [self expectationWithDescription:TASK_MOVED_EXPECTATION];
     
-    [service moveTask:task1 toList:requirements inOrder:nil completionBlock:^{
+    [service moveTask:tasks[1] toList:requirements inOrder:@0 completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
             
             for (KBNTask *task in retrievedTasks) {
@@ -140,36 +134,6 @@
                         }
                     }
                 }
-
-//                NSString *name = task.name;
-//                NSString *taskListId = task.taskList.taskListId;
-//                NSNumber *order = task.order;
-//                
-//                if ([name isEqualToString:task0.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task0");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task1.name]) {
-//                    if ([taskListId isEqualToString:requirements.taskListId] && [order integerValue] == 0) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task1");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task2.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task2");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task3.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task3");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                }
             }
             
             [taskMovedExpectation fulfill];
@@ -191,7 +155,7 @@
 
     XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
 
-    [service moveTask:task1 toList:backlog inOrder:nil completionBlock:^{
+    [service moveTask:tasks[1] toList:backlog inOrder:@3 completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
             for (KBNTask *task in retrievedTasks) {
                 for (KBNTaskList *taskList in task.project.taskLists) {
@@ -209,36 +173,6 @@
                         }
                     }
                 }
-
-//                NSString *name = task.name;
-//                NSString *taskListId = task.taskList.taskListId;
-//                NSNumber *order = task.order;
-//
-//                if ([name isEqualToString:task0.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task0");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task1.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task1");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task2.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task2");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task3.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task3");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                }
             }
 
             [taskMovedBackExpectation fulfill];
@@ -260,7 +194,7 @@
 
     XCTestExpectation *taskReorderExpectation = [self expectationWithDescription:TASK_REORDER_EXPECTATION];
 
-    [service moveTask:task1 toList:backlog inOrder:@1 completionBlock:^{
+    [service moveTask:tasks[1] toList:backlog inOrder:@1 completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
             for (KBNTask *task in retrievedTasks) {
                 for (KBNTaskList *taskList in task.project.taskLists) {
@@ -278,36 +212,6 @@
                         }
                     }
                 }
-
-//                NSString *name = task.name;
-//                NSString *taskListId = task.taskList.taskListId;
-//                NSNumber *order = task.order;
-//
-//                if ([name isEqualToString:task0.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task0");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task1.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task1");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task2.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task2");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                } else if ([name isEqualToString:task3.name]) {
-//                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
-//                        XCTAssertTrue(taskListId, @"backlog");
-//                        XCTAssertTrue(name, @"Task3");
-//                        XCTAssertFalse([order isEqual:0]);
-//                    }
-//                }
             }
 
             [taskReorderExpectation fulfill];
