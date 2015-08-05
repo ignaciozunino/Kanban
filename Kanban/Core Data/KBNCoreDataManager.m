@@ -218,7 +218,7 @@
 //    [task setValue:[params objectForKey:PARSE_TASK_PROJECT_COLUMN] forKey:@"project"];
 //    [task setValue:[params objectForKey:PARSE_TASK_TASK_LIST_COLUMN] forKey:@"taskList"];
     task.project = project;
-//    task.taskList = taskList;
+    task.taskList = taskList;
     return task;
 }
 

@@ -62,6 +62,7 @@
 		541A5EB61AF144FC00C571CC /* KBNEditProjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 541A5EB51AF144FC00C571CC /* KBNEditProjectTest.m */; };
 		543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */; };
 		54505C531AFD3BA3000A30B8 /* KBNUpdateManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */; };
+		81EB8B361B7276FF0006660B /* KBNCoreDataManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EB8B351B7276FF0006660B /* KBNCoreDataManagerTest.m */; };
 		846FA57D1AE6F0B900AB91C1 /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */; };
 		9427AACA1B619215009FE01A /* KBNProjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9427AAC91B619215009FE01A /* KBNProjectTableViewCell.m */; };
 		947AFF6E1B4DBB02004326C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 947AFF701B4DBB02004326C5 /* Main.storyboard */; };
@@ -204,6 +205,7 @@
 		543FFAF51AFBD23C0020AD28 /* KBNInitialSetupTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBNInitialSetupTest.h; sourceTree = "<group>"; };
 		543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNInitialSetupTest.m; sourceTree = "<group>"; };
 		54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUpdateManagerTest.m; sourceTree = "<group>"; };
+		81EB8B351B7276FF0006660B /* KBNCoreDataManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNCoreDataManagerTest.m; sourceTree = "<group>"; };
 		846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		9427AAC81B619215009FE01A /* KBNProjectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTableViewCell.h; path = Controllers/Project/KBNProjectTableViewCell.h; sourceTree = "<group>"; };
 		9427AAC91B619215009FE01A /* KBNProjectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTableViewCell.m; path = Controllers/Project/KBNProjectTableViewCell.m; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 				3AA0C9741B0B601000030630 /* KBNRemoveProjectTest.m */,
 				3AE7FBD41B1781280037809A /* KBNCreateProjectFromTemplateTest.m */,
 				3AA0C9761B10B79600030630 /* KBNCreateTaskListTest.m */,
+				81EB8B351B7276FF0006660B /* KBNCoreDataManagerTest.m */,
 				CCA1A2781ADEA3D900CC98B5 /* Supporting Files */,
 			);
 			path = KanbanTests;
@@ -843,6 +846,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81EB8B361B7276FF0006660B /* KBNCoreDataManagerTest.m in Sources */,
 				3AA0C9771B10B79600030630 /* KBNCreateTaskListTest.m in Sources */,
 				541A5EB61AF144FC00C571CC /* KBNEditProjectTest.m in Sources */,
 				A079744C1AF023810030696F /* KBNCreateTaskTests.m in Sources */,
