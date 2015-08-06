@@ -84,7 +84,7 @@
                 }
             } errorBlock:onError];
         }
-        else {
+        else {//TODO: En el error block poner esto
 			[project setUpdatedWithParse:[NSNumber numberWithBool:false]];
             [project setSynchronized:[NSNumber numberWithBool:false]];
         }
@@ -276,6 +276,9 @@
                         taskList.synchronized = [NSNumber numberWithBool:YES];
                         index++;
                     }
+                    NSError *error = nil;
+                    [project.managedObjectContext save:&error];
+                    NSLog(@"KBNProjectService syncProjectsOnParse] Error = %@", error);
                 } errorBlock:^(NSError *error) {
                     NSLog(@"Could not create project on syncProjectsOnParse");
                 }];
