@@ -53,10 +53,10 @@
             XCTFail(@"Task Service could not create any task");
         }
 
-        XCTAssertTrue([records count] == 4, @"There must be four tasks");
+        XCTAssertEqual([records count], 4, @"There must be four tasks");
 
         for (KBNTask *task in records) {
-            XCTAssertTrue([task.taskList.tasks count] == 4, @"There must be four tasks");
+            XCTAssertEqual([task.taskList.tasks count], 4, @"There must be four tasks");
         }
 
         [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
@@ -66,10 +66,10 @@
                 XCTFail(@"Task Service could not retrieve any task");
             }
 
-            XCTAssertTrue([retrievedTasks count] == 4, @"There must be four tasks");
+            XCTAssertEqual([retrievedTasks count], 4, @"There must be four tasks");
 
             for (KBNTask *retrievedTask in retrievedTasks) {
-                XCTAssertTrue([retrievedTask.taskList.tasks count] == 4, @"There must be four tasks");
+                XCTAssertEqual([retrievedTask.taskList.tasks count], 4, @"There must be four tasks");
             }
 
             [tasksCreatedExpectation fulfill];
