@@ -33,8 +33,6 @@
 		3A2D12021B3349F0009EB7A3 /* KBNTutorialContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D11FF1B3349F0009EB7A3 /* KBNTutorialContentViewController.m */; };
 		3A2D12031B3349F0009EB7A3 /* KBNTutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D12011B3349F0009EB7A3 /* KBNTutorialPageViewController.m */; };
 		3A2D12061B334A0B009EB7A3 /* KBNSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2D12051B334A0B009EB7A3 /* KBNSignInViewController.m */; };
-		3A312A9C1AEE8408005837A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9A1AEE8408005837A5 /* Main.storyboard */; };
-		3A312A9D1AEE8408005837A5 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A312A9B1AEE8408005837A5 /* Signin.storyboard */; };
 		3A312AA31AEE8442005837A5 /* KBNUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AA21AEE8442005837A5 /* KBNUser.m */; };
 		3A312AA81AEE845E005837A5 /* KBNProjectParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AA51AEE845E005837A5 /* KBNProjectParseAPIManager.m */; };
 		3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A312AA71AEE845E005837A5 /* KBNUserParseAPIManager.m */; };
@@ -65,6 +63,12 @@
 		543FFAF71AFBD23C0020AD28 /* KBNInitialSetupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */; };
 		54505C531AFD3BA3000A30B8 /* KBNUpdateManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */; };
 		846FA57D1AE6F0B900AB91C1 /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */; };
+		9427AACA1B619215009FE01A /* KBNProjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9427AAC91B619215009FE01A /* KBNProjectTableViewCell.m */; };
+		947AFF6E1B4DBB02004326C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 947AFF701B4DBB02004326C5 /* Main.storyboard */; };
+		947AFF711B4DBB0A004326C5 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 947AFF731B4DBB0A004326C5 /* Signin.storyboard */; };
+		94A87D0D1B4F2B8F00B09D6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A87D0F1B4F2B8F00B09D6A /* Localizable.strings */; };
+		94B6CF671B61D32C00A720E2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94B6CF651B61D32C00A720E2 /* LaunchScreen.xib */; };
+		94CCBBB61B6AB0C9004AFB83 /* KBNTaskPriorityPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CCBBB51B6AB0C9004AFB83 /* KBNTaskPriorityPickerView.m */; };
 		A07653481B0E209C009A8550 /* KBNEmailUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A07653471B0E209C009A8550 /* KBNEmailUtils.m */; };
 		A076534B1B0E2204009A8550 /* KBNArrayToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */; };
 		A079744C1AF023810030696F /* KBNCreateTaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A079744B1AF023810030696F /* KBNCreateTaskTests.m */; };
@@ -74,7 +78,6 @@
 		CCA1A2611ADEA3D900CC98B5 /* KBNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2601ADEA3D900CC98B5 /* KBNAppDelegate.m */; };
 		CCA1A2641ADEA3D900CC98B5 /* Kanban.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A2621ADEA3D900CC98B5 /* Kanban.xcdatamodeld */; };
 		CCA1A26C1ADEA3D900CC98B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCA1A26B1ADEA3D900CC98B5 /* Images.xcassets */; };
-		CCA1A26F1ADEA3D900CC98B5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCA1A26D1ADEA3D900CC98B5 /* LaunchScreen.xib */; };
 		CCA1A27B1ADEA3D900CC98B5 /* KBNCreateProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1A27A1ADEA3D900CC98B5 /* KBNCreateProjectTests.m */; };
 		CCA1A2891ADEA5B300CC98B5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A2881ADEA5B300CC98B5 /* AudioToolbox.framework */; };
 		CCA1A28B1ADEA5BB00CC98B5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA1A28A1ADEA5BB00CC98B5 /* CFNetwork.framework */; };
@@ -150,8 +153,6 @@
 		3A2D12011B3349F0009EB7A3 /* KBNTutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTutorialPageViewController.m; path = Controllers/Tutorial/KBNTutorialPageViewController.m; sourceTree = "<group>"; };
 		3A2D12041B334A0B009EB7A3 /* KBNSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNSignInViewController.h; path = Controllers/SignIn/KBNSignInViewController.h; sourceTree = "<group>"; };
 		3A2D12051B334A0B009EB7A3 /* KBNSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNSignInViewController.m; path = Controllers/SignIn/KBNSignInViewController.m; sourceTree = "<group>"; };
-		3A312A9A1AEE8408005837A5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Storyboards/Main.storyboard; sourceTree = "<group>"; };
-		3A312A9B1AEE8408005837A5 /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Signin.storyboard; path = Storyboards/Signin.storyboard; sourceTree = "<group>"; };
 		3A312AA11AEE8442005837A5 /* KBNUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNUser.h; path = Domain/KBNUser.h; sourceTree = "<group>"; };
 		3A312AA21AEE8442005837A5 /* KBNUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNUser.m; path = Domain/KBNUser.m; sourceTree = "<group>"; };
 		3A312AA41AEE845E005837A5 /* KBNProjectParseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectParseAPIManager.h; path = Parse/KBNProjectParseAPIManager.h; sourceTree = "<group>"; };
@@ -204,6 +205,17 @@
 		543FFAF61AFBD23C0020AD28 /* KBNInitialSetupTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNInitialSetupTest.m; sourceTree = "<group>"; };
 		54505C521AFD3BA3000A30B8 /* KBNUpdateManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBNUpdateManagerTest.m; sourceTree = "<group>"; };
 		846FA57C1AE6F0B900AB91C1 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
+		9427AAC81B619215009FE01A /* KBNProjectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNProjectTableViewCell.h; path = Controllers/Project/KBNProjectTableViewCell.h; sourceTree = "<group>"; };
+		9427AAC91B619215009FE01A /* KBNProjectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNProjectTableViewCell.m; path = Controllers/Project/KBNProjectTableViewCell.m; sourceTree = "<group>"; };
+		9427AACF1B61B6FD009FE01A /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
+		947AFF6F1B4DBB02004326C5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		947AFF721B4DBB0A004326C5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Signin.storyboard; sourceTree = "<group>"; };
+		94A87D0A1B4F206C00B09D6A /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Signin.storyboard; sourceTree = "<group>"; };
+		94A87D0E1B4F2B8F00B09D6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		94A87D101B4F2B9200B09D6A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		94B6CF661B61D32C00A720E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Kanban/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		94CCBBB41B6AB0C9004AFB83 /* KBNTaskPriorityPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNTaskPriorityPickerView.h; path = Controllers/Task/KBNTaskPriorityPickerView.h; sourceTree = "<group>"; };
+		94CCBBB51B6AB0C9004AFB83 /* KBNTaskPriorityPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNTaskPriorityPickerView.m; path = Controllers/Task/KBNTaskPriorityPickerView.m; sourceTree = "<group>"; };
 		A07653461B0E209C009A8550 /* KBNEmailUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNEmailUtils.h; path = Utils/KBNEmailUtils.h; sourceTree = "<group>"; };
 		A07653471B0E209C009A8550 /* KBNEmailUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBNEmailUtils.m; path = Utils/KBNEmailUtils.m; sourceTree = "<group>"; };
 		A07653491B0E2204009A8550 /* KBNArrayToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBNArrayToDataTransformer.h; path = Utils/KBNArrayToDataTransformer.h; sourceTree = "<group>"; };
@@ -221,7 +233,6 @@
 		CCA1A2601ADEA3D900CC98B5 /* KBNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBNAppDelegate.m; sourceTree = "<group>"; };
 		CCA1A2631ADEA3D900CC98B5 /* Kanban.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Kanban.xcdatamodel; sourceTree = "<group>"; };
 		CCA1A26B1ADEA3D900CC98B5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		CCA1A26E1ADEA3D900CC98B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		CCA1A2741ADEA3D900CC98B5 /* KanbanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KanbanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCA1A2791ADEA3D900CC98B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CCA1A27A1ADEA3D900CC98B5 /* KBNCreateProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBNCreateProjectTests.m; sourceTree = "<group>"; };
@@ -286,8 +297,8 @@
 		181E67D21AE67E9C004ACB62 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				3A312A9A1AEE8408005837A5 /* Main.storyboard */,
-				3A312A9B1AEE8408005837A5 /* Signin.storyboard */,
+				947AFF701B4DBB02004326C5 /* Main.storyboard */,
+				947AFF731B4DBB0A004326C5 /* Signin.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -383,6 +394,8 @@
 				3A2D11F91B3349AE009EB7A3 /* KBNAddTaskViewController.m */,
 				3A2D11FA1B3349AE009EB7A3 /* KBNTaskDetailViewController.h */,
 				3A2D11FB1B3349AE009EB7A3 /* KBNTaskDetailViewController.m */,
+				94CCBBB41B6AB0C9004AFB83 /* KBNTaskPriorityPickerView.h */,
+				94CCBBB51B6AB0C9004AFB83 /* KBNTaskPriorityPickerView.m */,
 			);
 			name = Task;
 			sourceTree = "<group>";
@@ -420,6 +433,8 @@
 		3A4840261AE5435E00C70739 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9427AAC81B619215009FE01A /* KBNProjectTableViewCell.h */,
+				9427AAC91B619215009FE01A /* KBNProjectTableViewCell.m */,
 				3A4840491AE545CA00C70739 /* KBNMyProjectsViewController.h */,
 				3A48404A1AE545CA00C70739 /* KBNMyProjectsViewController.m */,
 				3A48404B1AE545CA00C70739 /* KBNProjectDetailViewController.h */,
@@ -478,6 +493,7 @@
 		CCA1A25A1ADEA3D900CC98B5 /* Kanban */ = {
 			isa = PBXGroup;
 			children = (
+				94B6CF651B61D32C00A720E2 /* LaunchScreen.xib */,
 				181E67D21AE67E9C004ACB62 /* Storyboards */,
 				CCA1A25F1ADEA3D900CC98B5 /* KBNAppDelegate.h */,
 				CCA1A2601ADEA3D900CC98B5 /* KBNAppDelegate.m */,
@@ -485,7 +501,6 @@
 				181FA97C1AE0487A001DD816 /* Domain */,
 				CCA1A26B1ADEA3D900CC98B5 /* Images.xcassets */,
 				CCA1A2621ADEA3D900CC98B5 /* Kanban.xcdatamodeld */,
-				CCA1A26D1ADEA3D900CC98B5 /* LaunchScreen.xib */,
 				3AA667681B3D8F1B0070F072 /* Core Data */,
 				181FA97E1AE048B4001DD816 /* Parse */,
 				181FA97D1AE04888001DD816 /* Services */,
@@ -567,6 +582,7 @@
 				A076534A1B0E2204009A8550 /* KBNArrayToDataTransformer.m */,
 				3AE7FBD11B1658030037809A /* KBNProjectTemplateUtils.h */,
 				3AE7FBD21B1658030037809A /* KBNProjectTemplateUtils.m */,
+				94A87D0F1B4F2B8F00B09D6A /* Localizable.strings */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -661,6 +677,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				es,
 				Base,
 			);
 			mainGroup = CCA1A24F1ADEA3D900CC98B5;
@@ -680,9 +697,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A69EE961B20BB35005CDB6D /* KBNReachabilityWidgetView.xib in Resources */,
-				3A312A9D1AEE8408005837A5 /* Signin.storyboard in Resources */,
-				3A312A9C1AEE8408005837A5 /* Main.storyboard in Resources */,
-				CCA1A26F1ADEA3D900CC98B5 /* LaunchScreen.xib in Resources */,
+				94A87D0D1B4F2B8F00B09D6A /* Localizable.strings in Resources */,
+				947AFF711B4DBB0A004326C5 /* Signin.storyboard in Resources */,
+				947AFF6E1B4DBB02004326C5 /* Main.storyboard in Resources */,
+				94B6CF671B61D32C00A720E2 /* LaunchScreen.xib in Resources */,
 				CCA1A26C1ADEA3D900CC98B5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -772,6 +790,7 @@
 				032EF2921AF0259400F27846 /* KBNErrorUtils.m in Sources */,
 				E2AC8A341AF902D9008A44B5 /* NSDate+Utils.m in Sources */,
 				3AE7FBD31B1658030037809A /* KBNProjectTemplateUtils.m in Sources */,
+				9427AACA1B619215009FE01A /* KBNProjectTableViewCell.m in Sources */,
 				3A427E6D1B06630B00348F24 /* UITextView+CustomTextView.m in Sources */,
 				3A2D11FC1B3349AE009EB7A3 /* KBNAddTaskViewController.m in Sources */,
 				3A2D11F71B334995009EB7A3 /* KBNSelectTemplateViewController.m in Sources */,
@@ -804,6 +823,7 @@
 				3A4840551AE545CA00C70739 /* KBNProjectPageViewController.m in Sources */,
 				3AF8F0D51B152B9F0092A6BD /* KBNProjectTemplate.m in Sources */,
 				3A4840531AE545CA00C70739 /* KBNMyProjectsViewController.m in Sources */,
+				94CCBBB61B6AB0C9004AFB83 /* KBNTaskPriorityPickerView.m in Sources */,
 				3A312AA91AEE845E005837A5 /* KBNUserParseAPIManager.m in Sources */,
 				3A312AC41AEE8BEF005837A5 /* KBNTask.m in Sources */,
 				A0C8A7031AEED4640069E236 /* KBNTaskListService.m in Sources */,
@@ -849,12 +869,43 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		CCA1A26D1ADEA3D900CC98B5 /* LaunchScreen.xib */ = {
+		947AFF701B4DBB02004326C5 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CCA1A26E1ADEA3D900CC98B5 /* Base */,
+				947AFF6F1B4DBB02004326C5 /* en */,
+				9427AACF1B61B6FD009FE01A /* es */,
+			);
+			name = Main.storyboard;
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		947AFF731B4DBB0A004326C5 /* Signin.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				947AFF721B4DBB0A004326C5 /* en */,
+				94A87D0A1B4F206C00B09D6A /* es */,
+			);
+			name = Signin.storyboard;
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		94A87D0F1B4F2B8F00B09D6A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A87D0E1B4F2B8F00B09D6A /* en */,
+				94A87D101B4F2B9200B09D6A /* es */,
+			);
+			name = Localizable.strings;
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		94B6CF651B61D32C00A720E2 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94B6CF661B61D32C00A720E2 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
