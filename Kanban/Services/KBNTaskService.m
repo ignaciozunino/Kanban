@@ -176,6 +176,22 @@
         if ([project isShared]) {
             [KBNUpdateUtils postToFirebase:weakself.fireBaseRootReference changeType:KBNChangeTypeTasksUpdate projectId:project.projectId data:[KBNTaskUtils tasksJson:tasks]];
         }
+        if ([tasks count] == [records count]) {
+            NSUInteger i = 0;
+            for (NSDictionary *record in records) {
+                NSDictionary *success = [record objectForKey:@"success"];
+                KBNTask *task = [tasks objectAtIndex:i];
+                task.taskId = [success objectForKey:PARSE_OBJECTID];
+                NSDate *createdAt = [NSDate dateFromParseString:[success objectForKey:PARSE_CREATED_COLUMN]];
+                task.updatedAt = createdAt;
+                NSError *error = nil;
+                [task.managedObjectContext save:&error];
+                if (error != nil) {
+                    onError(error);
+                }
+                i++;
+            }
+        }
         onCompletion(tasks);
     } errorBlock:onError ];
 }
