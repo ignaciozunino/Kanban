@@ -56,7 +56,7 @@
      UIToolbar *toolBar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,pickerWidth,toolBarHeight)];
     toolBar.barTintColor = [UIColor whiteColor];
     UIBarButtonItem *barButtonDone = [[UIBarButtonItem alloc] initWithTitle:DONE_TITLE
-                                                                      style:UIBarButtonItemStyleBordered target:self action:@selector(donePickerView:)];
+                                                                      style:UIBarButtonItemStylePlain target:self action:@selector(donePickerView:)];
     
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [toolBar setItems:[NSArray arrayWithObjects:flexibleSpace, barButtonDone, nil]];

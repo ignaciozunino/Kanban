@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kof-hZ-CkI">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -161,13 +160,13 @@
                                     <rect key="frame" x="0.0" y="122" width="584" height="600"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="d5X-Mv-4N4">
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="d5X-Mv-4N4">
                                             <rect key="frame" x="290" y="290" width="20" height="20"/>
                                         </activityIndicatorView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="centerX" secondItem="d5X-Mv-4N4" secondAttribute="centerX" id="hTX-Jk-HF6"/>
+                                        <constraint firstAttribute="centerX" secondItem="d5X-Mv-4N4" secondAttribute="centerX" constant="-8" id="hTX-Jk-HF6"/>
                                         <constraint firstAttribute="centerY" secondItem="d5X-Mv-4N4" secondAttribute="centerY" id="iZz-O4-Eyg"/>
                                     </constraints>
                                 </view>
@@ -514,7 +513,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Priority" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Zs-dp-b4d">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Priority" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Zs-dp-b4d">
                                 <rect key="frame" x="24" y="272" width="65" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="wOM-Re-8fI"/>
@@ -565,7 +564,7 @@
                             <constraint firstItem="FFe-17-E06" firstAttribute="leading" secondItem="eUQ-gc-8Ij" secondAttribute="leadingMargin" id="4I5-eC-NSk"/>
                             <constraint firstItem="Iot-KB-TK0" firstAttribute="trailing" secondItem="zzi-P0-fKJ" secondAttribute="trailing" id="At2-KO-SvX"/>
                             <constraint firstItem="dJw-vx-d0K" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="345" id="Edt-dA-mkO"/>
-                            <constraint firstItem="0Zs-dp-b4d" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="16" id="Gfv-iS-8kj"/>
+                            <constraint firstItem="0Zs-dp-b4d" firstAttribute="top" secondItem="FFe-17-E06" secondAttribute="bottom" constant="17" id="Gfv-iS-8kj"/>
                             <constraint firstItem="0Zs-dp-b4d" firstAttribute="leading" secondItem="Iot-KB-TK0" secondAttribute="leading" id="H8V-Uc-40G"/>
                             <constraint firstItem="Iot-KB-TK0" firstAttribute="top" secondItem="enn-RC-T8c" secondAttribute="bottom" constant="16" id="Ksh-Fa-ASx"/>
                             <constraint firstItem="z5w-ry-6LR" firstAttribute="bottom" secondItem="Mt4-CK-gh2" secondAttribute="bottom" id="Min-9T-41B"/>

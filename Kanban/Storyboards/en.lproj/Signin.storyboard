@@ -240,23 +240,6 @@
             <point key="canvasLocation" x="22" y="1018"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="HpI-Is-HsQ">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="7rJ-v3-TAz" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="dz0-TN-M2Z"/>
-                        <viewControllerLayoutGuide type="bottom" id="RUp-So-aNl"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="6Wk-Fe-O8q">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="l2X-XO-ykz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
     <resources>
         <image name="login-bg-textfield" width="427" height="61"/>
