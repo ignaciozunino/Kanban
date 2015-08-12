@@ -215,8 +215,6 @@
     [task setValue:[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] forKey:@"active"];
     [task setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
     [task setValue:[params objectForKey:PARSE_TASK_PRIORITY_COLUMN] forKey:@"priority"];
-//    [task setValue:[params objectForKey:PARSE_TASK_PROJECT_COLUMN] forKey:@"project"];
-//    [task setValue:[params objectForKey:PARSE_TASK_TASK_LIST_COLUMN] forKey:@"taskList"];
     task.project = project;
     task.taskList = taskList;
     return task;
