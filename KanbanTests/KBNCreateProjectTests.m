@@ -14,6 +14,7 @@
 #import "KBNUserUtils.h"
 #import "KBNInitialSetupTest.h"
 #import "KBNProjectTemplateUtils.h"
+#import "KBNReachabilityUtils.h"
 
 @interface KBNCreateProjectTests : XCTestCase
 
@@ -66,50 +67,32 @@
 
 //Feature tested: Create Project
 //Description: In this test we will verify that in case you create a project offline
-//the project isn't created correctly
+//the project isn't created correctly in Parse
 -(void)testOfflineCreateProject
 {
     KBNProjectService * serviceOrig = [KBNProjectService sharedInstance];
     id projectAPIManager = [OCMockObject mockForClass:[KBNProjectParseAPIManager class]];
-    
-    //This is to redefine the createProject method from the ParseAPIManager class
-    OCMStub([projectAPIManager createProject:OCMOCK_ANY
-                                   withLists:OCMOCK_ANY
-                             completionBlock:OCMOCK_ANY
-                                  errorBlock:OCMOCK_ANY]).
-    andDo(^(NSInvocation *invocation)
-          {
-              //Block definition
-              void(^stubBlock)(NSError *error);
-              
-              //Get the instance from the error block (position 4)
-              [invocation getArgument:&stubBlock atIndex:4];
-              
-              //Error creation
-              NSString *domain = ERROR_DOMAIN;
-              NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_PROJECT_OFFLINE_ERROR};
-              NSError *errorConnection = [NSError errorWithDomain:domain code:-102 userInfo:info];
-              
-              //Call the block with the error created
-              stubBlock(errorConnection);
-              
-          });
-    XCTestExpectation *expectation = [self expectationWithDescription:@"testOfflineCreateProject"];
     serviceOrig.dataService = projectAPIManager;
-    
+
+    id reachability = [OCMockObject mockForClass:[KBNReachabilityUtils class]];
+    [[[reachability stub] andReturnValue:@NO] isOnline];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testOfflineCreateProject"];
+
     [serviceOrig createProject:@"test" withDescription:@"desc" withTemplate:[KBNProjectTemplateUtils defaultTemplate] completionBlock:^(KBNProject* aProject){
-                   XCTFail(@"Project was created offline");
-                   [expectation fulfill];
-               }
-                    errorBlock:^(NSError *error)
-     {
+        if (aProject.projectId) {
+            XCTFail(@"Project was created on server");
+        }
+        [expectation fulfill];
+    }
+                    errorBlock:^(NSError *error){
          if (error) {
              NSString *errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
              XCTAssertEqualObjects(errorMessage, CREATING_PROJECT_OFFLINE_ERROR);
              [expectation fulfill];
          }
      }];
-    
+
     [self waitForExpectationsWithTimeout:40.0 handler:^(NSError *error) {
     }];
 }
