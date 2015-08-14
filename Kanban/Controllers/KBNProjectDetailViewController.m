@@ -345,10 +345,10 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     
-    if ([KBNReachabilityUtils isOffline]) {
-        [self.reachabilityView showAnimated:YES];
-        return NO;
-    }
+//    if ([KBNReachabilityUtils isOffline]) {
+//        [self.reachabilityView showAnimated:YES];
+//        return NO;
+//    }
     
     if ([self.tableView isEditing]) {
         
