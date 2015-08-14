@@ -37,4 +37,6 @@
 
 - (void)tasksForProject:(KBNProject *)project completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
+-(void)syncTasksOnParse;
+
 @end

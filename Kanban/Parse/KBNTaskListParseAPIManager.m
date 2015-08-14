@@ -29,17 +29,8 @@
     __block NSMutableArray *listsInfo = [NSMutableArray array];
     
     for (int i = 0; i < listNames.count; i++) {
-        NSString *name;
-        id object = listNames[i];
-        if ([object isKindOfClass:[KBNTaskList class]]) {
-            KBNTaskList *taskList = (KBNTaskList *) object;
-            name = taskList.name;
-        }else if ([object isKindOfClass:[NSString class]]){
-            name = (NSString *) object;
-        }
         
-        
-        NSDictionary *listdata = @{PARSE_TASKLIST_NAME_COLUMN: name, PARSE_TASKLIST_PROJECT_COLUMN: projectId, PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:i]};
+        NSDictionary *listdata = @{PARSE_TASKLIST_NAME_COLUMN: listNames[i], PARSE_TASKLIST_PROJECT_COLUMN: projectId, PARSE_TASKLIST_ORDER_COLUMN:[NSNumber numberWithInteger:i]};
         dispatch_group_enter(serviceGroup);
 
         [self.afManager POST:PARSE_TASKLISTS parameters:listdata  success:^(AFHTTPRequestOperation *operation, id responseObject) {

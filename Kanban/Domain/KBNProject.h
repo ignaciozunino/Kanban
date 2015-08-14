@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSOrderedSet *tasks;
 @property (nonatomic, strong) NSNumber *synchronized;
 @property (nonatomic, strong) NSDate *updatedAt;
-@property (nonatomic, strong) NSNumber *updatedWithParse;
+@property (nonatomic, strong) NSNumber *updatedInParse;
 
 @end
 

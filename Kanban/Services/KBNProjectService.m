@@ -85,7 +85,7 @@
             } errorBlock:onError];
         }
         else {//TODO: En el error block poner esto
-			[project setUpdatedWithParse:[NSNumber numberWithBool:false]];
+			[project setUpdatedInParse:[NSNumber numberWithBool:false]];
             [project setSynchronized:[NSNumber numberWithBool:false]];
         }
         [[KBNCoreDataManager sharedInstance] saveContext];
@@ -243,13 +243,13 @@
 }
 
 -(void)syncProjectsOnParse {
-    [[KBNCoreDataManager sharedInstance] getUnUpdatedProyectsOnSucess:^(NSArray *records) {
+    [[KBNCoreDataManager sharedInstance] getUnUpdatedProjectsOnSuccess:^(NSArray *records) {
         for (KBNProject *project in records) {
             if(project.isSynchronized) {
                 __weak typeof(self) weakself = self;
                 [self.dataService editProject:project.projectId withNewName:project.name withNewDesc:project.description completionBlock:^(NSDictionary *records) {
                     project.updatedAt = [records objectForKey:@"updatedAt"];
-                    [project setUpdatedWithParse:[NSNumber numberWithBool:true]];
+                    [project setUpdatedInParse:[NSNumber numberWithBool:true]];
                     project.synchronized = [NSNumber numberWithBool:YES];
                     // If the project has more than one user, notify change
                     if ([project isShared]) {
@@ -260,12 +260,16 @@
                 }];
             }
             else {
-                [self.dataService createProject:project withLists:[project.taskLists array] completionBlock:^(NSDictionary *records) {
+                NSMutableArray *taskListNames =  [NSMutableArray array];
+                for (KBNTaskList *taskList in [project.taskLists array]) {
+                    [taskListNames addObject:[taskList name]];
+                }
+                [self.dataService createProject:project withLists:taskListNames completionBlock:^(NSDictionary *records) {
                     NSDictionary *projectParams = [records objectForKey:@"project"];
                     project.projectId = [projectParams objectForKey:@"projectId"];
                     project.updatedAt = [projectParams objectForKey:@"updatedAt"];
                     project.synchronized = [NSNumber numberWithBool:YES];
-                    [project setUpdatedWithParse:[NSNumber numberWithBool:true]];
+                    [project setUpdatedInParse:[NSNumber numberWithBool:true]];
                     NSArray *listsParams = [records objectForKey:@"taskLists"];
                     KBNTaskList *taskList = nil;
                     NSUInteger index = 0;
@@ -278,14 +282,16 @@
                     }
                     NSError *error = nil;
                     [project.managedObjectContext save:&error];
-                    NSLog(@"KBNProjectService syncProjectsOnParse] Error = %@", error);
+                    if (error) {
+                        NSLog(@"KBNProjectService syncProjectsOnParse] Error = %@", error);
+                    }
                 } errorBlock:^(NSError *error) {
                     NSLog(@"Could not create project on syncProjectsOnParse");
                 }];
             }
         }
     } errorBlock:^(NSError *error) {
-        NSLog(@"Error Recovering Proyects from coredata");
+        NSLog(@"Error Recovering Projects from coredata");
     }];
 }
 

@@ -151,7 +151,7 @@
     }
 }
 
--(void)getUnUpdatedProyectsOnSucess:(KBNSuccessArrayBlock)onSucess errorBlock:(KBNErrorBlock)onError {
+-(void)getUnUpdatedProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
     [fetchRequest setEntity:entity];
@@ -166,8 +166,8 @@
         onError(error);
     } else {
         // We filter records here because users is transformable
-        NSPredicate *aPredicate = [NSPredicate predicateWithFormat:@"users contains[c] %@ and updatedWithParse==%@", [KBNUserUtils getUsername],[NSNumber numberWithBool:false]];
-        onSucess([fetchedObjects filteredArrayUsingPredicate:aPredicate]);
+        NSPredicate *aPredicate = [NSPredicate predicateWithFormat:@"users contains[c] %@ and updatedInParse==%@", [KBNUserUtils getUsername],[NSNumber numberWithBool:false]];
+        onSuccess([fetchedObjects filteredArrayUsingPredicate:aPredicate]);
     }
 }
 
@@ -299,6 +299,24 @@
         onError(error);
     } else {
         onCompletion(fetchedObjects);
+    }
+}
+
+-(void)getUnUpdatedTasksOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    
+    if (fetchedObjects == nil) {
+        onError(error);
+    } else {
+        onSuccess(fetchedObjects);
     }
 }
 
