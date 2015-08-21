@@ -88,7 +88,7 @@
 
 - (void)didCreateProject:(NSNotification *)notification {
     KBNProject *project = (KBNProject*)notification.object;
-    [self.projects addObject:project];
+    [self.projects insertObject:project atIndex:0];
     [self.tableView reloadData];
 }
 
