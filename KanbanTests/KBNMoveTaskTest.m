@@ -82,17 +82,10 @@
     
     // Create the tasks and retrieve tasks of the test project
     NSArray *tasks = [KBNTaskUtils mockTasksForProject:project taskList:backlog quantity:4];
-    
-    KBNTask *task0 = tasks[0];
-    KBNTask *task1 = tasks[1];
-    KBNTask *task2 = tasks[2];
-    KBNTask *task3 = tasks[3];
-    
-    [service createTasks:tasks
-         completionBlock:^(NSArray *records) {
-             [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
- 
-                 if (!retrievedTasks.count) { // We brought no records => error creating the tasks
+
+    [service createTasks:tasks completionBlock:^(NSArray *records) {
+        [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
+            if (!retrievedTasks.count) { // We brought no records => error creating the tasks
                      XCTFail(@"Task Service could not retrieve any task");
                  }
                  [tasksCreatedExpectation fulfill];
@@ -118,30 +111,27 @@
   
     XCTestExpectation *taskMovedExpectation = [self expectationWithDescription:TASK_MOVED_EXPECTATION];
     
-    [service moveTask:task1 toList:requirements inOrder:nil completionBlock:^{
+    [service moveTask:tasks[1] toList:requirements inOrder:@0 completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
             
             for (KBNTask *task in retrievedTasks) {
-
-                NSString *name = task.name;
-                NSString *taskListId = task.taskList.taskListId;
-                NSNumber *order = task.order;
-                
-                if ([name isEqualToString:task0.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task1.name]) {
-                    if (!([taskListId isEqualToString:requirements.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task2.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task3.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(false);
+                for (KBNTaskList *taskList in task.project.taskLists) {
+                    if ([taskList.taskListId isEqualToString:@"requirements"]) {
+                        for (KBNTask *taskMove in taskList.tasks) {
+                            if ([taskMove.taskId isEqualToString:@"Task1"]) {
+                                XCTAssertTrue([taskMove.order isEqual:@(0)], @"Order should be zero");
+                            }
+                        }
+                    } else if ([taskList.taskListId isEqualToString:@"backlog"]) {
+                        for (KBNTask *taskOriginal in taskList.tasks) {
+                            if ([taskOriginal.taskId isEqualToString:@"Task0"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(0)], @"Order should be zero");
+                            } else if ([taskOriginal.taskId isEqualToString:@"Task2"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(1)], @"Order should be one");
+                            } else if ([taskOriginal.taskId isEqualToString:@"Task3"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(2)], @"Order should be two");
+                            }
+                        }
                     }
                 }
             }
@@ -160,44 +150,33 @@
     [self waitForExpectationsWithTimeout:TIMEOUT handler:^(NSError *error) {
     }];
 
-
-    
-    
     // 3. Move back task 1 to backlog. It should be put at the end of the list.
     //    Verify that task 1 has order 3.
 
     XCTestExpectation *taskMovedBackExpectation = [self expectationWithDescription:TASK_MOVED_BACK_EXPECTATION];
 
-    [service moveTask:task1 toList:backlog inOrder:nil completionBlock:^{
+    [service moveTask:tasks[1] toList:backlog inOrder:@3 completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
-            
             for (KBNTask *task in retrievedTasks) {
-                
-                NSString *name = task.name;
-                NSString *taskListId = task.taskList.taskListId;
-                NSNumber *order = task.order;
-                
-                if ([name isEqualToString:task0.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task1.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task2.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task3.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(false);
+                for (KBNTaskList *taskList in task.project.taskLists) {
+                    if ([taskList.taskListId isEqualToString:@"backlog"]) {
+                        for (KBNTask *taskOriginal in taskList.tasks) {
+                            if ([taskOriginal.taskId isEqualToString:@"Task0"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(0)], @"Order should be zero");
+                            } else if ([taskOriginal.taskId isEqualToString:@"Task2"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(1)], @"Order should be one");
+                            } else if ([taskOriginal.taskId isEqualToString:@"Task3"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(2)], @"Order should be two");
+                            } else if ([taskOriginal.taskId isEqualToString:@"Task1"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(3)], @"Order should be three");
+                            }
+                        }
                     }
                 }
             }
-            
+
             [taskMovedBackExpectation fulfill];
-            
+
         } errorBlock:^(NSError *error) {
             XCTAssertTrue(false);
             [taskMovedBackExpectation fulfill];
@@ -209,45 +188,34 @@
     
     [self waitForExpectationsWithTimeout:TIMEOUT handler:^(NSError *error) {
     }];
- 
-    
-    
-    
+
     // 4. Move task 1 to order 1 within backlog.
     //    Verify that all tasks have their original order.
-    
+
     XCTestExpectation *taskReorderExpectation = [self expectationWithDescription:TASK_REORDER_EXPECTATION];
-    
-    [service moveTask:task1 toList:backlog inOrder:@1 completionBlock:^{
+
+    [service moveTask:tasks[1] toList:backlog inOrder:@1 completionBlock:^{
         [service getTasksForProject:project completionBlock:^(NSArray *retrievedTasks) {
-            
             for (KBNTask *task in retrievedTasks) {
-                
-                NSString *name = task.name;
-                NSString *taskListId = task.taskList.taskListId;
-                NSNumber *order = task.order;
-                
-                if ([name isEqualToString:task0.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 0)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task1.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 1)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task2.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 2)) {
-                        XCTAssertTrue(false);
-                    }
-                } else if ([name isEqualToString:task3.name]) {
-                    if (!([taskListId isEqualToString:backlog.taskListId] && [order integerValue] == 3)) {
-                        XCTAssertTrue(false);
+                for (KBNTaskList *taskList in task.project.taskLists) {
+                    if ([taskList.taskListId isEqualToString:@"backlog"]) {
+                        for (KBNTask *taskOriginal in taskList.tasks) {
+                            if ([taskOriginal.taskId isEqualToString:@"Task0"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(0)], @"Order should be zero");
+                            } else if ([taskOriginal.taskId isEqualToString:@"Task1"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(1)], @"Order should be one");
+                            } else if ([taskOriginal.taskId isEqualToString:@"Task2"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(2)], @"Order should be two");
+                            } else if ([taskOriginal.taskId isEqualToString:@"Task3"]) {
+                                XCTAssertTrue([taskOriginal.order isEqual:@(3)], @"Order should be three");
+                            }
+                        }
                     }
                 }
             }
-            
+
             [taskReorderExpectation fulfill];
-            
+
         } errorBlock:^(NSError *error) {
             XCTAssertTrue(false);
             [taskReorderExpectation fulfill];

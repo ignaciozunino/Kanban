@@ -237,7 +237,6 @@
     [task setValue:[params objectForKey:PARSE_TASK_PRIORITY_COLUMN] forKey:@"priority"];
     task.project = project;
     task.taskList = taskList;
-    
     return task;
 }
 
@@ -258,7 +257,6 @@
         [task setValue:[NSNumber numberWithInteger:0] forKey:@"priority"];
         task.project = project;
         task.taskList = taskList;
-        
         [tasks addObject:task];
     }
     

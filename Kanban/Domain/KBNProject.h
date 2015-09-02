@@ -53,5 +53,6 @@
 - (BOOL)isShared;
 - (BOOL)isSynchronized;
 - (KBNTaskList*)taskListForId:(NSString*)taskListId;
++ (void)initWithEntity;
 
 @end
