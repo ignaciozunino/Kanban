@@ -13,7 +13,7 @@
 #import "KBNTaskService.h"
 #import "KBNAlertUtils.h"
 
-@interface KBNTaskDetailViewController : UIViewController
+@interface KBNTaskDetailViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (strong, nonatomic) KBNTask *task;
 

@@ -27,6 +27,11 @@
     return inst;
 }
 
+-(instancetype)init {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncProjectsOnParse) name:CONNECTION_ONLINE object:nil];
+    return self;
+}
+
 - (void)createProject:(NSString *)name withDescription:(NSString *)projectDescription withTemplate:(KBNProjectTemplate *)projectTemplate completionBlock:(KBNSuccessProjectBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
     
     if ([name isEqualToString:@""] || !name) {
@@ -289,4 +294,4 @@
         NSLog(@"Error Recovering Projects from coredata");
     }];
 }
-@end
+	@end

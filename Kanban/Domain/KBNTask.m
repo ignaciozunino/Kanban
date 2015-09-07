@@ -22,6 +22,7 @@
 @dynamic taskList;
 @dynamic synchronized;
 @dynamic updatedAt;
+@dynamic priority;
 
 - (BOOL)isActive {
     return self.active.boolValue;

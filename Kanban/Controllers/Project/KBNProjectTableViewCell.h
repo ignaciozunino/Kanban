@@ -2,12 +2,14 @@
 //  KBNProjectTableViewCell.h
 //  Kanban
 //
-//  Created by guerrier on 07/09/15.
+//  Created by guerrier on 23/07/15.
 //  Copyright (c) 2015 Globant. All rights reserved.
 //
 
-#ifndef Kanban_KBNProjectTableViewCell_h
-#define Kanban_KBNProjectTableViewCell_h
+#import <UIKit/UIKit.h>
 
+@interface KBNProjectTableViewCell : UITableViewCell
 
-#endif
+@property (weak, nonatomic) IBOutlet UIImageView *propertyColor;
+
+@end

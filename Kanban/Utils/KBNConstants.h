@@ -15,15 +15,15 @@
 
 
 #ifdef DEBUG
-  //Development environment values
-  #define PARSE_APP_ID        @"2LDJ8L7aB9iO9QTGyG4UxGjUSFxxTCUFxM05nOJx"
-  #define PARSE_CLIENT_ID     @"3ChxbtSTeoblQgtu5bNZCw1v6L158u2eGsiYuvrs"
-  #define PARSE_REST_API_KEY @"oiD6BSxTMx8xKjyZFgP6S4IHmHsybxLF1DKGtuTm"
+//Development environment values
+#define PARSE_APP_ID        @"2LDJ8L7aB9iO9QTGyG4UxGjUSFxxTCUFxM05nOJx"
+#define PARSE_CLIENT_ID     @"3ChxbtSTeoblQgtu5bNZCw1v6L158u2eGsiYuvrs"
+#define PARSE_REST_API_KEY @"oiD6BSxTMx8xKjyZFgP6S4IHmHsybxLF1DKGtuTm"
 #else
-  //Production environment values
-  #define PARSE_APP_ID        @"64CkJJ6FLtZ3Tnl8VE7cSUDiazsBxgPHNKNCHopP"
-  #define PARSE_CLIENT_ID     @"ByBaCQtSmmeVh4s1bCUywJ8qTcSGUlkly4TBZnJg"
-  #define PARSE_REST_API_KEY  @"HeXimJkf3NQAfbehujVPcvNiBP40HtKMyPiVp4Bf"
+//Production environment values
+#define PARSE_APP_ID        @"64CkJJ6FLtZ3Tnl8VE7cSUDiazsBxgPHNKNCHopP"
+#define PARSE_CLIENT_ID     @"ByBaCQtSmmeVh4s1bCUywJ8qTcSGUlkly4TBZnJg"
+#define PARSE_REST_API_KEY  @"HeXimJkf3NQAfbehujVPcvNiBP40HtKMyPiVp4Bf"
 #endif
 
 //Project constants
@@ -46,34 +46,34 @@
 #define PAGE_VC @"KBNPageViewController"
 
 //Loading messages
-#define ADD_PROJECT_LOADING @"Creating the project"
-#define ADD_TASK_LOADING @"Creating the task"
-#define EDIT_PROJECT_LOADING @"Editing the project"
-#define EDIT_TASK_LOADING @"Editing the task"
-#define EDIT_PROJECT_INVITING @"Inviting to the project"
+#define ADD_PROJECT_LOADING NSLocalizedString(@"ADD_PROJECT_LOADING", nil)
+#define ADD_TASK_LOADING NSLocalizedString(@"ADD_TASK_LOADING", nil)
+#define EDIT_PROJECT_LOADING NSLocalizedString(@"EDIT_PROJECT_LOADING", nil)
+#define EDIT_TASK_LOADING NSLocalizedString(@"EDIT_TASK_LOADING", nil)
+#define EDIT_PROJECT_INVITING NSLocalizedString(@"EDIT_PROJECT_INVITING", nil)
 
 
 //Succes messages
-#define PROJECT_CREATION_SUCCESS @"Project created successfully!"
-#define PROJECT_EDIT_SUCCESS @"Project modified successfully!"
-#define TASK_CREATION_SUCCESS @"Task created successfully!"
-#define TASK_EDIT_SUCCESS @"Task modified successfully!"
+#define PROJECT_CREATION_SUCCESS NSLocalizedString(@"PROJECT_CREATION_SUCCESS", nil)
+#define PROJECT_EDIT_SUCCESS NSLocalizedString(@"PROJECT_EDIT_SUCCESS", nil)
+#define TASK_CREATION_SUCCESS NSLocalizedString(@"TASK_CREATION_SUCCESS", nil)
+#define TASK_EDIT_SUCCESS NSLocalizedString(@"TASK_EDIT_SUCCESS", nil)
 
 
 //Error messages
-#define ERROR_DOMAIN @"globant.kanban.Kanban.ErrorDomain";
-#define SIGNIN_ERROR @"Please verify the username is a valid email and the password has at least 6 characters, one letter and one number."
-#define CREATING_PROJECT_WITHOUTNAME_ERROR @"Project must have a name"
-#define CREATING_PROJECT_OFFLINE_ERROR @"The service is offline."
-#define CREATING_TASK_WITHOUT_NAME_ERROR @"Task must have a name"
-#define CREATING_TASKLIST_WITHOUT_NAME_ERROR @"Task List must have a name"
-#define CREATING_TASK_OFFLINE_ERROR @"The connection to the server has timed out"
-#define CREATING_TASK_TASKLIST_FULL @"The task list cannot hold any more items"
-#define EDIT_PROJECT_WITHOUTNAME_ERROR @"Project must have a name"
-#define USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
-#define EDIT_TASK_WITHOUTNAME_ERROR @"Task must have a name"
-#define INVITE_USERS_USER_EXISTS_ERROR @"There is already a user created with that username, please try other username."
-#define OFFLINE_WARNING @"Connection appears to be offline."
+#define ERROR_DOMAIN NSLocalizedString(@"ERROR_DOMAIN", nil)
+#define SIGNIN_ERROR NSLocalizedString(@"SIGNIN_ERROR", nil)
+#define CREATING_PROJECT_WITHOUTNAME_ERROR NSLocalizedString(@"CREATING_PROJECT_WITHOUTNAME_ERROR", nil)
+#define CREATING_PROJECT_OFFLINE_ERROR NSLocalizedString(@"CREATING_PROJECT_OFFLINE_ERROR", nil)
+#define CREATING_TASK_WITHOUT_NAME_ERROR NSLocalizedString(@"CREATING_TASK_WITHOUT_NAME_ERROR", nil)
+#define CREATING_TASKLIST_WITHOUT_NAME_ERROR NSLocalizedString(@"CREATING_TASKLIST_WITHOUT_NAME_ERROR", nil)
+#define CREATING_TASK_OFFLINE_ERROR NSLocalizedString(@"CREATING_TASK_OFFLINE_ERROR", nil)
+#define CREATING_TASK_TASKLIST_FULL NSLocalizedString(@"CREATING_TASK_TASKLIST_FULL", nil)
+#define EDIT_PROJECT_WITHOUTNAME_ERROR NSLocalizedString(@"EDIT_PROJECT_WITHOUTNAME_ERROR", nil)
+#define USER_EXISTS_ERROR NSLocalizedString(@"USER_EXISTS_ERROR", nil)
+#define EDIT_TASK_WITHOUTNAME_ERROR NSLocalizedString(@"EDIT_TASK_WITHOUTNAME_ERROR", nil)
+#define INVITE_USERS_USER_EXISTS_ERROR NSLocalizedString(@"INVITE_USERS_USER_EXISTS_ERROR", nil)
+#define OFFLINE_WARNING NSLocalizedString(@"OFFLINE_WARNING", nil)
 
 //URL
 #define PARSE_USERS @"https://api.parse.com/1/users"
@@ -107,9 +107,11 @@
 #define PARSE_TASK_ORDER_COLUMN @"order"
 #define PARSE_TASK_ACTIVE_COLUMN @"active"
 #define PARSE_TASK_UPDATED_COLUMN @"updatedAt"
+#define PARSE_TASK_PRIORITY_COLUMN @"priority"
 
 #define PARSE_PROJECT_TEMPLATE_NAME @"name"
 #define PARSE_PROJECT_TEMPLATE_LISTS @"lists"
+#define PARSE_PROJECT_TEMPLATE_LANGUAGE @"language"
 
 #define PARSE_USER_NAME_COLUMN @"username"
 
@@ -124,24 +126,29 @@
 #define MAILGUN_FIELD_BODY @"text"
 
 //Email communications
-#define EMAIL_INVITE_SUBJECT @"Invitation to my project"
-#define EMAIL_INVITE_BODY @"I've just invited you to my Simple Kanban project. Sign in to the Kanban App with your email address and check it out!"
+#define EMAIL_INVITE_SUBJECT NSLocalizedString(@"EMAIL_INVITE_SUBJECT", nil)
+#define EMAIL_INVITE_BODY NSLocalizedString(@"EMAIL_INVITE_BODY", nil)
 
 //Base URL of the web site - make sure to include the trailing slash:
 #define WEBSITE_BASE_URL @"https://www.simplekanban.com/"
 
 
 //alert titles
-#define ERROR_ALERT @"ERROR"
-#define WARNING_ALERT @"WARNING"
-#define SUCCESS_ALERT @"SUCCESS"
-#define OK_TITLE @"Ok"
-#define CANCEL_TITLE @"Cancel"
-#define DELETE_TITLE @"Delete"
-#define BEFORE_TITLE @"Before"
-#define AFTER_TITLE @"After"
-#define ADD_LIST_TITLE @"Add list"
+#define ERROR_ALERT NSLocalizedString(@"ERROR_ALERT", nil)
+#define WARNING_ALERT NSLocalizedString(@"WARNING_ALERT", nil)
+#define SUCCESS_ALERT NSLocalizedString(@"SUCCESS_ALERT", nil)
+#define OK_TITLE NSLocalizedString(@"OK_TITLE", nil)
+#define CANCEL_TITLE NSLocalizedString(@"CANCEL_TITLE", nil)
+#define DELETE_TITLE NSLocalizedString(@"DELETE_TITLE", nil)
+#define BEFORE_TITLE NSLocalizedString(@"BEFORE_TITLE", nil)
+#define AFTER_TITLE NSLocalizedString(@"AFTER_TITLE", nil)
+#define ADD_LIST_TITLE NSLocalizedString(@"ADD_LIST_TITLE", nil)
+#define DONE_TITLE NSLocalizedString(@"DONE_TITLE", nil)
 
+//Tutorial titles
+#define CREATE_PROJECTS_TITLE NSLocalizedString(@"CREATE_PROJECTS_TITLE", nil)
+#define CREATE_AND_MOVE_TASK_TITLE NSLocalizedString(@"CREATE_AND_MOVE_TASK_TITLE", nil)
+#define INVITE_USERS_TITLE NSLocalizedString(@"INVITE_USERS_TITLE", nil)
 
 //FIREBASE KEYS
 #define FIREBASE_CHANGE_TYPE @"ChangeType"
@@ -166,8 +173,15 @@
 //TaskLists Templates
 #define DEFAULT_TASK_LISTS   @[@"Backlog",@"Requirements",@"Implemented",@"Tested",@"Production"]
 
+//Priority Data
+#define PRIORITY_HIGH NSLocalizedString(@"PRIORITY_HIGH", nil)
+#define PRIORITY_MEDIUM NSLocalizedString(@"PRIORITY_MEDIUM", nil)
+#define PRIORITY_LOW NSLocalizedString(@"PRIORITY_LOW", nil)
+#define LOW_COLOR [UIColor colorWithRed:204.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1]
+#define MEDIUM_COLOR [UIColor colorWithRed:255.0/255.0 green:204.0/255.0 blue:102.0/255.0 alpha:1]
+#define HIGH_COLOR [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1]
 
-//Blocks 
+//Blocks
 typedef void (^KBNErrorBlock) (NSError *error);
 typedef void (^KBNSuccessBlock)() ;
 typedef void (^KBNSuccessArrayBlock) (NSArray *records);

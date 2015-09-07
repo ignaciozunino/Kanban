@@ -16,7 +16,7 @@
 
 @end
 
-@interface KBNAddTaskViewController : UIViewController <UITextFieldDelegate, MBProgressHUDDelegate>
+@interface KBNAddTaskViewController : UIViewController <UITextFieldDelegate, MBProgressHUDDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (strong, nonatomic) KBNTask *addTask;
 @property (weak, nonatomic) id <KBNAddTaskViewControllerDelegate> delegate;
