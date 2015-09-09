@@ -10,7 +10,7 @@
 #import "KBNTaskPriorityPickerView.h"
 
 @interface KBNTaskDetailViewController (){
-    NSUInteger prioritySelected;
+    PriorityState prioritySelected;
 }
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextField;
@@ -93,17 +93,17 @@
     self.title = self.task.project.name;
     self.nameTextField.text = self.task.name;
     self.descriptionTextField.text = self.task.taskDescription;
-    prioritySelected = [self.task.priority integerValue];
+    prioritySelected = (PriorityState) [self.task.priority integerValue];
     switch (prioritySelected) {
-        case 0:
+        case PRIORITYSTATE_HIGH:
         [self.priorityButton setTitle:PRIORITY_HIGH forState:UIControlStateNormal];
         [priorityColor setBackgroundColor:HIGH_COLOR];
         break;
-        case 1:
+        case PRIORITYSTATE_MEDIUM:
         [self.priorityButton setTitle:PRIORITY_MEDIUM forState:UIControlStateNormal];
         [priorityColor setBackgroundColor:MEDIUM_COLOR];
         break;
-        case 2:
+        case PRIORITYSTATE_LOW:
         [self.priorityButton setTitle:PRIORITY_LOW forState:UIControlStateNormal];
         [priorityColor setBackgroundColor:LOW_COLOR];
         break;
@@ -199,16 +199,16 @@
 
 #pragma mark - UIPickerViewDelegate
 -(void) pickerView:pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    prioritySelected = row;
+    prioritySelected = (PriorityState)row;
     [self.priorityButton setTitle:[priorityData objectAtIndex:row] forState:UIControlStateNormal];
     switch (row) {
-        case 0:
+        case PRIORITYSTATE_HIGH:
         [priorityColor setBackgroundColor:HIGH_COLOR];
         break;
-        case 1:
+        case PRIORITYSTATE_MEDIUM:
         [priorityColor setBackgroundColor:MEDIUM_COLOR];
         break;
-        case 2:
+        case PRIORITYSTATE_LOW:
         [priorityColor setBackgroundColor:LOW_COLOR];
         break;
     }

@@ -27,7 +27,7 @@
 
 - (void)getProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError;
 
--(void)getUnUpdatedProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError;
+-(void)getOutdatedProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError;
 
 - (KBNProject*)projectWithParams:(NSDictionary *)params;
 
@@ -41,7 +41,7 @@
 
 - (void)tasksForProjectId:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 
--(void)getUnUpdatedTasksOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError;
+-(void)getOutdatedTasksOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError;
 
 - (void)getTaskListsForProject:(NSString*)projectId completionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
 

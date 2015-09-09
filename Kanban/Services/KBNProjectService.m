@@ -243,7 +243,7 @@
 }
 
 -(void)syncProjectsOnParse {
-    [[KBNCoreDataManager sharedInstance] getUnUpdatedProjectsOnSuccess:^(NSArray *records) {
+    [[KBNCoreDataManager sharedInstance] getOutdatedProjectsOnSuccess:^(NSArray *records) {
         for (KBNProject *project in records) {
             if(project.isSynchronized) {
                 __weak typeof(self) weakself = self;

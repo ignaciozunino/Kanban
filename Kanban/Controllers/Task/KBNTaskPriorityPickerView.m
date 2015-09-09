@@ -26,7 +26,7 @@
 @synthesize priorityData;
 @synthesize prioritySelected;
 
--(void) initialConfigurationWithPriority: (NSUInteger) priority onView:(UIView *) viewPickerView withPriorityButton:(UIButton *) priorityButton withPriorityColor: (UILabel *) priorityColor{
+-(void) initialConfigurationWithPriority: (PriorityState) priority onView:(UIView *) viewPickerView withPriorityButton:(UIButton *) priorityButton withPriorityColor: (UILabel *) priorityColor{
     prioritySelected = priority;
     self.viewPickerView = viewPickerView;
     self.priorityButton = priorityButton;
@@ -100,16 +100,16 @@
 
 #pragma mark - UIPickerViewDelegate
 -(void) pickerView:pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    prioritySelected = row;
+    prioritySelected = (PriorityState)row;
     [self.priorityButton setTitle:[priorityData objectAtIndex:row] forState:UIControlStateNormal];
     switch (row) {
-        case 0:
+        case PRIORITYSTATE_HIGH:
             [self.priorityColor setBackgroundColor:HIGH_COLOR];
             break;
-        case 1:
+        case PRIORITYSTATE_MEDIUM:
             [self.priorityColor setBackgroundColor:MEDIUM_COLOR];
             break;
-        case 2:
+        case PRIORITYSTATE_LOW:
             [self.priorityColor setBackgroundColor:LOW_COLOR];
             break;
     }

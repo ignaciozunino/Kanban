@@ -257,13 +257,13 @@
     cell.propertyColor.layer.cornerRadius = cell.propertyColor.frame.size.width / 2;
     
     switch ([task.priority integerValue]) {
-        case 0:
+        case PRIORITYSTATE_HIGH:
             cell.propertyColor.image =  [KBNProjectUtils imageWithColor:HIGH_COLOR andSize:cell.propertyColor.frame.size];
             break;
-        case 1:
+        case PRIORITYSTATE_MEDIUM:
             cell.propertyColor.image =  [KBNProjectUtils imageWithColor:MEDIUM_COLOR andSize:cell.propertyColor.frame.size];
             break;
-        case 2:
+        case PRIORITYSTATE_LOW:
             cell.propertyColor.image =  [KBNProjectUtils imageWithColor:LOW_COLOR andSize:cell.propertyColor.frame.size];
             break;
     }

@@ -151,7 +151,7 @@
     }
 }
 
--(void)getUnUpdatedProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError {
+-(void)getOutdatedProjectsOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_PROJECT inManagedObjectContext:[self managedObjectContext]];
     [fetchRequest setEntity:entity];
@@ -300,7 +300,7 @@
     }
 }
 
--(void)getUnUpdatedTasksOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError{
+-(void)getOutdatedTasksOnSuccess:(KBNSuccessArrayBlock)onSuccess errorBlock:(KBNErrorBlock)onError{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:ENTITY_TASK inManagedObjectContext:[self managedObjectContext]];
     [fetchRequest setEntity:entity];

@@ -16,7 +16,7 @@
 #import "KBNTaskPriorityPickerView.h"
 
 @interface KBNAddTaskViewController (){
-        NSUInteger prioritySelected;
+        PriorityState prioritySelected;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
@@ -46,7 +46,7 @@
     [self.view setBackgroundColor:UIColorFromRGB(LIGHT_GRAY)];
     [self.descriptionTextView setBorderWithColor:[UIColorFromRGB(BORDER_GRAY) CGColor]];
     
-    prioritySelected = 2;
+    prioritySelected = PRIORITYSTATE_LOW;
     
     priorityData = [[NSMutableArray alloc] init];
     
@@ -205,16 +205,16 @@
 
 #pragma mark - UIPickerViewDelegate
 -(void) pickerView:pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    prioritySelected = row;
+    prioritySelected = (PriorityState)row;
     [self.priorityButton setTitle:[priorityData objectAtIndex:row] forState:UIControlStateNormal];
     switch (row) {
-        case 0:
+        case PRIORITYSTATE_HIGH:
         [priorityColor setBackgroundColor:HIGH_COLOR];
         break;
-        case 1:
+        case PRIORITYSTATE_MEDIUM:
         [priorityColor setBackgroundColor:MEDIUM_COLOR];
         break;
-        case 2:
+        case PRIORITYSTATE_LOW:
         [priorityColor setBackgroundColor:LOW_COLOR];
         break;
     }

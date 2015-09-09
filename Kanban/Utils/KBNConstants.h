@@ -181,6 +181,12 @@
 #define MEDIUM_COLOR [UIColor colorWithRed:255.0/255.0 green:204.0/255.0 blue:102.0/255.0 alpha:1]
 #define HIGH_COLOR [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1]
 
+typedef enum priorityStateTypes{
+    PRIORITYSTATE_HIGH,
+    PRIORITYSTATE_MEDIUM,
+    PRIORITYSTATE_LOW
+} PriorityState;
+
 //Blocks
 typedef void (^KBNErrorBlock) (NSError *error);
 typedef void (^KBNSuccessBlock)() ;

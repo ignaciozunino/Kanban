@@ -211,7 +211,7 @@
 }
 
 -(void)syncTasksOnParse {
-    [[KBNCoreDataManager sharedInstance] getUnUpdatedTasksOnSuccess:^(NSArray *records) {
+    [[KBNCoreDataManager sharedInstance] getOutdatedTasksOnSuccess:^(NSArray *records) {
         for (KBNTask *task in records) {
             if(task.isSynchronized) {
                 __weak typeof(self) weakself = self;
