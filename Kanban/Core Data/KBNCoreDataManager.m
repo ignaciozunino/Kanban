@@ -234,6 +234,7 @@
     [task setValue:[params objectForKey:PARSE_TASK_ORDER_COLUMN] forKey:@"order"];
     [task setValue:[params objectForKey:PARSE_TASK_ACTIVE_COLUMN] forKey:@"active"];
     [task setValue:[NSDate dateFromParseString:[params objectForKey:PARSE_UPDATED_COLUMN]] forKey:@"updatedAt"];
+    [task setValue:[params objectForKey:PARSE_TASK_PRIORITY_COLUMN] forKey:@"priority"];
     task.project = project;
     task.taskList = taskList;
     
@@ -254,6 +255,7 @@
         [task setValue:@"Mock task for testing purposes" forKey:@"taskDescription"];
         [task setValue:[NSNumber numberWithUnsignedLong:i] forKey:@"order"];
         [task setValue:@YES forKey:@"active"];
+        [task setValue:[NSNumber numberWithUnsignedLong:0] forKey:@"priority"];
         task.project = project;
         task.taskList = taskList;
         
