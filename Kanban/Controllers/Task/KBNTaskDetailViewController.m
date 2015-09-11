@@ -89,7 +89,7 @@
 }
 
 - (void)setUpView {
-    self.isEditing = NO;
+    self.isEditing = YES;
     self.title = self.task.project.name;
     self.nameTextField.text = self.task.name;
     self.descriptionTextField.text = self.task.taskDescription;
