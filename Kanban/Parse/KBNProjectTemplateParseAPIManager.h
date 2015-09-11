@@ -13,6 +13,6 @@
 
 @property KBNParseRequestOperationManager* afManager;
 
-- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError;
+- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion onLanguage: (NSString *) language errorBlock:(KBNErrorBlock)onError;
 
 @end

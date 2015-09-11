@@ -20,11 +20,17 @@
     return self;
 }
 
-- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion errorBlock:(KBNErrorBlock)onError {
+- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion onLanguage: (NSString *) language errorBlock:(KBNErrorBlock)onError {
+    
+    NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
+    [where setObject:language forKey:PARSE_PROJECT_TEMPLATE_LANGUAGE];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
+    [params setObject:where forKey:@"where"];
     
     [self.afManager GET:PARSE_PROJECT_TEMPLATES
-             parameters:nil
-                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             parameters:params
+            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                     NSArray *templates = [responseObject objectForKey:@"results"];
                     onCompletion(templates);
                 }

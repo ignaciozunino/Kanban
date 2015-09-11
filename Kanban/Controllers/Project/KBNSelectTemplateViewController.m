@@ -42,10 +42,11 @@
 
 - (void)getMoreTemplates {
     __weak typeof(self) weakself = self;
+    NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
     [[KBNProjectTemplateService sharedInstance] getTemplatesCompletionBlock:^(NSArray *templates) {
         [weakself.templates addObjectsFromArray:templates];
         [weakself.tableView reloadData];
-    } errorBlock:^(NSError *error) {
+    } onLanguage: language errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:WARNING_ALERT];
     }];
     
