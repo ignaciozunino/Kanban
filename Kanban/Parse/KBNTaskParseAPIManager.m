@@ -33,6 +33,7 @@
     [params setObject:projectId forKey:PARSE_TASK_PROJECT_COLUMN];
     [params setObject:taskListId forKey:PARSE_TASK_TASK_LIST_COLUMN];
     [params setObject:[NSNumber numberWithBool:YES] forKey:PARSE_TASK_ACTIVE_COLUMN];
+    [params setObject:priority forKey:PARSE_TASK_PRIORITY_COLUMN];
     
     
     [self.afManager POST:PARSE_TASKS parameters: params
@@ -106,6 +107,7 @@
         [updates setObject:task.project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
         [updates setObject:task.order forKey:PARSE_TASK_ORDER_COLUMN];
         [updates setObject:[NSNumber numberWithBool:[task.active boolValue]] forKey:PARSE_TASK_ACTIVE_COLUMN];
+        [updates setObject:task.priority forKey:PARSE_TASK_PRIORITY_COLUMN];
 
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"PUT" forKey:@"method"];
@@ -143,6 +145,7 @@
         [data setObject:task.project.projectId forKey:PARSE_TASK_PROJECT_COLUMN];
         [data setObject:task.order forKey:PARSE_TASK_ORDER_COLUMN];
         [data setObject:@YES forKey:PARSE_TASK_ACTIVE_COLUMN];
+        [data setObject:task.priority forKey:PARSE_TASK_PRIORITY_COLUMN];
         
         record = [NSMutableDictionary dictionaryWithCapacity:3];
         [record setObject:@"POST" forKey:@"method"];
