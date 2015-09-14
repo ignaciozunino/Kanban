@@ -142,7 +142,7 @@
 
 
 -(IBAction)priorityTapped:(id)sender{
-    
+    [self.view endEditing:YES];
     if (!priorityPickerView.userInteractionEnabled) {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.6];
