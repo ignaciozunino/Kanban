@@ -43,7 +43,7 @@
         NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_TASK_WITHOUT_NAME_ERROR};
         NSError *errorPtr = [NSError errorWithDomain:domain code:-104 userInfo:info];
         onError(errorPtr);
-    } else {;
+    } else {
         if ([[KBNTaskListService sharedInstance] hasCountLimitBeenReached:aTaskList]){
             NSString *domain = ERROR_DOMAIN;
             NSDictionary * info = @{NSLocalizedDescriptionKey: CREATING_TASK_TASKLIST_FULL};
