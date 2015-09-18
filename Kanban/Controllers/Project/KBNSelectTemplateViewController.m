@@ -46,7 +46,7 @@
     [[KBNProjectTemplateService sharedInstance] getTemplatesCompletionBlock:^(NSArray *templates) {
         [weakself.templates addObjectsFromArray:templates];
         [weakself.tableView reloadData];
-    } onLanguage: language errorBlock:^(NSError *error) {
+    } language: language errorBlock:^(NSError *error) {
         [KBNAlertUtils showAlertView:[error localizedDescription ]andType:WARNING_ALERT];
     }];
     

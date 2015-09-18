@@ -24,7 +24,7 @@
     return inst;
 }
 
-- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion onLanguage: (NSString *) language errorBlock:(KBNErrorBlock)onError {
+- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion language: (NSString *) language errorBlock:(KBNErrorBlock)onError {
     
     [self.dataService getTemplatesCompletionBlock:^(NSArray *records){
         
@@ -36,7 +36,7 @@
         }
         onCompletion(templatesArray);
         
-    } onLanguage:language errorBlock:onError];
+    } language:language errorBlock:onError];
 }
 
 @end

@@ -20,7 +20,7 @@
     return self;
 }
 
-- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion onLanguage: (NSString *) language errorBlock:(KBNErrorBlock)onError {
+- (void)getTemplatesCompletionBlock:(KBNSuccessArrayBlock)onCompletion language: (NSString *) language errorBlock:(KBNErrorBlock)onError {
     
     NSMutableDictionary *where = [NSMutableDictionary dictionaryWithCapacity:1];
     [where setObject:language forKey:PARSE_PROJECT_TEMPLATE_LANGUAGE];
