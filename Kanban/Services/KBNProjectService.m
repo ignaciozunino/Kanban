@@ -71,7 +71,7 @@
                 project.projectId = [projectParams objectForKey:@"projectId"];
                 project.updatedAt = [projectParams objectForKey:@"updatedAt"];
                 project.synchronized = [NSNumber numberWithBool:YES];
-                
+                [project setUpdatedInParse:[NSNumber numberWithBool:true]];
                 NSArray *listsParams = [records objectForKey:@"taskLists"];
                 KBNTaskList *taskList = nil;
                 NSUInteger index = 0;
@@ -82,9 +82,9 @@
                     taskList.synchronized = [NSNumber numberWithBool:YES];
                     index++;
                 }
-                
             } errorBlock:onError];
-        }else {
+        }
+        else {//TODO: En el error block poner esto
 			[project setUpdatedInParse:[NSNumber numberWithBool:false]];
             [project setSynchronized:[NSNumber numberWithBool:false]];
         }
@@ -235,6 +235,7 @@
         // Mark projects as synchronized and save context.
         for (KBNProject *project in results) {
             project.synchronized = [NSNumber numberWithBool:YES];
+            project.updatedInParse = [NSNumber numberWithBool:YES];
         }
         [[KBNCoreDataManager sharedInstance] saveContext];
     } errorBlock:^(NSError *error) {
@@ -243,7 +244,7 @@
 }
 
 -(void)syncProjectsOnParse {
-    [[KBNCoreDataManager sharedInstance] getOutdatedProjectsOnSuccess:^(NSArray *records) {
+    [[KBNCoreDataManager sharedInstance] getUnUpdatedProjectsOnSuccess:^(NSArray *records) {
         for (KBNProject *project in records) {
             if(project.isSynchronized) {
                 __weak typeof(self) weakself = self;
@@ -285,6 +286,7 @@
                     if (error) {
                         NSLog(@"KBNProjectService syncProjectsOnParse] Error = %@", error);
                     }
+                    [project.managedObjectContext refreshObject:project mergeChanges:YES];
                 } errorBlock:^(NSError *error) {
                     NSLog(@"Could not create project on syncProjectsOnParse");
                 }];
@@ -294,4 +296,5 @@
         NSLog(@"Error Recovering Projects from coredata");
     }];
 }
-	@end
+
+@end

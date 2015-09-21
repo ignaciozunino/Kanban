@@ -88,7 +88,7 @@
 
 - (void)didCreateProject:(NSNotification *)notification {
     KBNProject *project = (KBNProject*)notification.object;
-    [self.projects addObject:project];
+    [self.projects insertObject:project atIndex:0];
     [self.tableView reloadData];
 }
 
@@ -99,7 +99,20 @@
     [self.projects addObjectsFromArray:(NSArray*)notification.object];
     
     // Eliminate duplicates
-    self.projects = [NSMutableArray arrayWithArray:[[NSOrderedSet orderedSetWithArray:self.projects] array]];
+
+    NSMutableArray *uniqueArray = [NSMutableArray array];
+    NSMutableSet *objectId = [NSMutableSet set];
+    for (KBNProject *project in self.projects) {
+        NSString *destinationID = [project projectId];
+        if (![objectId containsObject:destinationID]) {
+            [uniqueArray addObject:project];
+            if (destinationID != nil) {
+                [objectId addObject:destinationID];
+            }
+        }
+    }
+    
+    self.projects = uniqueArray;
     
     [self.tableView reloadData];
 }
